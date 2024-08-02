@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+   
 
 
 <style>
@@ -59,7 +59,7 @@
     <div class="row mt-5 row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
         <div class="col">
             <div class="card text-center">
-                <a href="">
+                <a href="{{ route('dress') }}">
                 <div class="card-body">
                     <h5 class="card-title">Dress</h5>
                 </div></a>

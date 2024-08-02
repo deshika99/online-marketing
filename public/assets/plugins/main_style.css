@@ -315,6 +315,26 @@ font-size:25px;
         margin-top: 0;
     }
 
+    .icon-circle {
+    width: 40px; 
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f8f9fa; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-circle i {
+    font-size: 18px; 
+    color: #000; 
+}
+
+.icon-cart i {
+    font-size: 18px; 
+    color: #000; 
+}
+
 
 
 /* footer */
@@ -343,3 +363,48 @@ font-size:25px;
         border-radius: 50%;
         color: white;
     }
+
+
+
+/* login */
+.btn-secondary {
+    background-color: #3b5998;
+    border: none;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: #2d4373;
+}
+
+.btn-danger {
+    background-color: #db4437;
+    border: none;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #c1351d;
+}
+
+.logincard{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.btn-link{
+    text-decoration:none;
+}
+.btn-link-reg{
+    color:black;
+    font-weight: bold;
+}
+
+
+/* register */
+.register-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px 0 50px 50px;
+}
+.submit-btn{
+    text-align:right;
+} 
