@@ -2,11 +2,11 @@
 
 @section('content')
 
-   
-
-
 <style>
- 
+ .card-title {
+    text-align: center; 
+    color:white;
+}
 </style>
 
 <!--carousel-->
@@ -67,7 +67,7 @@
         </div>
         <div class="col">
             <div class="card text-center">
-            <a href="">
+            <a href="{{ route('toys') }}">
                 <div class="card-body">
                     <h5 class="card-title">Toys</h5>
                 </div></a>
@@ -75,7 +75,7 @@
         </div>
         <div class="col">
             <div class="card text-center">
-            <a href="">
+            <a href="{{ route('cosmetics') }}">
                 <div class="card-body">
                     <h5 class="card-title">Cosmetics</h5>
                 </div></a>
@@ -83,7 +83,7 @@
         </div>
         <div class="col">
             <div class="card text-center">
-            <a href="">
+            <a href="{{ route('gifts') }}">
                 <div class="card-body">
                     <h5 class="card-title">Gift Items</h5>
                 </div></a>
@@ -91,7 +91,7 @@
         </div>
         <div class="col">
             <div class="card text-center">
-            <a href="">
+            <a href="{{ route('phone_Accessories') }}">
                 <div class="card-body">
                     <h5 class="card-title">Phone Accessories</h5>
                 </div></a>
@@ -99,7 +99,7 @@
         </div>
         <div class="col">
             <div class="card text-center">
-            <a href="">
+            <a href="{{ route('school_equipments') }}">
                 <div class="card-body">
                     <h5 class="card-title">School Equipment</h5>
                 </div></a>
@@ -107,7 +107,7 @@
         </div>
         <div class="col">
             <div class="card text-center">
-            <a href="">
+            <a href="{{ route('baby_things') }}">
                 <div class="card-body">
                     <h5 class="card-title">Baby Things</h5>
                 </div></a>
@@ -115,7 +115,7 @@
         </div>
         <div class="col">
             <div class="card text-center">
-            <a href="">
+            <a href="{{ route('house_hold_goods') }}">
                 <div class="card-body">
                     <h5 class="card-title">House hold Goods</h5>
                 </div></a>
@@ -123,7 +123,7 @@
         </div>
         <div class="col">
             <div class="card text-center">
-            <a href="">
+            <a href="{{ route('food') }}"">
                 <div class="card-body">
                     <h5 class="card-title">Food</h5>
                 </div></a>
@@ -163,11 +163,13 @@
     <div class="row">
         <div class="col-md-3">
             <div class="special-offer-item">
-                <img src="/assets/images/item1.png" alt="Product 1">
-                <div class="wishlist"><i class="fa fa-heart"></i></div>
-                <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                <div class="price">Rs.35,699</div>
-                <div class="discount">Extra 2% off with coins</div>
+                <a href="{{ route('single_product_page') }}">
+                    <img src="/assets/images/item1.png" alt="Product 1">
+                    <div class="wishlist"><i class="fa fa-heart"></i></div>
+                    <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
+                    <div class="price">Rs.35,699</div>
+                    <div class="discount">Extra 2% off with coins</div>
+                </a>
             </div>
         </div>
         <div class="col-md-3">

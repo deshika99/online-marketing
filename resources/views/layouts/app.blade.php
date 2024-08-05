@@ -55,7 +55,7 @@
 
                         <!-- Cart -->
                         <li class="nav-item me-3">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{ route('shopping_cart') }}">
                                 <div class="icon-cart">
                                     <i class="fas fa-shopping-cart"></i> 
                                 </div>

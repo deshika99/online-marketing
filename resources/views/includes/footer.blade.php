@@ -75,7 +75,7 @@
                 <!-- Grid container -->
 
                 <!-- Copyright -->
-                <div class="text-center p-3" style="background-color: #2185d8">
+                <div class="text-center p-3" style="background-color: #038DD8">
                     © 2024 Copyright:
                     <a class="text-white" href=""></a>
                 </div>
