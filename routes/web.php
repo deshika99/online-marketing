@@ -6,7 +6,7 @@ Route::get('/', function () {
     return view('home');
 });
 
-Auth::routes();
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::view('/home/dresses', 'dress')->name('dress');
@@ -57,3 +57,4 @@ Route::get('home/My-Account/addresses', function () {
 Route::get('home/My-Account/logout', function () {
     return view('logout');
 })->name('logout');
+Auth::routes();
