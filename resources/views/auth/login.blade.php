@@ -5,7 +5,7 @@
 
 </style>
 
-<div class="container mt-4 mb-5">
+<div class="container mb-5">
     <div class="row justify-content-center">
         <div class="col-md-10 mt-5">
             <div class="d-flex justify-content-between align-items-center">

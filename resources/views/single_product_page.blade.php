@@ -1,9 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 <style>
-  
+    .fit {
+        max-width: 100%;
+        max-height: 100vh;
+        margin: auto;
+    }
+    .product-price span {
+        display: inline-block;
+        margin-right: 10px;
+    }
 </style>
 
 <div class="container mt-4 mb-5">
@@ -18,27 +26,27 @@
         </ol>
     </nav>
 
-    <!-- Your existing content -->
+
     <section class="py-5">
         <div class="container">
             <div class="row gx-5">
                 <aside class="col-lg-5">
                     <div class="border rounded-4 mb-3 d-flex justify-content-center">
-                        <a data-fslightbox="mygalley" class="rounded-4" target="_blank" data-type="image" href="">
+                        <a class="rounded-4 glightbox"  data-type="image" href="/assets/images/item1.png"  >
                             <img style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="/assets/images/item1.png" />
                         </a>
                     </div>
                     <div class="d-flex justify-content-center mb-3">
-                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="" class="item-thumb">
+                        <a class="glightbox border mx-1 rounded-2" data-type="image" href="/assets/images/item1.png" class="item-thumb">
                             <img width="60" height="60" class="rounded-2" src="/assets/images/item1.png" />
                         </a>
-                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="" class="item-thumb">
+                        <a class="glightbox border mx-1 rounded-2" data-type="image" href="/assets/images/item5.png" class="item-thumb">
                             <img width="60" height="60" class="rounded-2" src="/assets/images/item5.png" />
                         </a>
-                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="" class="item-thumb">
+                        <a class="glightbox border mx-1 rounded-2" data-type="image" href="/assets/images/item7.png" class="item-thumb">
                             <img width="60" height="60" class="rounded-2" src="/assets/images/item7.png" />
                         </a>
-                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="" class="item-thumb">
+                        <a class="glightbox border mx-1 rounded-2" data-type="image" href="/assets/images/item6.png" class="item-thumb">
                             <img width="60" height="60" class="rounded-2" src="/assets/images/item6.png" />
                         </a>
                     </div>
@@ -247,8 +255,17 @@
 
 
 
-
+<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
 <script>
+
+const lightbox = GLightbox({
+        touchNavigation: true,
+        loop: true,
+        zoomable: true,
+        draggable: true,
+        autoplayVideos: true
+    });
+
     document.getElementById('button-plus').addEventListener('click', function() {
         var quantityInput = document.getElementById('quantity');
         var currentValue = parseInt(quantityInput.value);

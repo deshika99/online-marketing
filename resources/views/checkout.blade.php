@@ -7,7 +7,6 @@
     background-color: #fafafa; 
   }
 
-
   .card {
     border-radius: 0; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -117,8 +116,6 @@
             <hr class="my-4" />
 
             <h5 class="card-title mb-3" style="color:red">Shipping Details</h5>
-
-            
 
             <div class="form-check mb-3">
               <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" />

@@ -24,8 +24,13 @@ Route::view('/home/product', 'single_product_page')->name('single_product_page')
 Route::view('/home/shopping-cart', 'shopping_cart')->name('shopping_cart');
 Route::view('/home/shopping-cart/checkout', 'checkout')->name('checkout');
 
+Route::view('/home/affiliate/register', 'aff_reg')->name('aff_reg');
+Route::view('/home/affiliate/login', 'aff_login')->name('aff_login');
+Route::view('/home/affiliate/all', 'aff_all')->name('aff_all');
+Route::view('/home/affiliate/single', 'aff_single')->name('aff_single');
 
 
+//member dashboard
 Route::get('home/My-Account', function () {
     return view('dashboard');
 })->name('dashboard');

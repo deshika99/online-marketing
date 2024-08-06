@@ -110,7 +110,7 @@
                             <label for="Bank_name" class="col-md-4 col-form-label text-md-start">Bank</label>
                             <div class="col-md-7">
                                 <select id="Bank_name" class="form-control" name="Bank_name">
-                                    <option value="" disabled selected>Select your Bank</option>
+                                    <option value="" disabled selected></option>
                                     <option value="Bank 1">Bank 1</option>
                                     <option value="Bank 2">Bank 2</option>
                                     <option value="Bank 3">Bank 3</option>
@@ -121,7 +121,7 @@
                             <label for="branch" class="col-md-4 col-form-label text-md-start">Branch</label>
                             <div class="col-md-7">
                                 <select id="branch" class="form-control" name="branch">
-                                    <option value="" disabled selected>Select your Branch</option>
+                                    <option value="" disabled selected></option>
                                     <option value="Branch 1">Branch 1</option>
                                     <option value="Branch 2">Branch 2</option>
                                     <option value="Branch 3">Branch 3</option>
