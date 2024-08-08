@@ -49,10 +49,10 @@ class CustomerOrderController extends Controller
                 'apartment' => $request->input('apartment'),
                 'city' => $request->input('city'),
                 'postal_code' => $request->input('postal_code'),
-                'date' => Carbon::now()->format('Y-m-d'), // Current date
+                'date' => Carbon::now()->format('Y-m-d'), 
                 'total_cost' => $total,
-                'discount' => 0, // Default discount if not used
-                'vat' => 0, // Default VAT if not used
+                'discount' => 0, 
+                'vat' => 0, 
             ]);
 
             // Store order items
@@ -60,7 +60,7 @@ class CustomerOrderController extends Controller
                 CustomerOrderItems::create([
                     'order_code' => $orderCode,
                     'item' => $item['title'],
-                    'date' => Carbon::now()->format('Y-m-d'), // Current date
+                    'date' => Carbon::now()->format('Y-m-d'), 
                     'cost' => $item['price'] * $item['quantity'],
                 ]);
             }
