@@ -129,12 +129,16 @@
     <div class="row">
         <div class="col-md-3">
             <div class="special-offer-item">
-                <a href="{{ route('single_product_page') }}">
-                    <img src="/assets/images/item1.png" alt="Product 1">
-                    <div class="wishlist"><i class="fa fa-heart"></i></div>
-                    <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                    <div class="price">Rs.35,699</div>
-                    <div class="discount">Extra 2% off with coins</div>
+                <a href="{{ route('single_product_page', [
+                            'title' => 'Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG',
+                            'image' => '/assets/images/item1.png',
+                            'price' => 35699
+                        ]) }}">
+                            <img src="/assets/images/item1.png" alt="Product 1">
+                            <div class="wishlist"><i class="fa fa-heart"></i></div>
+                            <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
+                            <div class="price">Rs.35 699</div>
+                            <div class="discount">Extra 2% off with coins</div>
                 </a>
             </div>
         </div>

@@ -1,5 +1,5 @@
 
-<div class="footer-container">
+    <div class="footer-container" style="margin-top:200px;">
             <!-- Footer -->
             <footer class="text-center text-lg-start text-black" style="background-color: white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
                 <!-- Grid container -->
@@ -16,7 +16,6 @@
                                 <p><i class="fas fa-phone mr-3"></i> 077 833 7143</p>
                             </div>
                             
-
                             <hr class="w-100 clearfix d-md-none" />
 
                             <!-- Information Grid column -->
@@ -29,7 +28,6 @@
                                 <p><a>Return Policy</a></p>
                             </div>
                             
-
                             <hr class="w-100 clearfix d-md-none" />
 
                             <!-- My Account Grid column -->

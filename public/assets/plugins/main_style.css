@@ -470,7 +470,7 @@ color: #ee1414;
     .related-products {
             padding: 20px;
         }
-        .related-products .title {
+        .related-products .title1 {
             text-align: left;
             margin-bottom: 30px;
             font-weight:bold;
@@ -528,7 +528,6 @@ color: #ee1414;
     /* shopping cart page*/
     .icon-hover-primary {
         background-color: white !important;
-        padding:10px 1px;
       }
       
       .icon-hover-primary:hover {
@@ -540,7 +539,7 @@ color: #ee1414;
       }
       .icon-hover-danger {
         background-color: white !important;
-        padding:10px 15px;
+       
       }
       
       .icon-hover-danger:hover {
@@ -573,6 +572,7 @@ color: #ee1414;
 
       .text-orange {
         color: #f55b29;
+        font-size:20px;
       }
       
       .btn-no-border {

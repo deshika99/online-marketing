@@ -57,9 +57,12 @@
 
                                 <span class="me-3">|</span>
                                 
-                                <a class="text-reset me-4" href="{{ route('shopping_cart') }}">
+                                <a class="text-reset me-3" href="{{ route('shopping_cart') }}">
                                     <span><i class="fas fa-shopping-cart"></i></span>
+                                    <span id="cart-count" class="badge badge-danger" style="background-color: #dc3545; color: #fff; 
+                                    height:19px; width:auto;">0</span>
                                 </a>
+
 
                                 @guest
                                     @if (Route::has('login'))
@@ -102,19 +105,26 @@
 
         <main class="mb-5">
             @yield('content')
+            
         </main>
     </div>
 
-    @include('includes.script')
-
-                             
-
-
-
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        feather.replace(); 
+        $(document).ready(function() {
+            console.log("Fetching cart count from: {{ route('cart.count') }}");
+            $.get("{{ route('cart.count') }}", function(data) {
+                $('#cart-count').text(data.cart_count);
+            });
+            $(document).ready(function() {
+                console.log("jQuery is working!");
+            });
+
+        });
     </script>
+
+
+ 
     @include('includes.footer')
 </body>
 </html>

@@ -21,19 +21,30 @@
         <div class="products">
             <div class="row mt-3">
                 <div class="col-md-3">
-                    <div class="products-item">
-                        <a href="{{ route('single_product_page') }}">
-                            <img src="/assets/images/dress1.png" alt="Product 1">
-                            <h5>Party Dress for girl</h5>
-                            <div class="price">Rs.3500</div>
-                        </a>
-                    </div>
+                <div class="products-item">
+                    <a href="{{ route('single_product_page', [
+                        'title' => 'Party Dress for girl 01',
+                        'image' => '/assets/images/dress1.png',
+                        'price' => 3900
+                    ]) }}">
+                        <img src="/assets/images/dress1.png" alt="Product 1">
+                        <h5>Party Dress for girl 01</h5>
+                        <div class="price">Rs.3900</div>
+                    </a>
+                </div>
+
                 </div>
                 <div class="col-md-3">
                     <div class="products-item">
-                        <img src="/assets/images/dress2.png" alt="Product 2">
+                    <a href="{{ route('single_product_page', [
+                        'title' => 'Party Dress for girl',
+                        'image' => '/assets/images/dress2.png',
+                        'price' => 3500
+                    ]) }}">
+                        <img src="/assets/images/dress2.png" alt="Product 1">
                         <h5>Party Dress for girl</h5>
-                        <div class="price">Rs.4200</div>
+                        <div class="price">Rs.3500</div>
+                    </a>
                     </div>
                 </div>
                 <div class="col-md-3">
