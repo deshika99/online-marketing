@@ -14,102 +14,117 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     @include('includes.css')
 
-    </style>
+   
+<style>
+    .dropdown-toggle::after {
+        display: none; 
+    }
+</style>
 </head>
 <body>
     <div id="app">
 
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <!-- Logo -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="/assets/images/logo.png" alt="Logo">
-                </a>
-
-               
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Center Search Bar -->
-                    <form class="d-flex mx-auto w-50" role="search">
-                        <div class="input-group">
-                            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                            <span class="input-group-text">
-                                <i data-feather="search"></i> 
-                            </span>
+        <header>
+            <div class="p-3 text-center bg-white border-bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 d-flex justify-content-center justify-content-md-start mb-1 mb-md-0">
+                            <a href="{{ url('/') }}" class="ms-md-4">
+                                <img src="/assets/images/logo.png" height="45" width="45"/>
+                            </a>
                         </div>
-                    </form>
 
-                    <ul class="navbar-nav ms-auto d-flex align-items-center">
-                        <li class="nav-item dropdown me-3">
-                            <a id="meanDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i data-feather="menu"></i> 
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="meanDropdown">
-                                <a class="dropdown-item" href="#">Option 1</a>
-                                <a class="dropdown-item" href="#">Option 2</a>
-                            </div>
-                        </li>
+                        <div class="col-md-4">
+                            <form class="d-flex input-group w-auto my-auto mb-3 mb-md-0">
+                                <input autocomplete="off" type="search" class="form-control rounded" placeholder="Search" />
+                                <span class="input-group-text border-0 d-none d-lg-flex"><i class="fas fa-search"></i></span>
+                            </form>
+                        </div>
 
-                        <!-- Cart -->
-                        <li class="nav-item me-3">
-                            <a class="nav-link" href="{{ route('shopping_cart') }}">
-                                <div class="icon-cart">
-                                    <i class="fas fa-shopping-cart"></i> 
-                                </div>
-                            </a>
-                        </li>
-
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                            <li class="nav-item me-2">
-                                <a class="nav-link" href="{{ route('login') }}">
-                                    <div class="icon-circle">
-                                        <i class="fas fa-user-alt"></i>
-                                    </div>
-                                </a>
-                            </li>
-
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                        <div class="col-md-4 d-flex justify-content-center justify-content-md-end align-items-center">
+                            <div class="d-flex align-items-center">
+                               
+                                <div class="dropdown me-3">
+                                    <a class="text-reset dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-bars"></i>
                                     </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                                        <li><a class="dropdown-item" href="#">Some news</a></li>
+                                        <li><a class="dropdown-item" href="#">Another news</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    </ul>
                                 </div>
-                            </li>
-                        @endguest
-                    </ul>
+
+                                <span class="me-3">|</span>
+                                
+                                <a class="text-reset me-3" href="{{ route('shopping_cart') }}">
+                                    <span><i class="fas fa-shopping-cart"></i></span>
+                                    <span id="cart-count" class="badge badge-danger" style="background-color: #dc3545; color: #fff; 
+                                    height:19px; width:auto;">0</span>
+                                </a>
+
+
+                                @guest
+                                    @if (Route::has('login'))
+                                        <a class="text-reset me-3" href="{{ route('login') }}">
+                                            <div class="icon-circle">
+                                                <i class="fas fa-user-alt"></i>
+                                            </div>
+                                        </a>
+                                    @endif
+                                @else
+                                    <div class="dropdown me-3">
+                                        <a id="navbarDropdown" class="text-reset dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            <div class="icon-circle">
+                                                {{ Auth::user()->name[0] }}
+                                            </div>
+                                        </a>
+
+                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                               onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
+                                                {{ __('Logout') }}
+                                            </a>
+
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                                @csrf
+                                            </form>
+                                        </div>
+                                    </div>
+                                @endguest
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </nav>
+        </header>
 
         <div class="navbar-divider"></div>
 
-        <main>
+        <main class="mb-5">
             @yield('content')
+            
         </main>
     </div>
 
-    @include('includes.script')
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        feather.replace(); 
+        $(document).ready(function() {
+            console.log("Fetching cart count from: {{ route('cart.count') }}");
+            $.get("{{ route('cart.count') }}", function(data) {
+                $('#cart-count').text(data.cart_count);
+            });
+            $(document).ready(function() {
+                console.log("jQuery is working!");
+            });
+
+        });
     </script>
-@include('includes.footer')
+
+
+ 
+    @include('includes.footer')
 </body>
 </html>

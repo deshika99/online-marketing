@@ -2,8 +2,18 @@
 
 @section('content')
 
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 <style>
-  
+    .fit {
+        max-width: 100%;
+        max-height: 100vh;
+        margin: auto;
+    }
+    .product-price span {
+        display: inline-block;
+        margin-right: 10px;
+    }
 </style>
 
 <div class="container mt-4 mb-5">
@@ -18,36 +28,36 @@
         </ol>
     </nav>
 
-    <!-- Your existing content -->
+
     <section class="py-5">
         <div class="container">
             <div class="row gx-5">
-                <aside class="col-lg-5">
-                    <div class="border rounded-4 mb-3 d-flex justify-content-center">
-                        <a data-fslightbox="mygalley" class="rounded-4" target="_blank" data-type="image" href="">
-                            <img style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="/assets/images/item1.png" />
-                        </a>
-                    </div>
-                    <div class="d-flex justify-content-center mb-3">
-                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="" class="item-thumb">
-                            <img width="60" height="60" class="rounded-2" src="/assets/images/item1.png" />
-                        </a>
-                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="" class="item-thumb">
-                            <img width="60" height="60" class="rounded-2" src="/assets/images/item5.png" />
-                        </a>
-                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="" class="item-thumb">
-                            <img width="60" height="60" class="rounded-2" src="/assets/images/item7.png" />
-                        </a>
-                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="" class="item-thumb">
-                            <img width="60" height="60" class="rounded-2" src="/assets/images/item6.png" />
-                        </a>
-                    </div>
-                </aside>
+            <aside class="col-lg-5">
+                <div class="rounded-4 mb-3 d-flex justify-content-center">
+                    <a class="rounded-4 glightbox" data-type="image" href="{{ $image }}">
+                        <img id="product-image" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="{{ $image }}" />
+                    </a>
+                </div>
+                <div class="d-flex justify-content-center mb-3">
+                    <a class="glightbox mx-1 rounded-2" style="border: none;" data-type="image" href="/assets/images/item1.png">
+                        <img width="60" height="60" class="rounded-2" src="" />
+                    </a>
+                    <a class="glightbox mx-1 rounded-2" style="border: none;" data-type="image" href="/assets/images/item5.png">
+                        <img width="60" height="60" class="rounded-2" src="" />
+                    </a>
+                    <a class="glightbox mx-1 rounded-2" style="border: none;" data-type="image" href="/assets/images/item7.png">
+                        <img width="60" height="60" class="rounded-2" src="" />
+                    </a>
+                    <a class="glightbox mx-1 rounded-2" style="border: none;" data-type="image" href="/assets/images/item6.png">
+                        <img width="60" height="60" class="rounded-2" src="" />
+                    </a>
+                </div>
+            </aside>
 
                 <main class="col-lg-7">
                     <div class="ps-lg-3">
                         <h4 class="title text-dark">
-                            Original Samsung Galaxy Watch 46mm Classic Black/Silver<br />
+                            {{ $title }}
                         </h4>
                         <div class="d-flex flex-row my-3">
                             <div class="text-warning mb-1 me-2">
@@ -78,33 +88,19 @@
                             <span class="color-label" style="background-color: blue;"></span>
                         </div>
                         <div class="product-price mb-3 mt-3">
-                            <span class="h4" style="color:#f55b29;">Rs. 1500</span>
-                        </div>
-
-                        <div class="row mb-2">
-                            <div class="col-md-4 col-6 mb-3">
-                                <label class="mb-2 d-block">Quantity</label>
-                                <div class="col-lg-7 d-flex align-items-center justify-content-end">
-                                    <div class="input-group mb-3 quantity-input">
-                                    <button class="btn btn-white" type="button" id="button-minus">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="text" class="form-control text-center" id="quantity" value="1" aria-label="Quantity" />
-                                    <button class="btn btn-white" type="button" id="button-plus">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                    </div>
-                                </div>
-                            </div>
+                            <span class="h4" style="color:#f55b29;">Rs. {{ $price }}</span>
                         </div>
 
                         <div class="d-flex">
-                            <a href="#" class="btn btn-custom-buy shadow-0 me-2">Buy now</a>
-                            <a href="{{ route('shopping_cart') }}" class="btn btn-custom-cart shadow-0">
-                                <i class="me-1 fa fa-shopping-basket"></i>Add to cart</a>
+                        <a href="#" class="btn btn-custom-buy shadow-0 me-2" onclick="buyNow()">Buy now</a>
+                      
+                            <a href="#" class="btn btn-custom-cart shadow-0">
+                                <i class="me-1 fa fa-shopping-basket"></i>Add to cart
+                            </a>
                         </div>
                     </div>
                 </main>
+
             </div>
         </div>
     </section>
@@ -117,16 +113,16 @@
                         <!-- Pills navs -->
                         <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
                             <li class="nav-item d-flex" role="presentation">
-                                <a class="nav-link d-flex align-items-center justify-content-center w-100 active" id="ex1-tab-description" data-toggle="pill" href="#ex1-pills-description" role="tab" aria-controls="ex1-pills-1" aria-selected="true">Description</a>
+                                <a class="nav-link d-flex align-items-center justify-content-center w-100 active" id="ex1-tab-description" data-bs-toggle="pill" href="#ex1-pills-description" role="tab" aria-controls="ex1-pills-1" aria-selected="true">Description</a>
                             </li>
                             <li class="nav-item d-flex" role="presentation">
-                                <a class="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-specification" data-toggle="pill" href="#ex1-pills-specification" role="tab" aria-controls="ex1-pills-2" aria-selected="false">Specification</a>
+                                <a class="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-specification" data-bs-toggle="pill" href="#ex1-pills-specification" role="tab" aria-controls="ex1-pills-2" aria-selected="false">Specification</a>
                             </li>
                             <li class="nav-item d-flex" role="presentation">
-                                <a class="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-review" data-toggle="pill" href="#ex1-pills-review" role="tab" aria-controls="ex1-pills-3" aria-selected="false">Reviews</a>
+                                <a class="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-review" data-bs-toggle="pill" href="#ex1-pills-review" role="tab" aria-controls="ex1-pills-3" aria-selected="false">Reviews</a>
                             </li>
                             <li class="nav-item d-flex" role="presentation">
-                                <a class="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-QA" data-toggle="pill" href="#ex1-pills-QA" role="tab" aria-controls="ex1-pills-4" aria-selected="false"> Q & A</a>
+                                <a class="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-QA" data-bs-toggle="pill" href="#ex1-pills-QA" role="tab" aria-controls="ex1-pills-4" aria-selected="false"> Q & A</a>
                             </li>
                         </ul>
                         <!-- Pills navs -->
@@ -203,7 +199,7 @@
 
 <!--related products-->
 <div class="container mt-4 mb-4 related-products">
-    <h5 class="title">Related Products</h5>
+    <h5 class="title1">Related Products</h5>
     <div class="row mb-5">
         <div class="col-md-3">
             <div class="related-product-item">
@@ -247,31 +243,22 @@
 
 
 
+<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
 
 <script>
-    document.getElementById('button-plus').addEventListener('click', function() {
-        var quantityInput = document.getElementById('quantity');
-        var currentValue = parseInt(quantityInput.value);
-        if (!isNaN(currentValue)) {
-            quantityInput.value = currentValue + 1;
-        } else {
-            quantityInput.value = 0;
-        }
+
+const lightbox = GLightbox({
+        touchNavigation: true,
+        loop: true,
+        zoomable: true,
+        draggable: true,
+        autoplayVideos: true
     });
 
-    document.getElementById('button-minus').addEventListener('click', function() {
-        var quantityInput = document.getElementById('quantity');
-        var currentValue = parseInt(quantityInput.value);
-        if (!isNaN(currentValue) && currentValue > 0) {
-            quantityInput.value = currentValue - 1;
-        } else {
-            quantityInput.value = 0;
-        }
-    });
 
     document.querySelectorAll('.nav-link').forEach(function(tabLink) {
         tabLink.addEventListener('click', function() {
-            setTimeout(function() { // Delay to ensure the tab is fully activated
+            setTimeout(function() { 
                 var activeTab = document.querySelector('.nav-link.active').getAttribute('id');
                 document.getElementById('breadcrumb-description').classList.add('d-none');
                 document.getElementById('breadcrumb-specification').classList.add('d-none');
@@ -287,9 +274,83 @@
                 } else if (activeTab == 'ex1-tab-QA') {
                     document.getElementById('breadcrumb-QA').classList.remove('d-none');
                 }
-            }, 100); // Delay to ensure the tab change is fully processed
+            }, 100);
         });
     });
 </script>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Fetch initial cart count
+        $.get("{{ route('cart.count') }}", function(data) {
+            $('#cart-count').text(data.cart_count);
+        });
+
+        $('.btn-custom-cart').on('click', function(e) {
+            e.preventDefault();
+
+            const title = $('.title').text().trim();
+            const price = $('.product-price .h4').text().trim().replace('Rs. ', '');
+            const image = $('#product-image').attr('src'); // Ensure you have the image source
+
+            $.ajax({
+                url: "{{ route('cart.add') }}",
+                method: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    title: title,
+                    price: price,
+                    image: image
+                },
+                success: function(response) {
+                    // Update cart count
+                    $.get("{{ route('cart.count') }}", function(data) {
+                        $('#cart-count').text(data.cart_count);
+                    });
+                    alert('Item added to cart!');
+                },
+                error: function(xhr) {
+                    alert('Something went wrong. Please try again.');
+                }
+            });
+        });
+
+
+    // Buy Now button
+    window.buyNow = function() {
+            const title = $('.title').text().trim();
+            const price = $('.product-price .h4').text().trim().replace('Rs. ', '');
+            const image = $('#product-image').attr('src'); // Ensure you have the image source
+
+            $.ajax({
+                url: "{{ route('cart.add') }}",
+                method: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    title: title,
+                    price: price,
+                    image: image
+                },
+                success: function(response) {
+                    // Update cart count
+                    $.get("{{ route('cart.count') }}", function(data) {
+                        $('#cart-count').text(data.cart_count);
+                    });
+                    window.location.href = "{{ route('shopping_cart') }}"; // Redirect to cart page
+                },
+                error: function(xhr) {
+                    alert('Something went wrong. Please try again.');
+                }
+            });
+        }
+    });
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 @endsection

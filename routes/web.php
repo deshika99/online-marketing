@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CustomerOrderController;
 
 Route::get('/', function () {
     return view('home');
@@ -24,8 +27,14 @@ Route::view('/home/product', 'single_product_page')->name('single_product_page')
 Route::view('/home/shopping-cart', 'shopping_cart')->name('shopping_cart');
 Route::view('/home/shopping-cart/checkout', 'checkout')->name('checkout');
 
+Route::view('/home/affiliate/register', 'aff_reg')->name('aff_reg');
+Route::view('/home/affiliate/login', 'aff_login')->name('aff_login');
+Route::view('/home/affiliate/all', 'aff_all')->name('aff_all');
+Route::view('/home/affiliate/single', 'aff_single')->name('aff_single');
+Route::view('/cart/payment', 'payment')->name('payment');
 
 
+//member dashboard
 Route::get('home/My-Account', function () {
     return view('dashboard');
 })->name('dashboard');
@@ -58,3 +67,18 @@ Route::get('home/My-Account/logout', function () {
     return view('logout');
 })->name('logout');
 Auth::routes();
+
+
+
+
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+Route::get('/cart', [CartController::class, 'showCart'])->name('shopping_cart');
+Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/delete/{index}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
+
+Route::get('/product', [ProductController::class, 'show'])->name('single_product_page');
+
+Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('order.store');
+

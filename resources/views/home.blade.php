@@ -6,54 +6,20 @@
  .card-title {
     text-align: center; 
     color:white;
+ }
+    .shopping-titles .card{
+    border-radius: 15px; 
+    overflow: hidden; 
+    width:90%;
+
 }
 </style>
 
-<!--carousel-->
-<header class="hero-header">
-    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    </div>
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="/assets/images/slider/slider.png" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-                <h2 class="animated fadeInUp" style="animation-delay: 0s;">Elevate Your <br>Lifestyle</h2>
-                <h3 class="animated fadeInUp" style="animation-delay: 1s;">On home & living, leisure & more</h3>
-                <p class="animated fadeInUp" style="animation-delay: 2s;"><a href="#">Add to Cart</a></p>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img src="/assets/images/slider/slider1.png" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-                <h2 class="animated fadeInUp" style="animation-delay: 0s;">Elevate Your <br>Lifestyle</h2>
-                <h3 class="animated fadeInUp" style="animation-delay: 1s;">On home & living, leisure & more</h3>
-                <p class="animated fadeInUp" style="animation-delay: 2s;"><a href="#">Add to Cart</a></p>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img src="/assets/images/slider/slider3.png" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-                <h2 class="animated fadeInUp" style="animation-delay: 0s;">Elevate Your <br>Lifestyle</h2>
-                <h3 class="animated fadeInUp" style="animation-delay: 1s;">On home & living, leisure & more</h3>
-                <p class="animated fadeInUp" style="animation-delay: 2s;"><a href="#">Add to Cart</a></p>
-            </div>
-        </div>
-    </div>
 
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-    </div>
-</header>
+
+@include('includes.slider')
+
+
 
 <div class="container shopping-titles mt-5 mb-5">
     <div class="row mt-5 row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
@@ -163,12 +129,16 @@
     <div class="row">
         <div class="col-md-3">
             <div class="special-offer-item">
-                <a href="{{ route('single_product_page') }}">
-                    <img src="/assets/images/item1.png" alt="Product 1">
-                    <div class="wishlist"><i class="fa fa-heart"></i></div>
-                    <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                    <div class="price">Rs.35,699</div>
-                    <div class="discount">Extra 2% off with coins</div>
+                <a href="{{ route('single_product_page', [
+                            'title' => 'Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG',
+                            'image' => '/assets/images/item1.png',
+                            'price' => 35699
+                        ]) }}">
+                            <img src="/assets/images/item1.png" alt="Product 1">
+                            <div class="wishlist"><i class="fa fa-heart"></i></div>
+                            <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
+                            <div class="price">Rs.35 699</div>
+                            <div class="discount">Extra 2% off with coins</div>
                 </a>
             </div>
         </div>
@@ -238,6 +208,7 @@
     <div class="container" style="text-align:right;">
     <a href="" class="btn-next mb-5">Next</a>
     </div>
+
 
 
 @endsection
