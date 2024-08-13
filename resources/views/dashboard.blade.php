@@ -1,5 +1,5 @@
 @extends('layouts.sidebar')
 
 @section('dashboard-content')
-    <h2>Hello</h2>
+    <h2></h2>
 @endsection

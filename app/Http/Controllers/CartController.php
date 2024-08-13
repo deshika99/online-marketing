@@ -10,21 +10,34 @@ class CartController extends Controller
     public function addToCart(Request $request)
     {
         $cart = session()->get('cart', []);
-        
-        $item = [
-            'title' => $request->input('title'),
-            'price' => $request->input('price'),
-            'image' => $request->input('image'),
-            'quantity' => 1 // Default quantity
-        ];
+        $itemTitle = $request->input('title');
+        $itemFound = false;
 
-        $cart[] = $item;
+        // Check if the item already exists in the cart
+        foreach ($cart as &$item) {
+            if ($item['title'] === $itemTitle) {
+                $item['quantity'] = $item['quantity'] + 1;
+                $itemFound = true;
+                break;
+            }
+        }
+
+        // If the item does not exist in the cart, add it
+        if (!$itemFound) {
+            $cart[] = [
+                'title' => $itemTitle,
+                'price' => $request->input('price'),
+                'image' => $request->input('image'),
+                'quantity' => 1 
+            ];
+        }
+
         session()->put('cart', $cart);
-
-        // Calculate cart count
         $cartCount = count($cart);
         return response()->json(['cart_count' => $cartCount]);
     }
+
+
 
 
     public function getCartCount()

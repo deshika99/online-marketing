@@ -23,10 +23,6 @@ Route::view('/home/house_hold_goods', 'house_hold_goods')->name('house_hold_good
 Route::view('/home/food', 'food')->name('food');
 
 
-Route::view('/home/product', 'single_product_page')->name('single_product_page');
-Route::view('/home/shopping-cart', 'shopping_cart')->name('shopping_cart');
-Route::view('/home/shopping-cart/checkout', 'checkout')->name('checkout');
-
 Route::view('/home/affiliate/register', 'aff_reg')->name('aff_reg');
 Route::view('/home/affiliate/login', 'aff_login')->name('aff_login');
 Route::view('/home/affiliate/all', 'aff_all')->name('aff_all');
