@@ -95,5 +95,13 @@ Route::view('/affiliate/dashboard/account/tracking_id', 'affiliate_dashboard.tra
 
 //admin dashboard
 Route::view('/admin/dashboard', 'admin_dashboard.index')->name('admin.index');
-Route::view('/admin/products', 'admin_dashboard.products')->name('products');
-Route::view('/admin/products/add_products', 'admin_dashboard.add_products')->name('add_products');
+Route::get('/admin/products/add_products', function () {
+    return view('admin_dashboard.add_products');
+})->name('add_products');
+
+Route::get('/admin/products', [ProductController::class, 'showProducts'])->name('products');
+Route::post('/admin/products/add_products', [ProductController::class, 'store'])->name('store_product');
+Route::get('/admin/products/edit/{id}', [ProductController::class, 'edit'])->name('edit_product');
+Route::put('/admin/products/{id}', [ProductController::class, 'update'])->name('update_product');
+Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy'])->name('delete_product');
+
