@@ -15,6 +15,11 @@
   .checkout-card {
     flex: 1; 
   }
+
+  .error-message {
+    color: red;
+    font-size: 0.875rem;
+  }
 </style>
 
 <div class="container mt-4 mb-5">
@@ -27,7 +32,7 @@
   </nav>
 
   <section class="py-3">
-    <form id="orderForm" action="{{ route('order.store') }}" method="POST">
+    <form id="orderForm" action="{{ route('order.store') }}" method="POST" novalidate>
       <div class="row checkout-summary-container">
         
         <!-- Checkout -->
@@ -40,25 +45,29 @@
                 <div class="col-6 mb-3">
                   <p class="mb-0">First name</p>
                   <div class="form-outline">
-                    <input type="text" name="first_name" id="typeText" placeholder="" class="form-control" />
+                    <input type="text" name="first_name" id="firstName" placeholder="" class="form-control" required/>
+                    <span class="error-message" id="firstNameError"></span>
                   </div>
                 </div>
                 <div class="col-6">
                   <p class="mb-0">Last name</p>
                   <div class="form-outline">
-                    <input type="text" name="last_name" id="typeText" placeholder="" class="form-control" />
+                    <input type="text" name="last_name" id="lastName" placeholder="" class="form-control" required/>
+                    <span class="error-message" id="lastNameError"></span>
                   </div>
                 </div>
                 <div class="col-6 mb-3">
                   <p class="mb-0">Phone</p>
                   <div class="form-outline">
-                    <input type="tel" name="phone" id="typePhone" value=" " class="form-control" />
+                    <input type="tel" name="phone" id="phone" class="form-control" required />
+                    <span class="error-message" id="phoneError"></span>
                   </div>
                 </div>
                 <div class="col-6 mb-3">
                   <p class="mb-0">Email</p>
                   <div class="form-outline">
-                    <input type="email" name="email" id="typeEmail" placeholder="" class="form-control" />
+                    <input type="email" name="email" id="email" placeholder="" class="form-control" required/>
+                    <span class="error-message" id="emailError"></span>
                   </div>
                 </div>
               </div>
@@ -66,33 +75,36 @@
                 <div class="col-sm-12 mb-3">
                   <p class="mb-0">Company Name (Optional)</p>
                   <div class="form-outline">
-                    <input type="text" name="company_name" id="typeText" placeholder="" class="form-control" />
+                    <input type="text" name="company_name" id="companyName" placeholder="" class="form-control" />
                   </div>
                 </div>
               </div>
               <div class="col-sm-12 mb-3">
                 <p class="mb-0">Street Address</p>
                 <div class="form-outline">
-                  <input type="text" name="address" id="typeText" placeholder="" class="form-control" />
+                  <input type="text" name="address" id="address" placeholder="" class="form-control" required/>
+                  <span class="error-message" id="addressError"></span>
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-12 mb-3">
                   <p class="mb-0">Apartment, Suite, unit etc.(Optional)</p>
                   <div class="form-outline">
-                    <input type="text" name="apartment" id="typeText" placeholder="" class="form-control" />
+                    <input type="text" name="apartment" id="apartment" placeholder="" class="form-control" />
                   </div>
                 </div>
                 <div class="col-sm-6 mb-3">
                   <p class="mb-0">City</p>
                   <div class="form-outline">
-                    <input type="text" name="city" id="typeText" placeholder="" class="form-control" />
+                    <input type="text" name="city" id="city" placeholder="" class="form-control" required/>
+                    <span class="error-message" id="cityError"></span>
                   </div>
                 </div>
                 <div class="col-sm-6 col-6 mb-3">
                   <p class="mb-0">Postal code</p>
                   <div class="form-outline">
-                    <input type="text" name="postal_code" id="typeText" class="form-control" />
+                    <input type="text" name="postal_code" id="postalCode" class="form-control" required/>
+                    <span class="error-message" id="postalCodeError"></span>
                   </div>
                 </div>
               </div>
@@ -105,7 +117,7 @@
               <div class="mb-3">
                 <p class="mb-0">Order notes (optional)</p>
                 <div class="form-outline">
-                  <textarea class="form-control" id="textAreaExample1" rows="2"></textarea>
+                  <textarea class="form-control" name="order_notes" id="textAreaExample1" rows="2"></textarea>
                 </div>
               </div>
             </div>
@@ -182,7 +194,23 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('confirmButton').addEventListener('click', function() {
-      document.getElementById('orderForm').submit();
+      let formValid = true;
+
+      ['firstName', 'lastName', 'phone', 'email', 'address', 'city', 'postalCode'].forEach(function(id) {
+        let input = document.getElementById(id);
+        let error = document.getElementById(id + 'Error');
+        
+        if (input.value.trim() === '') {
+          error.textContent = 'This field is required';
+          formValid = false;
+        } else {
+          error.textContent = '';
+        }
+      });
+
+      if (formValid) {
+        document.getElementById('orderForm').submit();
+      }
     });
   });
 </script>

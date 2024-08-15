@@ -74,8 +74,7 @@
                         <div class="d-flex justify-content-between">
                             <p class="mb-2">SubTotal ({{ count($cart) }} items):</p>
                             <p class="mb-2" id="subtotal">Rs. {{ array_sum(array_column($cart, 'price')) }}</p>
-                        </div>
-                        
+                        </div>                       
                         <hr />
                         <div class="d-flex justify-content-between">
                             <p class="mb-2">Total:</p>
@@ -125,7 +124,7 @@ $(document).ready(function() {
             subtotal += quantity * price;
         });
         $('#subtotal').text('Rs. ' + subtotal.toFixed(2));
-        $('#total').text('Rs. ' + subtotal.toFixed(2)); // Updated total calculation
+        $('#total').text('Rs. ' + subtotal.toFixed(2));
 
         // Update the quantity in the session
         $('.item-row').each(function() {

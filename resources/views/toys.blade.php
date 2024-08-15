@@ -22,7 +22,11 @@
             <div class="row mt-3">
                 <div class="col-md-3">
                     <div class="products-item">
-                        <a href="{{ route('single_product_page') }}">
+                        <a href="{{ route('single_product_page', [
+                        'title' => 'Electronic Toys Srilanka - Shop for best Electronic Toys online',
+                        'image' => '/assets/images/toys1.jpg',
+                        'price' => 350
+                    ]) }}">
                             <img src="/assets/images/toys1.jpg" alt="Product 1">
                             <h6>Electronic Toys Srilanka - Shop for best Electronic Toys online</h6>
                             <div class="price">Rs.350</div>

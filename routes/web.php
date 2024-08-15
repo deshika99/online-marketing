@@ -23,10 +23,6 @@ Route::view('/home/house_hold_goods', 'house_hold_goods')->name('house_hold_good
 Route::view('/home/food', 'food')->name('food');
 
 
-Route::view('/home/product', 'single_product_page')->name('single_product_page');
-Route::view('/home/shopping-cart', 'shopping_cart')->name('shopping_cart');
-Route::view('/home/shopping-cart/checkout', 'checkout')->name('checkout');
-
 Route::view('/home/affiliate/register', 'aff_reg')->name('aff_reg');
 Route::view('/home/affiliate/login', 'aff_login')->name('aff_login');
 Route::view('/home/affiliate/all', 'aff_all')->name('aff_all');
@@ -77,8 +73,28 @@ Route::post('/cart/update', [CartController::class, 'update'])->name('cart.updat
 Route::delete('/cart/delete/{index}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
-
 Route::get('/product', [ProductController::class, 'show'])->name('single_product_page');
-
 Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('order.store');
 
+
+//affiliate dashboard
+Route::view('/affiliate/dashboard', 'affiliate_dashboard.index')->name('index');
+Route::view('/affiliate/dashboard/ad_center', 'affiliate_dashboard.ad_center')->name('ad_center');
+Route::view('/affiliate/dashboard/code_center', 'affiliate_dashboard.code_center')->name('code_center');
+
+Route::view('/affiliate/dashboard/reports/traffic_report', 'affiliate_dashboard.traffic_report')->name('traffic_report');
+Route::view('/affiliate/dashboard/reports/income_report', 'affiliate_dashboard.income_report')->name('income_report');
+Route::view('/affiliate/dashboard/reports/order_tracking', 'affiliate_dashboard.order_tracking')->name('order_tracking');
+Route::view('/affiliate/dashboard/reports/transaction_product_report', 'affiliate_dashboard.transaction_product_report')->name('transaction_product_report');
+
+Route::view('/affiliate/dashboard/payment/withdrawals', 'affiliate_dashboard.withdrawals')->name('withdrawals');
+Route::view('/affiliate/dashboard/payment/account_balance', 'affiliate_dashboard.account_balance')->name('account_balance');
+
+Route::view('/affiliate/dashboard/account/mywebsites_page', 'affiliate_dashboard.mywebsites_page')->name('mywebsites_page');
+Route::view('/affiliate/dashboard/account/tracking_id', 'affiliate_dashboard.tracking_id')->name('tracking_id');
+
+
+//admin dashboard
+Route::view('/admin/dashboard', 'admin_dashboard.index')->name('admin.index');
+Route::view('/admin/products', 'admin_dashboard.products')->name('products');
+Route::view('/admin/products/add_products', 'admin_dashboard.add_products')->name('add_products');

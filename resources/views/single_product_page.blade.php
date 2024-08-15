@@ -203,36 +203,36 @@
     <div class="row mb-5">
         <div class="col-md-3">
             <div class="related-product-item">
-                <img src="/assets/images/item1.png" alt="Product 1">
+                <img src="/assets/images/dress2.png" alt="Product 1">
                 <div class="wishlist"><i class="fa fa-heart"></i></div>
-                <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                <div class="price">Rs.35,699</div>
+                <h5>Party Dress for girl</h5>
+                <div class="price">Rs.5,699</div>
                 <div class="discount">Extra 2% off with coins</div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="related-product-item">
-                <img src="/assets/images/item2.png" alt="Product 2">
+                <img src="/assets/images/dress3.png" alt="Product 2">
                 <div class="wishlist"><i class="fa fa-heart"></i></div>
-                <h5>Daraz Like New Smart Watches - SAMSUNG...</h5>
-                <div class="price">Rs.32,199</div>
+                <h5>Party Dress for girl</h5>
+                <div class="price">Rs.2,199</div>
                 <div class="discount">Extra 2% off with coins</div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="related-product-item">
-                <img src="/assets/images/item3.png" alt="Product 3">
+                <img src="/assets/images/dress1.png" alt="Product 3">
                 <div class="wishlist"><i class="fa fa-heart"></i></div>
-                <h5>Daraz Like New Smart Watches...</h5>
-                <div class="price">Rs.15,000</div>
+                <h5>Party Dress for girl</h5>
+                <div class="price">Rs.5,000</div>
                 <div class="discount">Extra 2% off with coins</div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="related-product-item">
-                <img src="/assets/images/item4.png" alt="Product 4">
+                <img src="/assets/images/dress4.png" alt="Product 4">
                 <div class="wishlist"><i class="fa fa-heart"></i></div>
-                <h5>Daraz Like New Smart Watches - Apple Watch...</h5>
+                <h5>Party Dress for girl</h5>
                 <div class="price">Rs.6,000</div>
                 <div class="discount">Extra 2% off with coins</div>
             </div>
@@ -294,8 +294,7 @@ const lightbox = GLightbox({
 
             const title = $('.title').text().trim();
             const price = $('.product-price .h4').text().trim().replace('Rs. ', '');
-            const image = $('#product-image').attr('src'); // Ensure you have the image source
-
+            const image = $('#product-image').attr('src'); 
             $.ajax({
                 url: "{{ route('cart.add') }}",
                 method: 'POST',
@@ -323,7 +322,7 @@ const lightbox = GLightbox({
     window.buyNow = function() {
             const title = $('.title').text().trim();
             const price = $('.product-price .h4').text().trim().replace('Rs. ', '');
-            const image = $('#product-image').attr('src'); // Ensure you have the image source
+            const image = $('#product-image').attr('src'); 
 
             $.ajax({
                 url: "{{ route('cart.add') }}",
@@ -339,7 +338,7 @@ const lightbox = GLightbox({
                     $.get("{{ route('cart.count') }}", function(data) {
                         $('#cart-count').text(data.cart_count);
                     });
-                    window.location.href = "{{ route('shopping_cart') }}"; // Redirect to cart page
+                    window.location.href = "{{ route('shopping_cart') }}";
                 },
                 error: function(xhr) {
                     alert('Something went wrong. Please try again.');

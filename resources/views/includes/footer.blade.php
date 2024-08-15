@@ -26,6 +26,7 @@
                                 <p><a>Privacy Policy</a></p>
                                 <p><a>Contact Us</a></p>
                                 <p><a>Return Policy</a></p>
+                                <p><a href="{{ route('aff_reg') }}">Affiliate program</a></p>
                             </div>
                             
                             <hr class="w-100 clearfix d-md-none" />
@@ -74,7 +75,7 @@
 
                 <!-- Copyright -->
                 <div class="text-center p-3" style="background-color: #038DD8">
-                    © 2024 Copyright:
+                  
                     <a class="text-white" href=""></a>
                 </div>
                 <!-- Copyright -->
