@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerOrderController;
+use App\Http\Controllers\AffiliateProductController;
 
 Route::get('/', function () {
     return view('home');
@@ -78,7 +79,8 @@ Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('or
 
 //affiliate dashboard
 Route::view('/affiliate/dashboard', 'affiliate_dashboard.index')->name('index');
-Route::view('/affiliate/dashboard/ad_center', 'affiliate_dashboard.ad_center')->name('ad_center');
+Route::get('/affiliate/dashboard/ad_center', [AffiliateProductController::class, 'showAdCenter'])->name('ad_center');
+
 Route::view('/affiliate/dashboard/code_center', 'affiliate_dashboard.code_center')->name('code_center');
 
 Route::view('/affiliate/dashboard/reports/traffic_report', 'affiliate_dashboard.traffic_report')->name('traffic_report');
@@ -95,13 +97,13 @@ Route::view('/affiliate/dashboard/account/tracking_id', 'affiliate_dashboard.tra
 
 //admin dashboard
 Route::view('/admin/dashboard', 'admin_dashboard.index')->name('admin.index');
-Route::get('/admin/products/add_products', function () {
-    return view('admin_dashboard.add_products');
-})->name('add_products');
-
-Route::get('/admin/products', [ProductController::class, 'showProducts'])->name('products');
+Route::get('/admin/products/add_products', [ProductController::class, 'showCategory'])->name('add_products');
 Route::post('/admin/products/add_products', [ProductController::class, 'store'])->name('store_product');
+Route::get('/admin/products', [ProductController::class, 'showProducts'])->name('products');
+
 Route::get('/admin/products/edit/{id}', [ProductController::class, 'edit'])->name('edit_product');
 Route::put('/admin/products/{id}', [ProductController::class, 'update'])->name('update_product');
 Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy'])->name('delete_product');
+
+
 

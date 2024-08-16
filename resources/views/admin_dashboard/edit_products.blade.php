@@ -10,6 +10,11 @@
         margin-bottom: 1rem;
         display: flex;
         align-items: center;
+        width: 92%; 
+    }
+
+    .form-group select.form-control {
+        width: 80%; 
     }
 
     .form-group label {
@@ -37,8 +42,9 @@
     }
 </style>  
 
+
 <main style="margin-top: 58px">
-    <div class="container pt-4 px-4"> 
+    <div class="container pt-4 px-4">
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -77,13 +83,24 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" name="category" class="form-control">
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}" {{ $product->product_category == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                         <label for="normalPrice">Normal Price</label>
                         <input type="number" id="normalPrice" name="normalPrice" class="form-control" value="{{ old('normalPrice', $product->normal_price) }}" placeholder="Enter normal price" step="0.01">
                     </div>
-                    
+
                     <div class="form-group">
                         <div class="form-check">
-                            <input type="checkbox" id="affiliateProduct" name="affiliateProduct" class="form-check-input" {{ $product->is_affiliate ? 'checked' : '' }}>
+                            <input type="checkbox" name="affiliateProduct" id="affiliateProduct" {{ old('affiliateProduct', $product->is_affiliate) ? 'checked' : '' }}>
                             <label class="form-check-label" for="affiliateProduct">Affiliate the Product</label>
                         </div>
                     </div>
@@ -110,6 +127,7 @@
     </div>
 </main>
 
+
 <script>
     document.getElementById('productImage').addEventListener('change', function(event) {
         const [file] = event.target.files;
@@ -131,8 +149,8 @@
 
         affiliateCheckbox.addEventListener('change', function() {
             if (affiliateCheckbox.checked) {
-                affiliatePriceGroup.style.display = 'flex'; // Use 'flex' to align items
-                commissionGroup.style.display = 'flex'; // Use 'flex' to align items
+                affiliatePriceGroup.style.display = 'flex'; 
+                commissionGroup.style.display = 'flex'; 
             } else {
                 affiliatePriceGroup.style.display = 'none';
                 commissionGroup.style.display = 'none';

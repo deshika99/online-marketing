@@ -38,6 +38,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Image</th>
+                                    <th scope="col">Category</th>
                                     <th scope="col">Normal Price</th>
                                     <th scope="col">Affiliate</th>
                                     <th scope="col">Affiliate Price</th>
@@ -58,6 +59,7 @@
                                             No Image
                                         @endif
                                     </td>
+                                    <td>{{ $product->category->name ?? 'No Category' }}</td>
                                     <td>Rs {{ number_format($product->normal_price, 2) }}</td>
                                     <td>{{ $product->is_affiliate ? 'Yes' : 'No' }}</td>
                                     <td>Rs {{ $product->affiliate_price ? number_format($product->affiliate_price, 2) : '-' }}</td>

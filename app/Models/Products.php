@@ -15,10 +15,17 @@ class Products extends Model
         'product_name',
         'product_description',
         'product_image',
+        'product_category',
         'normal_price',
         'is_affiliate',
         'affiliate_price',
         'commission_percentage',
         'total_price',
     ];
+
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'product_category');
+    }
 }

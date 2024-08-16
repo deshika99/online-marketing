@@ -11,6 +11,7 @@
         margin-bottom: 1rem;
         display: flex;
         align-items: center;
+        width: 92%; 
     }
 
     .form-group label {
@@ -35,6 +36,10 @@
 
     .form-control[readonly] {
         background-color: #e9ecef;
+    }
+
+    .form-group select.form-control {
+        width: 80%; 
     }
 </style>  
 
@@ -74,10 +79,19 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" name="category" class="form-control">
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label for="normalPrice">Normal Price</label>
                     <input type="number" id="normalPrice" name="normalPrice" class="form-control" placeholder="Enter normal price" step="0.01">
                 </div>
-                
+
                 <div class="form-group">
                     <div class="form-check">
                         <input type="checkbox" id="affiliateProduct" name="affiliateProduct" class="form-check-input">
@@ -107,6 +121,7 @@
         </div>
     </div>
 </main>
+
 
 
 <script>
