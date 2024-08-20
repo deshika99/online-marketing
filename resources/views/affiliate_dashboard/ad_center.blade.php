@@ -71,20 +71,32 @@
                                 <div class="col-md-3 mb-3">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="free_shipping" style="transform: scale(0.8);">
-                                        <label class="form-check-label" for="free_shipping" style="font-size: 0.8rem;">
+                                        <label class="form-check-label" for="free_shipping" style="font-size: 0.9rem;">
                                             Free Shipping
                                         </label>
                                     </div>
                                 </div>
                             </div>
-                        </form>
 
-                        <!-- Display Products -->
+                            <div class="row">
+                                <div class="col-md-1 mb-3">
+                                    <label id="selectedCountLabel" style="font-size: 0.9rem;">
+                                        Selected: <span id="selectedCount">0</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-2 mb-3">
+                                    <button type="button" id="toggleSelectAll" class="btn btn-secondary btn-sm" style="font-size: 0.7rem;">
+                                        Select All
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                         <div class="container mt-4 mb-4">
                             <div class="row">
                                 @foreach($hotDeals as $product)
                                     <div class="col-md-3">
                                         <div class="deal-items">
+                                            <input type="checkbox" class="select-item-checkbox" data-product-id="{{ $product->id }}" style="position: absolute; left: 12px;">
                                             <a href="#">
                                                 <img src="{{ asset('storage/' . $product->product_image) }}" alt="{{ $product->product_name }}" class="img-fluid">
                                                 <p>{{ $product->product_name }}</p>
@@ -96,7 +108,7 @@
                                                 <div class="commission mb-2">
                                                     Est. Commission Rs. {{ $commissionPrice }} | {{ $product->commission_percentage }}%
                                                 </div>
-                                                <a href="#" class="btn btn-primary btn_promote">Promote Now</a>
+                                                <a href="#" class="btn btn-primary btn_promote mb-4">Promote Now</a>
                                             </a>
                                         </div>
                                     </div>
@@ -104,6 +116,8 @@
                             </div>
                         </div>
                     </div>
+
+
 
                     <!-- Higher Commission -->
                     <div class="tab-pane fade" id="commision" role="tabpanel" aria-labelledby="commision-tab0">
@@ -147,14 +161,25 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-1 mb-3">
+                                    <label id="selectedCountLabel" style="font-size: 0.9rem;">
+                                        Selected: <span id="selectedCount2">0</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-2 mb-3">
+                                    <button type="button" id="toggleSelectAll2" class="btn btn-secondary btn-sm" style="font-size: 0.7rem;">
+                                        Select All
+                                    </button>
+                                </div>
+                            </div>
                         </form>
-
-                        <!-- Display Products -->
                         <div class="container mt-4 mb-4">
                             <div class="row">
                                 @foreach($highCom as $product)
                                     <div class="col-md-3 mb-4">
                                         <div class="deal-items">
+                                            <input type="checkbox" class="select-item-checkbox2" data-product-id="{{ $product->id }}" style="position: absolute; left: 12px;">
                                             <a href="#">
                                                 <img src="{{ asset('storage/' . $product->product_image) }}" alt="{{ $product->product_name }}" class="img-fluid">
                                                 <p>{{ $product->product_name }}</p>
@@ -204,6 +229,68 @@
             document.getElementById('highComForm').submit();
         });
     });
+
+    //Hot Deals selection
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkboxes = document.querySelectorAll('.select-item-checkbox');
+        const selectedCountLabel = document.getElementById('selectedCount');
+        const toggleSelectAllButton = document.getElementById('toggleSelectAll');
+
+        function updateSelectedCount() {
+            const selectedCount = document.querySelectorAll('.select-item-checkbox:checked').length;
+            selectedCountLabel.textContent = selectedCount;
+        }
+
+        toggleSelectAllButton.addEventListener('click', function () {
+            const allSelected = [...checkboxes].every(checkbox => checkbox.checked);
+
+            if (allSelected) {
+                checkboxes.forEach(checkbox => checkbox.checked = false);
+                toggleSelectAllButton.textContent = 'Select All';
+            } else {
+                checkboxes.forEach(checkbox => checkbox.checked = true);
+                toggleSelectAllButton.textContent = 'Deselect All';
+            }
+
+            updateSelectedCount();
+        });
+
+        checkboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', updateSelectedCount);
+        });
+    });
+
+
+    //Higher Commission selection
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkboxes = document.querySelectorAll('.select-item-checkbox2');
+        const selectedCountLabel = document.getElementById('selectedCount2');
+        const toggleSelectAllButton = document.getElementById('toggleSelectAll2');
+
+        function updateSelectedCount() {
+            const selectedCount = document.querySelectorAll('.select-item-checkbox2:checked').length;
+            selectedCountLabel.textContent = selectedCount;
+        }
+
+        toggleSelectAllButton.addEventListener('click', function () {
+            const allSelected = [...checkboxes].every(checkbox => checkbox.checked);
+
+            if (allSelected) {
+                checkboxes.forEach(checkbox => checkbox.checked = false);
+                toggleSelectAllButton.textContent = 'Select All';
+            } else {
+                checkboxes.forEach(checkbox => checkbox.checked = true);
+                toggleSelectAllButton.textContent = 'Deselect All';
+            }
+
+            updateSelectedCount();
+        });
+
+        checkboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', updateSelectedCount);
+        });
+    });
 </script>
+
 
 @endsection
