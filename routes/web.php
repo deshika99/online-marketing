@@ -5,6 +5,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerOrderController;
 use App\Http\Controllers\AffiliateProductController;
+use App\Http\Controllers\AffiliateCustomerController;
 
 Route::get('/', function () {
     return view('home');
@@ -104,6 +105,9 @@ Route::get('/admin/products', [ProductController::class, 'showProducts'])->name(
 Route::get('/admin/products/edit/{id}', [ProductController::class, 'edit'])->name('edit_product');
 Route::put('/admin/products/{id}', [ProductController::class, 'update'])->name('update_product');
 Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy'])->name('delete_product');
+
+Route::get('/admin/aff_customers', [AffiliateCustomerController::class, 'showAffCustomers'])->name('aff_customers');
+Route::patch('/admin/aff_customers/{id}/status', [AffiliateCustomerController::class, 'updateStatus'])->name('aff_customers.updateStatus');
 
 
 
