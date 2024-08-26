@@ -45,7 +45,7 @@
                 <a href="{{ route('toys') }}">
                     <div class="card-body">
                         <h5 class="card-title">
-                            <i class="fa-solid fa-puzzle-piece"></i> <!-- Toys icon -->
+                            <i class="fa-solid fa-puzzle-piece"></i> 
                             Toys
                         </h5>
                     </div>
@@ -57,7 +57,7 @@
                 <a href="{{ route('cosmetics') }}">
                     <div class="card-body">
                         <h5 class="card-title">
-                        <i class="fa-solid fa-gift"></i> 
+                        <i class="fas fa-paint-brush"></i>
                             Cosmetics
                         </h5>
                     </div>
