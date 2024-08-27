@@ -1,4 +1,13 @@
-
+<style>
+    .signup-btn{
+        color:white; 
+        text-decoration:none; 
+        font-weight:500; 
+        font-size:15px;
+        background-color:black;
+        border-radius: 10px;
+    }
+</style>
         <header>
             <div class="text-center bg-white border-bottom">
                 <div class="px-5">
@@ -13,14 +22,14 @@
                     </div>
 
 
-                        <div class="col-md-6 p-3">
+                        <div class="col-md-5 p-3">
                             <form class="d-flex input-group w-auto my-auto mb-3 mb-md-0">
                                 <input autocomplete="off" type="search" class="form-control rounded" placeholder="Search" />
                                 <span class="input-group-text border-0 d-none d-lg-flex"><i class="fas fa-search"></i></span>
                             </form>
                         </div>
 
-                        <div class="col-md-2 d-flex justify-content-center justify-content-md-end align-items-center">
+                        <div class="col-md-3 d-flex justify-content-center justify-content-md-end align-items-center">
                             <div class="d-flex align-items-center">
                                
                                 <div class="dropdown me-3">
@@ -30,19 +39,22 @@
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                                         <li><a class="dropdown-item" href="#">All Items</a></li>
                                         <li><a class="dropdown-item" href="#">Questions</a></li>
-                                        <li><a class="dropdown-item" href="#">Help Center</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('helpcenter') }}">Help Center</a></li>
                                     </ul>
                                 </div>
 
                                 <span class="me-3">|</span>
                                 
-                                <a class="text-reset me-4" href="{{ route('shopping_cart') }}">
-                                    <span><i class="fas fa-shopping-cart"></i></span>
-                                    <span id="cart-count" class="badge badge-danger" style="background-color: #dc3545; color: #fff; 
-                                    height:19px; width:auto;">0</span>
+                                <a class="text-reset me-5" href="{{ route('shopping_cart') }}" style="position: relative;">
+                                    <span style="font-size: 19px; position: relative;">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </span>
+                                    <span id="cart-count" class="badge badge-danger">
+                                        0
+                                    </span>
                                 </a>
 
-
+                                <!-- login page
                                 @guest
                                     @if (Route::has('login'))
                                         <a class="text-reset me-3" href="{{ route('login') }}">
@@ -71,7 +83,113 @@
                                             </form>
                                         </div>
                                     </div>
+                                @endguest-->
+
+
+                                @guest
+                                @if (Route::has('login'))
+                                    <a class="text-reset me-3" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                        <div  style="font-weight:500">
+                                           LOGIN
+                                        </div>
+                                        @if (Route::has('register'))
+                                            <a class="signup-btn p-2" href="{{ route('register') }}" style="">
+                                                SIGN UP
+                                            </a>
+                                        @endif
+                                    </a>
+                                @endif
+                                @else
+                                    <div class="dropdown me-3">
+                                        <a id="navbarDropdown" class="text-reset dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            <div class="icon-circle">
+                                                {{ Auth::user()->name[0] }}
+                                            </div>
+                                        </a>
+
+                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                               onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
+                                                {{ __('Logout') }}
+                                            </a>
+
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                                @csrf
+                                            </form>
+                                        </div>
+                                    </div>
                                 @endguest
+
+                                    <!-- Login Modal -->
+                                    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form method="POST" action="{{ route('login') }}">
+                                                        @csrf
+                                                        <div class="mb-3">
+                                                            <label for="email" class="form-label">{{ __('Email Address') }}<i class="text-danger">*</i></label>
+                                                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                                            @error('email')
+                                                                <span class="invalid-feedback" role="alert">
+                                                                    <strong>{{ $message }}</strong>
+                                                                </span>
+                                                            @enderror
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <label for="password" class="form-label">{{ __('Password') }} <i class="text-danger">*</i></label>
+                                                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                                            @error('password')
+                                                                <span class="invalid-feedback" role="alert">
+                                                                    <strong>{{ $message }}</strong>
+                                                                </span>
+                                                            @enderror
+                                                        </div>
+
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                                            <label class="form-check-label" for="remember">
+                                                                {{ __('Remember Me') }}
+                                                            </label>
+                                                        </div>
+
+                                                        @if (Route::has('password.request'))
+                                                            <div>
+                                                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                                                    {{ __('Forgot Your Password?') }}
+                                                                </a>
+                                                            </div>
+                                                        @endif
+
+                                                        <button type="submit" class="btn btn-primary w-100 mt-4 mb-3">
+                                                            {{ __('Login') }}
+                                                        </button>
+                                                    </form>
+
+                                                    <div class="text-center mt-1">
+                                                        <div class="d-flex align-items-center justify-content-center mb-1">
+                                                            <hr class="flex-grow-1">
+                                                            <span class="mx-2 text-secondary">Or continue with</span>
+                                                            <hr class="flex-grow-1">
+                                                        </div>
+                                                        <a class="btn btn-floating" href="#!" role="button">
+                                                            <i class="fa-brands fa-facebook fa-3x" style="color: #2ba2fd;"></i>
+                                                        </a>
+                                                        <a class="btn btn-floating" href="#!" role="button">
+                                                            <i class="fab fa-google fa-3x"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Login Modal -->
 
                             </div>
                         </div>
@@ -538,6 +656,8 @@
             </div>
         </div>
     
+
+
 
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
