@@ -3,7 +3,7 @@
         color:white; 
         text-decoration:none; 
         font-weight:500; 
-        font-size:15px;
+        font-size:12px;
         background-color:black;
         border-radius: 10px;
     }

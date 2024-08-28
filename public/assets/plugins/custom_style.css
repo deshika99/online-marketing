@@ -38,6 +38,25 @@ body {
     overflow-y: auto; 
   }
 
+ /* navbar*/
+
+ .icon-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #f8f9fa; 
+  color: #333; 
+}
+
+.icon-circle i {
+  font-size: 15px; 
+  color: #000; 
+}
+
+
 
   /* ad_center */
   
