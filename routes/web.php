@@ -110,5 +110,10 @@ Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy
 Route::get('/admin/aff_customers', [AffiliateCustomerController::class, 'showAffCustomers'])->name('aff_customers');
 Route::patch('/admin/aff_customers/{id}/status', [AffiliateCustomerController::class, 'updateStatus'])->name('aff_customers.updateStatus');
 
+Route::view('/admin/users', 'admin_dashboard.users')->name('users');
+Route::view('/admin/orders', 'admin_dashboard.orders')->name('orders');
+Route::view('/admin/order-details', 'admin_dashboard.order-details')->name('order-details');
+
+
 
 

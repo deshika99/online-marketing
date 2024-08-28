@@ -44,8 +44,8 @@
 </style>  
 
 
-<main style="margin-top: 58px">
-    <div class="container pt-4 px-4"> 
+<main style="margin-top: 50px">
+    <div class="container p-5"> 
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -55,7 +55,7 @@
             <h4 class="py-3 mb-0">Add Products</h4>
         </div>
 
-        <div class="card p-4 ">
+        <div class="card p-4">
             <div class="card-body me-3">
             <form id="productForm" action="{{ route('store_product') }}" method="POST" enctype="multipart/form-data">
                 @csrf
