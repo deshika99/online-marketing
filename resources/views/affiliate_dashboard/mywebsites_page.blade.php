@@ -1,11 +1,12 @@
 @extends('layouts.affiliate_main.master')
 
 @section('content')
+
 <style>
-   
-
-
-  
+    .small-input {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
 </style>  
 
 <main style="margin-top: 58px">
@@ -19,7 +20,44 @@
                         <h5 class="py-3" style="font-weight: bold;">Basic Information</h5>
                     </div>
                     <div class="col-md-8 d-flex justify-content-end">
-                        <span class="filter-option me-3 text-primary">Edit</span>
+                        <span class="filter-option me-3 text-primary" data-mdb-toggle="offcanvas" data-mdb-target="#offcanvasRight"  aria-controls="offcanvasRight" style="cursor: pointer;">
+                            Edit
+                        </span>
+                    </div>
+                     
+                    <!-- edit sidebar-->
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                        <div class="offcanvas-header">
+                            <h6 id="offcanvasRightLabel">Edit Basic Information</h6>
+                            <button type="button" class="btn-close text-reset" data-mdb-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body" style="font-size:13px;">
+                            <form id="editInfoForm" action="" method="POST">
+                                @csrf
+                                <div class="form-group mb-3">
+                                    <label for="payeename" class="text-secondary">Payee Name</label>
+                                    <input type="text" id="payeename" name="payeename" class="form-control small-input">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="loginemail" class="text-secondary">Login Email</label>
+                                    <input type="email" id="loginemail" name="loginemail" class="form-control small-input">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="loginphone" class="text-secondary">Login Phone Number</label>
+                                    <input type="text" id="loginphone" name="loginphone" class="form-control small-input">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="contactmail" class="text-secondary">Contact Email</label>
+                                    <input type="email" id="contactmail" name="contactmail" class="form-control small-input">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="contactphone" class="text-secondary">Contact Phone Number</label>
+                                    <input type="text" id="contactphone" name="contactphone" class="form-control small-input">
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-create">Submit</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
@@ -87,10 +125,6 @@
                 </div>
             </div>  
         </div>
-
-
-
-
     </div>
 </main>
 

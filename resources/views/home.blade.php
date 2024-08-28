@@ -6,12 +6,17 @@
  .card-title {
     text-align: center; 
     color:white;
+    font-size: 17px;
  }
     .shopping-titles .card{
     border-radius: 15px; 
     overflow: hidden; 
     width:90%;
 
+}
+.card-title i {
+    margin-right: 7px; 
+    font-size: 1.2em;  
 }
 </style>
 
@@ -21,102 +26,150 @@
 
 
 
-<div class="container shopping-titles mt-5 mb-5">
+<div class="container shopping-titles mt-5 mb-5" style="width:80%;">
     <div class="row mt-5 row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
         <div class="col">
             <div class="card text-center">
                 <a href="{{ route('dress') }}">
-                <div class="card-body">
-                    <h5 class="card-title">Dress</h5>
-                </div></a>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-tshirt"></i> 
+                            Dress
+                        </h5>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="col">
             <div class="card text-center">
-            <a href="{{ route('toys') }}">
-                <div class="card-body">
-                    <h5 class="card-title">Toys</h5>
-                </div></a>
+                <a href="{{ route('toys') }}">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fa-solid fa-puzzle-piece"></i> 
+                            Toys
+                        </h5>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="col">
             <div class="card text-center">
-            <a href="{{ route('cosmetics') }}">
-                <div class="card-body">
-                    <h5 class="card-title">Cosmetics</h5>
-                </div></a>
+                <a href="{{ route('cosmetics') }}">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                        <i class="fas fa-paint-brush"></i>
+                            Cosmetics
+                        </h5>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="col">
             <div class="card text-center">
-            <a href="{{ route('gifts') }}">
-                <div class="card-body">
-                    <h5 class="card-title">Gift Items</h5>
-                </div></a>
+                <a href="{{ route('gifts') }}">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fa-solid fa-gift"></i> 
+                            Gift Items
+                        </h5>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="col">
             <div class="card text-center">
-            <a href="{{ route('phone_Accessories') }}">
-                <div class="card-body">
-                    <h5 class="card-title">Phone Accessories</h5>
-                </div></a>
+                <a href="{{ route('phone_Accessories') }}">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fa-solid fa-mobile-alt"></i> 
+                            Phone Accessories
+                        </h5>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="col">
             <div class="card text-center">
-            <a href="{{ route('school_equipments') }}">
-                <div class="card-body">
-                    <h5 class="card-title">School Equipment</h5>
-                </div></a>
+                <a href="{{ route('school_equipments') }}">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fa-solid fa-pencil-ruler"></i> 
+                            School Equipment
+                        </h5>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="col">
             <div class="card text-center">
-            <a href="{{ route('baby_things') }}">
-                <div class="card-body">
-                    <h5 class="card-title">Baby Things</h5>
-                </div></a>
+                <a href="{{ route('baby_things') }}">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fa-solid fa-baby"></i> 
+                            Baby Things
+                        </h5>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="col">
             <div class="card text-center">
-            <a href="{{ route('house_hold_goods') }}">
-                <div class="card-body">
-                    <h5 class="card-title">House hold Goods</h5>
-                </div></a>
+                <a href="{{ route('house_hold_goods') }}">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fa-solid fa-couch"></i> 
+                            House hold Goods
+                        </h5>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="col">
             <div class="card text-center">
-            <a href="{{ route('food') }}"">
-                <div class="card-body">
-                    <h5 class="card-title">Food</h5>
-                </div></a>
+                <a href="{{ route('food') }}">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fa-solid fa-utensils"></i> 
+                            Food
+                        </h5>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="col">
             <div class="card text-center">
-            <a href="">
-                <div class="card-body">
-                    <h5 class="card-title">Hobby & Sports</h5>
-                </div></a>
+                <a href="">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fa-solid fa-futbol"></i> 
+                            Hobby & Sports
+                        </h5>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="col">
             <div class="card text-center">
-            <a href="">
-                <div class="card-body">
-                    <h5 class="card-title">Jewellary</h5>
-                </div></a>
+                <a href="">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fa-solid fa-ring"></i> 
+                            Jewelry
+                        </h5>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="col">
             <div class="card text-center">
-            <a href="">
-                <div class="card-body">
-                    <h5 class="card-title">Fashion</h5>
-                </div></a>
+                <a href="">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                        <i class="fa-solid fa-glasses"></i>
+                            Fashion
+                        </h5>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
@@ -124,49 +177,75 @@
 
 
 <!--special offers-->
-<div class="container mt-4 mb-4 special-offers">
+<div class="container mt-4 mb-4 special-offers" style="width:80%;">
     <h2>Special Offers</h2>
     <div class="row">
         <div class="col-md-3">
-            <div class="special-offer-item">
+            <div class="special-offer-item mb-2">
                 <a href="{{ route('single_product_page', [
                             'title' => 'Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG',
                             'image' => '/assets/images/item1.png',
                             'price' => 35699
                         ]) }}">
-                            <img src="/assets/images/item1.png" alt="Product 1">
+                    <img src="/assets/images/item1.png" class="card-img-top" alt="Fissure in Sandstone"/>
+                        <div class="card-body">
                             <div class="wishlist"><i class="fa fa-heart"></i></div>
                             <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
                             <div class="price">Rs.35 699</div>
                             <div class="discount">Extra 2% off with coins</div>
+                        </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="special-offer-item mb-2">
+                <a href="{{ route('single_product_page', [
+                            'title' => 'Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG',
+                            'image' => '/assets/images/item2.png',
+                            'price' => 35699
+                        ]) }}">
+                    <img src="/assets/images/item2.png" class="card-img-top" alt="Fissure in Sandstone"/>
+                        <div class="card-body">
+                            <div class="wishlist"><i class="fa fa-heart"></i></div>
+                            <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
+                            <div class="price">Rs.35 699</div>
+                            <div class="discount">Extra 2% off with coins</div>
+                        </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="special-offer-item mb-2">
+                <a href="{{ route('single_product_page', [
+                            'title' => 'Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG',
+                            'image' => '/assets/images/item3.png',
+                            'price' => 35699
+                        ]) }}">
+                    <img src="/assets/images/item3.png" class="card-img-top" alt="Fissure in Sandstone"/>
+                        <div class="card-body">
+                            <div class="wishlist"><i class="fa fa-heart"></i></div>
+                            <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
+                            <div class="price">Rs.35 699</div>
+                            <div class="discount">Extra 2% off with coins</div>
+                        </div>
                 </a>
             </div>
         </div>
         <div class="col-md-3">
             <div class="special-offer-item">
-                <img src="/assets/images/item2.png" alt="Product 2">
-                <div class="wishlist"><i class="fa fa-heart"></i></div>
-                <h5>Daraz Like New Smart Watches - SAMSUNG...</h5>
-                <div class="price">Rs.32,199</div>
-                <div class="discount">Extra 2% off with coins</div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="special-offer-item">
-                <img src="/assets/images/item3.png" alt="Product 3">
-                <div class="wishlist"><i class="fa fa-heart"></i></div>
-                <h5>Daraz Like New Smart Watches...</h5>
-                <div class="price">Rs.15,000</div>
-                <div class="discount">Extra 2% off with coins</div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="special-offer-item">
-                <img src="/assets/images/item4.png" alt="Product 4">
-                <div class="wishlist"><i class="fa fa-heart"></i></div>
-                <h5>Daraz Like New Smart Watches - Apple Watch...</h5>
-                <div class="price">Rs.6,000</div>
-                <div class="discount">Extra 2% off with coins</div>
+                <a href="{{ route('single_product_page', [
+                            'title' => 'Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG',
+                            'image' => '/assets/images/item4.png',
+                            'price' => 35699
+                        ]) }}">
+                    <img src="/assets/images/item4.png" class="card-img-top" alt="Fissure in Sandstone"/>
+                        <div class="card-body">
+                            <div class="wishlist"><i class="fa fa-heart"></i></div>
+                            <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
+                            <div class="price">Rs.35 699</div>
+                            <div class="discount">Extra 2% off with coins</div>
+                        </div>
+                </a>
             </div>
         </div>
     </div>
@@ -174,7 +253,7 @@
 
 
 <!--Flash Sale-->
-<div class="container mt-4 mb-5 flash-sale">
+<div class="container mt-4 flash-sale" style="width:80%;">
         <h2>Flash Sale</h2>
         <div class="row">
             <div class="col-md-2  flash-sale-item">
@@ -206,7 +285,7 @@
     </div>
 
     <div class="container" style="text-align:right;">
-    <a href="" class="btn-next mb-5">Next</a>
+    <a href="" class="btn-next">Next</a>
     </div>
 
 

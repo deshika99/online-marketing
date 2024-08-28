@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerOrderController;
+use App\Http\Controllers\AffiliateProductController;
+use App\Http\Controllers\AffiliateCustomerController;
 
 Route::get('/', function () {
     return view('home');
@@ -12,6 +14,7 @@ Route::get('/', function () {
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::view('/home/help-center', 'helpcenter')->name('helpcenter');
 Route::view('/home/dresses', 'dress')->name('dress');
 Route::view('/home/toys', 'toys')->name('toys');
 Route::view('/home/cosmetics', 'cosmetics')->name('cosmetics');
@@ -79,7 +82,8 @@ Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('or
 
 //affiliate dashboard
 Route::view('/affiliate/dashboard', 'affiliate_dashboard.index')->name('index');
-Route::view('/affiliate/dashboard/ad_center', 'affiliate_dashboard.ad_center')->name('ad_center');
+Route::get('/affiliate/dashboard/ad_center', [AffiliateProductController::class, 'showAdCenter'])->name('ad_center');
+
 Route::view('/affiliate/dashboard/code_center', 'affiliate_dashboard.code_center')->name('code_center');
 
 Route::view('/affiliate/dashboard/reports/traffic_report', 'affiliate_dashboard.traffic_report')->name('traffic_report');
@@ -96,5 +100,16 @@ Route::view('/affiliate/dashboard/account/tracking_id', 'affiliate_dashboard.tra
 
 //admin dashboard
 Route::view('/admin/dashboard', 'admin_dashboard.index')->name('admin.index');
-Route::view('/admin/products', 'admin_dashboard.products')->name('products');
-Route::view('/admin/products/add_products', 'admin_dashboard.add_products')->name('add_products');
+Route::get('/admin/products/add_products', [ProductController::class, 'showCategory'])->name('add_products');
+Route::post('/admin/products/add_products', [ProductController::class, 'store'])->name('store_product');
+Route::get('/admin/products', [ProductController::class, 'showProducts'])->name('products');
+
+Route::get('/admin/products/edit/{id}', [ProductController::class, 'edit'])->name('edit_product');
+Route::put('/admin/products/{id}', [ProductController::class, 'update'])->name('update_product');
+Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy'])->name('delete_product');
+
+Route::get('/admin/aff_customers', [AffiliateCustomerController::class, 'showAffCustomers'])->name('aff_customers');
+Route::patch('/admin/aff_customers/{id}/status', [AffiliateCustomerController::class, 'updateStatus'])->name('aff_customers.updateStatus');
+
+
+

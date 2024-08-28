@@ -17,18 +17,15 @@
             <a href="{{ route('admin.index') }}" class="list-group-item list-group-item-action py-3" data-mdb-ripple-init aria-current="true">
                 <span>Home</span>
             </a>
+            <a href="{{ route('aff_customers') }}" class="list-group-item list-group-item-action py-3" data-mdb-ripple-init>
+                <span>Affiliate Customers</span>
+            </a>
             <a href="{{ route('products') }}" class="list-group-item list-group-item-action py-3 " data-mdb-ripple-init>
                 <span>Products</span>
-            </a>
-            <a href="{{ route('code_center') }}" class="list-group-item list-group-item-action py-3" data-mdb-ripple-init>
-                <span></span>
             </a>
             <a href="#" class="list-group-item list-group-item-action py-3 " data-mdb-ripple-init>
                 <span></span>
             </a>
-
-           
-            
         </div>
     </div>
 </nav>
