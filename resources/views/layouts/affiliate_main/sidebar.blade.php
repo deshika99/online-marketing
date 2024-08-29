@@ -14,21 +14,21 @@
 <nav id="sidebarMenu" class="collapse navbar-collapse d-lg-block sidebar collapse bg-white">
     <div class="position-sticky">
         <div class="list-group list-group-flush mx-2 mt-4">
-            <a href="{{ route('index') }}" class="list-group-item list-group-item-action py-3" data-mdb-ripple-init aria-current="true">
+            <a href="{{ route('index') }}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init aria-current="true">
                 <span>Home</span>
             </a>
-            <a href="{{ route('ad_center') }}" class="list-group-item list-group-item-action py-3 " data-mdb-ripple-init>
+            <a href="{{ route('ad_center') }}" class="list-group-item list-group-item-action py-2 " data-mdb-ripple-init>
                 <span>Ad Center</span>
             </a>
-            <a href="{{ route('code_center') }}" class="list-group-item list-group-item-action py-3" data-mdb-ripple-init>
+            <a href="{{ route('code_center') }}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init>
                 <span>Code Center</span>
             </a>
-            <a href="#" class="list-group-item list-group-item-action py-3 " data-mdb-ripple-init>
+            <a href="#" class="list-group-item list-group-item-action py-2 " data-mdb-ripple-init>
                 <span>Incentive Campaign</span>
             </a>
 
             <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action py-3" data-bs-toggle="collapse" data-bs-target="#reportsSubmenu" aria-expanded="false">
+                <a href="#" class="list-group-item list-group-item-action py-2" data-bs-toggle="collapse" data-bs-target="#reportsSubmenu" aria-expanded="false">
                     <span>Reports</span>
                     <i class="fas fa-chevron-down float-end mt-2" style="font-size:10px;"></i> 
                 </a>
@@ -48,12 +48,12 @@
                 </div>
             </div>
 
-            <a href="#" class="list-group-item list-group-item-action py-3" data-mdb-ripple-init>
+            <a href="#" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init>
                 <i class=""></i><span>Tools</span>
             </a>
 
             <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action py-3" data-bs-toggle="collapse" data-bs-target="#paymentSubmenu" aria-expanded="false">
+                <a href="#" class="list-group-item list-group-item-action py-2" data-bs-toggle="collapse" data-bs-target="#paymentSubmenu" aria-expanded="false">
                     <span>Payment</span>
                     <i class="fas fa-chevron-down float-end mt-2" style="font-size:10px;"></i> 
                 </a>
@@ -74,7 +74,7 @@
             </div>
 
             <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action py-3" data-bs-toggle="collapse" data-bs-target="#accountSubmenu" aria-expanded="false">
+                <a href="#" class="list-group-item list-group-item-action py-2" data-bs-toggle="collapse" data-bs-target="#accountSubmenu" aria-expanded="false">
                     <span>Account</span>
                     <i class="fas fa-chevron-down float-end mt-2" style="font-size:10px;"></i> 
                 </a>

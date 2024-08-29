@@ -14,6 +14,8 @@
     .action-buttons a {
         margin-right: 5px;
     }
+
+
 </style>  
 
 <main style="margin-top: 58px">
@@ -31,8 +33,8 @@
         <div class="card">
             <div class="card-body">
                 <div class="container mt-4 mb-4">
-                    <div class="table-responsive">
-                        <table id="productTable" class="table table-hover text-nowrap ">
+                    <div class="table-responsive p-0">
+                        <table id="example" class="table" style="width:110%">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -86,21 +88,5 @@
 </main>
 
 
-<script>
-    $(document).ready(function() {
-        $('#productTable').DataTable({
-            "pagingType": "full_numbers",
-            "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50]],
-            "pageLength": 10,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "language": {
-                "search": "_INPUT_",
-                "searchPlaceholder": "Search Products"
-            }
-        });
-    });
-</script>
 
 @endsection

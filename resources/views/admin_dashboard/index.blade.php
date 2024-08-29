@@ -24,7 +24,7 @@
     .chart-container {
         padding: 20px;
         background: #fff;
-        border-radius: 10px;
+        border-radius: 5px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         margin-bottom: 30px;
     }
@@ -37,7 +37,7 @@
 </style>
 
 <main style="margin-top: 50px">
-    <div class="container p-5"> 
+    <div class="container px-5 py-4"> 
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -52,8 +52,8 @@
 
         <section>
             <div class="row">
-                <div class="col-xl-3 col-sm-6 col-12 mb-4">
-                    <div class="card bg-gradient-warning text-white">
+                <div class="col-xl-3 col-sm-6 col-12 mb-4" >
+                    <div class="card bg-gradient-warning text-white" style="border-radius: 0px;">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center px-md-1">
                                 <div class="align-self-center">
@@ -68,7 +68,7 @@
                     </div>
                 </div>
                 <div class="col-xl-3 col-sm-6 col-12 mb-4">
-                    <div class="card bg-gradient-success text-white">
+                    <div class="card bg-gradient-success text-white" style="border-radius: 0px;">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center px-md-1">
                                 <div class="align-self-center">
@@ -83,7 +83,7 @@
                     </div>
                 </div>
                 <div class="col-xl-3 col-sm-6 col-12 mb-4">
-                    <div class="card bg-gradient-info text-white">
+                    <div class="card bg-gradient-info text-white" style="border-radius: 0px;">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center px-md-1">
                                 <div class="align-self-center">
@@ -98,7 +98,7 @@
                     </div>
                 </div>
                 <div class="col-xl-3 col-sm-6 col-12 mb-4">
-                    <div class="card bg-gradient-danger text-white">
+                    <div class="card bg-gradient-danger text-white" style="border-radius: 0px;">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center px-md-1">
                                 <div class="align-self-center">
@@ -116,7 +116,7 @@
 
             <div class="row mt-4">
                 <!-- Line Chart Container -->
-                <div class="col-md-6">
+                <div class="col-md-7">
                     <div class="chart-container">
                         <div class="chart-title">Product Sales</div>
                         <div id="productSalesChart"></div>
@@ -124,13 +124,12 @@
                 </div>
 
                 <!-- Pie Chart Container -->
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div class="chart-container">
                         <div class="chart-title">Top 5 Products</div>
                         <div id="topProductsChart"></div>
                     </div>
                 </div>
-            </div>
 
             <!-- Line Chart Container -->
             <div class="row items-align-baseline">
@@ -165,7 +164,10 @@
                 }],
                 chart: {
                     type: 'line',
-                    height: 240
+                    height: 240,
+                    toolbar: {
+                        show: false 
+                    }
                 },
                 colors: ['#4CAF50'],
                 stroke: {
@@ -211,21 +213,29 @@
         });
 
 
-    // Top 5 Products Pie Chart
-    document.addEventListener('DOMContentLoaded', function () {
+
+// Top 5 Products Donut Chart
+document.addEventListener('DOMContentLoaded', function () {
     var options = {
         series: [10, 20, 30, 25, 15],
         chart: {
-            type: 'pie',
+            type: 'donut',  
             height: 250,  
         },
-        labels: ['Product A', 'Product B', 'Product C', 'Product D', 'Product E'],
+        labels: ['Product A', 'Product B', 'Product C', 'Product D', 'Product E'],  
         colors: ['#FF6384', '#36A2EB', '#FFCE56', '#4ec26b', '#d9d748'],
         legend: {
             position: 'right',  
             offsetY: 0,
             labels: {
-                colors: '#fff' 
+                colors: ['black']  
+            }
+        },
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: '65%'  
+                }
             }
         },
         responsive: [{
@@ -245,6 +255,7 @@
     chart.render();
 });
 
+
    
 
 
@@ -252,8 +263,8 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     const categories = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    const currentWeekSeries = [500, 600, 700, 800, 900, 1000, 1100];
-    const lastWeekSeries = [400, 500, 600, 700, 800, 900, 1000];
+    const currentWeekSeries = [500, 600, 700, 900, 800, 500, 1000];
+    const lastWeekSeries = [400, 600, 600, 800, 900, 600, 1000];
     const totalCurrentWeekRevenue = currentWeekSeries.reduce((a, b) => a + b, 0);
     const totalLastWeekRevenue = lastWeekSeries.reduce((a, b) => a + b, 0);
 
@@ -270,7 +281,7 @@ document.addEventListener('DOMContentLoaded', function () {
             data: lastWeekSeries
         }],
         chart: {
-            type: 'line',
+            type: 'area',
             height: 350,
             toolbar: {
                 show: false 

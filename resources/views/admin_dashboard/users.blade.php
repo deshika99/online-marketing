@@ -6,10 +6,7 @@
     .btn-create {
         font-size: 0.8rem;
     }
-    .table thead {
-        background-color: #f9f9f9; 
-    }
-
+  
 
     .form-group {
         margin-bottom: 1rem;
@@ -66,7 +63,7 @@
             <div class="card-body">
                 <div class="container mt-4 mb-4">
                     <div class="table-responsive">
-                        <table id="productTable" class="table table-hover text-nowrap ">
+                        <table id="example" class="table" style="width:100%">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -79,11 +76,13 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>1</td>
+                                    <td>Manushi Weerasinghe</td>
+                                    <td>
+                                        <img src="/assets/images/user.png" width=50 />
+                                    </td>
+                                    <td>manuw2819@gmail.com</td>
+                                    <td>0716280393</td>
                                     <td class="action-buttons">
                                         <a href="" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editUserModal"><i class="fas fa-edit"></i></a>
                                         <form action="" method="POST" style="display:inline;">
@@ -196,7 +195,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-success btn-create">Add</button>
+                    <button type="submit" class="btn btn-success btn-create">Update</button>
                 </form>
             </div>
         </div>

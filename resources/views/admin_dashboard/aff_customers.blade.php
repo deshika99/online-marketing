@@ -55,7 +55,7 @@
             <div class="card-body">
                 <div class="container mt-4 mb-4">
                     <div class="table-responsive">
-                        <table id="customerTable" class="table table-hover text-nowrap">
+                        <table id="example" class="table" style="width:100%">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>

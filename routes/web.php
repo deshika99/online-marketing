@@ -113,6 +113,8 @@ Route::patch('/admin/aff_customers/{id}/status', [AffiliateCustomerController::c
 Route::view('/admin/users', 'admin_dashboard.users')->name('users');
 Route::view('/admin/orders', 'admin_dashboard.orders')->name('orders');
 Route::view('/admin/order-details', 'admin_dashboard.order-details')->name('order-details');
+Route::view('/admin/customer_inquiries', 'admin_dashboard.customer_inquiries')->name('customer_inquiries');
+Route::view('/admin/category', 'admin_dashboard.category')->name('category');
 
 
 

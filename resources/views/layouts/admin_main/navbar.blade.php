@@ -16,7 +16,7 @@
         <div class="col-md-4 d-flex mb-md-0 px-3">
           <a href="" class="d-flex align-items-center" style="text-decoration: none">
               <div class="navbar-brand me-0 p-0">
-                <img src="/assets/images/logo.png" height="55" width="37" alt="Logo"/>
+                <img src="/assets/images/logo.png" height="52" width="35" alt="Logo"/>
               </div>
                 <img src="/assets/images/brand_name.png" height="25" width="280" alt="brand"/>
           </a>
