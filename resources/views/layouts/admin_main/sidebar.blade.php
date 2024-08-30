@@ -32,25 +32,25 @@
     <div class="position-sticky">
         <div class="list-group list-group-flush mx-2 mt-4">
             <a href="{{ route('admin.index') }}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init aria-current="true">
-                <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
+                <i class="fas fa-tachometer-alt text-muted"></i><span class="text-muted">Dashboard</span>
             </a>
             <a href="{{ route('aff_customers') }}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init>
-                <i class="fas fa-users"></i><span>Affiliate Customers</span>
+                <i class="fas fa-users text-muted"></i><span class="text-muted">Affiliate Customers</span>
             </a>
             <a href="{{ route('products') }}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init>
-                <i class="fas fa-box"></i><span>Products</span>
+                <i class="fas fa-box text-muted"></i><span class="text-muted">Products</span>
             </a>
             <a href="{{ route('orders') }}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init>
-                <i class="fas fa-shopping-cart"></i><span>Orders</span>
+                <i class="fas fa-shopping-cart text-muted"></i><span class="text-muted">Orders</span>
             </a>
             <a href="{{ route('customer_inquiries') }}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init>
-                <i class="fas fa-envelope"></i><span>Customer Inquiries</span>
+                <i class="fas fa-envelope text-muted"></i><span class="text-muted">Customer Inquiries</span>
             </a>
             <a href="{{ route('category') }}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init>
-                <i class="fa-solid fa-folder-tree"></i><span>Product Categories</span>
+                <i class="fa-solid fa-folder-tree text-muted"></i><span  class="text-muted">Product Categories</span>
             </a>
             <a href="{{ route('users') }}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init>
-                <i class="fas fa-user"></i><span>User Management</span>
+                <i class="fas fa-user text-muted"></i><span class="text-muted">User Management</span>
             </a>
             
         </div>

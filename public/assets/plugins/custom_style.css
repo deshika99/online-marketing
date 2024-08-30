@@ -233,3 +233,154 @@ body {
     border-radius: 0;
     padding: 8px;
 }
+
+
+
+  /* category */
+
+.category-table thead th {
+  background-color: #f8f9fa;
+  color: #343a40;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.category-table tbody tr {
+  border-bottom: 1px solid #dee2e6;
+}
+
+.category-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.category-table td {
+  vertical-align: middle;
+}
+
+.category-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.subcategory-list {
+  list-style-type: none;
+  padding-left: 1rem;
+}
+
+.subcategory-item {
+  position: relative;
+  padding-left: 1rem;
+  cursor: pointer;
+}
+
+.subcategory-item::before {
+  content: '▶';
+  position: absolute;
+  left: -1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.8rem;
+  transition: transform 0.2s;
+}
+
+.subcategory-item.open::before {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.subsubcategory-list {
+  list-style-type: none;
+  padding-left: 1.5rem;
+  display: none;
+}
+
+.subcategory-item.open .subsubcategory-list {
+  display: block;
+}
+
+.subsubcategory-item::before {
+  content: '';
+  position: absolute;
+  left: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.4rem;
+  height: 0.4rem;
+  background-color: #6c757d;
+  border-radius: 50%;
+}
+
+.subsubcategory-item {
+  padding-left: 2rem; 
+}
+
+.subsubcategory-list {
+  padding-left: 1.5rem;
+}
+
+.subsubcategory-item::before {
+  left: -1rem;
+  top: 50%;
+  width: 0.4rem;
+  height: 0.4rem;
+  background-color: #6c757d;
+  border-radius: 50%;
+}
+
+.sub-add-btn {
+      width: 30px; 
+      height: 30px; 
+      padding: 0; 
+      font-size: 14px; 
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%; 
+  }
+
+  .sub-add-btn i {
+      margin: 0; 
+  }
+
+  
+  
+  /* users */
+  
+.modal-user-details {
+  text-align: center;
+}
+
+.modal-user-details img {
+  max-width: 150px; 
+  height: auto;
+  border-radius: 50%;
+}
+
+.modal-user-details h4 {
+  margin-top: 10px;
+}
+
+.user-info p {
+  margin-bottom: 10px;
+}
+
+.user-info strong {
+  width: 120px;
+  display: inline-block;
+}
+
+
+  .status-badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 0.25rem;
+      color: #fff;
+      font-weight: 400;
+  }
+
+  .status-badge.active {
+      background-color: #c5fac7;
+      color: #0fc839; 
+  }
+
+  .status-badge.inactive {
+      background-color: #f8d7da; 
+      color: #721c24; 
+  }

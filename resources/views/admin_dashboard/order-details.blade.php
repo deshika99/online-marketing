@@ -44,7 +44,7 @@
 </style>  
 
 <main style="margin-top: 58px">
-    <div class="container px-5 py-3"> 
+    <div class="container px-5 py-5"> 
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -52,7 +52,10 @@
         @endif
 
         <div class="d-flex justify-content-between align-items-center">
-            <h3 class="py-3 mb-0">Order Details</h3>
+            <h3 class="mb-1">Order Details</h3>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Order #12345</h5>
         </div>
 
 
