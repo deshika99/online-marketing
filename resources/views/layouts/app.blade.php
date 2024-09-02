@@ -25,7 +25,10 @@
 <body>
     <div id="app">
 
+    @if (!Request::is('/'))
     @include('includes.navbar')
+@endif
+
 
         <main class="mb-5">
             @yield('content')

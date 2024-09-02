@@ -198,74 +198,75 @@
 </div>
 
 <!--related products-->
-<div class="container mt-4 mb-4 related-products" style="width:85%;">
-    <h5 class="title1">Related Products</h5>
-    <div class="row">
-        <div class="col-md-3">
+<div class="container mt-5 mb-4 related-products" style="width:100%;">
+    <h4 class="title1">Related Products</h4>
+    <div class="row  justify-content-between">
+        <div class="col-2">
             <div class="special-offer-item mb-2">
                 <a href="{{ route('single_product_page', [
                             'title' => 'Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG',
                             'image' => '/assets/images/item1.png',
                             'price' => 35699
                         ]) }}">
-                    <img src="/assets/images/item1.png" class="card-img-top" alt="Fissure in Sandstone"/>
-                        <div class="card-body">
-                            <div class="wishlist"><i class="fa fa-heart"></i></div>
-                            <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                            <div class="price">Rs.35 699</div>
-                            <div class="discount">Extra 2% off with coins</div>
-                        </div>
+                    <img src="/assets/images/item1.png" class="card-img-top"/>
+                    <div class="card-body">
+                        <div class="wishlist"><i class="fa fa-heart"></i></div>
+                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
+                        <div class="price">Rs.35 699</div>
+                        <div class="discount">Extra 2% off with coins</div>
+                    </div>
                 </a>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-2">
             <div class="special-offer-item mb-2">
-                <a href="{{ route('single_product_page', [
-                            'title' => 'Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG',
-                            'image' => '/assets/images/item2.png',
-                            'price' => 35699
-                        ]) }}">
-                    <img src="/assets/images/item2.png" class="card-img-top" alt="Fissure in Sandstone"/>
-                        <div class="card-body">
-                            <div class="wishlist"><i class="fa fa-heart"></i></div>
-                            <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                            <div class="price">Rs.35 699</div>
-                            <div class="discount">Extra 2% off with coins</div>
-                        </div>
+                <a href="">
+                    <img src="/assets/images/item2.png" class="card-img-top"/>
+                    <div class="card-body">
+                        <div class="wishlist"><i class="fa fa-heart"></i></div>
+                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
+                        <div class="price">Rs.35 699</div>
+                        <div class="discount">Extra 2% off with coins</div>
+                    </div>
                 </a>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-2">
             <div class="special-offer-item mb-2">
-                <a href="{{ route('single_product_page', [
-                            'title' => 'Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG',
-                            'image' => '/assets/images/item3.png',
-                            'price' => 35699
-                        ]) }}">
-                    <img src="/assets/images/item3.png" class="card-img-top" alt="Fissure in Sandstone"/>
-                        <div class="card-body">
-                            <div class="wishlist"><i class="fa fa-heart"></i></div>
-                            <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                            <div class="price">Rs.35 699</div>
-                            <div class="discount">Extra 2% off with coins</div>
-                        </div>
+                <a href="">
+                    <img src="/assets/images/item3.png" class="card-img-top"/>
+                    <div class="card-body">
+                        <div class="wishlist"><i class="fa fa-heart"></i></div>
+                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
+                        <div class="price">Rs.35 699</div>
+                        <div class="discount">Extra 2% off with coins</div>
+                    </div>
                 </a>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="special-offer-item">
-                <a href="{{ route('single_product_page', [
-                            'title' => 'Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG',
-                            'image' => '/assets/images/item4.png',
-                            'price' => 35699
-                        ]) }}">
-                    <img src="/assets/images/item4.png" class="card-img-top" alt="Fissure in Sandstone"/>
-                        <div class="card-body">
-                            <div class="wishlist"><i class="fa fa-heart"></i></div>
-                            <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                            <div class="price">Rs.35 699</div>
-                            <div class="discount">Extra 2% off with coins</div>
-                        </div>
+        <div class="col-2">
+            <div class="special-offer-item mb-2">
+                <a href="">
+                    <img src="/assets/images/item4.png" class="card-img-top"/>
+                    <div class="card-body">
+                        <div class="wishlist"><i class="fa fa-heart"></i></div>
+                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
+                        <div class="price">Rs.35 699</div>
+                        <div class="discount">Extra 2% off with coins</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="special-offer-item mb-2">
+                <a href="">
+                    <img src="/assets/images/item4.png" class="card-img-top"/>
+                    <div class="card-body">
+                        <div class="wishlist"><i class="fa fa-heart"></i></div>
+                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
+                        <div class="price">Rs.35 699</div>
+                        <div class="discount">Extra 2% off with coins</div>
+                    </div>
                 </a>
             </div>
         </div>

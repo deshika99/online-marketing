@@ -1,12 +1,21 @@
 <style>
-    .signup-btn{
-        color:white; 
-        text-decoration:none; 
-        font-weight:500; 
-        font-size:14px;
-        background-color:black;
-        border-radius: 10px;
-    }
+
+
+    .navbar-divider {
+    height: 55px;
+    background-color: #05467c;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.otherlinks a{
+    text-decoration:none;
+    color:white;
+    font-weight:500;
+   }
+
+
 </style>
         <header>
             <div class="text-center bg-white border-bottom">
@@ -196,18 +205,17 @@
                     </div>
                 </div>
             </div>
-        </header>
 
-        
-        <!--categories-->
-        <div class="navbar-divider">
-            <div class="container d-flex justify-content-start align-items-center" style="width: 85%;">
-                <div class="category-select-wrapper">
-                    <div class="custom-dropdown">
-                        <div class="dropdown-toggle" id="dropdownMenuButton" aria-expanded="false">
-                            <i class="fas fa-bars me-3"></i> All Categories
-                        </div>
-                        <div class="dropdown-menu">
+           <!-- Navbar Divider -->
+        <div class="navbar-divider w-100 p-0">
+                <div class="container d-flex justify-content-center align-items-center" style="width: 80%;">
+                    <div class="category-select-wrapper1 d-flex justify-content-center align-items-center">
+                        <div class="custom-dropdown w-100 ms-4">
+                            <div class="dropdown-toggle" id="dropdownMenuButton" aria-expanded="false">
+                                <i class="fas fa-bars me-3"></i> All Categories
+                            </div>
+
+                            <div class="dropdown-menu">
                             <div class="dropdown-item dropdown-submenu">
                                 <a href="{{ route('dress') }}"><i class="fas fa-tshirt"></i> Dress</a>
                                 <div class="dropdown-menu multi-column">
@@ -651,11 +659,26 @@
                             </div>
 
                         </div>
+
+                        </div>
+                    </div>
+
+                    <!-- other Links -->
+                    <div class="d-flex justify-content-center align-items-center flex-grow-1 otherlinks">
+                        <a href="#" class="mx-3">Bundle Deals</a>
+                        <a href="#" class="mx-3">Top Brands</a>
+                        <a href="#" class="mx-3">Bestsellers</a>
+                        <a href="#" class="mx-3">Flash Sale</a>
+                        <a href="#" class="mx-3">New In</a>
+                        <a href="#" class="mx-3">Super Deals</a>
                     </div>
                 </div>
-            </div>
         </div>
     
+</header>
+
+        
+     
 
 
 
