@@ -10,8 +10,9 @@
     <title>Online Marketing Complex</title>
     <title>{{ config('app.name', 'Online Marketing Complex') }}</title>
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
     @include('includes.css')
 
    
