@@ -74,6 +74,7 @@ body {
 
 .special-offer-item h5 {
     text-align: left;
+    font-size: 15px;
     margin: 0;
     overflow: hidden;
     text-overflow: ellipsis;

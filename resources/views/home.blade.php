@@ -60,7 +60,11 @@
 
 </style>
 
-
+@if (session('status'))
+    <div class="alert alert-success">
+        {{ session('status') }}
+    </div>
+@endif
 <nav class="navbar navbar-expand-lg navbar-light fixed-top p-0 m-0">
     <div class="container"  style="display: flex; flex-direction: column;">
         <div class="row w-100">
@@ -804,7 +808,7 @@
 
 <!--special offers-->
 <div class="container mt-5 mb-4 special-offers" style="width:76%;">
-    <h3>Special Offers</h3>
+    <h4>Special Offers</h4>
     <div class="row  justify-content-between">
         <div class="col-2">
             <div class="special-offer-item mb-2">
@@ -882,7 +886,7 @@
 
 <!--Flash Sale-->
 <div class="container mt-5 flash-sale" style="width:76%; background: linear-gradient(to top, #f0f0f0, #ffffff);">
-    <h3><i class="fas fa-bolt" style="color: #FFD43B;"></i> Flash Sale</h3>
+    <h4><i class="fas fa-bolt" style="color: #FFD43B;"></i> Flash Sale</h4>
     <div class="row">
         <div class="col-md-2 flash-sale-item">
             <img src="/assets/images/sale2.png" alt="Product 1">

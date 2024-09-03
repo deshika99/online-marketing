@@ -31,8 +31,10 @@ Route::view('/home/house_hold_goods', 'house_hold_goods')->name('house_hold_good
 Route::view('/home/food', 'food')->name('food');
 
 
-Route::view('/home/affiliate/register', 'aff_reg')->name('aff_reg');
-Route::view('/home/affiliate/login', 'aff_login')->name('aff_login');
+Route::post('/home/affiliate/register', [AffiliateCustomerController::class, 'register'])->name('aff_reg');
+Route::view('/home/affiliate/register', 'aff_reg')->name('register_form');
+Route::post('/home/affiliate/login', [AffiliateCustomerController::class, 'login'])->name('aff_login');
+
 Route::view('/home/affiliate/all', 'aff_all')->name('aff_all');
 Route::view('/home/affiliate/single', 'aff_single')->name('aff_single');
 Route::view('/cart/payment', 'payment')->name('payment');

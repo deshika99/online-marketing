@@ -24,10 +24,11 @@
 </head>
 <body>
     <div id="app">
-
-    @if (!Request::is('/'))
+        
+    @if (!Request::is('/') && !Request::is('home/affiliate/register'))
     @include('includes.navbar')
 @endif
+
 
 
         <main class="mb-5">

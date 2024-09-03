@@ -25,6 +25,8 @@
       @include('layouts.admin_main.sidebar')
       {{-- main content --}}
         @yield('content')
+          
+        
     </div> <!-- .wrapper -->
     {{-- jquery --}}
     @include('layouts.admin_main.script')

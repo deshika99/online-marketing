@@ -114,7 +114,6 @@
                                         </div>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <!-- Add "My Profile" link -->
                                         <a class="dropdown-item" href="{{ route('dashboard') }}">
                                             {{ __('My Profile') }}
                                         </a>

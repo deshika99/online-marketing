@@ -65,7 +65,7 @@
                                     <th scope="col">Gender</th>
                                     <th scope="col">Contact No</th>
                                     <th scope="col">Email</th>
-                                    <th scope="col">Status</th>
+                                    <th scope="col" style="width:17%">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -79,7 +79,7 @@
                                     <td>{{ $customer->contactno }}</td>
                                     <td>{{ $customer->email }}</td>
                                     <td class="status">
-                                        @if (is_null($customer->status))
+                                        @if ($customer->status == 'pending')
                                             <form action="{{ route('aff_customers.updateStatus', $customer->id) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('PATCH')
@@ -87,9 +87,9 @@
                                                 <button type="submit" name="status" value="rejected" class="btn-reject btn btn-danger">Reject</button>
                                             </form>
                                         @elseif ($customer->status == 'approved')
-                                            <span class="text-primary">Approved</span>
+                                            <span class="status-approved">Approved</span>
                                         @elseif ($customer->status == 'rejected')
-                                            <span class="text-danger">Rejected</span>
+                                            <span class="status-rejected">Rejected</span>
                                         @endif
                                     </td>
                                 </tr>
