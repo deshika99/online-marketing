@@ -6,6 +6,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerOrderController;
 use App\Http\Controllers\AffiliateProductController;
 use App\Http\Controllers\AffiliateCustomerController;
+use App\Http\Controllers\Auth\RegisterController;
+
 
 Route::get('/', function () {
     return view('home');
@@ -13,7 +15,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
+
+
+
 Route::view('/home/help-center', 'helpcenter')->name('helpcenter');
 Route::view('/home/dresses', 'dress')->name('dress');
 Route::view('/home/toys', 'toys')->name('toys');
@@ -48,7 +53,7 @@ Route::get('home/My-Account/order-history', function () {
 
 Route::get('home/My-Account/order-details', function () {
     return view('order-details');
-})->name('order-details');
+})->name('myorder-details');
 
 Route::get('home/My-Account/change-password', function () {
     return view('change-password');
@@ -64,7 +69,9 @@ Route::get('home/My-Account/addresses', function () {
 
 Route::get('home/My-Account/logout', function () {
     return view('logout');
-})->name('logout');
+});
+
+
 
 
 

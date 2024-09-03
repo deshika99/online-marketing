@@ -17,6 +17,16 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            
+            // Adding new fields
+            $table->string('address')->nullable();
+            $table->string('district')->nullable();
+            $table->date('date_of_birth')->nullable();
+            $table->string('phone_num')->nullable();
+            $table->string('acc_no')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->string('branch')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
         });
@@ -47,3 +57,4 @@ return new class extends Migration
         Schema::dropIfExists('sessions');
     }
 };
+

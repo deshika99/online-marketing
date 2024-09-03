@@ -1,15 +1,13 @@
 <style>
-
-
     .navbar-divider {
     height: 55px;
     background-color: #05467c;
     padding: 10px;
     display: flex;
     align-items: center;
-}
+    }
 
-.otherlinks a{
+    .otherlinks a{
     text-decoration:none;
     color:white;
     font-weight:500;
@@ -109,25 +107,26 @@
                                     </a>
                                 @endif
                                 @else
-                                    <div class="dropdown me-3">
-                                        <a id="navbarDropdown" class="text-reset dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                            <div class="icon-circle">
-                                                {{ Auth::user()->name[0] }}
-                                            </div>
-                                        </a>
-
-                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="{{ route('logout') }}"
-                                               onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();">
-                                                {{ __('Logout') }}
-                                            </a>
-
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                                @csrf
-                                            </form>
+                                <div class="dropdown me-3">
+                                    <a id="navbarDropdown" class="text-reset dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        <div class="icon-circle">
+                                            {{ Auth::user()->name[0] }}
                                         </div>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                        <!-- Add "My Profile" link -->
+                                        <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                            {{ __('My Profile') }}
+                                        </a>
+                                        <!-- Logout link -->
+                                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                            {{ __('Logout') }}
+                                        </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                            @csrf
+                                        </form>
                                     </div>
+                                </div>
                                 @endguest
 
                                     <!-- Login Modal -->

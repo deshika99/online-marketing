@@ -1,9 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-  
-</style>
+
+
+@if (session('status'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            toastr.success("{{ session('status') }}", 'Success', {
+                positionClass: 'toast-top-right'
+            });
+        });
+    </script>
+@endif
+
 
 <div class="container mt-4 mb-5">
     <div class="row justify-content-center">
@@ -25,10 +34,10 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="Address" class="col-md-4 col-form-label text-md-start">Address</label>
+                            <label for="address" class="col-md-4 col-form-label text-md-start">Address</label>
                             <div class="col-md-7">
-                                <input id="Address" type="text" class="form-control @error('Address') is-invalid @enderror" name="Address" value="{{ old('Address') }}" required autocomplete="Address" autofocus>
-                                @error('Address')
+                                <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address') }}" autocomplete="address">
+                                @error('address')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -36,10 +45,10 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="District" class="col-md-4 col-form-label text-md-start">District</label>
+                            <label for="district" class="col-md-4 col-form-label text-md-start">District</label>
                             <div class="col-md-7">
-                                <input id="District" type="text" class="form-control @error('District') is-invalid @enderror" name="District" value="{{ old('District') }}" required autocomplete="District" autofocus>
-                                @error('District')
+                                <input id="district" type="text" class="form-control @error('district') is-invalid @enderror" name="district" value="{{ old('district') }}" autocomplete="district">
+                                @error('district')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -47,11 +56,11 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="DOB" class="col-md-4 col-form-label text-md-start">Date Of Birth</label>
+                            <label for="DOB-day" class="col-md-4 col-form-label text-md-start">Date Of Birth</label>
                             <div class="col-md-7 d-flex">
-                                <input id="DOB-day" type="text" class="form-control me-2 @error('DOB') is-invalid @enderror" name="DOB_day" placeholder="" value="{{ old('DOB_day') }}" required>
-                                <input id="DOB-month" type="text" class="form-control me-2 @error('DOB') is-invalid @enderror" name="DOB_month" placeholder="" value="{{ old('DOB_month') }}" required>
-                                <input id="DOB-year" type="text" class="form-control @error('DOB') is-invalid @enderror" name="DOB_year" placeholder="" value="{{ old('DOB_year') }}" required>
+                                <input id="DOB-day" type="text" class="form-control me-2 @error('DOB_day') is-invalid @enderror" name="DOB_day" placeholder="Day" value="{{ old('DOB_day') }}" required>
+                                <input id="DOB-month" type="text" class="form-control me-2 @error('DOB_month') is-invalid @enderror" name="DOB_month" placeholder="Month" value="{{ old('DOB_month') }}" required>
+                                <input id="DOB-year" type="text" class="form-control @error('DOB_year') is-invalid @enderror" name="DOB_year" placeholder="Year" value="{{ old('DOB_year') }}" required>
                                 @error('DOB')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -107,9 +116,9 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="Bank_name" class="col-md-4 col-form-label text-md-start">Bank</label>
+                            <label for="bank_name" class="col-md-4 col-form-label text-md-start">Bank</label>
                             <div class="col-md-7">
-                                <select id="Bank_name" class="form-control" name="Bank_name">
+                                <select id="bank_name" class="form-control" name="bank_name">
                                     <option value="" disabled selected></option>
                                     <option value="Bank 1">Bank 1</option>
                                     <option value="Bank 2">Bank 2</option>
@@ -146,4 +155,6 @@
         </div>
     </div>
 </div>
+
+
 @endsection

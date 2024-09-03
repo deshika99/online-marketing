@@ -33,6 +33,10 @@
         <main class="mb-5">
             @yield('content')
             
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+            
         </main>
     </div>
 

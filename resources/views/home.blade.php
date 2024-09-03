@@ -61,7 +61,6 @@
 </style>
 
 
-
 <nav class="navbar navbar-expand-lg navbar-light fixed-top p-0 m-0">
     <div class="container"  style="display: flex; flex-direction: column;">
         <div class="row w-100">
@@ -110,21 +109,24 @@
                             </a>
                         @endif
                     @else
-                        <div class="dropdown me-3">
-                            <a id="navbarDropdown" class="text-reset dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                <div class="icon-circle">
-                                    {{ Auth::user()->name[0] }}
-                                </div>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
+                    <div class="dropdown me-3">
+                        <a id="navbarDropdown" class="text-reset dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <div class="icon-circle">
+                                {{ Auth::user()->name[0] }}
                             </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                {{ __('My Profile') }}
+                            </a>
+                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         </div>
+                    </div>
                     @endguest
                 </div>
             </div>
@@ -619,7 +621,7 @@
                 <div class="text-white">
                     <h1 class="mb-3">Elevate Your <br>Lifestyle</h1>
                     <h5 class="mb-4">On home & living, leisure & more</h5>
-                    <a class="btn btn-outline-light btn-lg m-2" href="#" role="button" rel="nofollow">Add to Cart</a>
+                    <!--<a class="btn btn-outline-light btn-lg m-2" href="#" role="button" rel="nofollow">Add to Cart</a>-->
                 </div>
             </div>
         </div>
