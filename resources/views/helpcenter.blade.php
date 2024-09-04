@@ -24,7 +24,7 @@ a {
     color:#fff;    
 }
 
-body{margin-top:20px;}
+body{margin-top:0px;}
 .section_padding_130 {
     padding-top: 110px;
     padding-bottom: 110px;
@@ -120,17 +120,18 @@ body{margin-top:20px;}
                     <h2 class="h1 mb-3 text-black">Hi! How can we help?</h2>
                     <form class="d-flex flex-column mt-4">
                         <div class="input-group">
-                            <input autocomplete="off" type="search" class="form-control rounded" placeholder="Search" style="height: 50px;;"/>
+                            <input autocomplete="off" type="search" class="form-control rounded" placeholder="Search" style="height: 50px;"/>
                             <span class="input-group-text border-0" style="background-color: #05467c; height: 100%; width: 50px; padding:15px;">
                                 <i class="fas fa-search" style="font-size: 1.2rem; color:white;"></i>
                             </span>
                         </div>
-                    </form>
+                    </form> 
+
                 </div>
             </div>
         </div>
     </section>
-    <section class="section pt-0">
+    <section class="section pt-4">
         <div class="container">
             <div class="row gy-4 justify-content-center">
                 <div class="col-sm-6 col-md-6 col-lg-4">

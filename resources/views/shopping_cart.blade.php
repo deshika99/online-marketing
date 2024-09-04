@@ -11,6 +11,7 @@
      }
 </style>
 
+
 <div class="container mt-3 mb-5">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -31,7 +32,7 @@
                                 <input type="checkbox" class="form-check-input me-3">
                                 <img src="{{ $item['image'] ?? '/path/to/default-image.jpg' }}" class="border rounded me-3" style="width: 60px; height: 80px;" />
                                 <div>
-                                    <a href="#" class="nav-link" style="font-weight: bold; margin-bottom: 0.5rem;">{{ $item['title'] }}</a>
+                                    <a href="#" class="nav-link" style=" margin-bottom: 0.5rem;">{{ $item['title'] }}</a>
                                     <p class="text-muted" style="margin: 0;"></p>
                                 </div>
                             </div>

@@ -65,7 +65,7 @@
                         <a class="nav-link" href="{{ route('order-history') }}">Order History</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('order-details') }}">Order Details</a>
+                        <a class="nav-link" href="{{ route('myorder-details') }}">Order Details</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('points') }}">Points</a>
@@ -77,7 +77,7 @@
                         <a class="nav-link" href="{{ route('change-password') }}">Password</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-danger" href="{{ route('logout') }}">Log Out</a>
+                        <a class="nav-link text-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
                     </li>
                 </ul>
             </div>

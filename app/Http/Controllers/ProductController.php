@@ -19,11 +19,15 @@ class ProductController extends Controller
     }
 
 
+
     public function showProducts()
     {
-        $products = Products::with('category')->get(); 
-        return view('admin_dashboard.products', compact('products'));
+        $categories = Category::all();
+        $products = Products::with('category')->get();
+
+        return view('admin_dashboard.products', compact('categories', 'products'));
     }
+
     
 
     public function edit($id)

@@ -1,6 +1,10 @@
+<style>
+
+
+  </style>
 
 <header>
- <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+ <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top p-1">
       <!-- Container wrapper -->
       <div class="container-fluid">
 
@@ -9,34 +13,50 @@
             <i class="fas fa-bars"></i>
         </button>
 
-        <a class="navbar-brand ms-5" href="#">
-          <img src="/assets/images/logo.png" height="45" width="45" alt="" loading="lazy" />
-        </a>
+        <div class="col-md-4 d-flex mb-md-0 px-3">
+          <a href="" class="d-flex align-items-center" style="text-decoration: none">
+              <div class="navbar-brand me-0 p-0">
+                <img src="/assets/images/logo.png" height="52" width="35" alt="Logo"/>
+              </div>
+                <img src="/assets/images/brand_name.png" height="25" width="280" alt="brand"/>
+          </a>
+        </div>
+
         
 
-        <ul class="navbar-nav ms-auto d-flex flex-row">
-          <li class="nav-item dropdown me-3">
-            <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink"
-              role="button" data-mdb-dropdown-init aria-expanded="false">
+        <ul class="navbar-nav ms-auto d-flex align-items-center flex-row">
+          <a href="#" class="text-muted">
+              <div>
+              Help Center
+            </div>
+          </a>
+          <span class="me-2 ms-2">|</span>
+
+          <li class="nav-item dropdown me-4">
+            <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#" id="notificationsDropdown"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="fas fa-bell"></i>
               <span class="badge rounded-pill badge-notification bg-danger">1</span>
             </a>
           </li>
 
-          <li class="nav-item dropdown me-5">
+          <li class="nav-item dropdown me-2 d-flex align-items-center">
             <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
-              id="navbarDropdownMenuLink" role="button" data-mdb-dropdown-init aria-expanded="false">
-                <div class="icon-circle">
-                    <i class="fas fa-user-alt"></i>
-                </div>
+              id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="icon-circle">
+                <i class="fas fa-user-alt"></i>
+              </div>
+              <span class="ms-2">Manushi Weerasinghe</span>
             </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
               <li><a class="dropdown-item" href="#">My profile</a></li>
-              <li><a class="dropdown-item" href="#">Settings</a></li>
+              <li><a class="dropdown-item" href="#">Account Settings</a></li>
               <li><a class="dropdown-item" href="#">Logout</a></li>
             </ul>
           </li>
         </ul>
+
+
       </div>
       <!-- Container wrapper -->
     </nav>

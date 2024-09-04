@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request; 
 
 class RegisterController extends Controller
 {
@@ -52,21 +53,61 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'address' => ['nullable', 'string', 'max:255'],
+            'district' => ['nullable', 'string', 'max:255'],
+            'DOB_day' => ['nullable', 'integer', 'min:1', 'max:31'],
+            'DOB_month' => ['nullable', 'integer', 'min:1', 'max:12'],
+            'DOB_year' => ['nullable', 'integer', 'min:1900', 'max:' . date('Y')],
+            'phone_num' => ['nullable', 'string', 'max:15'],
+            'acc_no' => ['nullable', 'string', 'max:20'],
+            'bank_name' => ['nullable', 'string', 'max:255'],
+            'branch' => ['nullable', 'string', 'max:255'],
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
-    protected function create(array $data)
+
+
+   
+    public function register(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+    
+        try {
+            $user = User::create([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'password' => Hash::make($request->input('password')),
+                'address' => $request->input('address'),
+                'district' => $request->input('district'),
+                'date_of_birth' => $request->input('DOB_year') . '-' . $request->input('DOB_month') . '-' . $request->input('DOB_day'),
+                'phone_num' => $request->input('phone_num'),
+                'acc_no' => $request->input('acc_no'),
+                'bank_name' => $request->input('bank_name'),
+                'branch' => $request->input('branch'),
+            ]);
+
+            \Log::info('User created successfully with ID:', ['user_id' => $user->id]);
+            
+            return redirect('/register')->with('status', 'Successfully registered!');
+
+            return $user;
+
+        } catch (\Exception $e) {
+            \Log::error('Error creating user:', [
+                'message' => $e->getMessage(),
+                'data' => $request->all(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            throw $e; 
+        }
     }
+
 }
+    
+    
+       
+    
+
+
+
+

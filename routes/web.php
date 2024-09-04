@@ -6,6 +6,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerOrderController;
 use App\Http\Controllers\AffiliateProductController;
 use App\Http\Controllers\AffiliateCustomerController;
+use App\Http\Controllers\Auth\RegisterController;
+
 
 Route::get('/', function () {
     return view('home');
@@ -13,7 +15,10 @@ Route::get('/', function () {
 
 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
+
+
+
 Route::view('/home/help-center', 'helpcenter')->name('helpcenter');
 Route::view('/home/dresses', 'dress')->name('dress');
 Route::view('/home/toys', 'toys')->name('toys');
@@ -26,8 +31,10 @@ Route::view('/home/house_hold_goods', 'house_hold_goods')->name('house_hold_good
 Route::view('/home/food', 'food')->name('food');
 
 
-Route::view('/home/affiliate/register', 'aff_reg')->name('aff_reg');
-Route::view('/home/affiliate/login', 'aff_login')->name('aff_login');
+Route::post('/home/affiliate/register', [AffiliateCustomerController::class, 'register'])->name('aff_reg');
+Route::view('/home/affiliate/register', 'aff_reg')->name('register_form');
+Route::post('/home/affiliate/login', [AffiliateCustomerController::class, 'login'])->name('aff_login');
+
 Route::view('/home/affiliate/all', 'aff_all')->name('aff_all');
 Route::view('/home/affiliate/single', 'aff_single')->name('aff_single');
 Route::view('/cart/payment', 'payment')->name('payment');
@@ -48,7 +55,7 @@ Route::get('home/My-Account/order-history', function () {
 
 Route::get('home/My-Account/order-details', function () {
     return view('order-details');
-})->name('order-details');
+})->name('myorder-details');
 
 Route::get('home/My-Account/change-password', function () {
     return view('change-password');
@@ -64,8 +71,10 @@ Route::get('home/My-Account/addresses', function () {
 
 Route::get('home/My-Account/logout', function () {
     return view('logout');
+
 })->name('logout');
 Auth::routes();
+
 
 
 
@@ -110,6 +119,13 @@ Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy
 
 Route::get('/admin/aff_customers', [AffiliateCustomerController::class, 'showAffCustomers'])->name('aff_customers');
 Route::patch('/admin/aff_customers/{id}/status', [AffiliateCustomerController::class, 'updateStatus'])->name('aff_customers.updateStatus');
+
+Route::view('/admin/users', 'admin_dashboard.users')->name('users');
+Route::view('/admin/orders', 'admin_dashboard.orders')->name('orders');
+Route::view('/admin/order-details', 'admin_dashboard.order-details')->name('order-details');
+Route::view('/admin/customer_inquiries', 'admin_dashboard.customer_inquiries')->name('customer_inquiries');
+Route::view('/admin/category', 'admin_dashboard.category')->name('category');
+
 
 
 

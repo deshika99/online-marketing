@@ -29,8 +29,8 @@
     </nav>
 
 
-    <section class="py-5">
-        <div class="container">
+    <section class="py-3">
+        <div class="container"  style="width: 80%;">
             <div class="row gx-5">
             <aside class="col-lg-5">
                 <div class="rounded-4 mb-3 d-flex justify-content-center">
@@ -105,7 +105,7 @@
         </div>
     </section>
 
-    <section class="bg-light border-top py-4">
+    <section class="bg-light border-top py-4" >
         <div class="container">
             <div class="row gx-4">
                 <div class="col-lg-12 mb-4">
@@ -198,49 +198,80 @@
 </div>
 
 <!--related products-->
-<div class="container mt-4 mb-4 related-products">
-    <h5 class="title1">Related Products</h5>
-    <div class="row mb-5">
-        <div class="col-md-3">
-            <div class="related-product-item">
-                <img src="/assets/images/dress2.png" alt="Product 1">
-                <div class="wishlist"><i class="fa fa-heart"></i></div>
-                <h5>Party Dress for girl</h5>
-                <div class="price">Rs.5,699</div>
-                <div class="discount">Extra 2% off with coins</div>
+<div class="container mt-5 mb-4 related-products" style="width:100%;">
+    <h4 class="title1">Related Products</h4>
+    <div class="row  justify-content-between">
+        <div class="col-2">
+            <div class="special-offer-item mb-2">
+                <a href="{{ route('single_product_page', [
+                            'title' => 'Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG',
+                            'image' => '/assets/images/item1.png',
+                            'price' => 35699
+                        ]) }}">
+                    <img src="/assets/images/item1.png" class="card-img-top"/>
+                    <div class="card-body">
+                        <div class="wishlist"><i class="fa fa-heart"></i></div>
+                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
+                        <div class="price">Rs.35 699</div>
+                        <div class="discount">Extra 2% off with coins</div>
+                    </div>
+                </a>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="related-product-item">
-                <img src="/assets/images/dress3.png" alt="Product 2">
-                <div class="wishlist"><i class="fa fa-heart"></i></div>
-                <h5>Party Dress for girl</h5>
-                <div class="price">Rs.2,199</div>
-                <div class="discount">Extra 2% off with coins</div>
+        <div class="col-2">
+            <div class="special-offer-item mb-2">
+                <a href="">
+                    <img src="/assets/images/item2.png" class="card-img-top"/>
+                    <div class="card-body">
+                        <div class="wishlist"><i class="fa fa-heart"></i></div>
+                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
+                        <div class="price">Rs.35 699</div>
+                        <div class="discount">Extra 2% off with coins</div>
+                    </div>
+                </a>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="related-product-item">
-                <img src="/assets/images/dress1.png" alt="Product 3">
-                <div class="wishlist"><i class="fa fa-heart"></i></div>
-                <h5>Party Dress for girl</h5>
-                <div class="price">Rs.5,000</div>
-                <div class="discount">Extra 2% off with coins</div>
+        <div class="col-2">
+            <div class="special-offer-item mb-2">
+                <a href="">
+                    <img src="/assets/images/item3.png" class="card-img-top"/>
+                    <div class="card-body">
+                        <div class="wishlist"><i class="fa fa-heart"></i></div>
+                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
+                        <div class="price">Rs.35 699</div>
+                        <div class="discount">Extra 2% off with coins</div>
+                    </div>
+                </a>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="related-product-item">
-                <img src="/assets/images/dress4.png" alt="Product 4">
-                <div class="wishlist"><i class="fa fa-heart"></i></div>
-                <h5>Party Dress for girl</h5>
-                <div class="price">Rs.6,000</div>
-                <div class="discount">Extra 2% off with coins</div>
+        <div class="col-2">
+            <div class="special-offer-item mb-2">
+                <a href="">
+                    <img src="/assets/images/item4.png" class="card-img-top"/>
+                    <div class="card-body">
+                        <div class="wishlist"><i class="fa fa-heart"></i></div>
+                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
+                        <div class="price">Rs.35 699</div>
+                        <div class="discount">Extra 2% off with coins</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="special-offer-item mb-2">
+                <a href="">
+                    <img src="/assets/images/item4.png" class="card-img-top"/>
+                    <div class="card-body">
+                        <div class="wishlist"><i class="fa fa-heart"></i></div>
+                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
+                        <div class="price">Rs.35 699</div>
+                        <div class="discount">Extra 2% off with coins</div>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
 </div>
-
-
 
 
 <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
