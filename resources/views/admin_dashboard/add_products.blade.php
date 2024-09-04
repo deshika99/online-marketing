@@ -239,6 +239,7 @@
     const dropZone = document.getElementById('dropZone');
     const fileInput = document.getElementById('productImages');
     const previewContainer = document.getElementById('imagePreview');
+    let selectedFiles = [];
 
     dropZone.addEventListener('click', () => fileInput.click());
 
@@ -258,21 +259,26 @@
         e.preventDefault();
         e.stopPropagation();
         dropZone.classList.remove('dragover');
-        const files = e.dataTransfer.files;
+        const files = Array.from(e.dataTransfer.files);
         handleFiles(files);
     });
 
     fileInput.addEventListener('change', (e) => {
-        const files = e.target.files;
+        const files = Array.from(e.target.files);
         handleFiles(files);
     });
 
     function handleFiles(files) {
-        Array.from(files).forEach(file => {
+        files.forEach(file => {
+            selectedFiles.push(file);
+
             const reader = new FileReader();
             reader.onload = function(e) {
                 const img = document.createElement('img');
                 img.src = e.target.result;
+                img.style.maxWidth = '100px';
+                img.style.maxHeight = '100px';
+                img.style.margin = '5px';
                 
                 const deleteBtn = document.createElement('button');
                 deleteBtn.textContent = 'X';
@@ -280,6 +286,8 @@
                 deleteBtn.addEventListener('click', () => {
                     img.remove();
                     deleteBtn.remove();
+                    selectedFiles = selectedFiles.filter(f => f !== file);
+                    updateFileInput();
                 });
 
                 const container = document.createElement('div');
@@ -290,8 +298,17 @@
             };
             reader.readAsDataURL(file);
         });
+
+        updateFileInput();
+    }
+
+    function updateFileInput() {
+        const dataTransfer = new DataTransfer();
+        selectedFiles.forEach(file => dataTransfer.items.add(file));
+        fileInput.files = dataTransfer.files;
     }
 });
+
 
 </script>
 
