@@ -73,20 +73,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($products as $index => $product)
-                                <tr class="product-row" data-category="{{ $product->category_id }}" data-affiliate="{{ $product->is_affiliate ? 'true' : 'false' }}" data-id="{{ $product->id }}">
-                                    <td>{{ $index + 1 }}</td>    
+                            @foreach ($products as $index => $product)
+                                <tr class="product-row" data-category="{{ $product->category_id }}" data-affiliate="{{ $product->is_affiliate ? 'true' : 'false' }}" data-id="{{ $product->id }}" data-images="{{ $product->images->toJson() }}">
+                                    <td>{{ $index + 1 }}</td>
                                     <td>{{ $product->product_name }}</td>
                                     <td>
-                                        @if ($product->product_image)
-                                            <img src="{{ asset('storage/' . $product->product_image) }}" alt="Product Image" style="max-width: 50px;">
+                                        @if ($product->images->isNotEmpty())
+                                            <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" alt="Product Image" style="max-width: 50px;">
                                         @else
                                             No Image
                                         @endif
                                     </td>
                                     <td>{{ $product->category->name ?? 'No Category' }}</td>
                                     <td class="normal-price" style="display:none;">Rs {{ number_format($product->normal_price, 2) }}</td>
-                                    <td>10</td>
+                                    <td>{{ $product->quantity }}</td>
                                     <td class="affiliate-price" style="display:none;">Rs {{ $product->affiliate_price ? number_format($product->affiliate_price, 2) : '-' }}</td>
                                     <td class="commission" style="display:none;">{{ $product->commission_percentage ? $product->commission_percentage . '%' : '-' }}</td>
                                     <td>Rs {{ number_format($product->total_price, 2) }}</td>
@@ -116,7 +116,7 @@
 
 <!-- Product Details Modal -->
 <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg-10">
+    <div class="modal-dialog modal-lg-8">
         <div class="modal-content p-3">
             <div class="modal-header">
                 <h5 class="modal-title" id="productModalLabel">Product Details</h5>
@@ -124,21 +124,53 @@
             </div>
             <div class="modal-body">
                 <div class="modal-details">
-                    <p class="mt-2"><strong>Name:</strong> <span id="modal-product-name"></span></p>
-                    <p class=""><strong>Image:</strong> <img id="modal-product-image" src="#" alt="Product Image" class="img-fluid"></p>
-                    <p class=""><strong>Description:</strong><span id="modal-product-desc"></span></p>
-                    <p class=""><strong>Normal Price:</strong> Rs <span id="modal-normal-price"></span></p>
-                    <p class=""><strong>Quantity:</strong> <span id="modal-quantity"></span></p>
-                    <p class=""><strong>Category:</strong> <span id="modal-category"></span></p>
-                    <p class=""><strong>Affiliate:</strong> <span id="modal-affiliate"></span></p>
-                    <p class=""><strong>Affiliate Price:</strong> Rs <span id="modal-affiliate-price"></span></p>
-                    <p class=""><strong>Commission:</strong> <span id="modal-commission"></span></p>
-                    <p class=""><strong>Total Price:</strong> Rs <span id="modal-total-price"></span></p>
+                    <div class="row mb-2">
+                        <div class="col-md-3"><strong>Name:</strong></div>
+                        <div class="col-md-9" id="modal-product-name"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3"><strong>Images:</strong></div>
+                        <div class="col-md-9" id="modal-product-images" class="d-flex flex-wrap"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3"><strong>Description:</strong></div>
+                        <div class="col-md-9" id="modal-product-desc"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3"><strong>Normal Price:</strong></div>
+                        <div class="col-md-9">Rs <span id="modal-normal-price"></span></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3"><strong>Quantity:</strong></div>
+                        <div class="col-md-9" id="modal-quantity"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3"><strong>Category:</strong></div>
+                        <div class="col-md-9" id="modal-category"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3"><strong>Affiliate:</strong></div>
+                        <div class="col-md-9" id="modal-affiliate"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3"><strong>Affiliate Price:</strong></div>
+                        <div class="col-md-9">Rs <span id="modal-affiliate-price"></span></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3"><strong>Commission:</strong></div>
+                        <div class="col-md-9" id="modal-commission"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3"><strong>Total Price:</strong></div>
+                        <div class="col-md-9">Rs <span id="modal-total-price"></span></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
 
 
 
@@ -173,35 +205,48 @@
 
     // Product Details Modal
     document.querySelectorAll('.view-btn').forEach(button => {
-        button.addEventListener('click', function () {
-            const row = this.closest('.product-row');
-            const name = row.querySelector('td:nth-child(2)').textContent;
-            const imageSrc = row.querySelector('td img') ? row.querySelector('td img').src : '';
-            const desc = this.getAttribute('data-description');
-            const normalPrice = row.querySelector('.normal-price').textContent.replace('Rs ', '');
-            const quantity = row.querySelector('td:nth-child(6)').textContent;
-            const category = row.querySelector('td:nth-child(4)').textContent;
-            const affiliate = row.getAttribute('data-affiliate') === 'true' ? 'Yes' : 'No';
-            const affiliatePrice = row.querySelector('.affiliate-price').textContent.replace('Rs ', '');
-            const commission = row.querySelector('.commission').textContent;
-            const totalPrice = row.querySelector('td:nth-child(9)').textContent.replace('Rs ', '');
+    button.addEventListener('click', function () {
+        const row = this.closest('.product-row');
+        const name = row.querySelector('td:nth-child(2)').textContent;
+        const images = JSON.parse(row.getAttribute('data-images')); 
+        const desc = this.getAttribute('data-description');
+        const normalPrice = row.querySelector('.normal-price').textContent.replace('Rs ', '');
+        const quantity = row.querySelector('td:nth-child(6)').textContent;
+        const category = row.querySelector('td:nth-child(4)').textContent;
+        const affiliate = row.getAttribute('data-affiliate') === 'true' ? 'Yes' : 'No';
+        const affiliatePrice = row.querySelector('.affiliate-price').textContent.replace('Rs ', '');
+        const commission = row.querySelector('.commission').textContent;
+        const totalPrice = row.querySelector('td:nth-child(9)').textContent.replace('Rs ', '');
 
-            document.getElementById('modal-product-name').textContent = name;
-            document.getElementById('modal-product-image').src = imageSrc;
-            document.getElementById('modal-product-desc').textContent = desc;
-            document.getElementById('modal-normal-price').textContent = normalPrice;
-            document.getElementById('modal-quantity').textContent = quantity;
-            document.getElementById('modal-category').textContent = category;
-            document.getElementById('modal-affiliate').textContent = affiliate;
-            document.getElementById('modal-affiliate-price').textContent = affiliatePrice;
-            document.getElementById('modal-commission').textContent = commission;
-            document.getElementById('modal-total-price').textContent = totalPrice;
+        document.getElementById('modal-product-name').textContent = name;
+        const imageContainer = document.getElementById('modal-product-images');
+        imageContainer.innerHTML = ''; 
 
-            const modalElement = document.getElementById('productModal');
-            const modal = new bootstrap.Modal(modalElement);
-            modal.show();
+        images.forEach(image => {
+            const img = document.createElement('img');
+            img.src = `/storage/${image.image_path}`;
+            img.className = 'img-fluid me-2 mb-2';
+            img.style.maxWidth = '100px'; // Adjust as needed
+            imageContainer.appendChild(img);
         });
+
+        document.getElementById('modal-product-desc').textContent = desc;
+        document.getElementById('modal-normal-price').textContent = normalPrice;
+        document.getElementById('modal-quantity').textContent = quantity;
+        document.getElementById('modal-category').textContent = category;
+        document.getElementById('modal-affiliate').textContent = affiliate;
+        document.getElementById('modal-affiliate-price').textContent = affiliatePrice;
+        document.getElementById('modal-commission').textContent = commission;
+        document.getElementById('modal-total-price').textContent = totalPrice;
+
+        const modalElement = document.getElementById('productModal');
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
     });
+});
+
+
+
 });
 
     </script>

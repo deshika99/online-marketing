@@ -98,7 +98,11 @@
                                         <div class="deal-items">
                                             <input type="checkbox" class="select-item-checkbox" data-product-id="{{ $product->id }}" style="position: absolute; left: 12px;">
                                             <a href="#">
-                                                <img src="{{ asset('storage/' . $product->product_image) }}" alt="{{ $product->product_name }}" class="img-fluid">
+                                                @if($product->images->isNotEmpty())
+                                                    <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" alt="{{ $product->product_name }}" class="img-fluid">
+                                                @else
+                                                    <img src="{{ asset('storage/default-image.png') }}" alt="Default Image" class="img-fluid">
+                                                @endif
                                                 <p>{{ $product->product_name }}</p>
                                                 <p class="description">{{ $product->product_description }}</p>
                                                 <div class="price mb-2">Rs.{{ $product->total_price }}</div>
@@ -115,6 +119,7 @@
                                 @endforeach
                             </div>
                         </div>
+
                     </div>
           
 
@@ -174,14 +179,17 @@
                                 </div>
                             </div>
                         </form>
-                        <div class="container mt-4 mb-4">
-                            <div class="row">
+                        <div class="row">
                                 @foreach($highCom as $product)
-                                    <div class="col-md-3 mb-4">
+                                    <div class="col-md-3">
                                         <div class="deal-items">
-                                            <input type="checkbox" class="select-item-checkbox2" data-product-id="{{ $product->id }}" style="position: absolute; left: 12px;">
+                                            <input type="checkbox" class="select-item-checkbox" data-product-id="{{ $product->id }}" style="position: absolute; left: 12px;">
                                             <a href="#">
-                                                <img src="{{ asset('storage/' . $product->product_image) }}" alt="{{ $product->product_name }}" class="img-fluid">
+                                                @if($product->images->isNotEmpty())
+                                                    <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" alt="{{ $product->product_name }}" class="img-fluid">
+                                                @else
+                                                    <img src="{{ asset('storage/default-image.png') }}" alt="Default Image" class="img-fluid">
+                                                @endif
                                                 <p>{{ $product->product_name }}</p>
                                                 <p class="description">{{ $product->product_description }}</p>
                                                 <div class="price mb-2">Rs.{{ $product->total_price }}</div>
@@ -191,7 +199,7 @@
                                                 <div class="commission mb-2">
                                                     Est. Commission Rs. {{ $commissionPrice }} | {{ $product->commission_percentage }}%
                                                 </div>
-                                                <a href="#" class="btn btn-primary btn_promote">Promote Now</a>
+                                                <a href="#" class="btn btn-primary btn_promote mb-4">Promote Now</a>
                                             </a>
                                         </div>
                                     </div>
