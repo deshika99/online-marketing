@@ -318,13 +318,11 @@
         });
     }
 
-    // Handle delete button click for existing images
     previewContainer.addEventListener('click', function(e) {
         if (e.target.classList.contains('delete-btn')) {
             const container = e.target.closest('.image-container');
             const imageId = container.dataset.imageId;
             
-            // If imageId is defined, mark the image for deletion
             if (imageId) {
                 const hiddenInput = document.createElement('input');
                 hiddenInput.type = 'hidden';
@@ -333,7 +331,6 @@
                 document.forms[0].appendChild(hiddenInput);
             }
 
-            // Remove the image preview
             container.remove();
         }
     });

@@ -54,118 +54,117 @@ class ProductController extends Controller
 
 
     public function update(Request $request, $id)
-{
-    $request->merge([
-        'affiliateProduct' => $request->has('affiliateProduct') ? true : false,
-    ]);
+    {
+        $request->merge([
+            'affiliateProduct' => $request->has('affiliateProduct') ? true : false,
+        ]);
 
-    $validatedData = $request->validate([
-        'productName' => 'required|string|max:255',
-        'productDesc' => 'required|string',
-        'productImages.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Multiple images
-        'normalPrice' => 'required|numeric|min:0',
-        'affiliateProduct' => 'nullable|boolean',
-        'affiliatePrice' => 'nullable|numeric|min:0',
-        'commissionPercentage' => 'nullable|numeric|min:0|max:100',
-        'totalPrice' => 'required|numeric|min:0',
-        'category' => 'required|string',
-        'deleteImages' => 'nullable|array',
-        'deleteImages.*' => 'nullable|numeric|exists:product_images,id', // Image IDs to delete
-    ]);
+        $validatedData = $request->validate([
+            'productName' => 'required|string|max:255',
+            'productDesc' => 'required|string',
+            'productImages.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'normalPrice' => 'required|numeric|min:0',
+            'affiliateProduct' => 'nullable|boolean',
+            'affiliatePrice' => 'nullable|numeric|min:0',
+            'commissionPercentage' => 'nullable|numeric|min:0|max:100',
+            'totalPrice' => 'required|numeric|min:0',
+            'category' => 'required|string',
+            'deleteImages' => 'nullable|array',
+            'deleteImages.*' => 'nullable|numeric|exists:product_images,id', 
+        ]);
 
-    $product = Products::findOrFail($id);
+        $product = Products::findOrFail($id);
 
-    $product->update([
-        'product_name' => $validatedData['productName'],
-        'product_description' => $validatedData['productDesc'],
-        'normal_price' => $validatedData['normalPrice'],
-        'is_affiliate' => $request->input('affiliateProduct'),
-        'affiliate_price' => $validatedData['affiliatePrice'] ?? null,
-        'commission_percentage' => $validatedData['commissionPercentage'] ?? null,
-        'total_price' => $validatedData['totalPrice'],
-        'product_category' => $validatedData['category'],
-    ]);
+        $product->update([
+            'product_name' => $validatedData['productName'],
+            'product_description' => $validatedData['productDesc'],
+            'normal_price' => $validatedData['normalPrice'],
+            'is_affiliate' => $request->input('affiliateProduct'),
+            'affiliate_price' => $validatedData['affiliatePrice'] ?? null,
+            'commission_percentage' => $validatedData['commissionPercentage'] ?? null,
+            'total_price' => $validatedData['totalPrice'],
+            'product_category' => $validatedData['category'],
+        ]);
 
-    // Delete selected images
-    if ($request->has('deleteImages')) {
-        foreach ($request->input('deleteImages') as $imageId) {
-            $image = ProductImage::find($imageId);
-            if ($image) {
-                // Delete the file from storage
-                if (Storage::exists('public/' . $image->image_path)) {
-                    Storage::delete('public/' . $image->image_path);
+
+        if ($request->has('deleteImages')) {
+            foreach ($request->input('deleteImages') as $imageId) {
+                $image = ProductImage::find($imageId);
+                if ($image) {
+                    if (Storage::exists('public/' . $image->image_path)) {
+                        Storage::delete('public/' . $image->image_path);
+                    }
+                    $image->delete();
                 }
-                $image->delete();
             }
         }
-    }
 
-    // Handle new images
-    if ($request->hasFile('productImages')) {
-        foreach ($request->file('productImages') as $image) {
-            $imageName = time() . '_' . $image->getClientOriginalName(); // Unique name
-            $imagePath = $image->storeAs('product_images', $imageName, 'public');
 
-            ProductImage::create([
-                'product_id' => $product->id,
-                'image_path' => $imagePath,
-            ]);
+        if ($request->hasFile('productImages')) {
+            foreach ($request->file('productImages') as $image) {
+                $imageName = time() . '_' . $image->getClientOriginalName(); // Unique name
+                $imagePath = $image->storeAs('product_images', $imageName, 'public');
+
+                ProductImage::create([
+                    'product_id' => $product->id,
+                    'image_path' => $imagePath,
+                ]);
+            }
         }
-    }
 
-    return redirect()->route('products')->with('success', 'Product updated successfully!');
-}
+        return redirect()->route('products')->with('success', 'Product updated successfully!');
+    }
 
     
     
 
 
     public function store(Request $request)
-{
-    $request->merge([
-        'affiliateProduct' => $request->has('affiliateProduct') ? true : false,
-    ]);
+    {
+        $request->merge([
+            'affiliateProduct' => $request->has('affiliateProduct') ? true : false,
+        ]);
 
-    $request->validate([
-        'productName' => 'required|string|max:255',
-        'productDesc' => 'nullable|string',
-        'productImages' => 'nullable|array',
-        'productImages.*' => 'nullable|image|max:2048',
-        'normalPrice' => 'required|numeric',
-        'affiliateProduct' => 'required|boolean',
-        'affiliatePrice' => 'nullable|numeric',
-        'commissionPercentage' => 'nullable|numeric|min:0|max:100',
-        'totalPrice' => 'required|numeric',
-        'category' => 'required|string',
-        'quantity' => 'nullable|numeric',
-    ]);
+        $request->validate([
+            'productName' => 'required|string|max:255',
+            'productDesc' => 'nullable|string',
+            'productImages' => 'nullable|array',
+            'productImages.*' => 'nullable|image|max:2048',
+            'normalPrice' => 'required|numeric',
+            'affiliateProduct' => 'required|boolean',
+            'affiliatePrice' => 'nullable|numeric',
+            'commissionPercentage' => 'nullable|numeric|min:0|max:100',
+            'totalPrice' => 'required|numeric',
+            'category' => 'required|string',
+            'quantity' => 'nullable|numeric',
+        ]);
 
-    $product = Products::create([
-        'product_name' => $request->input('productName'),
-        'product_description' => $request->input('productDesc'),
-        'normal_price' => $request->input('normalPrice'),
-        'is_affiliate' => $request->input('affiliateProduct'),
-        'affiliate_price' => $request->input('affiliatePrice'),
-        'commission_percentage' => $request->input('commissionPercentage'),
-        'total_price' => $request->input('totalPrice'),
-        'product_category' => $request->input('category'), 
-        'quantity' => $request->input('quantity'),
-    ]);
+        $product = Products::create([
+            'product_name' => $request->input('productName'),
+            'product_description' => $request->input('productDesc'),
+            'normal_price' => $request->input('normalPrice'),
+            'is_affiliate' => $request->input('affiliateProduct'),
+            'affiliate_price' => $request->input('affiliatePrice'),
+            'commission_percentage' => $request->input('commissionPercentage'),
+            'total_price' => $request->input('totalPrice'),
+            'product_category' => $request->input('category'), 
+            'quantity' => $request->input('quantity'),
+        ]);
 
-    if ($request->hasFile('productImages')) {
-        foreach ($request->file('productImages') as $image) {
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $imagePath = $image->storeAs('product_images', $imageName, 'public');
+        if ($request->hasFile('productImages')) {
+            foreach ($request->file('productImages') as $image) {
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                $imagePath = $image->storeAs('product_images', $imageName, 'public');
 
-            ProductImage::create([
-                'product_id' => $product->id,
-                'image_path' => $imagePath,
-            ]);
+                ProductImage::create([
+                    'product_id' => $product->id,
+                    'image_path' => $imagePath,
+                ]);
+            }
         }
-    }
 
-    return redirect()->route('products')->with('success', 'Product added successfully!');
-}
+        return redirect()->route('products')->with('success', 'Product added successfully!');
+    }
 
 
     
