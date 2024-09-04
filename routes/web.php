@@ -13,7 +13,7 @@ Route::get('/', function () {
     return view('home');
 });
 
-Auth::routes();
+
 
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
@@ -71,8 +71,9 @@ Route::get('home/My-Account/addresses', function () {
 
 Route::get('home/My-Account/logout', function () {
     return view('logout');
-});
 
+})->name('logout');
+Auth::routes();
 
 
 
