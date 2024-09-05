@@ -90,7 +90,9 @@ Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('or
 
 
 //affiliate dashboard
-Route::view('/affiliate/dashboard', 'affiliate_dashboard.index')->name('index');
+
+Route::get('/affiliate/dashboard', [AffiliateCustomerController::class, 'index'])->name('index');
+Route::post('/affiliate/logout', [AffiliateCustomerController::class, 'logout'])->name('logout');
 Route::get('/affiliate/dashboard/ad_center', [AffiliateProductController::class, 'showAdCenter'])->name('ad_center');
 
 Route::view('/affiliate/dashboard/code_center', 'affiliate_dashboard.code_center')->name('code_center');
@@ -116,6 +118,7 @@ Route::get('/admin/products', [ProductController::class, 'showProducts'])->name(
 Route::get('/admin/products/edit/{id}', [ProductController::class, 'edit'])->name('edit_product');
 Route::put('/admin/products/{id}', [ProductController::class, 'update'])->name('update_product');
 Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy'])->name('delete_product');
+
 
 Route::get('/admin/aff_customers', [AffiliateCustomerController::class, 'showAffCustomers'])->name('aff_customers');
 Route::patch('/admin/aff_customers/{id}/status', [AffiliateCustomerController::class, 'updateStatus'])->name('aff_customers.updateStatus');

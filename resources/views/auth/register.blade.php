@@ -120,9 +120,10 @@
                             <div class="col-md-7">
                                 <select id="bank_name" class="form-control" name="bank_name">
                                     <option value="" disabled selected></option>
-                                    <option value="Bank 1">Bank 1</option>
-                                    <option value="Bank 2">Bank 2</option>
-                                    <option value="Bank 3">Bank 3</option>
+                                    <option value="Bank 1">BOC</option>
+                                    <option value="Bank 2">People's Bank</option>
+                                    <option value="Bank 3">Commercial</option>
+                                    <option value="Bank 3">HNB</option>
                                 </select>
                             </div>
                         </div>

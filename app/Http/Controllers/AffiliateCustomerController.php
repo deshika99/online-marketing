@@ -84,7 +84,7 @@ class AffiliateCustomerController extends Controller
                     Session::put('customer_id', $customer->id);
                     Session::put('customer_name', $customer->name);
                     
-                    return redirect()->route('index');
+                    return redirect()->route('index', ['affiliate_id' => $customer->id]);
                 } else {
                     return redirect()->route('register_form')->withErrors(['password' => 'Invalid credentials.']);
                 }
@@ -96,7 +96,21 @@ class AffiliateCustomerController extends Controller
     
     
     
+
+    public function index()
+    {
+        $affiliateId = Session::get('customer_id');
+        $affiliateName = $affiliateId ? Aff_Customer::find($affiliateId)->name : 'Guest';
     
+        return view('affiliate_dashboard.index', compact('affiliateName', 'affiliateId'));
+    }
+    
+
+    public function logout(Request $request)
+    {
+        Session::flush();
+        return redirect()->route('register_form');
+    }
 
 
 }

@@ -2,26 +2,23 @@
 
 @section('content')
 <style>
-    .btn-create {
+   .btn-create {
         font-size: 0.8rem;
     }
 
     .form-group {
         margin-bottom: 1rem;
         display: flex;
-        flex-direction: column;
+         flex-direction: column; 
     }
 
     .form-group label {
         font-weight: bold;
+        display: block;
     }
 
     .form-control[readonly] {
         background-color: #e9ecef;
-    }
-
-    .card {
-        padding: 1.5rem;
     }
 
     .card-body {
@@ -62,36 +59,37 @@
     }
 
     .drop-zone {
-    border: 2px dashed #ddd;
-    border-radius: 5px;
-    padding: 2rem;
-    text-align: center;
-    cursor: pointer;
-    background-color: #f9f9f9;
-}
+        border: 2px dashed #ddd;
+        border-radius: 5px;
+        padding: 2rem;
+        text-align: center;
+        cursor: pointer;
+        background-color: #f9f9f9;
+    }
 
-.drop-zone p {
-    margin: 0;
-    color: #666;
-}
+    .drop-zone p {
+        margin: 0;
+        color: #666;
+    }
 
-.drop-zone img {
-    position: relative;
-}
+    .drop-zone img {
+        position: relative;
+    }
 
-.drop-zone .delete-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
+    .drop-zone .delete-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+    }
 
 </style>
+
+
 
 <main style="margin-top: 20px">
     <div class="container p-5"> 
@@ -101,42 +99,56 @@
             </div>
         @endif
         <div class="d-flex justify-content-between align-items-center">
-            <h4 class="py-3 mb-0">Add Products</h4>
+            <h4 class="py-2 mb-0 ms-4">Add Products</h4>
         </div>
 
-        <div class="card-container">
+        <div class="card-container px-4">
             <!-- Product Form Card -->
-            <div class="card">
+            <div class="card py-3 px-5">
                 <div class="card-body">
                     <form id="productForm" action="{{ route('store_product') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group">
-                            <label for="productName">Product Name</label>
-                            <input type="text" id="productName" name="productName" class="form-control" placeholder="Enter product name">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="productDesc">Product Description</label>
-                            <input type="text" id="productDesc" name="productDesc" class="form-control" placeholder="Enter product description">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="productImages">Product Images</label>
-                            <div id="dropZone" class="drop-zone">
-                                <p><i class="fas fa-images me-2"></i>Drag and drop images here or click to select</p>
-                                <input type="file" id="productImages" name="productImages[]" class="form-control" accept="image/*" multiple style="display: none;">
-                                <div class="image-preview" id="imagePreview"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="productName">Product Name</label>
+                                    <input type="text" id="productName" name="productName" class="form-control" placeholder="Enter product name">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="productDesc">Product Description</label>
+                                    <input type="text" id="productDesc" name="productDesc" class="form-control" placeholder="Enter product description">
+                                </div>
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="productImages">Product Images</label>
+                                    <div id="dropZone" class="drop-zone">
+                                        <p><i class="fas fa-images me-2"></i>Drag and drop images here or click to select</p>
+                                        <input type="file" id="productImages" name="productImages[]" accept="image/*" multiple style="display: none;">
+                                        <div class="image-preview" id="imagePreview"></div>
+                                    </div>
+                                </div>
 
-                        <div class="form-group">
-                            <label for="category">Category</label>
-                            <select id="category" name="category" class="form-control">
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                @endforeach
-                            </select>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="category">Category</label>
+                                    <select id="category" name="category" class="form-control">
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="quantity">Quantity</label>
+                                    <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter quantity">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -151,6 +163,7 @@
                             </div>
                         </div>
 
+
                         <div class="form-group" id="affiliatePriceGroup" style="display: none;">
                             <label for="affiliatePrice">Affiliate Price</label>
                             <input type="number" id="affiliatePrice" name="affiliatePrice" class="form-control" placeholder="Enter affiliate price" step="0.01">
@@ -161,6 +174,7 @@
                             <input type="number" id="commissionPercentage" name="commissionPercentage" class="form-control" placeholder="Enter commission percentage" step="0.01" min="0" max="100">
                         </div>
 
+
                         <div class="form-group">
                             <label for="totalPrice">Total Price</label>
                             <input type="text" id="totalPrice" name="totalPrice" class="form-control" readonly>
@@ -170,46 +184,14 @@
                     </form>
                 </div>
             </div>
-
-            <!-- Inventory Card -->
-            <div class="card" style="height:300px;">
-                <div class="card-body p-0">
-                    <div class="inventory-group">
-                        <div class="form-group">
-                            <label for="quantity">Quantity</label>
-                            <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter quantity">
-                        </div>
-
-                        <button type="button" id="confirmButton" class="btn btn-primary" style="background-color: #007bff;">Confirm</button>
-                    </div>
-
-                    <div class="inventory-details">
-                        <div class="form-group1" style="display: flex; align-items: center;">
-                            <label for="inStockQuantity" style="margin-right: 1rem; font-weight: bold;">In Stock Quantity:</label>
-                            <p id="inStockQuantity" class="m-0">0</p>
-                        </div>
-
-                        <div class="form-group1" style="display: flex; align-items: center;">
-                            <label for="lastRestocked" style="margin-right: 1rem; font-weight: bold;">Last Time Restocked:</label>
-                            <p id="lastRestocked" class="m-0">30th August, 2024</p>
-                        </div>
-
-                        <div class="form-group1" style="display: flex; align-items: center;">
-                            <label for="totalStockOvertime" style="margin-right: 1rem; font-weight: bold;">Total Stock Overtime:</label>
-                            <p id="totalStockOvertime" class="m-0">120</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             
         </div>
     </div>
 </main>
 
+
 <script>
   
-
     document.addEventListener('DOMContentLoaded', function() {
         const affiliateCheckbox = document.getElementById('affiliateProduct');
         const affiliatePriceGroup = document.getElementById('affiliatePriceGroup');
@@ -221,8 +203,8 @@
 
         affiliateCheckbox.addEventListener('change', function() {
             if (affiliateCheckbox.checked) {
-                affiliatePriceGroup.style.display = 'flex'; // Use 'flex' to align items
-                commissionGroup.style.display = 'flex'; // Use 'flex' to align items
+                affiliatePriceGroup.style.display = 'flex'; 
+                commissionGroup.style.display = 'flex'; 
             } else {
                 affiliatePriceGroup.style.display = 'none';
                 commissionGroup.style.display = 'none';
@@ -257,6 +239,7 @@
     const dropZone = document.getElementById('dropZone');
     const fileInput = document.getElementById('productImages');
     const previewContainer = document.getElementById('imagePreview');
+    let selectedFiles = [];
 
     dropZone.addEventListener('click', () => fileInput.click());
 
@@ -276,21 +259,26 @@
         e.preventDefault();
         e.stopPropagation();
         dropZone.classList.remove('dragover');
-        const files = e.dataTransfer.files;
+        const files = Array.from(e.dataTransfer.files);
         handleFiles(files);
     });
 
     fileInput.addEventListener('change', (e) => {
-        const files = e.target.files;
+        const files = Array.from(e.target.files);
         handleFiles(files);
     });
 
     function handleFiles(files) {
-        Array.from(files).forEach(file => {
+        files.forEach(file => {
+            selectedFiles.push(file);
+
             const reader = new FileReader();
             reader.onload = function(e) {
                 const img = document.createElement('img');
                 img.src = e.target.result;
+                img.style.maxWidth = '100px';
+                img.style.maxHeight = '100px';
+                img.style.margin = '5px';
                 
                 const deleteBtn = document.createElement('button');
                 deleteBtn.textContent = 'X';
@@ -298,6 +286,8 @@
                 deleteBtn.addEventListener('click', () => {
                     img.remove();
                     deleteBtn.remove();
+                    selectedFiles = selectedFiles.filter(f => f !== file);
+                    updateFileInput();
                 });
 
                 const container = document.createElement('div');
@@ -308,8 +298,17 @@
             };
             reader.readAsDataURL(file);
         });
+
+        updateFileInput();
+    }
+
+    function updateFileInput() {
+        const dataTransfer = new DataTransfer();
+        selectedFiles.forEach(file => dataTransfer.items.add(file));
+        fileInput.files = dataTransfer.files;
     }
 });
+
 
 </script>
 

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('product_name');
             $table->text('product_description')->nullable();
-            $table->string('product_image')->nullable(); 
             $table->string('product_category')->nullable();
+            $table->integer('quantity')->nullable();
             $table->decimal('normal_price', 8, 2);
             $table->boolean('is_affiliate')->default(false);
             $table->decimal('affiliate_price', 8, 2)->nullable();

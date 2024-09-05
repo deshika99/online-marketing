@@ -14,8 +14,8 @@ class Products extends Model
     protected $fillable = [
         'product_name',
         'product_description',
-        'product_image',
         'product_category',
+        'quantity',
         'normal_price',
         'is_affiliate',
         'affiliate_price',
@@ -28,4 +28,12 @@ class Products extends Model
     {
         return $this->belongsTo(Category::class, 'product_category');
     }
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class, 'product_id');
+    }
+    
+    
+
 }

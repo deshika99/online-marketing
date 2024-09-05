@@ -283,7 +283,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="color:red">
-                Your registration is rejected.
+                Unfortunately, your registration has been rejected.
             </div>
         </div>
     </div>
