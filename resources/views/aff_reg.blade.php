@@ -62,23 +62,15 @@
 
                         <div class="col-md-3 d-flex justify-content-center justify-content-md-end align-items-center">
                             <div class="d-flex align-items-center">                      
-                                @guest
-                                @if (Route::has('login'))
                                     <a class="text-reset me-3 signup-btn p-2" href="#" data-bs-toggle="modal" data-bs-target="#affloginModal">
                                         <div style="font-weight:500; color:white">
                                            LOGIN
                                         </div>
                                     </a>
-                                @endif
-                                @else
                                 <div class="dropdown me-3">
                                     <a id="navbarDropdown" class="text-reset dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        <div class="icon-circle">
-                                            {{ Auth::user()->name[0] }}
-                                        </div>
                                     </a>
                                 </div>
-                                @endguest
                             </div>
                         </div>
                     </div>

@@ -70,7 +70,6 @@ class RegisterController extends Controller
    
     public function register(Request $request)
     {
-    
         try {
             $user = User::create([
                 'name' => $request->input('name'),
@@ -83,14 +82,12 @@ class RegisterController extends Controller
                 'acc_no' => $request->input('acc_no'),
                 'bank_name' => $request->input('bank_name'),
                 'branch' => $request->input('branch'),
+                'role' => 'customer',  
             ]);
 
             \Log::info('User created successfully with ID:', ['user_id' => $user->id]);
             
             return redirect('/register')->with('status', 'Successfully registered!');
-
-            return $user;
-
         } catch (\Exception $e) {
             \Log::error('Error creating user:', [
                 'message' => $e->getMessage(),
@@ -101,6 +98,7 @@ class RegisterController extends Controller
             throw $e; 
         }
     }
+
 
 }
     

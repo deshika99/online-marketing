@@ -49,7 +49,7 @@
             <a href="{{ route('category') }}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init>
                 <i class="fa-solid fa-folder-tree text-muted"></i><span  class="text-muted">Product Categories</span>
             </a>
-            <a href="{{ route('users') }}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init>
+            <a href="{{ route('show_users') }}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init>
                 <i class="fas fa-user text-muted"></i><span class="text-muted">User Management</span>
             </a>
             

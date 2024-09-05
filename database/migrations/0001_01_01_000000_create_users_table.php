@@ -26,6 +26,10 @@ return new class extends Migration
             $table->string('acc_no')->nullable();
             $table->string('bank_name')->nullable();
             $table->string('branch')->nullable();
+            $table->timestamp('last_login')->nullable();
+            $table->string('role')->nullable();
+            $table->string('profile_image')->nullable();
+            $table->string('status')->nullable();
 
             $table->rememberToken();
             $table->timestamps();

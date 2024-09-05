@@ -7,6 +7,8 @@ use App\Http\Controllers\CustomerOrderController;
 use App\Http\Controllers\AffiliateProductController;
 use App\Http\Controllers\AffiliateCustomerController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\UserController;
 
 
 Route::get('/', function () {
@@ -16,7 +18,7 @@ Route::get('/', function () {
 
 
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
-
+Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
 
 Route::view('/home/help-center', 'helpcenter')->name('helpcenter');
@@ -31,9 +33,9 @@ Route::view('/home/house_hold_goods', 'house_hold_goods')->name('house_hold_good
 Route::view('/home/food', 'food')->name('food');
 
 
-Route::post('/home/affiliate/register', [AffiliateCustomerController::class, 'register'])->name('aff_reg');
-Route::view('/home/affiliate/register', 'aff_reg')->name('register_form');
-Route::post('/home/affiliate/login', [AffiliateCustomerController::class, 'login'])->name('aff_login');
+
+
+
 
 Route::view('/home/affiliate/all', 'aff_all')->name('aff_all');
 Route::view('/home/affiliate/single', 'aff_single')->name('aff_single');
@@ -71,11 +73,9 @@ Route::get('home/My-Account/addresses', function () {
 
 Route::get('home/My-Account/logout', function () {
     return view('logout');
+});
 
-})->name('logout');
 Auth::routes();
-
-
 
 
 
@@ -90,9 +90,11 @@ Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('or
 
 
 //affiliate dashboard
-
+Route::post('/home/affiliate/register', [AffiliateCustomerController::class, 'register'])->name('aff_reg');
+Route::view('/home/affiliate/register', 'aff_reg')->name('register_form');
+Route::post('/home/affiliate/login', [AffiliateCustomerController::class, 'login'])->name('aff_login');
 Route::get('/affiliate/dashboard', [AffiliateCustomerController::class, 'index'])->name('index');
-Route::post('/affiliate/logout', [AffiliateCustomerController::class, 'logout'])->name('logout');
+Route::post('/affiliate/logout', [AffiliateCustomerController::class, 'logout'])->name('aff_logout');
 Route::get('/affiliate/dashboard/ad_center', [AffiliateProductController::class, 'showAdCenter'])->name('ad_center');
 
 Route::view('/affiliate/dashboard/code_center', 'affiliate_dashboard.code_center')->name('code_center');
@@ -123,11 +125,21 @@ Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy
 Route::get('/admin/aff_customers', [AffiliateCustomerController::class, 'showAffCustomers'])->name('aff_customers');
 Route::patch('/admin/aff_customers/{id}/status', [AffiliateCustomerController::class, 'updateStatus'])->name('aff_customers.updateStatus');
 
-Route::view('/admin/users', 'admin_dashboard.users')->name('users');
+Route::get('/admin/users', [UserController::class, 'show_users'])->name('show_users');
+Route::get('/admin/users/{id}/edit', [UserController::class, 'edit'])->name('edit_user');
+Route::put('/admin/users/{id}', [UserController::class, 'update'])->name('update_user');
+Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('delete_user');
+Route::get('/admin/users/{id}', [UserController::class, 'getUserDetails']);
+Route::post('/admin/users', [UserController::class, 'store'])->name('admin_users.store');
+
+
 Route::view('/admin/orders', 'admin_dashboard.orders')->name('orders');
 Route::view('/admin/order-details', 'admin_dashboard.order-details')->name('order-details');
 Route::view('/admin/customer_inquiries', 'admin_dashboard.customer_inquiries')->name('customer_inquiries');
-Route::view('/admin/category', 'admin_dashboard.category')->name('category');
+
+Route::get('/admin/category', [CategoryController::class, 'showCategories'])->name('category');
+Route::post('/admin/category/add', [CategoryController::class, 'store'])->name('category_add');
+
 
 
 

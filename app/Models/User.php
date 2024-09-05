@@ -21,12 +21,16 @@ class User extends Authenticatable
         'email',
         'password',
         'address',
+        'profile_image',
         'district',
         'date_of_birth',
         'phone_num',
         'acc_no',
         'bank_name',
         'branch',
+        'role',
+        'status',
+        'last_login',
     ];
     
 

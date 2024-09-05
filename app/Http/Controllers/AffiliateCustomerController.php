@@ -108,9 +108,12 @@ class AffiliateCustomerController extends Controller
 
     public function logout(Request $request)
     {
-        Session::flush();
+        Session::forget('affiliate_customer_id');
+        Session::forget('affiliate_customer_name');
+        
         return redirect()->route('register_form');
     }
+    
 
 
 }
