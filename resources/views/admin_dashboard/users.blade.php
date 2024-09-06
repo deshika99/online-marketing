@@ -101,8 +101,8 @@
                                         </button>
                                         
                                         <a href="#" class="btn btn-warning btn-sm" data-id="{{ $user->id }}" data-bs-toggle="modal" data-bs-target="#editUserModal" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">
-    <i class="fas fa-edit"></i>
-</a>
+                                            <i class="fas fa-edit"></i>
+                                        </a>
                                       
                                         <form action="{{ route('delete_user', ['id' => $user->id]) }}" method="POST" style="display:inline;">
                                             @csrf
@@ -295,17 +295,22 @@ document.addEventListener('DOMContentLoaded', function() {
             fetch(`/admin/users/${userId}/edit`)
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('userId').value = data.id;
-                    document.getElementById('Name').value = data.name;
-                    document.getElementById('email').value = data.email;
-                    document.getElementById('contact').value = data.phone_num;
-                    document.getElementById('role').value = data.role;
+                    console.log('Fetched data:', data); // Debugging: Check the fetched data
+
+                    // Check for null or undefined values
+                    document.getElementById('userId').value = data.id || '';
+                    document.getElementById('Name').value = data.name || '';
+                    document.getElementById('email').value = data.email || '';
+                    document.getElementById('contact').value = data.phone_num || '';
+                    document.getElementById('role').value = data.role || '';
                     document.getElementById('statusCheckbox').checked = data.status === 'Active';
+
                 })
                 .catch(error => console.error('Error fetching user details:', error));
         });
     });
 });
+
 
 </script>
 

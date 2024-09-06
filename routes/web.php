@@ -96,6 +96,10 @@ Route::post('/home/affiliate/login', [AffiliateCustomerController::class, 'login
 Route::get('/affiliate/dashboard', [AffiliateCustomerController::class, 'index'])->name('index');
 Route::post('/affiliate/logout', [AffiliateCustomerController::class, 'logout'])->name('aff_logout');
 Route::get('/affiliate/dashboard/ad_center', [AffiliateProductController::class, 'showAdCenter'])->name('ad_center');
+Route::get('/affiliate/dashboard/ad_center/{id}/promote-modal', [AffiliateProductController::class, 'showPromoteModal'])->name('products.promoteModal');
+
+Route::get('/affiliate/dashboard/ad_center/download-images', [AffiliateProductController::class, 'downloadImages'])->name('products.downloadImages');
+
 
 Route::view('/affiliate/dashboard/code_center', 'affiliate_dashboard.code_center')->name('code_center');
 
@@ -139,6 +143,8 @@ Route::view('/admin/customer_inquiries', 'admin_dashboard.customer_inquiries')->
 
 Route::get('/admin/category', [CategoryController::class, 'showCategories'])->name('category');
 Route::post('/admin/category/add', [CategoryController::class, 'store'])->name('category_add');
+Route::delete('/admin/category/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+
 
 
 

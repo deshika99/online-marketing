@@ -28,12 +28,10 @@ class CategoryController extends Controller
             'sub_subcategories.*.name' => 'nullable|string|max:255',
         ]);
     
-
         $parentCategory = Category::create([
             'parent_category' => $request->input('parent_category'),
         ]);
     
-
         $subcategories = $request->input('subcategories', []);
         $subSubcategories = $request->input('sub_subcategories', []);
         
@@ -54,5 +52,24 @@ class CategoryController extends Controller
         return redirect()->back()->with('success', 'Category added successfully.');
     }
     
+
+
+    public function destroy($id)
+    {
+        $parentCategory = Category::find($id);
     
+        if (!$parentCategory) {
+            return response()->json(['success' => false, 'message' => 'Category not found.'], 404);
+        }
+    
+        $parentCategory->subcategories()->each(function ($subcategory) {
+            $subcategory->subSubcategories()->delete(); 
+            $subcategory->delete(); 
+        });
+    
+        $parentCategory->delete();
+    
+        return response()->json(['success' => true, 'message' => 'Category and its subcategories deleted successfully.']);
+    }
+        
 }

@@ -9,6 +9,7 @@ class Subcategory extends Model
 {
     protected $fillable = ['category_id', 'subcategory'];
 
+    
     public function subSubcategories()
     {
         return $this->hasMany(SubSubcategory::class);

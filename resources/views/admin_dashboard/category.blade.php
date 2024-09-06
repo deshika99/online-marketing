@@ -2,7 +2,6 @@
 
 @section('content')
 
-
 <main style="margin-top: 58px">
     <div class="container py-4 px-4">
         <div class="d-flex justify-content-between align-items-center">
@@ -45,7 +44,7 @@
                                             <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editCategoryModal">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <button class="btn btn-sm btn-danger">
+                                            <button class="btn btn-sm btn-danger delete-category" data-id="{{ $category->id }}">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
@@ -59,6 +58,7 @@
         </div>
     </div>
 </main>
+
 
 
 
@@ -206,23 +206,41 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-</script>
 
-<script>
+// delete category
 document.addEventListener('DOMContentLoaded', function() {
-    const deleteButtons = document.querySelectorAll('.btn-danger');
 
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', function(event) {
-            event.preventDefault();
-            if (confirm('Are you sure you want to delete this category?')) {
+    document.querySelectorAll('.delete-category').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const categoryId = this.getAttribute('data-id');
+
+            if (confirm('Are you sure you want to delete this category and its subcategories?')) {
+                fetch(`/admin/category/${categoryId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        this.closest('tr').remove();
+                        alert('Category and its subcategories deleted successfully.');
+                    } else {
+                        alert('Failed to delete the category.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while deleting the category.');
+                });
             }
         });
     });
 });
-
-
 </script>
+
 
 
 <script>
