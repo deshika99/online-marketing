@@ -10,15 +10,20 @@ use Illuminate\Support\Facades\Storage;
 
 
 
+
 class ProductController extends Controller
 {
+
     public function show(Request $request)
     {
         $title = $request->query('title');
         $image = $request->query('image');
         $price = $request->query('price');
 
-        return view('single_product_page', compact('title', 'image', 'price'));
+       
+        $productId = uniqid(); 
+
+        return view('single_product_page', compact('title', 'image', 'price', 'productId'));
     }
 
 
@@ -157,7 +162,7 @@ class ProductController extends Controller
                 $imagePath = $image->storeAs('product_images', $imageName, 'public');
 
                 ProductImage::create([
-                    'product_id' => $product->id,
+                    'product_id' => $product->product_id,
                     'image_path' => $imagePath,
                 ]);
             }

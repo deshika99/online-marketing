@@ -54,52 +54,56 @@
                 </div>
             </aside>
 
-                <main class="col-lg-7">
-                    <div class="ps-lg-3">
-                        <h4 class="title text-dark">
-                            {{ $title }}
-                        </h4>
-                        <div class="d-flex flex-row my-3">
-                            <div class="text-warning mb-1 me-2">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                                <span class="ms-1">4.5</span>
-                            </div>
-                            <span class="text-primary">18 Ratings | </span>
-                            <span class="text-primary">&nbsp; 25 Questions Answered</span>
+            <main class="col-lg-7">
+                <div class="ps-lg-3">
+                    <h4 class="title text-dark">
+                        {{ $title }}
+                    </h4>
+                    <div class="d-flex flex-row my-3">
+                        <div class="text-warning mb-1 me-2">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="ms-1">4.5</span>
                         </div>
-                        <div style="margin-top: -15px;">
-                            <span class="text-muted">Brand: </span>
-                            <span class="text-primary"> No Brand | More Wearable technology from No Brand</span>
-                        </div>
-
-                        <hr />
-
-                        <span class="">Availability :</span>
-                        <span class="ms-1" style="color:#4caf50;">In stock</span>
-                        <span class="ms-5">Color:</span>
-                        <div class="d-inline-block ms-2">
-                            <span class="color-label" style="background-color: #f55b29;"></span>
-                            <span class="color-label" style="background-color: black;"></span>
-                            <span class="color-label" style="background-color: #ffeb3b;"></span>
-                            <span class="color-label" style="background-color: blue;"></span>
-                        </div>
-                        <div class="product-price mb-3 mt-3">
-                            <span class="h4" style="color:#f55b29;">Rs. {{ $price }}</span>
-                        </div>
-
-                        <div class="d-flex">
-                        <a href="#" class="btn btn-custom-buy shadow-0 me-2" onclick="buyNow()">Buy now</a>
-                      
-                            <a href="#" class="btn btn-custom-cart shadow-0">
-                                <i class="me-1 fa fa-shopping-basket"></i>Add to cart
-                            </a>
-                        </div>
+                        <span class="text-primary">18 Ratings | </span>
+                        <span class="text-primary">&nbsp; 25 Questions Answered</span>
                     </div>
-                </main>
+                    <div style="margin-top: -15px;">
+                        <span class="text-muted">Brand: </span>
+                        <span class="text-primary"> No Brand | More Wearable technology from No Brand</span>
+                    </div>
+
+                    <hr />
+
+                    <span class="">Availability :</span>
+                    <span class="ms-1" style="color:#4caf50;">In stock</span>
+                    <span class="ms-5">Color:</span>
+                    <div class="d-inline-block ms-2">
+                        <span class="color-label" style="background-color: #f55b29;"></span>
+                        <span class="color-label" style="background-color: black;"></span>
+                        <span class="color-label" style="background-color: #ffeb3b;"></span>
+                        <span class="color-label" style="background-color: blue;"></span>
+                    </div>
+                    <div class="product-price mb-3 mt-3">
+                        <span class="h4" style="color:#f55b29;">Rs. {{ $price }}</span>
+                    </div>
+
+                    <div class="d-flex">
+                        <a href="#" class="btn btn-custom-buy shadow-0 me-2" data-product-id="{{ $productId }}" onclick="buyNow()">Buy now</a>
+
+                        <a href="#" class="btn btn-custom-cart shadow-0" data-product-id="{{ $productId }}">
+                            <i class="me-1 fa fa-shopping-basket"></i>Add to cart
+                        </a>
+                    </div>
+                </div>
+            </main>
+            <div>
+    
+
+
 
             </div>
         </div>
@@ -313,70 +317,76 @@ const lightbox = GLightbox({
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
-    $(document).ready(function() {
-        // Fetch initial cart count
-        $.get("{{ route('cart.count') }}", function(data) {
-            $('#cart-count').text(data.cart_count);
+$(document).ready(function() {
+    // Fetch initial cart count
+    $.get("{{ route('cart.count') }}", function(data) {
+        $('#cart-count').text(data.cart_count);
+    });
+
+    $('.btn-custom-cart').on('click', function(e) {
+        e.preventDefault();
+
+        const productId = $(this).data('product-id'); 
+        const title = $('.title').text().trim();
+        const price = $('.product-price .h4').text().trim().replace('Rs. ', '');
+        const image = $('#product-image').attr('src'); 
+
+        $.ajax({
+            url: "{{ route('cart.add') }}",
+            method: 'POST',
+            data: {
+                _token: "{{ csrf_token() }}",
+                product_id: productId, 
+                title: title,
+                price: price,
+                image: image
+            },
+            success: function(response) {
+                $.get("{{ route('cart.count') }}", function(data) {
+                    $('#cart-count').text(data.cart_count);
+                });
+                alert('Item added to cart!');
+            },
+            error: function(xhr) {
+                console.log(xhr.responseText); 
+                alert('Something went wrong. Please try again.');
+            }
         });
-
-        $('.btn-custom-cart').on('click', function(e) {
-            e.preventDefault();
-
-            const title = $('.title').text().trim();
-            const price = $('.product-price .h4').text().trim().replace('Rs. ', '');
-            const image = $('#product-image').attr('src'); 
-            $.ajax({
-                url: "{{ route('cart.add') }}",
-                method: 'POST',
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    title: title,
-                    price: price,
-                    image: image
-                },
-                success: function(response) {
-                    // Update cart count
-                    $.get("{{ route('cart.count') }}", function(data) {
-                        $('#cart-count').text(data.cart_count);
-                    });
-                    alert('Item added to cart!');
-                },
-                error: function(xhr) {
-                    alert('Something went wrong. Please try again.');
-                }
-            });
-        });
-
+    });
 
     // Buy Now button
     window.buyNow = function() {
-            const title = $('.title').text().trim();
-            const price = $('.product-price .h4').text().trim().replace('Rs. ', '');
-            const image = $('#product-image').attr('src'); 
+        const productId = $('.btn-custom-buy').data('product-id'); // Get product ID from data attribute
+        const title = $('.title').text().trim();
+        const price = $('.product-price .h4').text().trim().replace('Rs. ', '');
+        const image = $('#product-image').attr('src'); 
 
-            $.ajax({
-                url: "{{ route('cart.add') }}",
-                method: 'POST',
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    title: title,
-                    price: price,
-                    image: image
-                },
-                success: function(response) {
-                    // Update cart count
-                    $.get("{{ route('cart.count') }}", function(data) {
-                        $('#cart-count').text(data.cart_count);
-                    });
-                    window.location.href = "{{ route('shopping_cart') }}";
-                },
-                error: function(xhr) {
-                    alert('Something went wrong. Please try again.');
-                }
-            });
-        }
-    });
+        $.ajax({
+            url: "{{ route('cart.add') }}",
+            method: 'POST',
+            data: {
+                _token: "{{ csrf_token() }}",
+                product_id: productId, 
+                title: title,
+                price: price,
+                image: image
+            },
+            success: function(response) {
+                $.get("{{ route('cart.count') }}", function(data) {
+                    $('#cart-count').text(data.cart_count);
+                });
+                window.location.href = "{{ route('shopping_cart') }}";
+            },
+            error: function(xhr) {
+                alert('Something went wrong. Please try again.');
+            }
+        });
+    }
+});
+
+
 </script>
 
 

@@ -2,96 +2,165 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use App\Models\CartItem;
+use Illuminate\Support\Facades\Auth;
 
 
 class CartController extends Controller
 {
 
+
     public function addToCart(Request $request)
     {
-        $cart = session()->get('cart', []);
-        $itemTitle = $request->input('title');
-        $itemFound = false;
+        if (Auth::check()) {
+            $user = Auth::user();
+            $productId = $request->input('product_id');
+            $item = CartItem::where('user_id', $user->id)
+                            ->where('product_id', $productId)
+                            ->first();
 
-        // Check if the item already exists in the cart
-        foreach ($cart as &$item) {
-            if ($item['title'] === $itemTitle) {
-                $item['quantity'] = $item['quantity'] + 1;
-                $itemFound = true;
-                break;
+            if ($item) {
+                $item->quantity = max($item->quantity, 1);
+                $item->save();
+            } else {
+                CartItem::create([
+                    'user_id' => $user->id,
+                    'product_id' => $productId,
+                    'quantity' => 1,
+                    'price' => $request->input('price'),
+                    'title' => $request->input('title'), 
+                    'image' => $request->input('image')  
+                ]);
             }
+        } else {
+            $cart = session()->get('cart', []);
+            $itemTitle = $request->input('title');
+            $itemFound = false;
+
+            foreach ($cart as &$item) {
+                if ($item['title'] === $itemTitle) {
+                    $item['quantity'] = max($item['quantity'], 1);
+                    $itemFound = true;
+                    break;
+                }
+            }
+
+            if (!$itemFound) {
+                $cart[] = [
+                    'title' => $request->input('title'),
+                    'price' => $request->input('price'),
+                    'image' => $request->input('image'),
+                    'quantity' => 1 
+                ];
+            }
+
+            session()->put('cart', $cart);
         }
 
-        // If the item does not exist in the cart, add it
-        if (!$itemFound) {
-            $cart[] = [
-                'title' => $itemTitle,
-                'price' => $request->input('price'),
-                'image' => $request->input('image'),
-                'quantity' => 1 
-            ];
-        }
-
-        session()->put('cart', $cart);
-        $cartCount = count($cart);
+        $cartCount = Auth::check() ? CartItem::where('user_id', Auth::id())->sum('quantity') : count(session()->get('cart', []));
         return response()->json(['cart_count' => $cartCount]);
     }
 
-
+    
 
 
     public function getCartCount()
     {
-        $cart = session()->get('cart', []);
-        $cartCount = count($cart);
+        if (Auth::check()) {
+            $cartCount = CartItem::where('user_id', Auth::id())->count();
+        } else {
+            $cart = session()->get('cart', []);
+            $cartCount = count($cart);
+        }
+    
         return response()->json(['cart_count' => $cartCount]);
     }
+    
 
 
     public function showCart()
     {
-        $cart = session()->get('cart', []);
+        $cart = Auth::check() ? CartItem::where('user_id', Auth::id())->get() : session()->get('cart', []);
         return view('shopping_cart', compact('cart'));
     }
-
-
+    
 
     public function checkout()
     {
-        $cart = session()->get('cart', []);
+        if (Auth::check()) {
+            $cart = CartItem::where('user_id', Auth::id())->get();
+        } else {
+            $cart = collect(session()->get('cart', []));
+        }
+    
         return view('checkout', compact('cart'));
     }
+    
 
+    
 
     public function update(Request $request)
     {
-        $cart = session()->get('cart', []);
-        $index = $request->input('index');
-        $quantity = (int) $request->input('quantity');
-
-        if (isset($cart[$index])) {
-            // Ensure quantity is at least 1
-            $cart[$index]['quantity'] = max($quantity, 1);
-            session()->put('cart', $cart);
-            return response()->json(['success' => true]);
+        $productId = $request->input('product_id');
+        $quantity = $request->input('quantity');
+    
+        if (!$productId || !$quantity) {
+            return response()->json(['success' => false, 'message' => 'Product ID or quantity missing'], 400);
         }
-
-        return response()->json(['success' => false], 400);
+    
+        if (Auth::check()) {
+            $cartItem = CartItem::where('user_id', Auth::id())
+                                ->where('product_id', $productId)
+                                ->first();
+    
+            if ($cartItem) {
+                $cartItem->quantity = $quantity;
+                $cartItem->save();
+                return response()->json(['success' => true, 'message' => 'Quantity updated successfully']);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Cart item not found'], 404);
+            }
+        } else {
+            $cart = session()->get('cart', []);
+            if (isset($cart[$productId])) {
+                $cart[$productId]['quantity'] = $quantity;
+                session()->put('cart', $cart);
+                return response()->json(['success' => true, 'message' => 'Quantity updated successfully']);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Cart item not found in session'], 404);
+            }
+        }
     }
+    
+    
 
 
-
-    public function removeFromCart($index)
+    public function removeFromCart($productId)
     {
-        $cart = session()->get('cart', []);
-
-        if (isset($cart[$index])) {
-            unset($cart[$index]);
-            $cart = array_values($cart); 
-            session()->put('cart', $cart);
+    
+        if (Auth::check()) {
+            $user = Auth::user();
+            CartItem::where('user_id', $user->id)
+                    ->where('product_id', $productId)
+                    ->delete();
+        } else {
+            $cart = session()->get('cart', []);
+    
+            foreach ($cart as $index => $item) {
+                if ($item['product_id'] == $productId) {
+                    unset($cart[$index]);
+                    $cart = array_values($cart); 
+                    session()->put('cart', $cart);
+                    break;
+                }
+            }
         }
-
-        return response()->json(['cart_count' => count($cart)]);
+    
+        $cartCount = Auth::check() ? CartItem::where('user_id', Auth::id())->sum('quantity') : count(session()->get('cart', []));
+        return response()->json(['cart_count' => $cartCount]);
     }
+    
+    
+    
 
 }

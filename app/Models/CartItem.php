@@ -5,19 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CustomerOrderItems extends Model
+class CartItem extends Model
 {
     use HasFactory;
-   
-
-    protected $table = 'customer_order_items';
-
     protected $fillable = [
-        'order_code',
-        'item',
+        'user_id',
         'product_id',
         'quantity',
-        'date',
-        'cost',
+        'price',
+        'title',
+        'image',
     ];
 }

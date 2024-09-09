@@ -2,8 +2,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use App\Models\CustomerOrder;
 use App\Models\CustomerOrderItems;
+use App\Models\CartItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -11,12 +13,13 @@ use Carbon\Carbon;
 
 class CustomerOrderController extends Controller
 {
-    public function store(Request $request)
+    
+        public function store(Request $request)
     {
         DB::beginTransaction();
 
         try {
-            // Validate request data
+
             $request->validate([
                 'first_name' => 'required|string|max:255',
                 'last_name' => 'required|string|max:255',
@@ -25,20 +28,19 @@ class CustomerOrderController extends Controller
                 'address' => 'required|string|max:255',
                 'city' => 'required|string|max:255',
                 'postal_code' => 'required|string|max:10',
-                
             ]);
 
-            // Calculate total cost
-            $cart = session('cart', []);
-            $subtotal = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cart));
+            $cart = Auth::check() ? CartItem::where('user_id', Auth::id())->get() : session('cart', []);
+            
+            $cartArray = $cart->toArray();
+            
+            $subtotal = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cartArray));
             $shipping = 250;
             $total = $subtotal + $shipping;
 
-            
-            $orderCode = 'ORD-' . Str::uuid()->toString();
+            $orderCode = 'ORD-' . substr((string) Str::uuid(), 0, 8);
 
-            // Store order details
-            $order = CustomerOrder::create([
+            $orderData = [
                 'order_code' => $orderCode,
                 'customer_fname' => $request->input('first_name'),
                 'customer_lname' => $request->input('last_name'),
@@ -52,21 +54,30 @@ class CustomerOrderController extends Controller
                 'date' => Carbon::now()->format('Y-m-d'), 
                 'total_cost' => $total,
                 'discount' => 0, 
-                'vat' => 0, 
-            ]);
+                'vat' => 0,
+                'user_id' => Auth::id(), 
+            ];
 
-            // Store order items
-            foreach ($cart as $item) {
+            $order = CustomerOrder::create($orderData);
+
+            foreach ($cartArray as $item) {
                 CustomerOrderItems::create([
                     'order_code' => $orderCode,
+                    'product_id' => $item['product_id'], 
                     'item' => $item['title'],
                     'date' => Carbon::now()->format('Y-m-d'), 
                     'cost' => $item['price'] * $item['quantity'],
+                    'quantity' => $item['quantity'], 
                 ]);
             }
 
+            if (Auth::check()) {
+                CartItem::where('user_id', Auth::id())->delete();
+            } else {
+                session()->forget('cart');
+            }
+
             DB::commit();
-            session()->forget('cart');
             return redirect()->route('payment')->with('success', 'Order placed successfully!');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -74,8 +85,6 @@ class CustomerOrderController extends Controller
             return redirect()->back()->with('error', 'An error occurred while placing the order. Please try again.');
         }
     }
-
-
 
 
 }

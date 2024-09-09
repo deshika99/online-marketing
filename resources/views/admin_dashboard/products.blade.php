@@ -74,7 +74,7 @@
                             </thead>
                             <tbody>
                             @foreach ($products as $index => $product)
-                                <tr class="product-row" data-category="{{ $product->category_id }}" data-affiliate="{{ $product->is_affiliate ? 'true' : 'false' }}" data-id="{{ $product->id }}" data-images="{{ $product->images->toJson() }}">
+                                <tr class="product-row" data-category="{{ $product->category_id }}" data-affiliate="{{ $product->is_affiliate ? 'true' : 'false' }}" data-id="{{ $product->product_id }}" data-images="{{ $product->images->toJson() }}">
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $product->product_name }}</td>
                                     <td>

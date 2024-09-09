@@ -80,11 +80,12 @@ Auth::routes();
 
 
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
-Route::get('/cart', [CartController::class, 'showCart'])->name('shopping_cart');
-Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
-Route::delete('/cart/delete/{index}', [CartController::class, 'removeFromCart'])->name('cart.remove');
-Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+Route::get('/shopping-cart', [CartController::class, 'showCart'])->name('shopping_cart');
 Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
+
+Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/remove/{index}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::get('/product', [ProductController::class, 'show'])->name('single_product_page');
 Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('order.store');
 
@@ -99,7 +100,6 @@ Route::get('/affiliate/dashboard/ad_center', [AffiliateProductController::class,
 Route::get('/affiliate/dashboard/ad_center/{id}/promote-modal', [AffiliateProductController::class, 'showPromoteModal'])->name('products.promoteModal');
 
 Route::get('/affiliate/dashboard/ad_center/download-images', [AffiliateProductController::class, 'downloadImages'])->name('products.downloadImages');
-
 
 Route::view('/affiliate/dashboard/code_center', 'affiliate_dashboard.code_center')->name('code_center');
 
@@ -125,7 +125,6 @@ Route::get('/admin/products/edit/{id}', [ProductController::class, 'edit'])->nam
 Route::put('/admin/products/{id}', [ProductController::class, 'update'])->name('update_product');
 Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy'])->name('delete_product');
 
-
 Route::get('/admin/aff_customers', [AffiliateCustomerController::class, 'showAffCustomers'])->name('aff_customers');
 Route::patch('/admin/aff_customers/{id}/status', [AffiliateCustomerController::class, 'updateStatus'])->name('aff_customers.updateStatus');
 
@@ -135,7 +134,6 @@ Route::put('/admin/users/{id}', [UserController::class, 'update'])->name('update
 Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('delete_user');
 Route::get('/admin/users/{id}', [UserController::class, 'getUserDetails']);
 Route::post('/admin/users', [UserController::class, 'store'])->name('admin_users.store');
-
 
 Route::view('/admin/orders', 'admin_dashboard.orders')->name('orders');
 Route::view('/admin/order-details', 'admin_dashboard.order-details')->name('order-details');
