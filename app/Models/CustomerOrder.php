@@ -26,8 +26,15 @@ class CustomerOrder extends Model
         'postal_code',
         'date',
         'total_cost',
+        'status',
         'discount',
         'vat',
     ];
+
+
+    public function items()
+    {
+        return $this->hasMany(CustomerOrderItems::class, 'order_code', 'order_code');
+    }
 
 }

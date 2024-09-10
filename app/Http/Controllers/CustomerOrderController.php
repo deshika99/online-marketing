@@ -14,6 +14,8 @@ use Carbon\Carbon;
 class CustomerOrderController extends Controller
 {
     
+   
+
         public function store(Request $request)
     {
         DB::beginTransaction();
@@ -66,7 +68,7 @@ class CustomerOrderController extends Controller
                     'product_id' => $item['product_id'], 
                     'item' => $item['title'],
                     'date' => Carbon::now()->format('Y-m-d'), 
-                    'cost' => $item['price'] * $item['quantity'],
+                    'cost' => $item['price'],
                     'quantity' => $item['quantity'], 
                 ]);
             }

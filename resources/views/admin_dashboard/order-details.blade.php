@@ -44,7 +44,7 @@
 </style>  
 
 <main style="margin-top: 58px">
-    <div class="container px-5 py-5"> 
+    <div class="container px-5 py-5">
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -55,9 +55,8 @@
             <h3 class="mb-1">Order Details</h3>
         </div>
         <div class="d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Order #12345</h5>
+            <h5 class="mb-0">Order #{{ $order->order_code }}</h5>
         </div>
-
 
         <div class="d-flex justify-content-center">
             <div class="col-8">
@@ -105,37 +104,36 @@
             <div class="card">
                 <div class="card-title">Customer Details</div>
                 <div class="card-body p-0">
-                    <p class="mb-1">Name: John Doe</p>
-                    <p class="mb-1">Email: johndoe@gmail.com</p>
-                    <p class="mb-1">Contact No.: 071 6280393</p>
+                    <p class="mb-1">Name: {{ $order->customer_fname }} {{ $order->customer_lname }}</p>
+                    <p class="mb-1">Email: {{ $order->email }}</p>
+                    <p class="mb-1">Contact No.: {{ $order->phone }}</p>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-title">Shipping Details</div>
                 <div class="card-body p-0">
-                    <p class="mb-0">Shipping Address: No.124</p>
-                    <p class="mb-0">City: Kurunegala</p>
-                    <p class="mb-0">Postal Code: 60040</p>
+                    <p class="mb-0">Shipping Address: {{ $order->address }}, {{ $order->apartment }}</p>
+                    <p class="mb-0">City: {{ $order->city }}</p>
+                    <p class="mb-0">Postal Code: {{ $order->postal_code }}</p>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-title">Billing Details</div>
                 <div class="card-body p-0">
-                    <p class="mb-0">Payment Method: Credit Card</p>
-                    <p class="mb-0">Invoice Number: INV-123456</p>
-                    <p class="mb-0">Amount Charged: Rs 2350.00</p>
-                    <p class="mb-0">Payment Status: Completed</p>
+                    <p class="mb-0">Payment Method: {{ $order->payment_method }}</p>
+                    <p class="mb-0">Invoice Number: {{ $order->invoice_number }}</p>
+                    <p class="mb-0">Amount Charged: Rs {{ number_format($order->total_cost, 2) }}</p>
+                    <p class="mb-0">Payment Status: {{ $order->payment_status }}</p>
                 </div>
             </div>
         </div>
 
-
         <!-- Cards for Item Details and Order Summary -->
         <div class="details-cards-row">
             <div class="card item-details-card">
-                <div class="card-title">Item Details</div>
+                <div class="card-title">Item Details ({{ $totalQuantity }} items)</div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-hover">
@@ -144,18 +142,20 @@
                                     <th scope="col">Image</th>
                                     <th scope="col">Item Name</th>
                                     <th scope="col">Quantity</th>
-                                    <th scope="col">Unit Price</th>
-                                    <th scope="col">Total</th>
+                                    <th scope="col" style="width:20%">Unit Price</th>
+                                    <th scope="col" style="width:20%">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach($items as $item)
                                 <tr>
-                                    <th scope="col">Image</th>
-                                    <th scope="col">Product 01</th>
-                                    <th scope="col">2</th>
-                                    <th scope="col">Rs 1000.00</th>
-                                    <th scope="col">Rs 2000.00</th>
+                                    <td><img src="" alt="" width="50"></td>
+                                    <td>{{ $item->item }}</td>
+                                    <td>{{ $item->quantity }}</td>
+                                    <td>Rs {{ number_format($item->cost, 2) }}</td>
+                                    <td>Rs {{ number_format($item->quantity * $item->cost, 2) }}</td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -165,10 +165,10 @@
             <div class="card summary-card">
                 <div class="card-title">Order Summary</div>
                 <div class="card-body">
-                    <p>Subtotal: Rs 2000.00</p>
-                    <p>Delivery Charge: Rs 350.00</p>
+                    <p>Subtotal: Rs {{ number_format($item->quantity * $item->cost, 2) }}</p>
+                    <p>Delivery Charge: Rs 250.00</p>
                     <hr>
-                    <p><strong>Total: Rs 2350.00</strong></p>
+                    <p><strong>Total: Rs {{ number_format($order->total_cost, 2) }}</strong></p>
                 </div>
             </div>
         </div>

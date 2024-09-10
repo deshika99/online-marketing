@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 
 
-
 class ProductController extends Controller
 {
 
@@ -179,6 +178,23 @@ class ProductController extends Controller
         $categories = Category::all(); 
         return view('admin_dashboard.add_products', compact('categories'));
     }
+
+
+    public function getSubcategories($categoryId)
+    {
+        $subcategories = Subcategory::where('category_id', $categoryId)->get(['id', 'subcategory as name']);
+        return response()->json(['subcategories' => $subcategories]);
+    }
+    
+    public function getSubSubcategories($subcategoryId)
+    {
+        $subSubcategories = SubSubcategory::where('subcategory_id', $subcategoryId)->get(['id', 'sub_subcategory as name']);
+        return response()->json(['sub_subcategories' => $subSubcategories]);
+    }
+    
+    
+
+    
 
 
 

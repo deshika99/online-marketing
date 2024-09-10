@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('postal_code');
             $table->date('date');
             $table->decimal('total_cost', 15, 2);
+            $table->string('status')->nullable();
             $table->decimal('discount', 15, 2)->nullable();
             $table->decimal('vat', 15, 2)->nullable();
             $table->timestamps();   

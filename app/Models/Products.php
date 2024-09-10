@@ -17,6 +17,8 @@ class Products extends Model
         'product_name',
         'product_description',
         'product_category',
+        'subcategory',
+        'sub_subcategory',
         'quantity',
         'normal_price',
         'is_affiliate',

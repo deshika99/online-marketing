@@ -137,12 +137,15 @@
 <script>
 // add modal
 document.addEventListener('DOMContentLoaded', function() {
+    let subcategoryIndex = 0; // Initialize counter for subcategories
+
     const addSubcategoryButton = document.getElementById('addSubcategoryGroup');
     const subcategoriesContainer = document.getElementById('subcategories');
 
     addSubcategoryButton.addEventListener('click', function() {
         const subcategoryWrapper = document.createElement('div');
         subcategoryWrapper.className = 'subcategory-wrapper mb-3';
+        subcategoryWrapper.dataset.index = subcategoryIndex; // Store the index
 
         const inputGroup = document.createElement('div');
         inputGroup.className = 'input-group mb-3';
@@ -150,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const input = document.createElement('input');
         input.type = 'text';
         input.className = 'form-control';
-        input.name = 'subcategories[][name]';
+        input.name = `subcategories[${subcategoryIndex}][name]`; // Use the index
         input.placeholder = 'Enter subcategory name';
 
         const addSubSubcategoryButton = document.createElement('button');
@@ -174,14 +177,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
         subcategoriesContainer.appendChild(subcategoryWrapper);
 
+        subcategoryIndex++; // Increment the subcategory index
+
         addSubSubcategoryButton.addEventListener('click', function() {
+            const subSubcategoryIndex = subSubcategoriesContainer.children.length; // Index for sub-subcategories
+
             const subSubInputGroup = document.createElement('div');
             subSubInputGroup.className = 'input-group mb-3';
 
             const subSubInput = document.createElement('input');
             subSubInput.type = 'text';
             subSubInput.className = 'form-control';
-            subSubInput.name = 'sub_subcategories[][name]';
+            subSubInput.name = `subcategories[${subcategoryWrapper.dataset.index}][sub_subcategories][${subSubcategoryIndex}][name]`; // Use both indices
             subSubInput.placeholder = 'Enter sub-subcategory name';
 
             const subSubDeleteButton = document.createElement('button');

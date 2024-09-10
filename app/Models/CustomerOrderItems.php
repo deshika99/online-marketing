@@ -20,4 +20,10 @@ class CustomerOrderItems extends Model
         'date',
         'cost',
     ];
+
+
+    public function order()
+    {
+        return $this->belongsTo(CustomerOrder::class, 'order_code', 'order_code');
+    }
 }

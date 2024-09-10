@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerOrderController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AffiliateProductController;
 use App\Http\Controllers\AffiliateCustomerController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -135,13 +136,23 @@ Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('de
 Route::get('/admin/users/{id}', [UserController::class, 'getUserDetails']);
 Route::post('/admin/users', [UserController::class, 'store'])->name('admin_users.store');
 
-Route::view('/admin/orders', 'admin_dashboard.orders')->name('orders');
-Route::view('/admin/order-details', 'admin_dashboard.order-details')->name('order-details');
 Route::view('/admin/customer_inquiries', 'admin_dashboard.customer_inquiries')->name('customer_inquiries');
+
+Route::get('/api/subcategories/{categoryId}', [ProductController::class, 'getSubcategories']);
+Route::get('/api/sub-subcategories/{subcategoryId}', [ProductController::class, 'getSubSubcategories']);
+
+
 
 Route::get('/admin/category', [CategoryController::class, 'showCategories'])->name('category');
 Route::post('/admin/category/add', [CategoryController::class, 'store'])->name('category_add');
 Route::delete('/admin/category/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+
+
+Route::get('/admin/orders', [OrderController::class, 'index'])->name('orders');
+Route::get('/admin/order-details', [OrderController::class, 'show'])->name('customerorder_details');
+Route::post('/set-order-code', [OrderController::class, 'setOrderCode'])->name('set-order-code');
+Route::delete('/admin/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
+
 
 
 

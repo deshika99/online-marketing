@@ -92,7 +92,7 @@
 
 
 <main style="margin-top: 20px">
-    <div class="container p-5"> 
+    <div class="container p-5">
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -133,15 +133,27 @@
                                         <div class="image-preview" id="imagePreview"></div>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="category">Category</label>
                                     <select id="category" name="category" class="form-control">
+                                        <option value="">Select Category</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}">{{ $category->parent_category }}</option>
                                         @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="subcategory">Subcategory</label>
+                                    <select id="subcategory" name="subcategory" class="form-control">
+                                        <option value="">Select Subcategory</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="subsubcategory">Sub-Subcategory</label>
+                                    <select id="subsubcategory" name="subsubcategory" class="form-control">
+                                        <option value="">Select Sub-Subcategory</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -163,7 +175,6 @@
                             </div>
                         </div>
 
-
                         <div class="form-group" id="affiliatePriceGroup" style="display: none;">
                             <label for="affiliatePrice">Affiliate Price</label>
                             <input type="number" id="affiliatePrice" name="affiliatePrice" class="form-control" placeholder="Enter affiliate price" step="0.01">
@@ -174,7 +185,6 @@
                             <input type="number" id="commissionPercentage" name="commissionPercentage" class="form-control" placeholder="Enter commission percentage" step="0.01" min="0" max="100">
                         </div>
 
-
                         <div class="form-group">
                             <label for="totalPrice">Total Price</label>
                             <input type="text" id="totalPrice" name="totalPrice" class="form-control" readonly>
@@ -184,10 +194,63 @@
                     </form>
                 </div>
             </div>
-            
         </div>
     </div>
 </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const categorySelect = document.getElementById('category');
+    const subcategorySelect = document.getElementById('subcategory');
+    const subSubcategorySelect = document.getElementById('subsubcategory');
+
+    categorySelect.addEventListener('change', function() {
+        const categoryId = this.value;
+
+        if (categoryId) {
+            fetch(`/api/subcategories/${categoryId}`)
+                .then(response => response.json())
+                .then(data => {
+                    subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
+                    data.subcategories.forEach(subcategory => {
+                        const option = document.createElement('option');
+                        option.value = subcategory.id;
+                        option.textContent = subcategory.name;
+                        subcategorySelect.appendChild(option);
+                    });
+                    subSubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
+                })
+                .catch(error => console.error('Error fetching subcategories:', error));
+        } else {
+            subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
+            subSubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
+        }
+    });
+
+    subcategorySelect.addEventListener('change', function() {
+        const subcategoryId = this.value;
+
+        if (subcategoryId) {
+            fetch(`/api/sub-subcategories/${subcategoryId}`)
+                .then(response => response.json())
+                .then(data => {
+                    subSubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
+                    data.sub_subcategories.forEach(subSubcategory => {
+                        const option = document.createElement('option');
+                        option.value = subSubcategory.id;
+                        option.textContent = subSubcategory.name;
+                        subSubcategorySelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching sub-subcategories:', error));
+        } else {
+            subSubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
+        }
+    });
+});
+</script>
+
+
 
 
 <script>

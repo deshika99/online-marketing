@@ -51,39 +51,43 @@
                     <div class="card-body">
                         <div class="container mt-1 mb-4">
                             <div class="table-responsive">
-                                <table id="example" class="table" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Order ID</th>
-                                            <th scope="col">Customer</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Amount</th>
-                                            <th scope="col" style="width: 15%">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>12345</td>
-                                            <td>John Doe</td>
-                                            <td>2024-08-28</td>
-                                            <td>Delivered</td>
-                                            <td>Rs 100.00</td>
-                                            <td class="action-buttons">
-                                                <a href="{{ route('order-details') }}" class="btn btn-info btn-sm">
-                                                    <i class="fas fa-eye"></i></a>
-                                                <form action="" method="POST" style="display:inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
-                                                        <i class="fas fa-trash"></i></button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>   
+                            <table id="example" class="table" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Order ID</th>
+                                        <th scope="col">Customer</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col" style="width: 15%">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($orders as $order)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $order->order_code }}</td>
+                                        <td>{{ $order->customer_fname }} {{ $order->customer_lname }}</td>
+                                        <td>{{ $order->date }}</td>
+                                        <td>{{ $order->status }}</td>
+                                        <td>{{ $order->total_cost }}</td>
+                                        <td class="action-buttons">
+                                            <button class="btn btn-info btn-sm" onclick="setOrderCode('{{ $order->order_code }}')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <form action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
                             </div>
                         </div>
                     </div>
@@ -110,24 +114,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>12345</td>
-                                                <td>John Doe</td>
-                                                <td>2024-08-28</td>
-                                                <td>Dispatched</td>
-                                                <td>Rs 100.00</td>
-                                                <td class="action-buttons">
-                                                    <a href="{{ route('order-details') }}" class="btn btn-info btn-sm">
-                                                        <i class="fas fa-eye"></i></a>
-                                                    <form action="" method="POST" style="display:inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
-                                                            <i class="fas fa-trash"></i></button>
-                                                    </form>
-                                                </td>
-                                            </tr>
+                                           
+                                                
                                         </tbody>
                                     </table>   
                                 </div>
@@ -156,24 +144,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>12345</td>
-                                                <td>John Doe</td>
-                                                <td>2024-08-28</td>
-                                                <td>Ongoing</td>
-                                                <td>Rs 100.00</td>
-                                                <td class="action-buttons">
-                                                    <a href="{{ route('order-details') }}" class="btn btn-info btn-sm">
-                                                        <i class="fas fa-eye"></i></a>
-                                                    <form action="" method="POST" style="display:inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
-                                                            <i class="fas fa-trash"></i></button>
-                                                    </form>
-                                                </td>
-                                            </tr>
+                                            
                                         </tbody>
                                     </table>   
                                 </div>
@@ -202,24 +173,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>12345</td>
-                                                <td>John Doe</td>
-                                                <td>2024-08-28</td>
-                                                <td>Delivered</td>
-                                                <td>Rs 100.00</td>
-                                                <td class="action-buttons">
-                                                    <a href="{{ route('order-details') }}" class="btn btn-info btn-sm">
-                                                        <i class="fas fa-eye"></i></a>
-                                                    <form action="" method="POST" style="display:inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
-                                                            <i class="fas fa-trash"></i></button>
-                                                    </form>
-                                                </td>
-                                            </tr>
+                                            
                                         </tbody>
                                     </table>   
                                 </div>
@@ -247,24 +201,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>12345</td>
-                                                <td>John Doe</td>
-                                                <td>2024-08-28</td>
-                                                <td>Cancelled</td>
-                                                <td>Rs 100.00</td>
-                                                <td class="action-buttons">
-                                                    <a href="{{ route('order-details') }}" class="btn btn-info btn-sm">
-                                                        <i class="fas fa-eye"></i></a>
-                                                    <form action="" method="POST" style="display:inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
-                                                            <i class="fas fa-trash"></i></button>
-                                                    </form>
-                                                </td>
-                                            </tr>
+                                            
                                         </tbody>
                                     </table>   
                                 </div>
@@ -277,5 +214,22 @@
     </div>
 </main>
 
-   
+<script>
+function setOrderCode(orderCode) {
+    fetch('{{ route('set-order-code') }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({ order_code: orderCode })
+    }).then(response => {
+        if (response.ok) {
+            window.location.href = '{{ route('customerorder_details') }}';
+        } else {
+            alert('Failed to set order code');
+        }
+    });
+}
+</script>
 @endsection

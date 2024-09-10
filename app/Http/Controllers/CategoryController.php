@@ -25,7 +25,7 @@ class CategoryController extends Controller
         $request->validate([
             'parent_category' => 'nullable|string|max:255',
             'subcategories.*.name' => 'nullable|string|max:255',
-            'sub_subcategories.*.name' => 'nullable|string|max:255',
+            'subcategories.*.sub_subcategories.*.name' => 'nullable|string|max:255',
         ]);
     
         $parentCategory = Category::create([
@@ -33,24 +33,35 @@ class CategoryController extends Controller
         ]);
     
         $subcategories = $request->input('subcategories', []);
-        $subSubcategories = $request->input('sub_subcategories', []);
-        
-        foreach ($subcategories as $index => $subcategory) {
-            $subCat = Subcategory::create([
-                'category_id' => $parentCategory->id,
-                'subcategory' => $subcategory['name'],
-            ]);
     
-            if (!empty($subSubcategories[$index])) {
-                SubSubcategory::create([
-                    'subcategory_id' => $subCat->id,
-                    'sub_subcategory' => $subSubcategories[$index]['name'],
+        foreach ($subcategories as $subcategoryData) {
+            if (isset($subcategoryData['name'])) {
+                $subCat = Subcategory::create([
+                    'category_id' => $parentCategory->id,
+                    'subcategory' => $subcategoryData['name'],
                 ]);
+    
+                if (isset($subcategoryData['sub_subcategories'])) {
+                    foreach ($subcategoryData['sub_subcategories'] as $subSubcategoryData) {
+                        if (isset($subSubcategoryData['name'])) {
+                            SubSubcategory::create([
+                                'subcategory_id' => $subCat->id,
+                                'sub_subcategory' => $subSubcategoryData['name'],
+                            ]);
+                        } else {
+                            \Log::warning("Missing 'name' in sub-subcategory.", $subSubcategoryData);
+                        }
+                    }
+                }
+            } else {
+                \Log::warning("Missing 'name' in subcategory.", $subcategoryData);
             }
         }
     
-        return redirect()->back()->with('success', 'Category added successfully.');
+        return redirect()->route('category')->with('success', 'Category added successfully.');
     }
+    
+
     
 
 
