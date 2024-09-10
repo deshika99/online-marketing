@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Products;
 use App\Models\ProductImage;
 use App\Models\Category;
+use App\Models\SubSubcategory;
+use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -18,8 +20,6 @@ class ProductController extends Controller
         $title = $request->query('title');
         $image = $request->query('image');
         $price = $request->query('price');
-
-       
         $productId = uniqid(); 
 
         return view('single_product_page', compact('title', 'image', 'price', 'productId'));
@@ -36,13 +36,25 @@ class ProductController extends Controller
     
     
     
-
     public function edit($id)
-    {
-        $product = Products::findOrFail($id);
-        $categories = Category::all(); 
-        return view('admin_dashboard.edit_products', compact('product', 'categories'));
-    }
+{
+    $product = Products::findOrFail($id);
+    $categories = Category::all();
+    
+    // Get the current category and subcategory
+    $category = Category::where('parent_category', $product->product_category)->first();
+    $subcategory = Subcategory::where('subcategory', $product->subcategory)->first();
+    
+    // Get subcategories and sub-subcategories based on the category and subcategory names
+    $subcategories = $category ? $category->subcategories : collect();
+    $subSubcategories = $subcategory ? $subcategory->subSubcategories : collect();
+    
+    return view('admin_dashboard.edit_products', compact('product', 'categories', 'subcategories', 'subSubcategories'));
+}
+
+    
+    
+    
     
 
     public function destroy($id)
@@ -72,7 +84,10 @@ class ProductController extends Controller
             'affiliatePrice' => 'nullable|numeric|min:0',
             'commissionPercentage' => 'nullable|numeric|min:0|max:100',
             'totalPrice' => 'required|numeric|min:0',
+            'quantity' => 'nullable|numeric|min:0',
             'category' => 'required|string',
+            'subcategory' => 'nullable|string',
+            'subsubcategory' => 'nullable|string',
             'deleteImages' => 'nullable|array',
             'deleteImages.*' => 'nullable|numeric|exists:product_images,id', 
         ]);
@@ -87,7 +102,10 @@ class ProductController extends Controller
             'affiliate_price' => $validatedData['affiliatePrice'] ?? null,
             'commission_percentage' => $validatedData['commissionPercentage'] ?? null,
             'total_price' => $validatedData['totalPrice'],
+            'quantity' => $validatedData['quantity'],
             'product_category' => $validatedData['category'],
+            'subcategory' => $validatedData['subcategory'],
+            'sub_subcategory' => $validatedData['subsubcategory'],
         ]);
 
 
@@ -110,7 +128,7 @@ class ProductController extends Controller
                 $imagePath = $image->storeAs('product_images', $imageName, 'public');
 
                 ProductImage::create([
-                    'product_id' => $product->id,
+                    'product_id' => $product->product_id,
                     'image_path' => $imagePath,
                 ]);
             }
@@ -121,7 +139,6 @@ class ProductController extends Controller
 
     
     
-
 
     public function store(Request $request)
     {
@@ -140,8 +157,15 @@ class ProductController extends Controller
             'commissionPercentage' => 'nullable|numeric|min:0|max:100',
             'totalPrice' => 'required|numeric',
             'category' => 'required|string',
+            'subcategory' => 'nullable|string',
+            'subsubcategory' => 'nullable|string',
             'quantity' => 'nullable|numeric',
         ]);
+
+
+        $categoryName = Category::find($request->input('category'))->parent_category ?? '';
+        $subcategoryName = Subcategory::find($request->input('subcategory'))->subcategory ?? '';
+        $subsubcategoryName = SubSubcategory::find($request->input('subsubcategory'))->sub_subcategory ?? '';
 
         $product = Products::create([
             'product_name' => $request->input('productName'),
@@ -151,7 +175,9 @@ class ProductController extends Controller
             'affiliate_price' => $request->input('affiliatePrice'),
             'commission_percentage' => $request->input('commissionPercentage'),
             'total_price' => $request->input('totalPrice'),
-            'product_category' => $request->input('category'), 
+            'product_category' => $categoryName, 
+            'subcategory' => $subcategoryName,
+            'sub_subcategory' => $subsubcategoryName,
             'quantity' => $request->input('quantity'),
         ]);
 
@@ -171,15 +197,22 @@ class ProductController extends Controller
     }
 
 
-    
-    
-    public function showCategory()
+
+    public function showCategory(Request $request)
     {
-        $categories = Category::all(); 
-        return view('admin_dashboard.add_products', compact('categories'));
+        $categories = Category::all();
+        
+        $selectedCategoryId = old('category', $request->input('category'));
+        $selectedSubcategoryId = old('subcategory', $request->input('subcategory'));
+        $subcategories = $selectedCategoryId ? Subcategory::where('category_id', $selectedCategoryId)->get() : collect();
+    
+        $subSubcategories = $selectedSubcategoryId ? SubSubcategory::where('subcategory_id', $selectedSubcategoryId)->get() : collect();
+        return view('admin_dashboard.add_products', compact('categories', 'subcategories', 'subSubcategories', 'selectedCategoryId', 'selectedSubcategoryId'));
     }
+    
+    
 
-
+    
     public function getSubcategories($categoryId)
     {
         $subcategories = Subcategory::where('category_id', $categoryId)->get(['id', 'subcategory as name']);

@@ -125,38 +125,63 @@
 
                         <div class="row">
                             <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="productImages">Product Images</label>
-                                <div id="dropZone" class="drop-zone">
-                                    <p><i class="fas fa-images me-2"></i>Drag and drop images here or click to select</p>
-                                    <input type="file" id="productImages" name="productImages[]" accept="image/*" multiple style="display: none;">
-                                    <div class="image-preview" id="imagePreview">
-                                        @if($product->images->isNotEmpty())
-                                            @foreach($product->images as $image)
-                                                <div class="image-container" data-image-id="{{ $image->id }}" style="position: relative; display: inline-block; margin-right: 10px;">
-                                                    <img src="{{ asset('storage/' . $image->image_path) }}" alt="Product Image" style="max-width: 100px;">
-                                                    <button type="button" class="delete-btn" data-image-id="{{ $image->id }}" style="position: absolute; top: 5px; right: 5px; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; text-align: center; line-height: 20px; cursor: pointer;">X</button>
-                                                </div>
-                                            @endforeach
-                                        @else
-                                            <p>No images uploaded</p>
-                                        @endif
+                                <div class="form-group">
+                                    <label for="productImages">Product Images</label>
+                                    <div id="dropZone" class="drop-zone">
+                                        <p><i class="fas fa-images me-2"></i>Drag and drop images here or click to select</p>
+                                        <input type="file" id="productImages" name="productImages[]" accept="image/*" multiple style="display: none;">
+                                        <div class="image-preview" id="imagePreview">
+                                            @if($product->images->isNotEmpty())
+                                                @foreach($product->images as $image)
+                                                    <div class="image-container" data-image-id="{{ $image->id }}" style="position: relative; display: inline-block; margin-right: 10px;">
+                                                        <img src="{{ asset('storage/' . $image->image_path) }}" alt="Product Image" style="max-width: 100px;">
+                                                        <button type="button" class="delete-btn" data-image-id="{{ $image->id }}" style="position: absolute; top: 5px; right: 5px; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; text-align: center; line-height: 20px; cursor: pointer;">X</button>
+                                                    </div>
+                                                @endforeach
+                                            @else
+                                                <p>No images uploaded</p>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="category">Category</label>
-                                    <select id="category" name="category" class="form-control">
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}" {{ $product->product_category == $category->id ? 'selected' : '' }}>
-                                            {{ $category->parent_category }}
-                                        </option>
-                                    @endforeach
+                                    <select id="category" name="category" class="form-control" onchange="updateSubcategories()">
+                                        <option value="">Select Category</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->parent_category }}" {{ $product->product_category == $category->parent_category ? 'selected' : '' }}>
+                                                {{ $category->parent_category }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="subcategory">Subcategory</label>
+                                    <select id="subcategory" name="subcategory" class="form-control" onchange="updateSubSubcategories()">
+                                        <option value="">Select Subcategory</option>
+                                        @foreach ($subcategories as $subcategory)
+                                            <option value="{{ $subcategory->subcategory }}" {{ $product->subcategory == $subcategory->subcategory ? 'selected' : '' }}>
+                                                {{ $subcategory->subcategory }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="subsubcategory">Sub-Subcategory</label>
+                                    <select id="subsubcategory" name="subsubcategory" class="form-control">
+                                        <option value="">Select Sub-Subcategory</option>
+                                        @foreach ($subSubcategories as $subSubcategory)
+                                            <option value="{{ $subSubcategory->sub_subcategory }}" {{ $product->subsubcategory == $subSubcategory->sub_subcategory ? 'selected' : '' }}>
+                                                {{ $subSubcategory->sub_subcategory }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
                                 <div class="form-group">
                                     <label for="quantity">Quantity</label>
                                     <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter quantity" value="{{ old('quantity', $product->quantity) }}">
@@ -185,7 +210,6 @@
                             <label for="commissionPercentage">Commission %</label>
                             <input type="number" id="commissionPercentage" name="commissionPercentage" class="form-control" value="{{ old('commissionPercentage', $product->commission_percentage) }}" placeholder="Enter commission percentage" step="0.01" min="0" max="100">
                         </div>
-
 
                         <div class="form-group">
                             <label for="totalPrice">Total Price</label>

@@ -62,6 +62,7 @@
         border: 2px dashed #ddd;
         border-radius: 5px;
         padding: 2rem;
+        height: 250px;
         text-align: center;
         cursor: pointer;
         background-color: #f9f9f9;
@@ -137,23 +138,35 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="category">Category</label>
-                                    <select id="category" name="category" class="form-control">
+                                    <select id="category" name="category" class="form-control" onchange="this.form.submit()">
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->parent_category }}</option>
+                                            <option value="{{ $category->id }}" {{ $category->id == $selectedCategoryId ? 'selected' : '' }}>
+                                                {{ $category->parent_category }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="subcategory">Subcategory</label>
-                                    <select id="subcategory" name="subcategory" class="form-control">
+                                    <select id="subcategory" name="subcategory" class="form-control" onchange="this.form.submit()">
                                         <option value="">Select Subcategory</option>
+                                        @foreach ($subcategories as $subcategory)
+                                            <option value="{{ $subcategory->id }}" {{ $subcategory->id == $selectedSubcategoryId ? 'selected' : '' }}>
+                                                {{ $subcategory->subcategory }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="subsubcategory">Sub-Subcategory</label>
                                     <select id="subsubcategory" name="subsubcategory" class="form-control">
                                         <option value="">Select Sub-Subcategory</option>
+                                        @foreach ($subSubcategories as $subSubcategory)
+                                            <option value="{{ $subSubcategory->id }}" {{ $subSubcategory->id == old('subsubcategory') ? 'selected' : '' }}>
+                                                {{ $subSubcategory->sub_subcategory }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -198,57 +211,6 @@
     </div>
 </main>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const categorySelect = document.getElementById('category');
-    const subcategorySelect = document.getElementById('subcategory');
-    const subSubcategorySelect = document.getElementById('subsubcategory');
-
-    categorySelect.addEventListener('change', function() {
-        const categoryId = this.value;
-
-        if (categoryId) {
-            fetch(`/api/subcategories/${categoryId}`)
-                .then(response => response.json())
-                .then(data => {
-                    subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
-                    data.subcategories.forEach(subcategory => {
-                        const option = document.createElement('option');
-                        option.value = subcategory.id;
-                        option.textContent = subcategory.name;
-                        subcategorySelect.appendChild(option);
-                    });
-                    subSubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
-                })
-                .catch(error => console.error('Error fetching subcategories:', error));
-        } else {
-            subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
-            subSubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
-        }
-    });
-
-    subcategorySelect.addEventListener('change', function() {
-        const subcategoryId = this.value;
-
-        if (subcategoryId) {
-            fetch(`/api/sub-subcategories/${subcategoryId}`)
-                .then(response => response.json())
-                .then(data => {
-                    subSubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
-                    data.sub_subcategories.forEach(subSubcategory => {
-                        const option = document.createElement('option');
-                        option.value = subSubcategory.id;
-                        option.textContent = subSubcategory.name;
-                        subSubcategorySelect.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Error fetching sub-subcategories:', error));
-        } else {
-            subSubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
-        }
-    });
-});
-</script>
 
 
 

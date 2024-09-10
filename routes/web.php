@@ -118,9 +118,14 @@ Route::view('/affiliate/dashboard/account/tracking_id', 'affiliate_dashboard.tra
 
 //admin dashboard
 Route::view('/admin/dashboard', 'admin_dashboard.index')->name('admin.index');
+Route::get('/admin/products', [ProductController::class, 'showProducts'])->name('products');
+
+
+Route::get('/subcategories/{categoryId}', [ProductController::class, 'getSubcategories']);
+Route::get('/sub-subcategories/{subcategoryId}', [ProductController::class, 'getSubSubcategories']);
 Route::get('/admin/products/add_products', [ProductController::class, 'showCategory'])->name('add_products');
 Route::post('/admin/products/add_products', [ProductController::class, 'store'])->name('store_product');
-Route::get('/admin/products', [ProductController::class, 'showProducts'])->name('products');
+
 
 Route::get('/admin/products/edit/{id}', [ProductController::class, 'edit'])->name('edit_product');
 Route::put('/admin/products/{id}', [ProductController::class, 'update'])->name('update_product');
@@ -137,9 +142,6 @@ Route::get('/admin/users/{id}', [UserController::class, 'getUserDetails']);
 Route::post('/admin/users', [UserController::class, 'store'])->name('admin_users.store');
 
 Route::view('/admin/customer_inquiries', 'admin_dashboard.customer_inquiries')->name('customer_inquiries');
-
-Route::get('/api/subcategories/{categoryId}', [ProductController::class, 'getSubcategories']);
-Route::get('/api/sub-subcategories/{subcategoryId}', [ProductController::class, 'getSubSubcategories']);
 
 
 
