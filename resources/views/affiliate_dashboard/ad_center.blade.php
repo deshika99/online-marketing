@@ -44,7 +44,7 @@
                                         <option value="all" {{ request('category') == 'all' ? 'selected' : '' }}>All Categories</option>
                                         @foreach($categories as $category)
                                             <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
-                                                {{ $category->name }}
+                                                {{ $category->parent_category }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -112,14 +112,13 @@
                                                 <div class="commission mb-2">
                                                     Est. Commission Rs. {{ $commissionPrice }} | {{ $product->commission_percentage }}%
                                                 </div>
-                                                <a href="#" class="btn btn-primary btn_promote mb-4">Promote Now</a>
+                                                <a href="{{ route('products.promoteModal', $product->id) }}" class="btn btn-primary  btn_promote mb-4" data-bs-toggle="modal" data-bs-target="#promoteModal">Promote Now</a>
                                             </a>
                                         </div>
                                     </div>
                                 @endforeach
                             </div>
                         </div>
-
                     </div>
           
 
@@ -133,7 +132,7 @@
                                         <option value="all" {{ request('category') == 'all' ? 'selected' : '' }}>All Categories</option>
                                         @foreach($categories as $category)
                                             <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
-                                                {{ $category->name }}
+                                                {{ $category->parent_category }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -224,6 +223,46 @@
     </div>
 </main>
 
+
+<!-- Promote Modal -->
+<div class="modal fade" id="promoteModal" tabindex="-1" aria-labelledby="promoteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="promoteModalLabel">Promo Items</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @if(isset($product))
+                    <div class="d-flex">
+                        <div class="me-3">
+                            <p>Picture:</p>
+                        </div>
+                        <div id="productImagesContainer" class="d-flex flex-wrap">
+                            @foreach($product->images as $image)
+                                <div class="image-wrapper position-relative mb-2 me-2">
+                                    <img src="{{ asset('storage/' . $image->image_path) }}" alt="Product Image" class="img-fluid" width="100px" data-image-id="{{ $image->id }}" style="cursor: pointer;">
+                                    <input type="checkbox" class="position-absolute top-0 start-0 m-2 image-checkbox" style="z-index: 1; display: none;">
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @else
+                    <p>No images available for this product.</p>
+                @endif
+                <button type="button" style="margin-left: 70px;" class="btn btn-secondary btn-sm" id="downloadAllBtn">Download All</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="downloadSelectedBtn" disabled>Download Selected</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var categorySelectHotDeals = document.getElementById('categoriesHotDeals');
@@ -298,6 +337,53 @@
             checkbox.addEventListener('change', updateSelectedCount);
         });
     });
+
+
+//download images
+document.addEventListener('DOMContentLoaded', function() {
+    const imageWrappers = document.querySelectorAll('.image-wrapper');
+    const downloadAllBtn = document.getElementById('downloadAllBtn');
+    const downloadSelectedBtn = document.getElementById('downloadSelectedBtn');
+
+    imageWrappers.forEach(wrapper => {
+        const img = wrapper.querySelector('img');
+        const checkbox = wrapper.querySelector('.image-checkbox');
+
+        img.addEventListener('click', () => {
+            checkbox.checked = !checkbox.checked;
+            checkbox.style.display = checkbox.checked ? 'block' : 'none';
+            updateDownloadSelectedBtn();
+        });
+
+        checkbox.addEventListener('change', () => {
+            updateDownloadSelectedBtn();
+        });
+    });
+
+    downloadAllBtn.addEventListener('click', () => {
+        const allImageIds = Array.from(document.querySelectorAll('.image-wrapper img')).map(img => img.getAttribute('data-image-id'));
+        downloadImages(allImageIds);
+    });
+
+    downloadSelectedBtn.addEventListener('click', () => {
+        const selectedImageIds = Array.from(document.querySelectorAll('.image-checkbox:checked')).map(cb => cb.previousElementSibling.getAttribute('data-image-id'));
+        if (selectedImageIds.length > 0) {
+            downloadImages(selectedImageIds);
+        }
+    });
+
+    function updateDownloadSelectedBtn() {
+        const anyImageChecked = document.querySelector('.image-checkbox:checked') !== null;
+        downloadSelectedBtn.disabled = !anyImageChecked;
+    }
+
+    function downloadImages(imageIds) {
+        if (imageIds.length > 0) {
+            window.location.href = `/affiliate/dashboard/ad_center/download-images?ids=${imageIds.join(',')}`;
+        }
+    }
+});
+
 </script>
 
 

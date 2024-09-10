@@ -26,7 +26,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-      <li class="breadcrumb-item" aria-current="page" id="breadcrumb-product">Shopping Cart</li>
+      <li class="breadcrumb-item" aria-current="page" id="breadcrumb-product"><a href="{{ url('/shopping-cart') }}">Shopping Cart</a></li>
       <li class="breadcrumb-item active" aria-current="page" id="breadcrumb-product">Checkout</li>
     </ol>
   </nav>
@@ -66,8 +66,8 @@
                 <div class="col-6 mb-3">
                   <p class="mb-0">Email</p>
                   <div class="form-outline">
-                    <input type="email" name="email" id="email" placeholder="" class="form-control" required/>
-                    <span class="error-message" id="emailError"></span>
+                    <input type="email" name="email" id="billingEmail" placeholder="" class="form-control" required/>
+                    <span class="error-message" id="billingEmailError"></span>
                   </div>
                 </div>
               </div>
@@ -126,35 +126,35 @@
 
         <!-- Summary -->
         <div class="col-md-4">
-          <div class="card shadow-0 border summary-card">
-            <div class="p-4">
-              <h5 class="mb-3">Your Order</h5>
-              @forelse ($cart as $item)
-                  <div class="d-flex justify-content-between">
-                      <p class="mb-2">{{ $item['title'] }} x {{ $item['quantity'] ?? 1 }}</p>
-                      <p class="mb-2">Rs. {{ ($item['price'] ?? 0) * ($item['quantity'] ?? 1) }}</p>
-                  </div>
-              @empty
-                  <p>No items in the cart</p>
-              @endforelse
-              <hr />
-              <div class="d-flex justify-content-between">
-                <p class="mb-2">Subtotal:</p>
-                <p class="mb-2">Rs.{{ array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cart)) }}</p>
-              </div>
-              <div class="d-flex justify-content-between">
-                <p class="mb-2">Shipping:</p>
-                <p class="mb-2">Rs.250.00</p>
-              </div>
-              <hr />
-              <div class="d-flex justify-content-between">
-                <h5 class="mb-2">Total:</h5>
-                <h5 class="mb-2 fw-bold">Rs. {{ array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cart)) + 250 }}</h5>
-              </div>
-              <button type="button" class="btn w-100" data-bs-toggle="modal" data-bs-target="#confirmModal" 
-              style="background-color:#4A2FF4; color:white;">Place Order</button>
+            <div class="card shadow-0 border summary-card">
+                <div class="p-4">
+                    <h5 class="mb-3">Your Order</h5>
+                    @forelse ($cart as $item)
+                        <div class="d-flex justify-content-between">
+                            <p class="mb-2">{{ $item->title }} x {{ $item->quantity ?? 1 }}</p>
+                            <p class="mb-2">Rs. {{ ($item->price ?? 0) * ($item->quantity ?? 1) }}</p>
+                        </div>
+                    @empty
+                        <p>No items in the cart</p>
+                    @endforelse
+                    <hr />
+                    <div class="d-flex justify-content-between">
+                        <p class="mb-2">Subtotal:</p>
+                        <p class="mb-2">Rs. {{ $cart->sum(fn($item) => $item->price * $item->quantity) }}</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p class="mb-2">Shipping:</p>
+                        <p class="mb-2">Rs. 250</p>
+                    </div>
+                    <hr />
+                    <div class="d-flex justify-content-between">
+                        <h5 class="mb-2">Total:</h5>
+                        <h5 class="mb-2 fw-bold">Rs. {{ $cart->sum(fn($item) => $item->price * $item->quantity) + 250 }}</h5>
+                    </div>
+                    <button type="button" class="btn w-100" data-bs-toggle="modal" data-bs-target="#confirmModal" 
+                    style="background-color:#4A2FF4; color:white;">Place Order</button>
+                </div>
             </div>
-          </div>
         </div>
       </div>
     </form>
@@ -196,7 +196,7 @@
     document.getElementById('confirmButton').addEventListener('click', function() {
       let formValid = true;
 
-      ['firstName', 'lastName', 'phone', 'email', 'address', 'city', 'postalCode'].forEach(function(id) {
+      ['firstName', 'lastName', 'phone', 'billingEmail', 'address', 'city', 'postalCode'].forEach(function(id) {
         let input = document.getElementById(id);
         let error = document.getElementById(id + 'Error');
         
@@ -213,6 +213,7 @@
       }
     });
   });
+
 </script>
 
 @endsection

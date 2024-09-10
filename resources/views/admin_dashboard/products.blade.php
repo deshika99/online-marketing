@@ -74,7 +74,7 @@
                             </thead>
                             <tbody>
                             @foreach ($products as $index => $product)
-                                <tr class="product-row" data-category="{{ $product->category_id }}" data-affiliate="{{ $product->is_affiliate ? 'true' : 'false' }}" data-id="{{ $product->id }}" data-images="{{ $product->images->toJson() }}">
+                                <tr class="product-row" data-category="{{ $product->category_id }}" data-affiliate="{{ $product->is_affiliate ? 'true' : 'false' }}" data-id="{{ $product->product_id }}" data-images="{{ $product->images->toJson() }}">
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $product->product_name }}</td>
                                     <td>
@@ -84,7 +84,7 @@
                                             No Image
                                         @endif
                                     </td>
-                                    <td>{{ $product->category->name ?? 'No Category' }}</td>
+                                    <td>{{ $product->category->parent_category ?? 'No Category' }}</td>
                                     <td class="normal-price" style="display:none;">Rs {{ number_format($product->normal_price, 2) }}</td>
                                     <td>{{ $product->quantity }}</td>
                                     <td class="affiliate-price" style="display:none;">Rs {{ $product->affiliate_price ? number_format($product->affiliate_price, 2) : '-' }}</td>

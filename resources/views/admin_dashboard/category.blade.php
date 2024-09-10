@@ -2,10 +2,6 @@
 
 @section('content')
 
-<style>
-
-</style>
-
 <main style="margin-top: 58px">
     <div class="container py-4 px-4">
         <div class="d-flex justify-content-between align-items-center">
@@ -25,49 +21,36 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Dress</td>
-                                <td>
-                                    <ul class="subcategory-list">
-                                        <li class="subcategory-item">Ladies
-                                            <ul class="subsubcategory-list">
-                                                <li class="subsubcategory-item">Crop Tops</li>
-                                                <li class="subsubcategory-item">Denim</li>
-                                            </ul>
-                                        </li>
-                                        <li class="subcategory-item">Men</li>
-                                    </ul>
-                                </td>
-                                <td>
-                                    <div class="category-actions">
-                                        <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editCategoryModal">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <button class="btn btn-sm btn-danger">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Cosmetics</td>
-                                <td>
-                                    <ul class="subcategory-list">
-                                        <li class="subcategory-item">Night Cream</li>
-                                        <li class="subcategory-item">Day Cream</li>
-                                    </ul>
-                                </td>
-                                <td>
-                                    <div class="category-actions">
-                                        <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editCategoryModal">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <button class="btn btn-sm btn-danger">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                            @foreach ($categories as $category)
+                                <tr>
+                                    <td>{{ $category->parent_category }}</td>
+                                    <td>
+                                        <ul class="subcategory-list">
+                                            @foreach ($category->subcategories as $subcategory)
+                                                <li class="subcategory-item">{{ $subcategory->subcategory }}
+                                                    @if ($subcategory->subSubcategories->count() > 0)
+                                                        <ul class="subsubcategory-list">
+                                                            @foreach ($subcategory->subSubcategories as $subsubcategory)
+                                                                <li class="subsubcategory-item">- {{ $subsubcategory->sub_subcategory }}</li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <div class="category-actions">
+                                            <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editCategoryModal">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <button class="btn btn-sm btn-danger delete-category" data-id="{{ $category->id }}">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -75,6 +58,7 @@
         </div>
     </div>
 </main>
+
 
 
 
@@ -90,25 +74,17 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="categoryForm" method="POST" action="{{ route('category_add') }}">
+                    @csrf
                     <div class="mb-3">
-                        <label for="categoryName" class="form-label text-black">Category Name</label>
-                        <input type="text" class="form-control" id="categoryName" placeholder="Enter category name">
+                        <label for="parentCategory" class="form-label text-black">Category Name</label>
+                        <input type="text" class="form-control" id="parentCategory" name="parent_category" placeholder="Enter category name">
                     </div>
                     <div class="mb-3">
                         <label for="subcategories" class="form-label text-black">Subcategories</label>
                         <button class="btn btn-primary mt-2 mb-2 sub-add-btn" type="button" id="addSubcategoryGroup"><i class="fas fa-plus"></i></button>
                         <div id="subcategories">
-                            <div class="subcategory-wrapper mb-3">
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="Enter subcategory name">
-                                    <button class="btn btn-secondary add-subsubcategory" type="button"><i class="fas fa-plus"></i></button>
-                                    <button class="btn btn-danger delete-subcategory" type="button"><i class="fas fa-trash"></i></button>
-                                </div>
-                                <div class="sub-subcategories ms-4"></div>
-                            </div>
                         </div>
-                        
                     </div>
                     <button type="submit" class="btn btn-success mt-3">Add Category</button>
                 </form>
@@ -116,6 +92,7 @@
         </div>
     </div>
 </div>
+
 
 
 
@@ -160,12 +137,15 @@
 <script>
 // add modal
 document.addEventListener('DOMContentLoaded', function() {
+    let subcategoryIndex = 0; // Initialize counter for subcategories
+
     const addSubcategoryButton = document.getElementById('addSubcategoryGroup');
     const subcategoriesContainer = document.getElementById('subcategories');
 
     addSubcategoryButton.addEventListener('click', function() {
         const subcategoryWrapper = document.createElement('div');
         subcategoryWrapper.className = 'subcategory-wrapper mb-3';
+        subcategoryWrapper.dataset.index = subcategoryIndex; // Store the index
 
         const inputGroup = document.createElement('div');
         inputGroup.className = 'input-group mb-3';
@@ -173,6 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const input = document.createElement('input');
         input.type = 'text';
         input.className = 'form-control';
+        input.name = `subcategories[${subcategoryIndex}][name]`; // Use the index
         input.placeholder = 'Enter subcategory name';
 
         const addSubSubcategoryButton = document.createElement('button');
@@ -191,16 +172,23 @@ document.addEventListener('DOMContentLoaded', function() {
         subcategoryWrapper.appendChild(inputGroup);
 
         const subSubcategoriesContainer = document.createElement('div');
-        subSubcategoriesContainer.className = 'sub-subcategories ms-4'; 
+        subSubcategoriesContainer.className = 'sub-subcategories ms-4';
         subcategoryWrapper.appendChild(subSubcategoriesContainer);
 
+        subcategoriesContainer.appendChild(subcategoryWrapper);
+
+        subcategoryIndex++; // Increment the subcategory index
+
         addSubSubcategoryButton.addEventListener('click', function() {
+            const subSubcategoryIndex = subSubcategoriesContainer.children.length; // Index for sub-subcategories
+
             const subSubInputGroup = document.createElement('div');
             subSubInputGroup.className = 'input-group mb-3';
 
             const subSubInput = document.createElement('input');
             subSubInput.type = 'text';
             subSubInput.className = 'form-control';
+            subSubInput.name = `subcategories[${subcategoryWrapper.dataset.index}][sub_subcategories][${subSubcategoryIndex}][name]`; // Use both indices
             subSubInput.placeholder = 'Enter sub-subcategory name';
 
             const subSubDeleteButton = document.createElement('button');
@@ -209,70 +197,57 @@ document.addEventListener('DOMContentLoaded', function() {
             subSubDeleteButton.innerHTML = '<i class="fas fa-trash"></i>';
 
             subSubDeleteButton.addEventListener('click', function() {
-                subSubcategoriesContainer.removeChild(subSubInputGroup);
+                subSubInputGroup.remove();
             });
 
             subSubInputGroup.appendChild(subSubInput);
             subSubInputGroup.appendChild(subSubDeleteButton);
             subSubcategoriesContainer.appendChild(subSubInputGroup);
         });
-
-        subcategoriesContainer.appendChild(subcategoryWrapper);
-    });
-
-
-    subcategoriesContainer.addEventListener('click', function(e) {
-        if (e.target.closest('.add-subsubcategory')) {
-            const subcategoryWrapper = e.target.closest('.subcategory-wrapper');
-            const subSubcategoriesContainer = subcategoryWrapper.querySelector('.sub-subcategories');
-
-            const subSubInputGroup = document.createElement('div');
-            subSubInputGroup.className = 'input-group mb-3';
-
-            const subSubInput = document.createElement('input');
-            subSubInput.type = 'text';
-            subSubInput.className = 'form-control';
-            subSubInput.placeholder = 'Enter sub-subcategory name';
-
-            const subSubDeleteButton = document.createElement('button');
-            subSubDeleteButton.className = 'btn btn-danger';
-            subSubDeleteButton.type = 'button';
-            subSubDeleteButton.innerHTML = '<i class="fas fa-trash"></i>';
-
-            subSubDeleteButton.addEventListener('click', function() {
-                subSubcategoriesContainer.removeChild(subSubInputGroup);
-            });
-
-            subSubInputGroup.appendChild(subSubInput);
-            subSubInputGroup.appendChild(subSubDeleteButton);
-            subSubcategoriesContainer.appendChild(subSubInputGroup);
-        }
     });
 
     subcategoriesContainer.addEventListener('click', function(e) {
         if (e.target.closest('.delete-subcategory')) {
-            const subcategoryWrapper = e.target.closest('.subcategory-wrapper');
-            subcategoriesContainer.removeChild(subcategoryWrapper);
+            e.target.closest('.subcategory-wrapper').remove();
         }
     });
 });
-</script>
 
-<script>
+
+// delete category
 document.addEventListener('DOMContentLoaded', function() {
-    const deleteButtons = document.querySelectorAll('.btn-danger');
 
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', function(event) {
-            event.preventDefault();
-            if (confirm('Are you sure you want to delete this category?')) {
+    document.querySelectorAll('.delete-category').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const categoryId = this.getAttribute('data-id');
+
+            if (confirm('Are you sure you want to delete this category and its subcategories?')) {
+                fetch(`/admin/category/${categoryId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        this.closest('tr').remove();
+                        alert('Category and its subcategories deleted successfully.');
+                    } else {
+                        alert('Failed to delete the category.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while deleting the category.');
+                });
             }
         });
     });
 });
-
-
 </script>
+
 
 
 <script>
@@ -284,5 +259,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 </script>
+
+
 
 @endsection

@@ -15,7 +15,15 @@ class CustomerOrderItems extends Model
     protected $fillable = [
         'order_code',
         'item',
+        'product_id',
+        'quantity',
         'date',
         'cost',
     ];
+
+
+    public function order()
+    {
+        return $this->belongsTo(CustomerOrder::class, 'order_code', 'order_code');
+    }
 }

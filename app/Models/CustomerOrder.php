@@ -14,6 +14,7 @@ class CustomerOrder extends Model
 
     protected $fillable = [
         'order_code',
+        'user_id',
         'customer_fname',
         'customer_lname',
         'phone',
@@ -25,8 +26,15 @@ class CustomerOrder extends Model
         'postal_code',
         'date',
         'total_cost',
+        'status',
         'discount',
         'vat',
     ];
+
+
+    public function items()
+    {
+        return $this->hasMany(CustomerOrderItems::class, 'order_code', 'order_code');
+    }
 
 }

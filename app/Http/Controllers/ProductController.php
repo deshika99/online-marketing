@@ -12,13 +12,17 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+
     public function show(Request $request)
     {
         $title = $request->query('title');
         $image = $request->query('image');
         $price = $request->query('price');
 
-        return view('single_product_page', compact('title', 'image', 'price'));
+       
+        $productId = uniqid(); 
+
+        return view('single_product_page', compact('title', 'image', 'price', 'productId'));
     }
 
 
@@ -157,7 +161,7 @@ class ProductController extends Controller
                 $imagePath = $image->storeAs('product_images', $imageName, 'public');
 
                 ProductImage::create([
-                    'product_id' => $product->id,
+                    'product_id' => $product->product_id,
                     'image_path' => $imagePath,
                 ]);
             }
@@ -174,6 +178,23 @@ class ProductController extends Controller
         $categories = Category::all(); 
         return view('admin_dashboard.add_products', compact('categories'));
     }
+
+
+    public function getSubcategories($categoryId)
+    {
+        $subcategories = Subcategory::where('category_id', $categoryId)->get(['id', 'subcategory as name']);
+        return response()->json(['subcategories' => $subcategories]);
+    }
+    
+    public function getSubSubcategories($subcategoryId)
+    {
+        $subSubcategories = SubSubcategory::where('subcategory_id', $subcategoryId)->get(['id', 'sub_subcategory as name']);
+        return response()->json(['sub_subcategories' => $subSubcategories]);
+    }
+    
+    
+
+    
 
 
 

@@ -26,23 +26,22 @@
             <div class="col-lg-9">
                 <div class="shadow-0">
                     <div class="m-3">
-                        @forelse ($cart as $index => $item)
-                        <div class="row gy-2 mb-2 item-row">
+                    @forelse ($cart as $index => $item)
+                        <div class="row gy-2 mb-2 item-row" data-product-id="{{ $item->product_id }}">
                             <div class="col-lg-7 d-flex align-items-center"> 
                                 <input type="checkbox" class="form-check-input me-3">
-                                <img src="{{ $item['image'] ?? '/path/to/default-image.jpg' }}" class="border rounded me-3" style="width: 60px; height: 80px;" />
+                                <img src="{{ $item->image ?? '/assets/images/cart.png' }}" class="border rounded me-3" style="width: 60px; height: 70px;" />
                                 <div>
-                                    <a href="#" class="nav-link" style=" margin-bottom: 0.5rem;">{{ $item['title'] }}</a>
+                                    <a href="#" class="nav-link" style="margin-bottom: 0.5rem;">{{ $item->title }}</a>
                                     <p class="text-muted" style="margin: 0;"></p>
                                 </div>
                             </div>
                             <div class="col-lg-2 d-flex flex-column align-items-start">
                                 <div class="d-flex flex-column align-items-start">
-                                    <p class="text-orange h6 mb-1 mt-3">Rs. <span class="item-price">{{ $item['price'] }}</span></p>
+                                    <p class="text-orange h6 mb-1 mt-3">Rs. <span class="item-price">{{ $item->price }}</span></p>
                                     <div class="d-flex item-icons">
                                         <a href="#!" class="btn btn-light btn-no-border icon-hover-primary"><i class="fas fa-heart fa-lg text-secondary"></i></a>
-                                        <a href="#" class="btn btn-light btn-no-border icon-hover-danger btn-delete-item" 
-                                        data-index="{{ $index }}"><i class="fas fa-trash fa-lg text-secondary"></i></a>
+                                        <a href="#" class="btn btn-light btn-no-border icon-hover-danger btn-delete-item" data-product-id="{{ $item['product_id'] }}"><i class="fas fa-trash fa-lg text-secondary"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -51,20 +50,21 @@
                                     <button class="btn btn-white button-minus" type="button">
                                         <i class="fas fa-minus"></i>
                                     </button>
-                                    <input type="text" class="form-control text-center quantity" id="quantity" value="1" aria-label="Quantity" data-price="{{ $item['price'] }}" style="width: 50px;" />
+                                    <input type="text" class="form-control text-center quantity" id="quantity" value="{{ $item->quantity }}" aria-label="Quantity" data-price="{{ $item->price }}" style="width: 50px;" />
                                     <button class="btn btn-white button-plus" type="button">
                                         <i class="fas fa-plus"></i>
                                     </button>
                                 </div>
                             </div>
-                            
                         </div>
-                        @empty
+                    @empty
                         <p>No items in the cart</p>
-                        @endforelse
+                    @endforelse
+
                     </div>
                 </div>
             </div>
+
 
 
             <!-- summary -->
@@ -74,12 +74,16 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <p class="mb-2">SubTotal ({{ count($cart) }} items):</p>
-                            <p class="mb-2" id="subtotal">Rs. {{ array_sum(array_column($cart, 'price')) }}</p>
+                            <p class="mb-2" id="subtotal">
+                                Rs. {{ $cart->sum('price') }}
+                            </p>
                         </div>                       
                         <hr />
                         <div class="d-flex justify-content-between">
                             <p class="mb-2">Total:</p>
-                            <p class="mb-2 fw-bold" id="total" style="color:#f55b29;">Rs. {{ array_sum(array_column($cart, 'price')) }}</p>
+                            <p class="mb-2 fw-bold" id="total" style="color:#f55b29;">
+                                Rs. {{ $cart->sum('price') }}
+                            </p>
                         </div>
                         <div class="mt-3">
                             <a href="{{ route('checkout') }}" class="btn btn-checkout w-100 shadow-0 mb-2"> Proceed To checkout </a>
@@ -92,32 +96,27 @@
     </section>
 </div>
 
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
 $(document).ready(function() {
     // Update quantity and price
-    $('.button-plus').on('click', function() {
+    $('.button-plus, .button-minus').on('click', function() {
         const quantityInput = $(this).siblings('.quantity');
         const price = parseFloat(quantityInput.data('price'));
         let currentValue = parseInt(quantityInput.val());
-        if (!isNaN(currentValue)) {
+        
+        if ($(this).hasClass('button-plus')) {
             quantityInput.val(currentValue + 1);
-            updatePrice();
-        }
-    });
-
-    $('.button-minus').on('click', function() {
-        const quantityInput = $(this).siblings('.quantity');
-        const price = parseFloat(quantityInput.data('price'));
-        let currentValue = parseInt(quantityInput.val());
-        if (!isNaN(currentValue) && currentValue > 1) {
+        } else if ($(this).hasClass('button-minus') && currentValue > 1) {
             quantityInput.val(currentValue - 1);
-            updatePrice();
         }
+        
+        updatePrice($(this).closest('.item-row'));
     });
 
-
-    function updatePrice() {
+    function updatePrice(itemRow) {
         let subtotal = 0;
         $('.item-row').each(function() {
             const quantity = parseInt($(this).find('.quantity').val());
@@ -127,36 +126,35 @@ $(document).ready(function() {
         $('#subtotal').text('Rs. ' + subtotal.toFixed(2));
         $('#total').text('Rs. ' + subtotal.toFixed(2));
 
-        // Update the quantity in the session
-        $('.item-row').each(function() {
-            const quantity = $(this).find('.quantity').val();
-            const index = $(this).find('.btn-delete-item').data('index');
-            $.ajax({
-                url: `{{ route('cart.update') }}`,
-                method: 'POST',
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    index: index,
-                    quantity: quantity
-                },
-                success: function(response) {
-                },
-                error: function(xhr) {
+        const productId = itemRow.data('product-id'); 
+        const quantity = itemRow.find('.quantity').val();
+        
+        $.ajax({
+            url: '{{ route('cart.update') }}',
+            method: 'POST',
+            data: {
+                _token: "{{ csrf_token() }}",
+                product_id: productId,
+                quantity: quantity
+            },
+            success: function(response) {
+                if (response.success) {
+                    console.log(response.message);
                 }
-            });
+            },
+            error: function(xhr) {
+                console.log('Error updating quantity', xhr);
+            }
         });
     }
 
-
-
-    // Delete item from cart
     $('.btn-delete-item').on('click', function(e) {
         e.preventDefault();
 
-        const index = $(this).data('index');
+        const productId = $(this).data('product-id'); 
 
         $.ajax({
-            url: `{{ route('cart.remove', '') }}/${index}`,
+            url: `{{ route('cart.remove', '') }}/${productId}`,
             method: 'DELETE',
             data: {
                 _token: "{{ csrf_token() }}"
@@ -165,10 +163,13 @@ $(document).ready(function() {
                 location.reload(); 
             },
             error: function(xhr) {
+                console.log(xhr.responseText); 
                 alert('Something went wrong. Please try again.');
             }
         });
     });
 });
+</script>
+
 </script>
 @endsection

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('customer_order', function (Blueprint $table) {
             $table->id();
             $table->string('order_code')->index();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('customer_fname');
             $table->string('customer_lname');
             $table->string('phone');
@@ -25,6 +26,7 @@ return new class extends Migration
             $table->string('postal_code');
             $table->date('date');
             $table->decimal('total_cost', 15, 2);
+            $table->string('status')->nullable();
             $table->decimal('discount', 15, 2)->nullable();
             $table->decimal('vat', 15, 2)->nullable();
             $table->timestamps();   
