@@ -2,6 +2,23 @@
 
 @section('content')
 
+<style>
+    .subcategory-item {
+        cursor: pointer;
+        list-style: none;
+        margin-bottom: 10px;
+    }
+    .arrow-toggle {
+        margin-right: 5px;
+    }
+    .subcategory-item .subsubcategory-list {
+        padding-left: 20px;
+    }
+    .subcategory-item .fas.fa-chevron-down {
+        transform: rotate(90deg);
+    }
+</style>
+
 <main style="margin-top: 58px">
     <div class="container py-4 px-4">
         <div class="d-flex justify-content-between align-items-center">
@@ -27,9 +44,13 @@
                                     <td>
                                         <ul class="subcategory-list">
                                             @foreach ($category->subcategories as $subcategory)
-                                                <li class="subcategory-item">{{ $subcategory->subcategory }}
+                                                <li class="subcategory-item">
+                                                    <span class="arrow-toggle">
+                                                        <i class="fas fa-chevron-right"></i>
+                                                    </span>
+                                                    {{ $subcategory->subcategory }}
                                                     @if ($subcategory->subSubcategories->count() > 0)
-                                                        <ul class="subsubcategory-list">
+                                                        <ul class="subsubcategory-list d-none">
                                                             @foreach ($subcategory->subSubcategories as $subsubcategory)
                                                                 <li class="subsubcategory-item">- {{ $subsubcategory->sub_subcategory }}</li>
                                                             @endforeach
@@ -137,7 +158,7 @@
 <script>
 // add modal
 document.addEventListener('DOMContentLoaded', function() {
-    let subcategoryIndex = 0; // Initialize counter for subcategories
+    let subcategoryIndex = 0; 
 
     const addSubcategoryButton = document.getElementById('addSubcategoryGroup');
     const subcategoriesContainer = document.getElementById('subcategories');
@@ -145,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
     addSubcategoryButton.addEventListener('click', function() {
         const subcategoryWrapper = document.createElement('div');
         subcategoryWrapper.className = 'subcategory-wrapper mb-3';
-        subcategoryWrapper.dataset.index = subcategoryIndex; // Store the index
+        subcategoryWrapper.dataset.index = subcategoryIndex;
 
         const inputGroup = document.createElement('div');
         inputGroup.className = 'input-group mb-3';
@@ -153,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const input = document.createElement('input');
         input.type = 'text';
         input.className = 'form-control';
-        input.name = `subcategories[${subcategoryIndex}][name]`; // Use the index
+        input.name = `subcategories[${subcategoryIndex}][name]`; 
         input.placeholder = 'Enter subcategory name';
 
         const addSubSubcategoryButton = document.createElement('button');
@@ -177,10 +198,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         subcategoriesContainer.appendChild(subcategoryWrapper);
 
-        subcategoryIndex++; // Increment the subcategory index
+        subcategoryIndex++; 
 
         addSubSubcategoryButton.addEventListener('click', function() {
-            const subSubcategoryIndex = subSubcategoriesContainer.children.length; // Index for sub-subcategories
+            const subSubcategoryIndex = subSubcategoriesContainer.children.length;
 
             const subSubInputGroup = document.createElement('div');
             subSubInputGroup.className = 'input-group mb-3';
@@ -188,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const subSubInput = document.createElement('input');
             subSubInput.type = 'text';
             subSubInput.className = 'form-control';
-            subSubInput.name = `subcategories[${subcategoryWrapper.dataset.index}][sub_subcategories][${subSubcategoryIndex}][name]`; // Use both indices
+            subSubInput.name = `subcategories[${subcategoryWrapper.dataset.index}][sub_subcategories][${subSubcategoryIndex}][name]`; 
             subSubInput.placeholder = 'Enter sub-subcategory name';
 
             const subSubDeleteButton = document.createElement('button');
@@ -250,7 +271,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <script>
+
+document.querySelectorAll('.arrow-toggle').forEach(function(toggle) {
+        toggle.addEventListener('click', function() {
+            const subSubcategoryList = this.parentElement.querySelector('.subsubcategory-list');
+            const icon = this.querySelector('.fas');
+            if (subSubcategoryList) {
+                subSubcategoryList.classList.toggle('d-none');
+                icon.classList.toggle('fa-chevron-right');
+                icon.classList.toggle('fa-chevron-down');
+            }
+        });
+    });
+
     document.querySelectorAll('.subcategory-item').forEach(item => {
         item.addEventListener('click', (e) => {
             e.stopPropagation(); 

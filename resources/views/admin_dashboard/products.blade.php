@@ -84,7 +84,7 @@
                                             No Image
                                         @endif
                                     </td>
-                                    <td>{{ $product->category->parent_category ?? 'No Category' }}</td>
+                                    <td>{{ $product->product_category ?? 'No Category' }}</td>
                                     <td class="normal-price" style="display:none;">Rs {{ number_format($product->normal_price, 2) }}</td>
                                     <td>{{ $product->quantity }}</td>
                                     <td class="affiliate-price" style="display:none;">Rs {{ $product->affiliate_price ? number_format($product->affiliate_price, 2) : '-' }}</td>
