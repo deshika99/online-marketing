@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id()->unique();
             $table->string('order_code')->index();
             $table->string('product_id');
-            $table->string('item');
             $table->integer('quantity')->default(1);
             $table->date('date');
             $table->decimal('cost', 15, 2);

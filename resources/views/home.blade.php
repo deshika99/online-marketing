@@ -147,7 +147,7 @@
 
                             <div class="dropdown-menu">
                             <div class="dropdown-item dropdown-submenu">
-                                <a href="{{ route('dress') }}"><i class="fas fa-tshirt"></i> Dress</a>
+                                <a href=""><i class="fas fa-tshirt"></i> Dress</a>
                                 <div class="dropdown-menu multi-column">
                                     <div class="dropdown-column">
                                         <strong>Baby</strong>
@@ -192,7 +192,7 @@
                             </div>
                             
                             <div class="dropdown-item dropdown-submenu">
-                                <a href="{{ route('cosmetics') }}"><i class="fas fa-paint-brush"></i>Cosmetics</a>
+                                <a href=""><i class="fas fa-paint-brush"></i>Cosmetics</a>
                                 <div class="dropdown-menu multi-column">
                                     <div class="dropdown-column">
                                         <strong>Night Cream</strong>
@@ -374,7 +374,7 @@
                             </div>
 
                             <div class="dropdown-item dropdown-submenu">
-                                <a href="{{ route('toys') }}"><i class="fa-solid fa-puzzle-piece"></i>Toys</a>
+                                <a href=""><i class="fa-solid fa-puzzle-piece"></i>Toys</a>
                                 <div class="dropdown-menu multi-column">
                                     <div class="dropdown-column">
                                         <strong>Toys</strong>
@@ -401,7 +401,7 @@
                             </div>
 
                             <div class="dropdown-item dropdown-submenu">
-                                <a href="{{ route('gifts') }}"><i class="fas fa-gift"></i>Gift Items</a>
+                                <a href=""><i class="fas fa-gift"></i>Gift Items</a>
                                 <div class="dropdown-menu multi-column">
                                     <div class="dropdown-column">
                                         <strong>Gift Items</strong>
@@ -415,7 +415,7 @@
                             </div>
 
                             <div class="dropdown-item dropdown-submenu">
-                                <a href="{{ route('school_equipments') }}"><i class="fa-solid fa-pencil-ruler"></i>School Equipment</a>
+                                <a href=""><i class="fa-solid fa-pencil-ruler"></i>School Equipment</a>
                                 <div class="dropdown-menu multi-column">
                                     <div class="dropdown-column">
                                         <strong>School Equipment</strong>
@@ -435,7 +435,7 @@
                                 </div>
                             </div>
                             <div class="dropdown-item dropdown-submenu">
-                                <a href="{{ route('phone_Accessories') }}"><i class="fas fa-mobile-alt"></i>Phone Accessories</a>
+                                <a href=""><i class="fas fa-mobile-alt"></i>Phone Accessories</a>
                                 <div class="dropdown-menu multi-column">
                                     <div class="dropdown-column">
                                         <strong>Phone Accessories</strong>
@@ -456,7 +456,7 @@
                             </div>
 
                             <div class="dropdown-item dropdown-submenu">
-                                <a href="{{ route('baby_things') }}"><i class="fas fa-baby"></i>Baby Things</a>
+                                <a href=""><i class="fas fa-baby"></i>Baby Things</a>
                                 <div class="dropdown-menu multi-column">
                                     <div class="dropdown-column">
                                         <strong>Baby Things</strong>
@@ -477,7 +477,7 @@
                             </div>
 
                             <div class="dropdown-item dropdown-submenu">
-                                <a href="{{ route('house_hold_goods') }}"><i class="fas fa-couch"></i>House Hold Goods</a>
+                                <a href=""><i class="fas fa-couch"></i>House Hold Goods</a>
                                 <div class="dropdown-menu multi-column">
                                     <div class="dropdown-column">
                                         <strong>House Hold Goods</strong>
@@ -511,7 +511,7 @@
                             </div>
 
                             <div class="dropdown-item dropdown-submenu">
-                                <a href="{{ route('food') }}"><i class="fas fa-utensils"></i>Food</a>
+                                <a href=""><i class="fas fa-utensils"></i>Food</a>
                                 <div class="dropdown-menu multi-column">
                                     <div class="dropdown-column">
                                         <strong>Food</strong>
@@ -726,83 +726,23 @@
     </div>
     <!-- End Login Modal -->
 
-<!-- categories -->
+
+<!-- categories view -->
 <div class="container shopping-titles mt-4 mb-3" style="width: 80%;">
     <div class="row mt-5 row-cols-2 row-cols-md-3 row-cols-lg-6 g-2">
-        <div class="col text-center category-circle">
-            <a href="{{ route('dress') }}">
-                <img src="/assets/images/category/dress.png" alt="Category 1" class="rounded-circle">
-                <p class="mt-2">Dress</p>
+        @foreach ($categories as $category)
+            <div class="col text-center category-circle">
+            <a href="{{ route('user_products', ['category' => $category->parent_category]) }}">
+                <img src="{{ asset('storage/category_images/' . $category->image) }}" alt="{{ $category->parent_category }}" class="rounded-circle">
+                <p class="mt-2">{{ $category->parent_category }}</p>
             </a>
-        </div>
-        <div class="col text-center category-circle">
-            <a href="{{ route('toys') }}">
-                <img src="/assets/images/category/toy.png" alt="Category 2" class="rounded-circle">
-                <p class="mt-2">Toys</p>
-            </a>
-        </div>
-        <div class="col text-center category-circle">
-            <a href="{{ route('cosmetics') }}">
-                <img src="/assets/images/category/cosmetics.png" alt="Category 3" class="rounded-circle">
-                <p class="mt-2">Cosmetics</p>
-            </a>
-        </div>
-        <div class="col text-center category-circle">
-            <a href="{{ route('gifts') }}">
-                <img src="/assets/images/category/gift.png" alt="Category 4" class="rounded-circle">
-                <p class="mt-2">Gift Items</p>
-            </a>
-        </div>
-        <div class="col text-center category-circle">
-            <a href="{{ route('phone_Accessories') }}">
-                <img src="/assets/images/category/phone.png" alt="Category 5" class="rounded-circle">
-                <p class="mt-2">Phone Accessories</p>
-            </a>
-        </div>
-        <div class="col text-center category-circle">
-            <a href="{{ route('school_equipments') }}">
-                <img src="/assets/images/category/school.png" alt="Category 6" class="rounded-circle">
-                <p class="mt-2">School Equipment</p>
-            </a>
-        </div>
-        <div class="col text-center category-circle">
-            <a href="{{ route('baby_things') }}">
-                <img src="/assets/images/category/baby.png" alt="Category 7" class="rounded-circle">
-                <p class="mt-2">Baby Things</p>
-            </a>
-        </div>
-        <div class="col text-center category-circle">
-            <a href="{{ route('house_hold_goods') }}">
-                <img src="/assets/images/category/house.png" alt="Category 8" class="rounded-circle">
-                <p class="mt-2">Household Goods</p>
-            </a>
-        </div>
-        <div class="col text-center category-circle">
-            <a href="{{ route('food') }}">
-                <img src="/assets/images/category/food.png" alt="Category 9" class="rounded-circle">
-                <p class="mt-2">Food</p>
-            </a>
-        </div>
-        <div class="col text-center category-circle">
-            <a href="{{ route('dress') }}">
-                <img src="/assets/images/category/sports.png" alt="Category 10" class="rounded-circle">
-                <p class="mt-2">Hobby & Sports</p>
-            </a>
-        </div>
-        <div class="col text-center category-circle">
-            <a href="{{ route('dress') }}">
-                <img src="/assets/images/category/jewellary.png" alt="Category 11" class="rounded-circle">
-                <p class="mt-2">Jewellary</p>
-            </a>
-        </div>
-        <div class="col text-center category-circle">
-            <a href="{{ route('dress') }}">
-                <img src="/assets/images/category/fashion.png" alt="Category 12" class="rounded-circle">
-                <p class="mt-2">Fashion</p>
-            </a>
-        </div>
+            </div>
+        @endforeach
     </div>
 </div>
+
+
+
 
 
 

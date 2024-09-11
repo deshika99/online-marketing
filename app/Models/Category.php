@@ -12,6 +12,7 @@ class Category extends Model
 
     protected $fillable = [
         'parent_category',
+        'image',
     ];
 
     public function subcategories()

@@ -33,6 +33,7 @@
                         <thead>
                             <tr>
                                 <th>Category</th>
+                                <th>Image</th>
                                 <th>Subcategories</th>
                                 <th style="width:20%">Actions</th>
                             </tr>
@@ -41,6 +42,13 @@
                             @foreach ($categories as $category)
                                 <tr>
                                     <td>{{ $category->parent_category }}</td>
+                                    <td>
+                                        @if ($category->image)
+                                        <img src="{{ asset('storage/category_images/' . basename($category->image)) }}" alt="Category Image" style="max-width: 70px;">
+                                        @else
+                                            No Image
+                                        @endif
+                                    </td>
                                     <td>
                                         <ul class="subcategory-list">
                                             @foreach ($category->subcategories as $subcategory)
@@ -62,7 +70,7 @@
                                     </td>
                                     <td>
                                         <div class="category-actions">
-                                            <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editCategoryModal">
+                                            <a href="{{ route('edit_category', $category->id ) }}" class="btn btn-sm btn-warning" >
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             <button class="btn btn-sm btn-danger delete-category" data-id="{{ $category->id }}">
@@ -95,11 +103,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="categoryForm" method="POST" action="{{ route('category_add') }}">
+                <form id="categoryForm" method="POST" action="{{ route('category_add') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="parentCategory" class="form-label text-black">Category Name</label>
                         <input type="text" class="form-control" id="parentCategory" name="parent_category" placeholder="Enter category name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="categoryImage" class="form-label text-black">Category Image</label>
+                        <input type="file" class="form-control" id="categoryImage" name="image">
                     </div>
                     <div class="mb-3">
                         <label for="subcategories" class="form-label text-black">Subcategories</label>
@@ -117,7 +129,7 @@
 
 
 
-<!-- Edit Category Modal -->
+<!-- Edit Category Modal 
 <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content p-2">
@@ -151,7 +163,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 
 
 

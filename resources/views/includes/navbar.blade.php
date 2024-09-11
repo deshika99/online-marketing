@@ -215,7 +215,7 @@
 
                             <div class="dropdown-menu">
                             <div class="dropdown-item dropdown-submenu">
-                                <a href="{{ route('dress') }}"><i class="fas fa-tshirt"></i> Dress</a>
+                                <a href="{{ route('user_products') }}"><i class="fas fa-tshirt"></i> Dress</a>
                                 <div class="dropdown-menu multi-column">
                                     <div class="dropdown-column">
                                         <strong>Baby</strong>
@@ -260,7 +260,7 @@
                             </div>
                             
                             <div class="dropdown-item dropdown-submenu">
-                                <a href="{{ route('cosmetics') }}"><i class="fas fa-paint-brush"></i>Cosmetics</a>
+                                <a href=""><i class="fas fa-paint-brush"></i>Cosmetics</a>
                                 <div class="dropdown-menu multi-column">
                                     <div class="dropdown-column">
                                         <strong>Night Cream</strong>
@@ -442,7 +442,7 @@
                             </div>
 
                             <div class="dropdown-item dropdown-submenu">
-                                <a href="{{ route('toys') }}"><i class="fa-solid fa-puzzle-piece"></i>Toys</a>
+                                <a href=""><i class="fa-solid fa-puzzle-piece"></i>Toys</a>
                                 <div class="dropdown-menu multi-column">
                                     <div class="dropdown-column">
                                         <strong>Toys</strong>
@@ -469,7 +469,7 @@
                             </div>
 
                             <div class="dropdown-item dropdown-submenu">
-                                <a href="{{ route('gifts') }}"><i class="fas fa-gift"></i>Gift Items</a>
+                                <a href=""><i class="fas fa-gift"></i>Gift Items</a>
                                 <div class="dropdown-menu multi-column">
                                     <div class="dropdown-column">
                                         <strong>Gift Items</strong>
@@ -483,7 +483,7 @@
                             </div>
 
                             <div class="dropdown-item dropdown-submenu">
-                                <a href="{{ route('school_equipments') }}"><i class="fa-solid fa-pencil-ruler"></i>School Equipment</a>
+                                <a href=""><i class="fa-solid fa-pencil-ruler"></i>School Equipment</a>
                                 <div class="dropdown-menu multi-column">
                                     <div class="dropdown-column">
                                         <strong>School Equipment</strong>
@@ -503,7 +503,7 @@
                                 </div>
                             </div>
                             <div class="dropdown-item dropdown-submenu">
-                                <a href="{{ route('phone_Accessories') }}"><i class="fas fa-mobile-alt"></i>Phone Accessories</a>
+                                <a href=""><i class="fas fa-mobile-alt"></i>Phone Accessories</a>
                                 <div class="dropdown-menu multi-column">
                                     <div class="dropdown-column">
                                         <strong>Phone Accessories</strong>
@@ -524,7 +524,7 @@
                             </div>
 
                             <div class="dropdown-item dropdown-submenu">
-                                <a href="{{ route('baby_things') }}"><i class="fas fa-baby"></i>Baby Things</a>
+                                <a href=""><i class="fas fa-baby"></i>Baby Things</a>
                                 <div class="dropdown-menu multi-column">
                                     <div class="dropdown-column">
                                         <strong>Baby Things</strong>
@@ -545,7 +545,7 @@
                             </div>
 
                             <div class="dropdown-item dropdown-submenu">
-                                <a href="{{ route('house_hold_goods') }}"><i class="fas fa-couch"></i>House Hold Goods</a>
+                                <a href=""><i class="fas fa-couch"></i>House Hold Goods</a>
                                 <div class="dropdown-menu multi-column">
                                     <div class="dropdown-column">
                                         <strong>House Hold Goods</strong>
@@ -579,7 +579,7 @@
                             </div>
 
                             <div class="dropdown-item dropdown-submenu">
-                                <a href="{{ route('food') }}"><i class="fas fa-utensils"></i>Food</a>
+                                <a href=""><i class="fas fa-utensils"></i>Food</a>
                                 <div class="dropdown-menu multi-column">
                                     <div class="dropdown-column">
                                         <strong>Food</strong>

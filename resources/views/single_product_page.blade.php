@@ -30,35 +30,31 @@
 
 
     <section class="py-3">
-        <div class="container"  style="width: 80%;">
-            <div class="row gx-5">
+    <div class="container" style="width: 80%;">
+        <div class="row gx-5">
             <aside class="col-lg-5">
                 <div class="rounded-4 mb-3 d-flex justify-content-center">
-                    <a class="rounded-4 glightbox" data-type="image" href="{{ $image }}">
-                        <img id="product-image" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="{{ $image }}" />
+                    <a class="rounded-4 glightbox" data-type="image" href="{{ asset('storage/' . $product->images->first()->image_path) }}">
+                        <img id="product-image" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="{{ asset('storage/' . $product->images->first()->image_path) }}" />
                     </a>
                 </div>
                 <div class="d-flex justify-content-center mb-3">
-                    <a class="glightbox mx-1 rounded-2" style="border: none;" data-type="image" href="/assets/images/item1.png">
-                        <img width="60" height="60" class="rounded-2" src="" />
-                    </a>
-                    <a class="glightbox mx-1 rounded-2" style="border: none;" data-type="image" href="/assets/images/item5.png">
-                        <img width="60" height="60" class="rounded-2" src="" />
-                    </a>
-                    <a class="glightbox mx-1 rounded-2" style="border: none;" data-type="image" href="/assets/images/item7.png">
-                        <img width="60" height="60" class="rounded-2" src="" />
-                    </a>
-                    <a class="glightbox mx-1 rounded-2" style="border: none;" data-type="image" href="/assets/images/item6.png">
-                        <img width="60" height="60" class="rounded-2" src="" />
-                    </a>
+                    @foreach($product->images as $image)
+                        <a class="glightbox mx-1 rounded-2" style="border: none;" data-type="image" href="{{ asset('storage/' . $image->image_path) }}">
+                            <img width="60" height="60" class="rounded-2" src="{{ asset('storage/' . $image->image_path) }}" />
+                        </a>
+                    @endforeach
                 </div>
             </aside>
 
             <main class="col-lg-7">
                 <div class="ps-lg-3">
                     <h4 class="title text-dark">
-                        {{ $title }}
+                        {{ $product->product_name }}
                     </h4>
+                    <h5 class="title text-dark">
+                        {{ $product->product_description }}
+                    </h5>
                     <div class="d-flex flex-row my-3">
                         <div class="text-warning mb-1 me-2">
                             <i class="fa fa-star"></i>
@@ -73,41 +69,43 @@
                     </div>
                     <div style="margin-top: -15px;">
                         <span class="text-muted">Brand: </span>
-                        <span class="text-primary"> No Brand | More Wearable technology from No Brand</span>
+                        <span class="text-primary">No Brand | More Wearable technology from No Brand</span>
                     </div>
 
                     <hr />
 
-                    <span class="">Availability :</span>
-                    <span class="ms-1" style="color:#4caf50;">In stock</span>
-                    <span class="ms-5">Color:</span>
-                    <div class="d-inline-block ms-2">
-                        <span class="color-label" style="background-color: #f55b29;"></span>
-                        <span class="color-label" style="background-color: black;"></span>
-                        <span class="color-label" style="background-color: #ffeb3b;"></span>
-                        <span class="color-label" style="background-color: blue;"></span>
+                    <div class="product-availability mt-3">
+                        <span class="">Availability :</span>
+                        @if($product->quantity > 1)
+                            <span class="ms-1" style="color:#4caf50;">In stock</span>
+                        @else
+                            <span class="ms-1" style="color:red;">Out of stock</span>
+                        @endif
                     </div>
+
                     <div class="product-price mb-3 mt-3">
-                        <span class="h4" style="color:#f55b29;">Rs. {{ $price }}</span>
+                        <span class="h4" style="color:#f55b29;">Rs. {{ $product->normal_price }}</span>
                     </div>
 
                     <div class="d-flex">
-                        <a href="#" class="btn btn-custom-buy shadow-0 me-2" data-product-id="{{ $productId }}" onclick="buyNow()">Buy now</a>
-
-                        <a href="#" class="btn btn-custom-cart shadow-0" data-product-id="{{ $productId }}">
-                            <i class="me-1 fa fa-shopping-basket"></i>Add to cart
-                        </a>
+                        @auth
+                            <a href="#" class="btn btn-custom-buy shadow-0 me-2" data-product-id="{{ $product->product_id }}" data-auth="true" onclick="buyNow()">Buy now</a>
+                            <a href="#" class="btn btn-custom-cart shadow-0" data-product-id="{{ $product->product_id }}" data-auth="true">
+                                <i class="me-1 fa fa-shopping-basket"></i>Add to cart
+                            </a>
+                        @else
+                            <a href="#" class="btn btn-custom-buy shadow-0 me-2" data-product-id="{{ $product->product_id }}" data-auth="false" onclick="buyNow()">Buy now</a>
+                            <a href="#" class="btn btn-custom-cart shadow-0" data-product-id="{{ $product->product_id }}" data-auth="false">
+                                <i class="me-1 fa fa-shopping-basket"></i>Add to cart
+                            </a>
+                        @endauth
                     </div>
                 </div>
             </main>
-            <div>
-    
-
-
-
-            </div>
         </div>
-    </section>
+    </div>
+</section>
+
 
     <section class="bg-light border-top py-4" >
         <div class="container">
@@ -320,71 +318,64 @@ const lightbox = GLightbox({
 
 <script>
 $(document).ready(function() {
-    // Fetch initial cart count
-    $.get("{{ route('cart.count') }}", function(data) {
-        $('#cart-count').text(data.cart_count);
-    });
-
     $('.btn-custom-cart').on('click', function(e) {
         e.preventDefault();
 
-        const productId = $(this).data('product-id'); 
-        const title = $('.title').text().trim();
-        const price = $('.product-price .h4').text().trim().replace('Rs. ', '');
-        const image = $('#product-image').attr('src'); 
+        const productId = $(this).data('product-id');
+        const isAuth = $(this).data('auth');
 
-        $.ajax({
-            url: "{{ route('cart.add') }}",
-            method: 'POST',
-            data: {
-                _token: "{{ csrf_token() }}",
-                product_id: productId, 
-                title: title,
-                price: price,
-                image: image
-            },
-            success: function(response) {
-                $.get("{{ route('cart.count') }}", function(data) {
-                    $('#cart-count').text(data.cart_count);
-                });
-                alert('Item added to cart!');
-            },
-            error: function(xhr) {
-                console.log(xhr.responseText); 
-                alert('Something went wrong. Please try again.');
-            }
-        });
+        if (isAuth) {
+            $.ajax({
+                url: "{{ route('cart.add') }}",
+                method: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    product_id: productId
+                },
+                success: function(response) {
+                    $.get("{{ route('cart.count') }}", function(data) {
+                        $('#cart-count').text(data.cart_count);
+                    });
+                    alert('Item added to cart!');
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                    alert('Something went wrong. Please try again.');
+                }
+            });
+        } else {
+            alert('Please log in to add items to your cart.');
+        }
     });
 
-    // Buy Now button
     window.buyNow = function() {
-        const productId = $('.btn-custom-buy').data('product-id'); // Get product ID from data attribute
-        const title = $('.title').text().trim();
-        const price = $('.product-price .h4').text().trim().replace('Rs. ', '');
-        const image = $('#product-image').attr('src'); 
+        const productId = $('.btn-custom-buy').data('product-id');
+        const isAuth = $('.btn-custom-buy').data('auth');
 
-        $.ajax({
-            url: "{{ route('cart.add') }}",
-            method: 'POST',
-            data: {
-                _token: "{{ csrf_token() }}",
-                product_id: productId, 
-                title: title,
-                price: price,
-                image: image
-            },
-            success: function(response) {
-                $.get("{{ route('cart.count') }}", function(data) {
-                    $('#cart-count').text(data.cart_count);
-                });
-                window.location.href = "{{ route('shopping_cart') }}";
-            },
-            error: function(xhr) {
-                alert('Something went wrong. Please try again.');
-            }
-        });
+        if (isAuth) {
+            $.ajax({
+                url: "{{ route('cart.add') }}",
+                method: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    product_id: productId
+                },
+                success: function(response) {
+                    $.get("{{ route('cart.count') }}", function(data) {
+                        $('#cart-count').text(data.cart_count);
+                    });
+                    window.location.href = "{{ route('shopping_cart') }}";
+                },
+                error: function(xhr) {
+                    alert('Something went wrong. Please try again.');
+                }
+            });
+        } else {
+            alert('Please log in to proceed with your purchase.');
+        }
     }
 });
+
 
 
 </script>

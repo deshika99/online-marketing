@@ -124,15 +124,15 @@
           </div>
         </div>
 
-        <!-- Summary -->
-        <div class="col-md-4">
+         <!-- Summary -->
+         <div class="col-md-4">
             <div class="card shadow-0 border summary-card">
                 <div class="p-4">
                     <h5 class="mb-3">Your Order</h5>
                     @forelse ($cart as $item)
                         <div class="d-flex justify-content-between">
-                            <p class="mb-2">{{ $item->title }} x {{ $item->quantity ?? 1 }}</p>
-                            <p class="mb-2">Rs. {{ ($item->price ?? 0) * ($item->quantity ?? 1) }}</p>
+                            <p class="mb-2">{{ $item->product->product_name }} x {{ $item->quantity ?? 1 }}</p>
+                            <p class="mb-2">Rs. {{ ($item->product->normal_price ?? 0) * ($item->quantity ?? 1) }}</p>
                         </div>
                     @empty
                         <p>No items in the cart</p>
@@ -140,7 +140,7 @@
                     <hr />
                     <div class="d-flex justify-content-between">
                         <p class="mb-2">Subtotal:</p>
-                        <p class="mb-2">Rs. {{ $cart->sum(fn($item) => $item->price * $item->quantity) }}</p>
+                        <p class="mb-2">Rs. {{ $cart->sum(fn($item) => $item->product->normal_price * $item->quantity) }}</p>
                     </div>
                     <div class="d-flex justify-content-between">
                         <p class="mb-2">Shipping:</p>
@@ -149,7 +149,7 @@
                     <hr />
                     <div class="d-flex justify-content-between">
                         <h5 class="mb-2">Total:</h5>
-                        <h5 class="mb-2 fw-bold">Rs. {{ $cart->sum(fn($item) => $item->price * $item->quantity) + 250 }}</h5>
+                        <h5 class="mb-2 fw-bold">Rs. {{ $cart->sum(fn($item) => $item->product->normal_price * $item->quantity) + 250 }}</h5>
                     </div>
                     <button type="button" class="btn w-100" data-bs-toggle="modal" data-bs-target="#confirmModal" 
                     style="background-color:#4A2FF4; color:white;">Place Order</button>

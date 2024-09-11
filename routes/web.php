@@ -10,11 +10,11 @@ use App\Http\Controllers\AffiliateCustomerController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\HomeController;
 
 
-Route::get('/', function () {
-    return view('home');
-});
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
 
@@ -23,18 +23,8 @@ Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logou
 
 
 Route::view('/home/help-center', 'helpcenter')->name('helpcenter');
-Route::view('/home/dresses', 'dress')->name('dress');
-Route::view('/home/toys', 'toys')->name('toys');
-Route::view('/home/cosmetics', 'cosmetics')->name('cosmetics');
-Route::view('/home/gift-items', 'gifts')->name('gifts');
-Route::view('/home/school_equipments', 'school_equipments')->name('school_equipments');
-Route::view('/home/phone_Accessories', 'phone_Accessories')->name('phone_Accessories');
-Route::view('/home/baby_things', 'baby_things')->name('baby_things');
-Route::view('/home/house_hold_goods', 'house_hold_goods')->name('house_hold_goods');
-Route::view('/home/food', 'food')->name('food');
-
-
-
+Route::get('/home/products/{category?}', [ProductController::class, 'showProductsByCategory'])->name('user_products');
+Route::get('/product/{product_id?}', [ProductController::class, 'show'])->name('single_product_page');
 
 
 
@@ -79,7 +69,6 @@ Route::get('home/My-Account/logout', function () {
 Auth::routes();
 
 
-
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 Route::get('/shopping-cart', [CartController::class, 'showCart'])->name('shopping_cart');
 Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
@@ -87,7 +76,6 @@ Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.c
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/remove/{index}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
-Route::get('/product', [ProductController::class, 'show'])->name('single_product_page');
 Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('order.store');
 
 
@@ -120,12 +108,10 @@ Route::view('/affiliate/dashboard/account/tracking_id', 'affiliate_dashboard.tra
 Route::view('/admin/dashboard', 'admin_dashboard.index')->name('admin.index');
 Route::get('/admin/products', [ProductController::class, 'showProducts'])->name('products');
 
-
 Route::get('/subcategories/{categoryId}', [ProductController::class, 'getSubcategories']);
 Route::get('/sub-subcategories/{subcategoryId}', [ProductController::class, 'getSubSubcategories']);
 Route::get('/admin/products/add_products', [ProductController::class, 'showCategory'])->name('add_products');
 Route::post('/admin/products/add_products', [ProductController::class, 'store'])->name('store_product');
-
 
 Route::get('/admin/products/edit/{id}', [ProductController::class, 'edit'])->name('edit_product');
 Route::put('/admin/products/{id}', [ProductController::class, 'update'])->name('update_product');
@@ -143,11 +129,12 @@ Route::post('/admin/users', [UserController::class, 'store'])->name('admin_users
 
 Route::view('/admin/customer_inquiries', 'admin_dashboard.customer_inquiries')->name('customer_inquiries');
 
-
-
 Route::get('/admin/category', [CategoryController::class, 'showCategories'])->name('category');
 Route::post('/admin/category/add', [CategoryController::class, 'store'])->name('category_add');
 Route::delete('/admin/category/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+Route::get('category/edit/{id}', [CategoryController::class, 'edit'])->name('edit_category');
+Route::put('category/update/{id}', [CategoryController::class, 'update'])->name('update_category');
+
 
 
 Route::get('/admin/orders', [OrderController::class, 'index'])->name('orders');

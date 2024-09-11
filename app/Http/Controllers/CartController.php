@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CartItem;
+use App\Models\Products;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -12,9 +13,13 @@ class CartController extends Controller
 
     public function addToCart(Request $request)
     {
+        $productId = $request->input('product_id');
+        if (!$productId) {
+            return response()->json(['error' => 'Product ID is missing.'], 400);
+        }
+
         if (Auth::check()) {
             $user = Auth::user();
-            $productId = $request->input('product_id');
             $item = CartItem::where('user_id', $user->id)
                             ->where('product_id', $productId)
                             ->first();
@@ -26,19 +31,15 @@ class CartController extends Controller
                 CartItem::create([
                     'user_id' => $user->id,
                     'product_id' => $productId,
-                    'quantity' => 1,
-                    'price' => $request->input('price'),
-                    'title' => $request->input('title'), 
-                    'image' => $request->input('image')  
+                    'quantity' => 1
                 ]);
             }
         } else {
             $cart = session()->get('cart', []);
-            $itemTitle = $request->input('title');
             $itemFound = false;
 
             foreach ($cart as &$item) {
-                if ($item['title'] === $itemTitle) {
+                if ($item['product_id'] === $productId) {
                     $item['quantity'] = max($item['quantity'], 1);
                     $itemFound = true;
                     break;
@@ -47,10 +48,8 @@ class CartController extends Controller
 
             if (!$itemFound) {
                 $cart[] = [
-                    'title' => $request->input('title'),
-                    'price' => $request->input('price'),
-                    'image' => $request->input('image'),
-                    'quantity' => 1 
+                    'product_id' => $productId,
+                    'quantity' => 1
                 ];
             }
 
@@ -60,6 +59,7 @@ class CartController extends Controller
         $cartCount = Auth::check() ? CartItem::where('user_id', Auth::id())->sum('quantity') : count(session()->get('cart', []));
         return response()->json(['cart_count' => $cartCount]);
     }
+
 
     
 
@@ -80,21 +80,29 @@ class CartController extends Controller
 
     public function showCart()
     {
-        $cart = Auth::check() ? CartItem::where('user_id', Auth::id())->get() : session()->get('cart', []);
+        $cart = Auth::check() ? CartItem::with('product.images')->where('user_id', Auth::id())->get() : session()->get('cart', []);
         return view('shopping_cart', compact('cart'));
     }
+
+    
     
 
     public function checkout()
     {
         if (Auth::check()) {
-            $cart = CartItem::where('user_id', Auth::id())->get();
+            $cart = CartItem::with('product')->where('user_id', Auth::id())->get();
         } else {
-            $cart = collect(session()->get('cart', []));
+            $cartItems = session()->get('cart', []);
+            $cart = collect($cartItems)->map(function ($item) {
+                $product = Products::where('product_id', $item['product_id'])->first();
+                $item['product'] = $product;
+                return (object) $item;
+            });
         }
-    
+
         return view('checkout', compact('cart'));
     }
+
     
 
     

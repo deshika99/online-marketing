@@ -15,16 +15,29 @@ use Illuminate\Support\Facades\Storage;
 class ProductController extends Controller
 {
 
-    public function show(Request $request)
-    {
-        $title = $request->query('title');
-        $image = $request->query('image');
-        $price = $request->query('price');
-        $productId = uniqid(); 
 
-        return view('single_product_page', compact('title', 'image', 'price', 'productId'));
+
+    public function showProductsByCategory($category = null)
+    {
+        if ($category) {
+            $products = Products::with('images')->where('product_category', $category)->get();
+            return view('user_products', compact('products', 'category'));
+        } else {
+            $products = Products::with('images')->get();
+            return view('user_products', compact('products'));
+        }
     }
 
+    
+    public function show($product_id)
+    {
+        $product = ProductS::with('images')->where('product_id', $product_id)->firstOrFail();
+        return view('single_product_page', compact('product'));
+    }
+    
+
+    
+    
 
     public function showProducts()
     {
@@ -37,20 +50,18 @@ class ProductController extends Controller
     
     
     public function edit($id)
-{
-    $product = Products::findOrFail($id);
-    $categories = Category::all();
-    
-    // Get the current category and subcategory
-    $category = Category::where('parent_category', $product->product_category)->first();
-    $subcategory = Subcategory::where('subcategory', $product->subcategory)->first();
-    
-    // Get subcategories and sub-subcategories based on the category and subcategory names
-    $subcategories = $category ? $category->subcategories : collect();
-    $subSubcategories = $subcategory ? $subcategory->subSubcategories : collect();
-    
-    return view('admin_dashboard.edit_products', compact('product', 'categories', 'subcategories', 'subSubcategories'));
-}
+    {
+        $product = Products::findOrFail($id);
+        $categories = Category::all();
+        
+        $category = Category::where('parent_category', $product->product_category)->first();
+        $subcategory = Subcategory::where('subcategory', $product->subcategory)->first();
+        
+        $subcategories = $category ? $category->subcategories : collect();
+        $subSubcategories = $subcategory ? $subcategory->subSubcategories : collect();
+        
+        return view('admin_dashboard.edit_products', compact('product', 'categories', 'subcategories', 'subSubcategories'));
+    }
 
     
     
