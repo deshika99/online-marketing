@@ -21,7 +21,7 @@ class OrderController extends Controller
         $order->items()->delete();
         $order->delete();
     
-        return redirect()->route('orders')->with('success', 'Order and related items deleted successfully');
+        return redirect()->route('orders')->with('status', 'Order and related items deleted successfully');
     }
     
 

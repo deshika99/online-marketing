@@ -76,10 +76,10 @@
                                             <button class="btn btn-info btn-sm" onclick="setOrderCode('{{ $order->order_code }}')">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <form action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display:inline;">
+                                            <form id="delete-form-{{ $order->id }}" action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
+                                                <button type="button" class="btn btn-danger btn-sm "  onclick="confirmDelete('delete-form-{{ $order->id }}', 'you want to delete this Order?')">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </form>

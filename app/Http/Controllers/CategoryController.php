@@ -69,7 +69,7 @@ class CategoryController extends Controller
             }
         }
     
-        return redirect()->route('category')->with('success', 'Category added successfully.');
+        return redirect()->route('category')->with('status', 'Category added successfully.');
     }
     
 
@@ -81,7 +81,7 @@ class CategoryController extends Controller
         $parentCategory = Category::find($id);
     
         if (!$parentCategory) {
-            return response()->json(['success' => false, 'message' => 'Category not found.'], 404);
+            return response()->json(['status' => false, 'message' => 'Category not found.'], 404);
         }
     
         $parentCategory->subcategories()->each(function ($subcategory) {
@@ -91,7 +91,7 @@ class CategoryController extends Controller
     
         $parentCategory->delete();
     
-        return response()->json(['success' => true, 'message' => 'Category and its subcategories deleted successfully.']);
+        return response()->json(['status' => true, 'message' => 'Category and its subcategories deleted successfully.']);
     }
 
 
@@ -178,7 +178,7 @@ class CategoryController extends Controller
             $subcategory->delete();
         }
 
-        return redirect()->route('category')->with('success', 'Category updated successfully.');
+        return redirect()->route('category')->with('status', 'Category updated successfully.');
     }
 
 

@@ -95,10 +95,10 @@
                                             <i class="fas fa-eye"></i>
                                         </button>
                                         <a href="{{ route('edit_product', $product->id) }}" class="btn btn-warning btn-sm mb-1" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;"><i class="fas fa-edit"></i></a>
-                                        <form action="{{ route('delete_product', $product->id) }}" method="POST" style="display:inline;">
+                                        <form id="delete-form-{{ $product->id }}" action="{{ route('delete_product', $product->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm mb-1" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="return confirm('Are you sure?')">
+                                            <button type="button" class="btn btn-danger btn-sm mb-1" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="confirmDelete('delete-form-{{ $product->id }}', 'you want to delete this product?')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>

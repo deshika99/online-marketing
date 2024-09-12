@@ -1,6 +1,7 @@
 @extends('layouts.admin_main.master')
 
 @section('content')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css">
 <style>
    .btn-create {
         font-size: 0.8rem;
@@ -200,6 +201,49 @@
             </div>
         </div>
     </div>
+    <form action="" method="POST" enctype="multipart/form-data">
+    @csrf
+
+
+
+    <!-- Color Picker -->
+    <div id="color-picker"></div>
+    <input type="hidden" id="color-value" name="color">
+
+    <!-- Image Upload -->
+    <input type="file" name="images[]" multiple>
+
+    <!-- Size Input -->
+    <input type="text" name="sizes[]" placeholder="Size (e.g., S, M, L)" required>
+
+    <button type="submit">Add Product</button>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const pickr = Pickr.create({
+            el: '#color-picker',
+            theme: 'classic',
+            swatches: ['#000000', '#ffffff', '#ff0000', '#00ff00', '#0000ff'],
+            components: {
+                preview: true,
+                opacity: true,
+                hue: true,
+                interaction: {
+                    hex: true,
+                    rgba: true,
+                    input: true,
+                    cancel: true,
+                    save: true
+                }
+            }
+        });
+
+        pickr.on('change', (color) => {
+            document.getElementById('color-value').value = color.toHEXA().toString();
+        });
+    });
+</script>
 </main>
 
 
@@ -374,5 +418,5 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
 @endsection

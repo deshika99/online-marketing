@@ -14,6 +14,14 @@
         display: inline-block;
         margin-right: 10px;
     }
+
+    .btn-disabled {
+        cursor: not-allowed;
+        pointer-events: none; 
+        opacity: 0.6; 
+    }
+
+
 </style>
 
 <div class="container mt-4 mb-5">
@@ -89,13 +97,13 @@
 
                     <div class="d-flex">
                         @auth
-                            <a href="#" class="btn btn-custom-buy shadow-0 me-2" data-product-id="{{ $product->product_id }}" data-auth="true" onclick="buyNow()">Buy now</a>
-                            <a href="#" class="btn btn-custom-cart shadow-0" data-product-id="{{ $product->product_id }}" data-auth="true">
+                            <a href="#" class="btn btn-custom-buy shadow-0 me-2 {{ $product->quantity <= 1 ? 'btn-disabled' : '' }}" data-product-id="{{ $product->product_id }}" data-auth="true" onclick="buyNow()">Buy now</a>
+                            <a href="#" class="btn btn-custom-cart shadow-0 {{ $product->quantity <= 1 ? 'btn-disabled' : '' }}" data-product-id="{{ $product->product_id }}" data-auth="true">
                                 <i class="me-1 fa fa-shopping-basket"></i>Add to cart
                             </a>
                         @else
-                            <a href="#" class="btn btn-custom-buy shadow-0 me-2" data-product-id="{{ $product->product_id }}" data-auth="false" onclick="buyNow()">Buy now</a>
-                            <a href="#" class="btn btn-custom-cart shadow-0" data-product-id="{{ $product->product_id }}" data-auth="false">
+                            <a href="#" class="btn btn-custom-buy shadow-0 me-2 {{ $product->quantity <= 1 ? 'btn-disabled' : '' }}" data-product-id="{{ $product->product_id }}" data-auth="false" onclick="buyNow()">Buy now</a>
+                            <a href="#" class="btn btn-custom-cart shadow-0 {{ $product->quantity <= 1 ? 'btn-disabled' : '' }}" data-product-id="{{ $product->product_id }}" data-auth="false">
                                 <i class="me-1 fa fa-shopping-basket"></i>Add to cart
                             </a>
                         @endauth
@@ -105,6 +113,7 @@
         </div>
     </div>
 </section>
+
 
 
     <section class="bg-light border-top py-4" >
@@ -336,15 +345,25 @@ $(document).ready(function() {
                     $.get("{{ route('cart.count') }}", function(data) {
                         $('#cart-count').text(data.cart_count);
                     });
-                    alert('Item added to cart!');
+                    
+                    toastr.success('Item added to cart!', 'Success', {
+                        positionClass: 'toast-top-right',
+                        timeOut: 3000, 
+                    });
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
-                    alert('Something went wrong. Please try again.');
+                    toastr.error('Something went wrong. Please try again.', 'Error', {
+                        positionClass: 'toast-top-right',
+                        timeOut: 3000,
+                    });
                 }
             });
         } else {
-            alert('Please log in to add items to your cart.');
+            toastr.warning('Please log in to add items to your cart.', 'Warning', {
+                positionClass: 'toast-top-right',
+                timeOut: 3000,
+            });
         }
     });
 
@@ -367,14 +386,21 @@ $(document).ready(function() {
                     window.location.href = "{{ route('shopping_cart') }}";
                 },
                 error: function(xhr) {
-                    alert('Something went wrong. Please try again.');
+                    toastr.error('Something went wrong. Please try again.', 'Error', {
+                        positionClass: 'toast-top-right',
+                        timeOut: 3000,
+                    });
                 }
             });
         } else {
-            alert('Please log in to proceed with your purchase.');
+            toastr.warning('Please log in to proceed with your purchase.', 'Warning', {
+                positionClass: 'toast-top-right',
+                timeOut: 3000,
+            });
         }
     }
 });
+
 
 
 

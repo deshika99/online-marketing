@@ -103,14 +103,13 @@
                                         <a href="#" class="btn btn-warning btn-sm" data-id="{{ $user->id }}" data-bs-toggle="modal" data-bs-target="#editUserModal" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                      
-                                        <form action="{{ route('delete_user', ['id' => $user->id]) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="return confirm('Are you sure?')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
+                                            <form id="delete-form-{{ $user->id }}" action="{{ route('delete_user', ['id' => $user->id]) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" class="btn btn-danger btn-sm " style="font-size: 0.75rem; padding: 0.25rem 0.5rem;"  onclick="confirmDelete('delete-form-{{ $user->id }}', 'you want to delete this User?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -295,9 +294,8 @@ document.addEventListener('DOMContentLoaded', function() {
             fetch(`/admin/users/${userId}/edit`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Fetched data:', data); // Debugging: Check the fetched data
+                    console.log('Fetched data:', data);
 
-                    // Check for null or undefined values
                     document.getElementById('userId').value = data.id || '';
                     document.getElementById('Name').value = data.name || '';
                     document.getElementById('email').value = data.email || '';

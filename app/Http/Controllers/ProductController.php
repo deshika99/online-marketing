@@ -81,7 +81,7 @@ class ProductController extends Controller
         $product = Products::findOrFail($id);
         $product->delete();
 
-        return redirect()->route('products')->with('success', 'Product deleted successfully.');
+        return redirect()->route('products')->with('status', 'Product deleted successfully.');
     }
 
   
@@ -153,7 +153,7 @@ class ProductController extends Controller
             }
         }
     
-        return redirect()->route('products')->with('success', 'Product updated successfully!');
+        return redirect()->route('products')->with('status', 'Product updated successfully!');
     }
     
 
@@ -214,7 +214,7 @@ class ProductController extends Controller
             }
         }
 
-        return redirect()->route('products')->with('success', 'Product added successfully!');
+        return redirect()->route('products')->with('status', 'Product added successfully!');
     }
 
 

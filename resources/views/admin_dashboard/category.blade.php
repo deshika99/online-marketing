@@ -32,6 +32,7 @@
                     <table id="example" class="table category-table" style="width:100%">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Category</th>
                                 <th>Image</th>
                                 <th>Subcategories</th>
@@ -41,6 +42,7 @@
                         <tbody>
                             @foreach ($categories as $category)
                                 <tr>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $category->parent_category }}</td>
                                     <td>
                                         @if ($category->image)
@@ -247,38 +249,72 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// delete category
+//delete the categories
 document.addEventListener('DOMContentLoaded', function() {
-
     document.querySelectorAll('.delete-category').forEach(function(button) {
         button.addEventListener('click', function() {
             const categoryId = this.getAttribute('data-id');
 
-            if (confirm('Are you sure you want to delete this category and its subcategories?')) {
-                fetch(`/admin/category/${categoryId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        this.closest('tr').remove();
-                        alert('Category and its subcategories deleted successfully.');
-                    } else {
-                        alert('Failed to delete the category.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while deleting the category.');
-                });
-            }
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel',
+                customClass: {
+                    container: 'delete-confirm-modal' 
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/admin/category/${categoryId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => {                     
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.status) {
+                            Swal.fire(
+                                'Deleted!',
+                                'Category and its subcategories have been deleted.',
+                                'success'
+                            ).then(() => {
+                                this.closest('tr').remove();
+                            });
+                        } else {
+                            console.error('Server response does not indicate success:', data);
+                            Swal.fire(
+                                'Failed!',
+                                data.message || 'Failed to delete the category.',
+                                'error'
+                            );
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire(
+                            'Error!',
+                            'An error occurred while deleting the category.',
+                            'error'
+                        );
+                    });
+                }
+            });
         });
     });
 });
+
+
 </script>
 
 

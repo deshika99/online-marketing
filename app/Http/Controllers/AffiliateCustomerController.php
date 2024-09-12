@@ -22,10 +22,9 @@ class AffiliateCustomerController extends Controller
         $aff_customer = Aff_Customer::findOrFail($id);
         $aff_customer->status = $request->input('status');
         $aff_customer->save();
-
-        return redirect()->back()->with('success', 'Customer status updated successfully.');
+    
+        return redirect()->back()->with('status', 'Customer status updated successfully.');
     }
-
 
 
 
