@@ -17,15 +17,26 @@ class ProductController extends Controller
 
 
 
-    public function showProductsByCategory($category = null)
+    public function showProductsByCategory($category = null, $subcategory = null, $subsubcategory = null)
     {
-        if ($category) {
-            $products = Products::with('images')->where('product_category', $category)->get();
-            return view('user_products', compact('products', 'category'));
-        } else {
-            $products = Products::with('images')->get();
-            return view('user_products', compact('products'));
+        $query = Products::with('images');
+
+        if ($subsubcategory) {
+            $query->where('sub_subcategory', $subsubcategory);
+        } elseif ($subcategory) {
+            $query->where('subcategory', $subcategory);
+        } elseif ($category) {
+            $query->where('product_category', $category);
         }
+
+        $products = $query->get();
+
+        return view('user_products', [
+            'products' => $products,
+            'category' => $category,
+            'subcategory' => $subcategory,
+            'subsubcategory' => $subsubcategory
+        ]);
     }
 
     
@@ -54,19 +65,16 @@ class ProductController extends Controller
         $product = Products::findOrFail($id);
         $categories = Category::all();
         
-        $category = Category::where('parent_category', $product->product_category)->first();
-        $subcategory = Subcategory::where('subcategory', $product->subcategory)->first();
+        $selectedCategoryId = Category::where('parent_category', $product->product_category)->value('id');
+        $selectedSubcategoryId = Subcategory::where('subcategory', $product->subcategory)->value('id');
+
+        $subcategories = $selectedCategoryId ? Subcategory::where('category_id', $selectedCategoryId)->get() : collect();
+        $subSubcategories = $selectedSubcategoryId ? SubSubcategory::where('subcategory_id', $selectedSubcategoryId)->get() : collect();
         
-        $subcategories = $category ? $category->subcategories : collect();
-        $subSubcategories = $subcategory ? $subcategory->subSubcategories : collect();
-        
-        return view('admin_dashboard.edit_products', compact('product', 'categories', 'subcategories', 'subSubcategories'));
+        return view('admin_dashboard.edit_products', compact('product', 'categories', 'subcategories', 'subSubcategories', 'selectedCategoryId', 'selectedSubcategoryId'));
     }
 
-    
-    
-    
-    
+
 
     public function destroy($id)
     {
@@ -78,33 +86,35 @@ class ProductController extends Controller
 
   
 
-
-
     public function update(Request $request, $id)
     {
         $request->merge([
             'affiliateProduct' => $request->has('affiliateProduct') ? true : false,
         ]);
-
+    
         $validatedData = $request->validate([
             'productName' => 'required|string|max:255',
             'productDesc' => 'required|string',
-            'productImages.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'productImages.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'normalPrice' => 'required|numeric|min:0',
             'affiliateProduct' => 'nullable|boolean',
             'affiliatePrice' => 'nullable|numeric|min:0',
             'commissionPercentage' => 'nullable|numeric|min:0|max:100',
             'totalPrice' => 'required|numeric|min:0',
             'quantity' => 'nullable|numeric|min:0',
-            'category' => 'required|string',
-            'subcategory' => 'nullable|string',
-            'subsubcategory' => 'nullable|string',
+            'category' => 'required|integer|exists:categories,id',
+            'subcategory' => 'nullable|integer|exists:subcategories,id',
+            'subsubcategory' => 'nullable|integer|exists:sub_subcategories,id',
             'deleteImages' => 'nullable|array',
-            'deleteImages.*' => 'nullable|numeric|exists:product_images,id', 
+            'deleteImages.*' => 'nullable|numeric|exists:product_images,id',
         ]);
-
+    
         $product = Products::findOrFail($id);
-
+    
+        $categoryName = Category::find($validatedData['category'])->parent_category ?? '';
+        $subcategoryName = Subcategory::find($validatedData['subcategory'])->subcategory ?? '';
+        $subsubcategoryName = SubSubcategory::find($validatedData['subsubcategory'])->sub_subcategory ?? '';
+    
         $product->update([
             'product_name' => $validatedData['productName'],
             'product_description' => $validatedData['productDesc'],
@@ -114,12 +124,11 @@ class ProductController extends Controller
             'commission_percentage' => $validatedData['commissionPercentage'] ?? null,
             'total_price' => $validatedData['totalPrice'],
             'quantity' => $validatedData['quantity'],
-            'product_category' => $validatedData['category'],
-            'subcategory' => $validatedData['subcategory'],
-            'sub_subcategory' => $validatedData['subsubcategory'],
+            'product_category' => $categoryName,  
+            'subcategory' => $subcategoryName,   
+            'sub_subcategory' => $subsubcategoryName,  
         ]);
-
-
+    
         if ($request->has('deleteImages')) {
             foreach ($request->input('deleteImages') as $imageId) {
                 $image = ProductImage::find($imageId);
@@ -131,23 +140,24 @@ class ProductController extends Controller
                 }
             }
         }
-
-
+    
         if ($request->hasFile('productImages')) {
             foreach ($request->file('productImages') as $image) {
-                $imageName = time() . '_' . $image->getClientOriginalName(); // Unique name
+                $imageName = time() . '_' . $image->getClientOriginalName(); 
                 $imagePath = $image->storeAs('product_images', $imageName, 'public');
-
+    
                 ProductImage::create([
                     'product_id' => $product->product_id,
                     'image_path' => $imagePath,
                 ]);
             }
         }
-
+    
         return redirect()->route('products')->with('success', 'Product updated successfully!');
     }
+    
 
+    
     
     
 
@@ -238,7 +248,7 @@ class ProductController extends Controller
     
     
 
-    
+ 
 
 
 

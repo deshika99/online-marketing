@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NavbarController;
 
 
 
@@ -23,7 +24,8 @@ Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logou
 
 
 Route::view('/home/help-center', 'helpcenter')->name('helpcenter');
-Route::get('/home/products/{category?}', [ProductController::class, 'showProductsByCategory'])->name('user_products');
+Route::get('/home/products/{category?}/{subcategory?}/{subsubcategory?}', [ProductController::class, 'showProductsByCategory'])
+    ->name('user_products');
 Route::get('/product/{product_id?}', [ProductController::class, 'show'])->name('single_product_page');
 
 

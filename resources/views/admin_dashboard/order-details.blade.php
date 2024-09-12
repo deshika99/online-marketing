@@ -139,8 +139,8 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col">Image</th>
-                                    <th scope="col">Item Name</th>
+                                    <th scope="col">Product ID</th>
+                                    <th scope="col">Image</th> 
                                     <th scope="col">Quantity</th>
                                     <th scope="col" style="width:20%">Unit Price</th>
                                     <th scope="col" style="width:20%">Total</th>
@@ -149,8 +149,10 @@
                             <tbody>
                                 @foreach($items as $item)
                                 <tr>
-                                    <td><img src="" alt="" width="50"></td>
-                                    <td>{{ $item->item }}</td>
+                                    <td>{{ $item->product_id }}</td>
+                                    <td>
+                                        <img src="{{ asset('storage/' . $item->product->images->first()->image_path) }}" alt="Product Image" width="50">
+                                    </td>
                                     <td>{{ $item->quantity }}</td>
                                     <td>Rs {{ number_format($item->cost, 2) }}</td>
                                     <td>Rs {{ number_format($item->quantity * $item->cost, 2) }}</td>
@@ -162,7 +164,7 @@
                 </div>
             </div>
 
-            <div class="card summary-card">
+            <div class="card summary-card" style="height: 250px;">
                 <div class="card-title">Order Summary</div>
                 <div class="card-body">
                     <p>Subtotal: Rs {{ number_format($item->quantity * $item->cost, 2) }}</p>

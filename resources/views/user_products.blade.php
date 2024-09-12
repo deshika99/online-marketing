@@ -6,9 +6,25 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ $category }}</li>
+
+            @if(isset($subcategory))
+                <li class="breadcrumb-item">
+                    <a href="{{ route('user_products', ['category' => $category, 'subcategory' => $subcategory]) }}">{{ $subcategory }}</a>
+                </li>
+            @endif
+
+            @if(isset($subsubcategory))
+                <li class="breadcrumb-item active" aria-current="page">{{ $subsubcategory }}</li>
+            @elseif(isset($subcategory))
+                <li class="breadcrumb-item active" aria-current="page">{{ $subcategory }}</li>
+            @elseif(isset($category))
+                <li class="breadcrumb-item active" aria-current="page">{{ $category }}</li>
+            @else
+                <li class="breadcrumb-item active" aria-current="page">All Products</li>
+            @endif
         </ol>
     </nav>
+
 
     <div class="products">
         <div class="row mt-3">
@@ -36,6 +52,8 @@
             @endforeach
         </div>
     </div>
+
+
 
 </div>
 

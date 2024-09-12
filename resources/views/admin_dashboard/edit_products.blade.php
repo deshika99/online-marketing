@@ -148,10 +148,10 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="category">Category</label>
-                                    <select id="category" name="category" class="form-control" onchange="updateSubcategories()">
+                                    <select id="category" name="category" class="form-control">
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->parent_category }}" {{ $product->product_category == $category->parent_category ? 'selected' : '' }}>
+                                            <option value="{{ $category->id }}" {{ $category->id == $selectedCategoryId ? 'selected' : '' }}>
                                                 {{ $category->parent_category }}
                                             </option>
                                         @endforeach
@@ -160,10 +160,10 @@
 
                                 <div class="form-group">
                                     <label for="subcategory">Subcategory</label>
-                                    <select id="subcategory" name="subcategory" class="form-control" onchange="updateSubSubcategories()">
+                                    <select id="subcategory" name="subcategory" class="form-control">
                                         <option value="">Select Subcategory</option>
                                         @foreach ($subcategories as $subcategory)
-                                            <option value="{{ $subcategory->subcategory }}" {{ $product->subcategory == $subcategory->subcategory ? 'selected' : '' }}>
+                                            <option value="{{ $subcategory->id }}" {{ $subcategory->id == $selectedSubcategoryId ? 'selected' : '' }}>
                                                 {{ $subcategory->subcategory }}
                                             </option>
                                         @endforeach
@@ -175,12 +175,13 @@
                                     <select id="subsubcategory" name="subsubcategory" class="form-control">
                                         <option value="">Select Sub-Subcategory</option>
                                         @foreach ($subSubcategories as $subSubcategory)
-                                            <option value="{{ $subSubcategory->sub_subcategory }}" {{ $product->subsubcategory == $subSubcategory->sub_subcategory ? 'selected' : '' }}>
+                                            <option value="{{ $subSubcategory->id }}" {{ $subSubcategory->id == $product->sub_subcategory_id ? 'selected' : '' }}>
                                                 {{ $subSubcategory->sub_subcategory }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
+
 
                                 <div class="form-group">
                                     <label for="quantity">Quantity</label>
@@ -360,8 +361,70 @@
     });
 });
 
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const categorySelect = document.getElementById('category');
+    const subcategorySelect = document.getElementById('subcategory');
+    const subsubcategorySelect = document.getElementById('subsubcategory');
+
+    function updateSubcategories(categoryId) {
+        fetch(`/subcategories/${categoryId}`)
+            .then(response => response.json())
+            .then(data => {
+                subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
+                data.subcategories.forEach(subcategory => {
+                    subcategorySelect.innerHTML += `<option value="${subcategory.id}">${subcategory.name}</option>`;
+                });
+                if (subcategorySelect.dataset.selected) {
+                    updateSubSubcategories(subcategorySelect.dataset.selected);
+                } else {
+                    subsubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
+                }
+            });
+    }
+
+    function updateSubSubcategories(subcategoryId) {
+        fetch(`/sub-subcategories/${subcategoryId}`)
+            .then(response => response.json())
+            .then(data => {
+                subsubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
+                data.sub_subcategories.forEach(subsubcategory => {
+                    subsubcategorySelect.innerHTML += `<option value="${subsubcategory.id}">${subsubcategory.name}</option>`;
+                });
+            });
+    }
+
+    categorySelect.addEventListener('change', function () {
+        const categoryId = this.value;
+        if (categoryId) {
+            updateSubcategories(categoryId);
+        } else {
+            subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
+            subsubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
+        }
+    });
+
+    subcategorySelect.addEventListener('change', function () {
+        const subcategoryId = this.value;
+        if (subcategoryId) {
+            updateSubSubcategories(subcategoryId);
+        } else {
+            subsubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
+        }
+    });
+
+    if (categorySelect.dataset.selected) {
+        updateSubcategories(categorySelect.dataset.selected);
+    }
+    if (subcategorySelect.dataset.selected) {
+        updateSubSubcategories(subcategorySelect.dataset.selected);
+    }
+});
 
 
 </script>
+
 
 @endsection

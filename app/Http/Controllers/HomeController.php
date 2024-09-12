@@ -21,10 +21,10 @@ class HomeController extends Controller
   
     public function index()
     {
-
-        $categories = Category::all();
+        $categories = Category::with('subcategories.subSubcategories')->get();
         return view('home', ['categories' => $categories]);
     }
+    
 
     
 }
