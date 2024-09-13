@@ -86,6 +86,23 @@
         border-radius: 50%;
         cursor: pointer;
     }
+    .card1 {
+    border: 1px solid #ddd; 
+    box-shadow: none; 
+}
+
+    .remove-btn {
+        border: 1px solid #b72626; 
+        color: #b72626; 
+        background-color: white; 
+        box-shadow: none; 
+    }
+
+
+    .remove-btn:hover {
+        background-color: #b72626; 
+        color: white; 
+    }
 
 </style>
 
@@ -216,8 +233,36 @@
                             <label for="totalPrice">Total Price</label>
                             <input type="text" id="totalPrice" name="totalPrice" class="form-control" value="{{ old('totalPrice', $product->total_price) }}" readonly>
                         </div>
-
-                        <button type="submit" class="btn btn-success btn-create">Update</button>
+                        <!-- Product Variations Card -->
+                        <div class="card1 px-2 py-2 mt-4">
+                            <div class="card-body">
+                                <h5>Product Variations</h5>
+                                <div class="form-group">
+                                    <label for="variations">Add Product Variations</label>
+                                    <div id="variations-container">
+                                        @foreach ($variations as $index => $variation)
+                                            <div class="variation-row row mb-3" data-index="{{ $index }}">
+                                                <div class="col-md-3">
+                                                    <select class="form-control variation-type" name="variation[{{ $index }}][type]" onchange="handleVariationChange(this)">
+                                                        <option value="Size" {{ $variation->type === 'Size' ? 'selected' : '' }}>Size</option>
+                                                        <option value="Color" {{ $variation->type === 'Color' ? 'selected' : '' }}>Color</option>
+                                                        <option value="Material" {{ $variation->type === 'Material' ? 'selected' : '' }}>Material</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 variation-input-container">
+                                                    <input type="text" class="form-control variation-input" name="variation[{{ $index }}][value]" value="{{ $variation->value }}" placeholder="Variation">
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <button type="button" class="btn remove-btn" onclick="removeVariationRow(this)">X</button>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <button type="button" class="btn btn-secondary mt-3" id="addVariationBtn" style="width: 30%;">+ Add another variation</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-create mt-3">Update</button>
                     </form>
                 </div>
             </div>
@@ -426,5 +471,41 @@ document.addEventListener('DOMContentLoaded', function () {
 
 </script>
 
+<script>
+let variationIndex = {{ count($variations) }};
+
+// Handle dynamic addition of variation rows
+document.getElementById('addVariationBtn').addEventListener('click', function () {
+    const container = document.getElementById('variations-container');
+    const newRow = document.createElement('div');
+    newRow.classList.add('variation-row', 'row', 'mb-3');
+    newRow.setAttribute('data-index', variationIndex);
+    
+    newRow.innerHTML = `
+        <div class="col-md-3">
+            <select class="form-control variation-type" name="variation[${variationIndex}][type]" onchange="handleVariationChange(this)">
+                <option value="Size">Size</option>
+                <option value="Color">Color</option>
+                <option value="Material">Material</option>
+            </select>
+        </div>
+        <div class="col-md-4 variation-input-container">
+            <input type="text" class="form-control variation-input" name="variation[${variationIndex}][value]" placeholder="Variation">
+        </div>
+        <div class="col-md-1">
+            <button type="button" class="btn remove-btn" onclick="removeVariationRow(this)">X</button>
+        </div>
+    `;
+
+    container.appendChild(newRow);
+    variationIndex++;
+});
+
+function removeVariationRow(button) {
+    const row = button.closest('.variation-row');
+    row.remove();
+}
+
+</script>
 
 @endsection

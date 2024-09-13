@@ -1,7 +1,7 @@
 @extends('layouts.admin_main.master')
 
 @section('content')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css">
+
 <style>
    .btn-create {
         font-size: 0.8rem;
@@ -89,6 +89,27 @@
         cursor: pointer;
     }
 
+
+.card1 {
+    border: 1px solid #ddd; 
+    box-shadow: none; 
+}
+
+
+.remove-btn {
+    border: 1px solid #b72626; 
+    color: #b72626; 
+    background-color: white; 
+    box-shadow: none; 
+}
+
+
+.remove-btn:hover {
+    background-color: #b72626; 
+    color: white; 
+}
+
+
 </style>
 
 
@@ -166,7 +187,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label for="normalPrice">Normal Price</label>
                             <input type="number" id="normalPrice" name="normalPrice" class="form-control" placeholder="Enter normal price" step="0.01">
@@ -193,57 +213,40 @@
                             <label for="totalPrice">Total Price</label>
                             <input type="text" id="totalPrice" name="totalPrice" class="form-control" readonly>
                         </div>
-
-                        <button type="submit" class="btn btn-success btn-create">Add</button>
+                            <!-- Product Variations Card -->
+                            <div class="card1 px-2 py-2 mt-4">
+                                <div class="card-body">
+                                    <h5>Variations</h5>
+                                    <div class="form-group">
+                                        <label for="variations">Add Product Variations</label>
+                                        <div id="variations-container">
+                                            <div class="variation-row row mb-3" data-index="0">
+                                                <div class="col-md-3">
+                                                    <select class="form-control variation-type" name="variation[0][type]" onchange="handleVariationChange(this)">
+                                                        <option value="Size">Size</option>
+                                                        <option value="Color">Color</option>
+                                                        <option value="Material">Material</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 variation-input-container">
+                                                    <input type="text" class="form-control variation-input" name="variation[0][value]" placeholder="Variation">
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <button type="button" class="btn remove-btn" onclick="removeVariationRow(this)">X</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-secondary mt-3" id="addVariationBtn" style="width: 30%;">+ Add another variation</button>
+                                    </div>
+                                </div>
+                            </div>
+                        <button type="submit" class="btn btn-success btn-create mt-4">Add Product</button>
                     </form>
-
                 </div>
             </div>
         </div>
     </div>
-    <form action="" method="POST" enctype="multipart/form-data">
-    @csrf
-
-
-
-    <!-- Color Picker -->
-    <div id="color-picker"></div>
-    <input type="hidden" id="color-value" name="color">
-
-    <!-- Image Upload -->
-    <input type="file" name="images[]" multiple>
-
-    <!-- Size Input -->
-    <input type="text" name="sizes[]" placeholder="Size (e.g., S, M, L)" required>
-
-    <button type="submit">Add Product</button>
-</form>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const pickr = Pickr.create({
-            el: '#color-picker',
-            theme: 'classic',
-            swatches: ['#000000', '#ffffff', '#ff0000', '#00ff00', '#0000ff'],
-            components: {
-                preview: true,
-                opacity: true,
-                hue: true,
-                interaction: {
-                    hex: true,
-                    rgba: true,
-                    input: true,
-                    cancel: true,
-                    save: true
-                }
-            }
-        });
-
-        pickr.on('change', (color) => {
-            document.getElementById('color-value').value = color.toHEXA().toString();
-        });
-    });
-</script>
+    
 </main>
 
 
@@ -415,8 +418,51 @@ document.addEventListener('DOMContentLoaded', function () {
             subsubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
         }
     });
+
+    
 });
 
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+
+
+<script>
+    let variationIndex = 1;
+
+    // Handle dynamic addition of variation rows
+    document.getElementById('addVariationBtn').addEventListener('click', function () {
+        const container = document.getElementById('variations-container');
+        const newRow = document.createElement('div');
+        newRow.classList.add('variation-row', 'row', 'mb-3');
+        newRow.setAttribute('data-index', variationIndex);
+        
+        newRow.innerHTML = `
+            <div class="col-md-3">
+                <select class="form-control variation-type" name="variation[${variationIndex}][type]" onchange="handleVariationChange(this)">
+                    <option value="Size">Size</option>
+                    <option value="Color">Color</option>
+                    <option value="Material">Material</option>
+                </select>
+            </div>
+            <div class="col-md-4 variation-input-container">
+                <input type="text" class="form-control variation-input" name="variation[${variationIndex}][value]" placeholder="Variation">
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn remove-btn" onclick="removeVariationRow(this)">X</button>
+            </div>
+        `;
+
+        container.appendChild(newRow);
+        variationIndex++;
+    });
+
+    function removeVariationRow(button) {
+        const row = button.closest('.variation-row');
+        row.remove();
+    }
+
+  
+</script>
+
+
+
 @endsection
