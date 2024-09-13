@@ -246,7 +246,6 @@
                                                     <select class="form-control variation-type" name="variation[{{ $index }}][type]" onchange="handleVariationChange(this)">
                                                         <option value="Size" {{ $variation->type === 'Size' ? 'selected' : '' }}>Size</option>
                                                         <option value="Color" {{ $variation->type === 'Color' ? 'selected' : '' }}>Color</option>
-                                                        <option value="Material" {{ $variation->type === 'Material' ? 'selected' : '' }}>Material</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-4 variation-input-container">
@@ -486,7 +485,6 @@ document.getElementById('addVariationBtn').addEventListener('click', function ()
             <select class="form-control variation-type" name="variation[${variationIndex}][type]" onchange="handleVariationChange(this)">
                 <option value="Size">Size</option>
                 <option value="Color">Color</option>
-                <option value="Material">Material</option>
             </select>
         </div>
         <div class="col-md-4 variation-input-container">

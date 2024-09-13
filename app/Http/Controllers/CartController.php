@@ -11,9 +11,12 @@ class CartController extends Controller
 {
 
 
-    public function addToCart(Request $request)
+        public function addToCart(Request $request)
     {
         $productId = $request->input('product_id');
+        $size = $request->input('size'); 
+        $color = $request->input('color'); 
+
         if (!$productId) {
             return response()->json(['error' => 'Product ID is missing.'], 400);
         }
@@ -26,12 +29,16 @@ class CartController extends Controller
 
             if ($item) {
                 $item->quantity = max($item->quantity, 1);
+                $item->size = $size;
+                $item->color = $color; 
                 $item->save();
             } else {
                 CartItem::create([
                     'user_id' => $user->id,
                     'product_id' => $productId,
-                    'quantity' => 1
+                    'quantity' => 1,
+                    'size' => $size,
+                    'color' => $color 
                 ]);
             }
         } else {
@@ -41,6 +48,8 @@ class CartController extends Controller
             foreach ($cart as &$item) {
                 if ($item['product_id'] === $productId) {
                     $item['quantity'] = max($item['quantity'], 1);
+                    $item['size'] = $size;
+                    $item['color'] = $color; 
                     $itemFound = true;
                     break;
                 }
@@ -49,7 +58,9 @@ class CartController extends Controller
             if (!$itemFound) {
                 $cart[] = [
                     'product_id' => $productId,
-                    'quantity' => 1
+                    'quantity' => 1,
+                    'size' => $size,
+                    'color' => $color 
                 ];
             }
 
@@ -59,6 +70,7 @@ class CartController extends Controller
         $cartCount = Auth::check() ? CartItem::where('user_id', Auth::id())->sum('quantity') : count(session()->get('cart', []));
         return response()->json(['cart_count' => $cartCount]);
     }
+
 
 
     
@@ -86,7 +98,6 @@ class CartController extends Controller
 
     
     
-
     public function checkout()
     {
         if (Auth::check()) {
@@ -99,9 +110,10 @@ class CartController extends Controller
                 return (object) $item;
             });
         }
-
+    
         return view('checkout', compact('cart'));
     }
+    
 
     
 

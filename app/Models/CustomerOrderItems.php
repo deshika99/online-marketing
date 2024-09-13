@@ -17,6 +17,8 @@ class CustomerOrderItems extends Model
         'item',
         'product_id',
         'quantity',
+        'size',
+        'color',
         'date',
         'cost',
     ];

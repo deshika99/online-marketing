@@ -20,6 +20,12 @@
         pointer-events: none; 
         opacity: 0.6; 
     }
+    .selected-color {
+    border: 2px solid blue;  
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.6); 
+    width: 20px;
+    height: 22px;
+}
 
 
 </style>
@@ -41,6 +47,7 @@
     <div class="container" style="width: 80%;">
         <div class="row gx-5">
             <aside class="col-lg-5">
+               
                 <div class="rounded-4 mb-3 d-flex justify-content-center">
                     <a class="rounded-4 glightbox" data-type="image" href="{{ asset('storage/' . $product->images->first()->image_path) }}">
                         <img id="product-image" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="{{ asset('storage/' . $product->images->first()->image_path) }}" />
@@ -57,12 +64,8 @@
 
             <main class="col-lg-7">
                 <div class="ps-lg-3">
-                    <h4 class="title text-dark">
-                        {{ $product->product_name }}
-                    </h4>
-                    <h5 class="title text-dark">
-                        {{ $product->product_description }}
-                    </h5>
+                    <h4 class="title text-dark">{{ $product->product_name }}</h4>
+                    <h5 class="title text-dark">{{ $product->product_description }}</h5>                 
                     <div class="d-flex flex-row my-3">
                         <div class="text-warning mb-1 me-2">
                             <i class="fa fa-star"></i>
@@ -79,9 +82,7 @@
                         <span class="text-muted">Brand: </span>
                         <span class="text-primary">No Brand | More Wearable technology from No Brand</span>
                     </div>
-
                     <hr />
-
                     <div class="product-availability mt-3">
                         <span class="">Availability :</span>
                         @if($product->quantity > 1)
@@ -90,7 +91,29 @@
                             <span class="ms-1" style="color:red;">Out of stock</span>
                         @endif
                     </div>
+                    <div class="product-variations mt-3">
+                       
+                        @if($product->variations->where('type', 'Size')->isNotEmpty())
+                            <div class="mb-2">
+                                <span>Size: </span>
+                                @foreach($product->variations->where('type', 'Size') as $size)
+                                    <button class="btn btn-outline-secondary btn-sm me-1 ms-1 size-option">{{ $size->value }}</button>
+                                @endforeach
+                            </div>
+                        @endif
 
+                        @if($product->variations->where('type', 'Color')->isNotEmpty())
+                            <div class="mb-2">
+                                <span>Color: </span>
+                                @foreach($product->variations->where('type', 'Color') as $color)
+                                    <button class="btn btn-outline-secondary btn-sm ms-1 color-option" 
+                                        style="background-color: {{ $color->value }}; border-color:{{ $color->value }}; height: 17px; width: 15px;" 
+                                        data-color="{{ $color->value }}"></button>
+                                @endforeach
+                            </div>
+                        @endif
+
+                    </div>
                     <div class="product-price mb-3 mt-3">
                         <span class="h4" style="color:#f55b29;">Rs. {{ $product->normal_price }}</span>
                     </div>
@@ -113,6 +136,7 @@
         </div>
     </div>
 </section>
+
 
 
 
@@ -332,6 +356,8 @@ $(document).ready(function() {
 
         const productId = $(this).data('product-id');
         const isAuth = $(this).data('auth');
+        const selectedSize = $('button.size-option.active').text();  
+        const selectedColor = $('button.color-option.active').data('color');  
 
         if (isAuth) {
             $.ajax({
@@ -339,7 +365,9 @@ $(document).ready(function() {
                 method: 'POST',
                 data: {
                     _token: "{{ csrf_token() }}",
-                    product_id: productId
+                    product_id: productId,
+                    size: selectedSize,   
+                    color: selectedColor 
                 },
                 success: function(response) {
                     $.get("{{ route('cart.count') }}", function(data) {
@@ -367,40 +395,64 @@ $(document).ready(function() {
         }
     });
 
-    window.buyNow = function() {
-        const productId = $('.btn-custom-buy').data('product-id');
-        const isAuth = $('.btn-custom-buy').data('auth');
+    $('.size-option').on('click', function() {
+        $('.size-option').removeClass('active');
+        $(this).addClass('active');
+    });
 
-        if (isAuth) {
-            $.ajax({
-                url: "{{ route('cart.add') }}",
-                method: 'POST',
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    product_id: productId
-                },
-                success: function(response) {
-                    $.get("{{ route('cart.count') }}", function(data) {
-                        $('#cart-count').text(data.cart_count);
-                    });
-                    window.location.href = "{{ route('shopping_cart') }}";
-                },
-                error: function(xhr) {
-                    toastr.error('Something went wrong. Please try again.', 'Error', {
-                        positionClass: 'toast-top-right',
-                        timeOut: 3000,
-                    });
-                }
-            });
-        } else {
-            toastr.warning('Please log in to proceed with your purchase.', 'Warning', {
-                positionClass: 'toast-top-right',
-                timeOut: 3000,
-            });
-        }
+    $('.color-option').on('click', function() {
+        $('.color-option').removeClass('active');
+        $(this).addClass('active');
+    });
+
+
+    window.buyNow = function() {
+    const productId = $('.btn-custom-buy').data('product-id');
+    const isAuth = $('.btn-custom-buy').data('auth');
+
+    const selectedSize = $('button.size-option.active').text();  
+    const selectedColor = $('button.color-option.active').data('color');  
+
+    if (isAuth) {
+        $.ajax({
+            url: "{{ route('cart.add') }}",
+            method: 'POST',
+            data: {
+                _token: "{{ csrf_token() }}",
+                product_id: productId,
+                size: selectedSize,  
+                color: selectedColor 
+            },
+            success: function(response) {
+                $.get("{{ route('cart.count') }}", function(data) {
+                    $('#cart-count').text(data.cart_count);
+                });
+                window.location.href = "{{ route('shopping_cart') }}";
+            },
+            error: function(xhr) {
+                toastr.error('Something went wrong. Please try again.', 'Error', {
+                    positionClass: 'toast-top-right',
+                    timeOut: 3000,
+                });
+            }
+        });
+    } else {
+        toastr.warning('Please log in to proceed with your purchase.', 'Warning', {
+            positionClass: 'toast-top-right',
+            timeOut: 3000,
+        });
     }
+}
+
 });
 
+$(document).ready(function() {
+
+    $('.color-option').on('click', function() {
+        $('.color-option').removeClass('selected-color');
+        $(this).addClass('selected-color');
+    });
+});
 
 
 

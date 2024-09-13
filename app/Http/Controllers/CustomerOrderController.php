@@ -33,15 +33,17 @@ class CustomerOrderController extends Controller
             ]);
     
             $cart = Auth::check() ? CartItem::where('user_id', Auth::id())->with('product')->get() : collect(session('cart', []));
-            
+    
             $cartArray = $cart->map(function($item) {
                 return [
                     'product_id' => $item->product_id,
                     'price' => $item->product->normal_price, 
                     'quantity' => $item->quantity,
+                    'size' => $item->size,
+                    'color' => $item->color,
                 ];
             })->toArray();
-
+    
             $subtotal = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cartArray));
             $shipping = 250;
             $total = $subtotal + $shipping;
@@ -75,6 +77,8 @@ class CustomerOrderController extends Controller
                     'date' => Carbon::now()->format('Y-m-d'), 
                     'cost' => $item['price'], 
                     'quantity' => $item['quantity'], 
+                    'size' => $item['size'], // Add size
+                    'color' => $item['color'], // Add color
                 ]);
             }
     

@@ -33,6 +33,15 @@
                                         <img src="{{ asset('storage/' . $item->product->images->first()->image_path) }}" class="border rounded me-3" style="width: 60px; height: 70px;" />
                                         <div>
                                             <a href="{{ route('single_product_page', ['product_id' => $item->product_id]) }}" class="nav-link" style="margin-bottom: 0.5rem;">{{ $item->product->product_name }}</a>
+                                            <!-- Display size and color below the product name -->
+                                            <div class="d-flex flex-wrap mt-2">
+                                                @if($item->size)
+                                                    <p class="text-muted me-3 mb-0">Size: <strong>{{ $item->size }}</strong></p>
+                                                @endif
+                                                @if($item->color)
+                                                    <p class="text-muted mb-0">Color:  <strong>{{ $item->color }}</strong></p>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 d-flex flex-column align-items-start">
