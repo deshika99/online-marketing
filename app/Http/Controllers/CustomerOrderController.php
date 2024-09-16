@@ -77,8 +77,8 @@ class CustomerOrderController extends Controller
                     'date' => Carbon::now()->format('Y-m-d'), 
                     'cost' => $item['price'], 
                     'quantity' => $item['quantity'], 
-                    'size' => $item['size'], // Add size
-                    'color' => $item['color'], // Add color
+                    'size' => $item['size'], 
+                    'color' => $item['color'],
                 ]);
             }
     
