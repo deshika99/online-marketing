@@ -148,8 +148,7 @@
                         <div class="col-md-3"><strong>Affiliate:</strong></div>
                         <div class="col-md-9" id="modal-affiliate"></div>
                     </div>
-                    
-                    <!-- Affiliate fields -->
+                                       
                     <div class="affiliate-fields">
                         <div class="row mb-2">
                             <div class="col-md-3"><strong>Affiliate Price:</strong></div>
