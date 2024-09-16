@@ -97,7 +97,7 @@
                             <div class="mb-2">
                                 <span>Size: </span>
                                 @foreach($product->variations->where('type', 'Size') as $size)
-                                    <button class="btn btn-outline-secondary btn-sm me-1 ms-1 size-option">{{ $size->value }}</button>
+                                    <button class="btn btn-outline-secondary btn-sm me-1 ms-1 size-option"  style="height:28px;" >{{ $size->value }}</button>
                                 @endforeach
                             </div>
                         @endif

@@ -58,16 +58,27 @@
                         <div class="row mb-3">
                             <label for="DOB-day" class="col-md-4 col-form-label text-md-start">Date Of Birth</label>
                             <div class="col-md-7 d-flex">
-                                <input id="DOB-day" type="text" class="form-control me-2 @error('DOB_day') is-invalid @enderror" name="DOB_day" placeholder="Day" value="{{ old('DOB_day') }}" required>
-                                <input id="DOB-month" type="text" class="form-control me-2 @error('DOB_month') is-invalid @enderror" name="DOB_month" placeholder="Month" value="{{ old('DOB_month') }}" required>
-                                <input id="DOB-year" type="text" class="form-control @error('DOB_year') is-invalid @enderror" name="DOB_year" placeholder="Year" value="{{ old('DOB_year') }}" required>
-                                @error('DOB')
+                                <input id="DOB-day" type="number" class="form-control me-2 @error('DOB_day') is-invalid @enderror" name="DOB_day" placeholder="Day" value="{{ old('DOB_day') }}" required min="1" max="31">
+                                @error('DOB_day')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                                <input id="DOB-month" type="number" class="form-control me-2 @error('DOB_month') is-invalid @enderror" name="DOB_month" placeholder="Month" value="{{ old('DOB_month') }}" required min="1" max="12">
+                                @error('DOB_month')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                                <input id="DOB-year" type="number" class="form-control @error('DOB_year') is-invalid @enderror" name="DOB_year" placeholder="Year" value="{{ old('DOB_year') }}" required min="1900" max="{{ date('Y') }}">
+                                @error('DOB_year')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
                         </div>
+
                         <div class="row mb-3">
                             <label for="phone_num" class="col-md-4 col-form-label text-md-start">{{ __('Phone Number') }}</label>
                             <div class="col-md-7">
@@ -92,8 +103,9 @@
                         </div>
                         <div class="row mb-3">
                             <label for="password" class="col-md-4 col-form-label text-md-start">{{ __('Password') }}</label>
-                            <div class="col-md-7">
+                            <div class="col-md-7 position-relative">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password position-absolute" style="top: 15px; right: 20px; cursor: pointer;"></span>
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -103,8 +115,14 @@
                         </div>
                         <div class="row mb-5">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-start">{{ __('Confirm Password') }}</label>
-                            <div class="col-md-7">
+                            <div class="col-md-7 position-relative">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <span toggle="#password-confirm" class="fa fa-fw fa-eye field-icon toggle-password position-absolute" style="top: 15px; right: 20px; cursor: pointer;"></span>
+                                @error('password_confirmation')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 
@@ -157,5 +175,30 @@
     </div>
 </div>
 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.toggle-password').forEach(item => {
+            item.addEventListener('click', function() {
+                const inputSelector = this.getAttribute('toggle');
+                const input = document.querySelector(inputSelector);
+                
+                if (input) {
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        this.classList.remove('fa-eye');
+                        this.classList.add('fa-eye-slash');
+                    } else {
+                        input.type = 'password';
+                        this.classList.remove('fa-eye-slash');
+                        this.classList.add('fa-eye');
+                    }
+                } else {
+                    console.error(`Input field with selector ${inputSelector} not found.`);
+                }
+            });
+        });
+    });
+</script>
 
 @endsection

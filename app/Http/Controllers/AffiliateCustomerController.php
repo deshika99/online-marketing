@@ -31,42 +31,57 @@ class AffiliateCustomerController extends Controller
     public function register(Request $request)
     {
         try {
-            $dobYear = $request->input('dob_year');
-            $dobMonth = $request->input('dob_month');
-            $dobDay = $request->input('dob_day');
-
         
-            if (!empty($dobYear) && !empty($dobMonth) && !empty($dobDay)) {
-                $dob = "$dobYear-$dobMonth-$dobDay";
-            } else {
-                $dob = null;
-            }
-
+            $request->merge([
+                'dob_day' => (int) $request->input('dob_day'),
+                'dob_month' => (int) $request->input('dob_month'),
+                'dob_year' => (int) $request->input('dob_year'),
+            ]);
+    
+       
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:255',
+                'address' => 'required|string|max:255',
+                'district' => 'required|string|max:255',
+                'dob_day' => 'required|integer|between:1,31',
+                'dob_month' => 'required|integer|between:1,12',
+                'dob_year' => 'required|integer|digits:4',
+                'gender' => 'required|in:male,female,other',
+                'NIC' => 'required|string|max:20|unique:aff_customers,NIC',
+                'phone_num' => 'required|string|max:20|regex:/^[0-9]{10}$/',
+                'email' => 'required|email|max:255|unique:aff_customers,email',
+                'password' => 'required|string|min:8|confirmed',
+            ]);
+    
+            
+            $dob = $validatedData['dob_year'] . '-' . $validatedData['dob_month'] . '-' . $validatedData['dob_day'];
+    
+      
             $aff_Customer = Aff_Customer::create([
-                'name' => $request->input('name'),
-                'address' => $request->input('address'),
-                'district' => $request->input('district'),
-                'DOB' => $dob,  
-                'gender' => $request->input('gender'),
-                'NIC' => $request->input('NIC'),
-                'contactno' => $request->input('phone_num'),
-                'email' => $request->input('email'),
-                'password' => Hash::make($request->input('password')),
+                'name' => $validatedData['name'],
+                'address' => $validatedData['address'],
+                'district' => $validatedData['district'],
+                'DOB' => $dob,
+                'gender' => $validatedData['gender'],
+                'NIC' => $validatedData['NIC'],
+                'contactno' => $validatedData['phone_num'],
+                'email' => $validatedData['email'],
+                'password' => Hash::make($validatedData['password']),
                 'status' => 'pending',
             ]);
-
+    
             return redirect()->route('register_form')->with('status', 'Successfully registered!');
-
+    
         } catch (\Exception $e) {
             \Log::error('Error creating aff Customer:', [
                 'message' => $e->getMessage(),
-                'data' => $request->all(),
-                'trace' => $e->getTraceAsString(),
             ]);
-
+    
             return redirect()->back()->withErrors(['error' => 'Failed to register. Please try again.']);
         }
     }
+    
+
 
     
     public function login(Request $request)

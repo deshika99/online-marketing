@@ -62,14 +62,25 @@ class RegisterController extends Controller
             'acc_no' => ['nullable', 'string', 'max:20'],
             'bank_name' => ['nullable', 'string', 'max:255'],
             'branch' => ['nullable', 'string', 'max:255'],
+        ], [
+            'DOB_month.min' => 'The month must be between 1 and 12.',
+            'DOB_month.max' => 'The month must be between 1 and 12.',
         ]);
     }
 
+    
 
 
-   
+
     public function register(Request $request)
     {
+        $request->merge([
+            'DOB_day' => (int)$request->input('DOB_day'),
+            'DOB_month' => (int)$request->input('DOB_month'),
+            'DOB_year' => (int)$request->input('DOB_year'),
+        ]);
+        $this->validator($request->all())->validate();
+    
         try {
             $user = User::create([
                 'name' => $request->input('name'),
@@ -82,22 +93,19 @@ class RegisterController extends Controller
                 'acc_no' => $request->input('acc_no'),
                 'bank_name' => $request->input('bank_name'),
                 'branch' => $request->input('branch'),
-                'role' => 'customer',  
+                'role' => 'customer',
             ]);
-
-            \Log::info('User created successfully with ID:', ['user_id' => $user->id]);
-            
+    
             return redirect('/register')->with('status', 'Successfully registered!');
         } catch (\Exception $e) {
             \Log::error('Error creating user:', [
                 'message' => $e->getMessage(),
-                'data' => $request->all(),
-                'trace' => $e->getTraceAsString(),
             ]);
-
-            throw $e; 
+    
+            return back()->withErrors(['message' => 'An error occurred during registration.'])->withInput();
         }
     }
+    
 
 
 }

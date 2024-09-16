@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -13,14 +14,13 @@ class UserController extends Controller
         $users = User::all();
 
         foreach ($users as $user) {
-            if ($user->status !== 'Active' && $user->status !== 'Inactive') {
-                if ($user->last_login) {
-                    $lastLogin = Carbon::parse($user->last_login);
-                    $user->status = $lastLogin->greaterThanOrEqualTo(Carbon::now()->subDays(30)) ? 'Active' : 'Inactive';
-                } else {
-                    $user->status = 'Inactive';
-                }
-
+            if ($user->last_login) {
+                $lastLogin = Carbon::parse($user->last_login);
+                $user->status = $lastLogin->greaterThanOrEqualTo(Carbon::now()->subDays(30)) ? 'Active' : 'Inactive';
+            } else {
+                $user->status = 'Inactive';
+            }
+            if ($user->isDirty('status')) {
                 $user->save();
             }
         }
@@ -92,53 +92,58 @@ class UserController extends Controller
 
 
     
-    public function edit($id)
+    public function editUserPage($id)
     {
         $user = User::findOrFail($id);
-        return response()->json($user);
+        return view('admin_dashboard.edit_users', compact('user'));
     }
-    
-    
-    
+
+
+
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'Name' => 'nullable|string|max:255',
-            'email' => 'nullable|email|unique:users,email,' . $id,
-            'contact' => 'nullable|string|max:20',
-            'role' => 'nullable|in:admin,customer',
-            'userImage' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'status' => 'nullable|boolean',
-        ]);
+            $request->validate([
+                'Name' => 'nullable|string|max:255',
+                'email' => 'nullable|email|unique:users,email,' . $id,
+                'contact' => 'nullable|string|max:20',
+                'role' => 'nullable|in:admin,customer',
+                'userImage' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'status' => 'nullable|boolean',
+            ]);
     
-        $user = User::findOrFail($id);
-        if ($request->filled('Name')) {
-            $user->name = $request->input('Name');
-        }
-        if ($request->filled('email')) {
-            $user->email = $request->input('email');
-        }
-        if ($request->filled('contact')) {
-            $user->phone_num = $request->input('contact');
-        }
-        if ($request->filled('role')) {
-            $user->role = $request->input('role');
-        }
-        $user->status = $request->has('status') ? 'Active' : 'Inactive';
+            $user = User::findOrFail($id);
     
-        if ($request->hasFile('userImage')) {
-            $file = $request->file('userImage');
-            $fileName = $file->getClientOriginalName();
-            $file->storeAs('public/user_images', $fileName);
-            $user->profile_image = $fileName;
+            Log::info('User found for update', ['user' => $user]);
+    
+            if ($request->filled('Name')) {
+                $user->name = $request->input('Name');
+            }
+            if ($request->filled('email')) {
+                $user->email = $request->input('email');
+            }
+            if ($request->filled('contact')) {
+                $user->phone_num = $request->input('contact');
+            }
+            if ($request->filled('role')) {
+                $user->role = $request->input('role');
+            }
+    
+            $user->status = $request->input('status') == '1' ? 'Active' : 'Inactive';
+    
+            if ($request->hasFile('userImage')) {
+                $file = $request->file('userImage');
+                $fileName = $file->getClientOriginalName();
+                $file->storeAs('public/user_images', $fileName);
+                $user->profile_image = $fileName;
+            }
+    
+            $user->save();
+            return redirect()->route('show_users')->with('status', 'User updated successfully.');
+            return redirect()->back()->with('error', 'Failed to update user.');
         }
-    
-        $user->save();
-    
-        return redirect()->back()->with('status', 'User updated successfully.');
-    }
-    
 
-    
 
 }
+    
+
+

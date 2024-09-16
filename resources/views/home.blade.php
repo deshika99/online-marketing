@@ -84,7 +84,7 @@
                     <img src="/assets/images/brand_name.png" height="30" width="320" alt="brand"/>
                 </a>
             </div>
-            <div class="col-md-5 p-3">
+            <div class="col-md-5 p-3 mt-2">
                 <form class="d-flex input-group w-auto my-auto mb-3 mb-md-0">
                     <input autocomplete="off" type="search" class="form-control rounded" placeholder="Search" />
                     <span class="input-group-text border-0 d-none d-lg-flex"><i class="fas fa-search"></i></span>
@@ -179,10 +179,6 @@
                         </div>
                     </div>
 
-
-
-
-
                     <!-- other Links -->
                     <div class="d-flex justify-content-center align-items-center flex-grow-1 otherlinks" style="font-size:16px;">
                         <a href="#" class="mx-3">Bundle Deals</a>
@@ -194,8 +190,6 @@
                     </div>
                 </div>
         </div>
-
-   
 </nav>
 
 
@@ -315,6 +309,14 @@
         </div>
     </div>
     <!-- End Login Modal -->
+    @if ($errors->has('email') || $errors->has('password'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+            });
+        </script>
+    @endif
 
 
 <!-- categories view -->

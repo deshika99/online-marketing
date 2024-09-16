@@ -59,6 +59,8 @@ class ProductController extends Controller
     
         return view('admin_dashboard.products', compact('categories', 'products'));
     }
+
+
     
     
     
