@@ -97,7 +97,7 @@
                             <i class="fas fa-bars"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">All Items</a></li>
+                            <li><a class="dropdown-item" href="{{ route('all_items') }}">All Items</a></li>
                             <li><a class="dropdown-item" href="#">Questions</a></li>
                             <li><a class="dropdown-item" href="{{ route('helpcenter') }}">Help Center</a></li>
                         </ul>
@@ -163,7 +163,7 @@
                                             @foreach ($category->subcategories as $subcategory)
                                                 <div class="dropdown-column">
                                                     <a href="{{ route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory]) }}">
-                                                        <strong style="font-size:14px;">{{ $subcategory->subcategory }}</strong>
+                                                        <strong style="font-size:16px;">{{ $subcategory->subcategory }}</strong>
                                                     </a>
                                                     @foreach ($subcategory->subSubcategories as $subSubcategory)
                                                         <a href="{{ route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory, 'subsubcategory' => $subSubcategory->sub_subcategory]) }}">

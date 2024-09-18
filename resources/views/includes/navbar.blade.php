@@ -28,9 +28,9 @@
                     <div class="col-md-4 d-flex justify-content-center justify-content-md-start align-items-center mb-md-0">
                         <a href="{{ url('/') }}" class="d-flex align-items-center" style="text-decoration: none">
                             <div class="navbar-brand">
-                                <img src="/assets/images/logo.png" height="70" width="40" alt="Logo"/>
+                                <img src="/assets/images/logo.png" height="60" width="40" alt="Logo"/>
                             </div>
-                            <img src="/assets/images/brand_name.png" height="30" width="320" alt="brand"/>
+                            <img src="/assets/images/brand_name.png" height="27" width="310" alt="brand"/>
                         </a>
                     </div>
 
@@ -50,7 +50,7 @@
                                         <i class="fas fa-bars"></i>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                                        <li><a class="dropdown-item" href="#">All Items</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('all_items') }}">All Items</a></li>
                                         <li><a class="dropdown-item" href="#">Questions</a></li>
                                         <li><a class="dropdown-item" href="{{ route('helpcenter') }}">Help Center</a></li>
                                     </ul>
@@ -195,11 +195,11 @@
                                             @foreach ($category->subcategories as $subcategory)
                                                 <div class="dropdown-column">
                                                     <a href="{{ route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory]) }}">
-                                                        <strong style="font-size:14px;">{{ $subcategory->subcategory }}</strong>
+                                                        <strong style="font-size:16px;">{{ $subcategory->subcategory }}</strong>
                                                     </a>
                                                     @foreach ($subcategory->subSubcategories as $subSubcategory)
                                                         <a href="{{ route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory, 'subsubcategory' => $subSubcategory->sub_subcategory]) }}">
-                                                            {{ $subSubcategory->sub_subcategory }}
+                                                           {{ $subSubcategory->sub_subcategory }}
                                                         </a>
                                                     @endforeach
                                                 </div>

@@ -38,30 +38,15 @@
 <div class="container mt-4 mb-5" style="width: 80%;">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-
-            @if(isset($subcategory))
-                <li class="breadcrumb-item">
-                    <a href="{{ route('user_products', ['category' => $category, 'subcategory' => $subcategory]) }}">{{ $subcategory }}</a>
-                </li>
-            @endif
-
-            @if(isset($subsubcategory))
-                <li class="breadcrumb-item active" aria-current="page">{{ $subsubcategory }}</li>
-            @elseif(isset($subcategory))
-                <li class="breadcrumb-item active" aria-current="page">{{ $subcategory }}</li>
-            @elseif(isset($category))
-                <li class="breadcrumb-item active" aria-current="page">{{ $category }}</li>
-            @else
+            <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>        
                 <li class="breadcrumb-item active" aria-current="page">All Products</li>
-            @endif
         </ol>
     </nav>
 
     <div class="products">
         @if($products->isEmpty())
             <div class="no-products">
-                <p>No products found under this category.</p>
+                <p>No products found.</p>
             </div>
         @else
             <div class="row mt-3">
@@ -96,7 +81,6 @@
         @endif
     </div>
 
-   
     @foreach ($products as $product)
     <div class="modal fade" id="cartModal_{{ $product->product_id }}" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered  modal-lg">
@@ -198,6 +182,8 @@
 
 </div>
 
+   
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -211,7 +197,6 @@
     });
 
 </script>
-
 <script>
  $(document).ready(function() {
     //Add to Cart click event

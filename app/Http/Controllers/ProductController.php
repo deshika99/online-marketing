@@ -49,7 +49,11 @@ class ProductController extends Controller
     }
     
 
-    
+    public function show_all_items()
+    {
+        $products = Products::all();
+        return view('all_items', compact('products'));
+    }
     
 
     public function showProducts()

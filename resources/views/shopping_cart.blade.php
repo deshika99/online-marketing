@@ -9,6 +9,13 @@
      .item-icons a {
         font-size: 12px;
      }
+     .cart-image {
+        width: auto;
+        height: 60px; 
+        max-width: 100%;  
+        object-fit: contain;  
+
+     }
 </style>
 
 <div class="container mt-3 mb-5" style="width: 80%;">
@@ -30,10 +37,9 @@
                                 <div class="row gy-2 mb-2 item-row" data-product-id="{{ $item->product_id }}">
                                     <div class="col-lg-5 d-flex align-items-center">
                                         <input type="checkbox" class="form-check-input me-3">
-                                        <img src="{{ asset('storage/' . $item->product->images->first()->image_path) }}" class="border rounded me-3" style="width: 60px; height: 70px;" />
+                                        <img src="{{ asset('storage/' . $item->product->images->first()->image_path) }}" class="cart-image me-3"/>
                                         <div>
                                             <a href="{{ route('single_product_page', ['product_id' => $item->product_id]) }}" class="nav-link" style="margin-bottom: 0.5rem;">{{ $item->product->product_name }}</a>
-                                            <!-- Display size and color below the product name -->
                                             <div class="d-flex flex-wrap mt-2">
                                                 @if($item->size)
                                                     <p class="text-muted me-3 mb-0">Size: <strong>{{ $item->size }}</strong></p>

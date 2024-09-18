@@ -156,8 +156,16 @@
                                         <img src="{{ asset('storage/' . $item->product->images->first()->image_path) }}" alt="Product Image" width="50">
                                     </td>
                                     <td>{{ $item->quantity }}</td>
-                                    <td><span style="display: inline-block; width: 20px; height: 20px; background-color: {{ $item->color }}; border: 1px solid {{ $item->color }}; border-radius: 50%;"></span></td>
-                                    <td>{{ $item->size }}</td>
+                                    <td>
+                                        @if($item->color)
+                                            <span style="display: inline-block; width: 20px; height: 20px; background-color: {{ $item->color }}; border: 1px solid {{ $item->color }}; border-radius: 50%;"></span>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        {{ $item->size ? $item->size : '-' }}
+                                    </td>
                                     <td>Rs {{ number_format($item->cost, 2) }}</td>
                                     <td>Rs {{ number_format($item->quantity * $item->cost, 2) }}</td>
                                 </tr>

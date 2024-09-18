@@ -11,26 +11,26 @@ class CartController extends Controller
 {
 
 
-        public function addToCart(Request $request)
+    public function addToCart(Request $request)
     {
         $productId = $request->input('product_id');
         $size = $request->input('size'); 
         $color = $request->input('color'); 
-
+    
         if (!$productId) {
             return response()->json(['error' => 'Product ID is missing.'], 400);
         }
-
+    
         if (Auth::check()) {
             $user = Auth::user();
             $item = CartItem::where('user_id', $user->id)
                             ->where('product_id', $productId)
+                            ->where('size', $size)
+                            ->where('color', $color)
                             ->first();
-
+    
             if ($item) {
-                $item->quantity = max($item->quantity, 1);
-                $item->size = $size;
-                $item->color = $color; 
+                $item->quantity += 1; 
                 $item->save();
             } else {
                 CartItem::create([
@@ -44,17 +44,15 @@ class CartController extends Controller
         } else {
             $cart = session()->get('cart', []);
             $itemFound = false;
-
+    
             foreach ($cart as &$item) {
-                if ($item['product_id'] === $productId) {
-                    $item['quantity'] = max($item['quantity'], 1);
-                    $item['size'] = $size;
-                    $item['color'] = $color; 
+                if ($item['product_id'] === $productId && $item['size'] === $size && $item['color'] === $color) {
+                    $item['quantity'] += 1; // Increment quantity if the item is already in the cart
                     $itemFound = true;
                     break;
                 }
             }
-
+    
             if (!$itemFound) {
                 $cart[] = [
                     'product_id' => $productId,
@@ -63,13 +61,14 @@ class CartController extends Controller
                     'color' => $color 
                 ];
             }
-
+    
             session()->put('cart', $cart);
         }
 
-        $cartCount = Auth::check() ? CartItem::where('user_id', Auth::id())->sum('quantity') : count(session()->get('cart', []));
+        $cartCount = Auth::check() ? CartItem::where('user_id', Auth::id())->sum('quantity') : array_sum(array_column(session()->get('cart', []), 'quantity'));
         return response()->json(['cart_count' => $cartCount]);
     }
+    
 
 
 

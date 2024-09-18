@@ -5,27 +5,12 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 <style>
-    .fit {
-        max-width: 100%;
-        max-height: 100vh;
-        margin: auto;
-    }
+  
     .product-price span {
         display: inline-block;
         margin-right: 10px;
     }
 
-    .btn-disabled {
-        cursor: not-allowed;
-        pointer-events: none; 
-        opacity: 0.6; 
-    }
-    .selected-color {
-    border: 2px solid blue;  
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.6); 
-    width: 20px;
-    height: 22px;
-}
 
 
 </style>
@@ -56,7 +41,7 @@
                 <div class="d-flex justify-content-center mb-3">
                     @foreach($product->images as $image)
                         <a class="glightbox mx-1 rounded-2" style="border: none;" data-type="image" href="{{ asset('storage/' . $image->image_path) }}">
-                            <img width="60" height="60" class="rounded-2" src="{{ asset('storage/' . $image->image_path) }}" />
+                            <img class="thumbnail rounded-2" src="{{ asset('storage/' . $image->image_path) }}" />
                         </a>
                     @endforeach
                 </div>
@@ -94,7 +79,7 @@
                     <div class="product-variations mt-3">
                        
                         @if($product->variations->where('type', 'Size')->isNotEmpty())
-                            <div class="mb-2">
+                            <div class="mb-3">
                                 <span>Size: </span>
                                 @foreach($product->variations->where('type', 'Size') as $size)
                                     <button class="btn btn-outline-secondary btn-sm me-1 ms-1 size-option"  style="height:28px;" >{{ $size->value }}</button>
@@ -105,10 +90,14 @@
                         @if($product->variations->where('type', 'Color')->isNotEmpty())
                             <div class="mb-2">
                                 <span>Color: </span>
+                                <span id="selected-color-name" class="fw-bold"></span>
+                                <br> 
                                 @foreach($product->variations->where('type', 'Color') as $color)
-                                    <button class="btn btn-outline-secondary btn-sm ms-1 color-option" 
-                                        style="background-color: {{ $color->value }}; border-color:{{ $color->value }}; height: 17px; width: 15px;" 
-                                        data-color="{{ $color->value }}"></button>
+                                    <button class="btn btn-outline-secondary btn-sm mt-2 me-1 color-option" 
+                                        style="background-color: {{ $color->value }}; border-color: #e8ebec; height: 20px; width: 20px; " 
+                                        data-color="{{ $color->value }}" 
+                                        data-color-name="{{ $color->value }}">
+                                    </button>
                                 @endforeach
                             </div>
                         @endif
@@ -458,7 +447,19 @@ $(document).ready(function() {
 
 </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const colorButtons = document.querySelectorAll('.color-option');
+        const colorNameDisplay = document.getElementById('selected-color-name');
 
+        colorButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const colorName = this.getAttribute('data-color-name');
+                colorNameDisplay.textContent = colorName;
+            });
+        });
+    });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

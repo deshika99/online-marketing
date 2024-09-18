@@ -28,7 +28,7 @@ Route::view('/home/help-center', 'helpcenter')->name('helpcenter');
 Route::get('/home/products/{category?}/{subcategory?}/{subsubcategory?}', [ProductController::class, 'showProductsByCategory'])
     ->name('user_products');
 Route::get('/product/{product_id?}', [ProductController::class, 'show'])->name('single_product_page');
-
+Route::get('/home/all_items', [ProductController::class, 'show_all_items'])->name('all_items');
 
 
 Route::view('/home/affiliate/all', 'aff_all')->name('aff_all');
@@ -38,31 +38,31 @@ Route::view('/cart/payment', 'payment')->name('payment');
 
 //member dashboard
 Route::get('home/My-Account', function () {
-    return view('dashboard');
+    return view('member_dashboard.dashboard');
 })->name('dashboard');
 
 Route::get('home/My-Account/edit-profile', function () {
-    return view('edit-profile');
+    return view('member_dashboard.edit-profile');
 })->name('edit-profile');
 
 Route::get('home/My-Account/order-history', function () {
-    return view('order-history');
+    return view('member_dashboard.order-history');
 })->name('order-history');
 
 Route::get('home/My-Account/order-details', function () {
-    return view('order-details');
+    return view('member_dashboard.order-details');
 })->name('myorder-details');
 
 Route::get('home/My-Account/change-password', function () {
-    return view('change-password');
+    return view('member_dashboard.change-password');
 })->name('change-password');
 
 Route::get('home/My-Account/points', function () {
-    return view('points');
+    return view('member_dashboard.points');
 })->name('points');
 
 Route::get('home/My-Account/addresses', function () {
-    return view('addresses');
+    return view('member_dashboard.addresses');
 })->name('addresses');
 
 Route::get('home/My-Account/logout', function () {
