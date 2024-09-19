@@ -48,7 +48,7 @@
     color: black;
     border: 1px solid black;
     border-radius: 8px;
-    height: 35px;
+    height: 30px;
     padding: 5px 10px;
     text-align: left;
     display: flex;
@@ -146,7 +146,7 @@
 
        <!-- Navbar Divider -->
         <div class="navbar-divider w-100 p-0 mb-1">
-                <div class="container d-flex justify-content-center align-items-center" style="width: 80%;">
+                <div class="container d-flex justify-content-center align-items-center" style="width: 75%;">
                     <div class="category-select-wrapper1 d-flex justify-content-center align-items-center">
                         <div class="custom-dropdown w-100 ms-4">
                             <div class="dropdown-toggle" id="dropdownMenuButton" aria-expanded="false">

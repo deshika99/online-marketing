@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
 
 <style>
     .product-image-wrapper {
@@ -96,7 +96,7 @@
         @endif
     </div>
 
-   
+   <!-- cart modal-->
     @foreach ($products as $product)
     <div class="modal fade" id="cartModal_{{ $product->product_id }}" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered  modal-lg">

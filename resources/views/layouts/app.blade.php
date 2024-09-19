@@ -27,9 +27,10 @@
 <body>
     <div id="app">
         
-    @if (!Request::is('/') && !Request::is('home/affiliate/register'))
+    @if (!Request::is('/') && !Request::is('home/affiliate/register') && !Request::is('home/affiliate/affiliate_home'))
     @include('includes.navbar')
 @endif
+
 
 
 

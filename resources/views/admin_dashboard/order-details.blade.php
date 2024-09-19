@@ -99,7 +99,6 @@
             </div>
         </div>
 
-
         <div class="order-cards-row mt-2">
             <div class="card">
                 <div class="card-title">Customer Details</div>
@@ -158,7 +157,7 @@
                                     <td>{{ $item->quantity }}</td>
                                     <td>
                                         @if($item->color)
-                                            <span style="display: inline-block; width: 20px; height: 20px; background-color: {{ $item->color }}; border: 1px solid {{ $item->color }}; border-radius: 50%;"></span>
+                                            <span style="display: inline-block; width: 20px; height: 20px; background-color: {{ $item->color }}; border: 1px solid #e8ebec; border-radius: 50%;"></span>
                                         @else
                                             -
                                         @endif

@@ -83,13 +83,14 @@ Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('or
 
 
 //affiliate dashboard
+Route::view('/home/affiliate/affiliate_home', 'aff_home')->name('aff_home');
 Route::post('/home/affiliate/register', [AffiliateCustomerController::class, 'register'])->name('aff_reg');
 Route::view('/home/affiliate/register', 'aff_reg')->name('register_form');
 Route::post('/home/affiliate/login', [AffiliateCustomerController::class, 'login'])->name('aff_login');
 Route::get('/affiliate/dashboard', [AffiliateCustomerController::class, 'index'])->name('index');
 Route::post('/affiliate/logout', [AffiliateCustomerController::class, 'logout'])->name('aff_logout');
 Route::get('/affiliate/dashboard/ad_center', [AffiliateProductController::class, 'showAdCenter'])->name('ad_center');
-Route::get('/affiliate/dashboard/ad_center/{id}/promote-modal', [AffiliateProductController::class, 'showPromoteModal'])->name('products.promoteModal');
+Route::get('/affiliate/dashboard/ad_center/{product_id}/promote-modal', [AffiliateProductController::class, 'showPromoteModal'])->name('products.promoteModal');
 Route::get('/affiliate/dashboard/ad_center/download-images', [AffiliateProductController::class, 'downloadImages'])->name('products.downloadImages');
 
 Route::view('/affiliate/dashboard/code_center', 'affiliate_dashboard.code_center')->name('code_center');

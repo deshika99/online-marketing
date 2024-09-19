@@ -47,7 +47,7 @@
                 <div class="px-5">
                     <div class="row">
                     <div class="col-md-4 d-flex justify-content-center justify-content-md-start align-items-center mb-md-0">
-                        <a href="{{ url('/') }}" class="d-flex align-items-center" style="text-decoration: none">
+                        <a href="{{ url('/home/affiliate/affiliate_home') }}" class="d-flex align-items-center" style="text-decoration: none">
                             <div class="navbar-brand">
                                 <img src="/assets/images/logo.png" height="70" width="40" alt="Logo"/>
                             </div>

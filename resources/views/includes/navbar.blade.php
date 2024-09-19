@@ -1,6 +1,6 @@
 <style>
     .navbar-divider {
-    height: 55px;
+    height: 40px;
     background-color: #05467c;
     padding: 10px;
     display: flex;
@@ -178,7 +178,7 @@
 
            <!-- Navbar Divider -->
         <div class="navbar-divider w-100 p-0">
-                <div class="container d-flex justify-content-center align-items-center" style="width: 80%;">
+                <div class="container d-flex justify-content-center align-items-center" style="width: 60%;">
                     <div class="category-select-wrapper1 d-flex justify-content-center align-items-center">
                         <div class="custom-dropdown w-100 ms-4">
                             <div class="dropdown-toggle" id="dropdownMenuButton" aria-expanded="false">

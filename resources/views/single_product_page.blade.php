@@ -10,7 +10,138 @@
         display: inline-block;
         margin-right: 10px;
     }
+    
+    .reviews-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 0 auto; 
+    }
 
+    @media (min-width: 769px) {
+    .col-md-2 {
+        flex: 0 0 19%; 
+        max-width: 19%;
+    }
+}
+
+.review-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-left: 20px;
+}
+
+.rating-score h2 {
+    font-size: 40px;
+    margin: 0;
+}
+
+.star-rating span {
+    font-size: 24px;
+}
+
+.rating-bars {
+    flex-grow: 1;
+    margin-left: 20px;
+}
+
+.rating-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.rating-bar span {
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.bar {
+    width: 70%;
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    position: relative;
+}
+
+.fill {
+    background-color: #fad21e; 
+    height: 100%;
+    border-radius: 5px;
+}
+
+.rating-categories {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+}
+
+.rating-categories .badge {
+    background-color: #f5f5f5;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.review-list {
+    margin-top: 20px;
+}
+
+.review-item {
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user-image {
+    width: 4%;
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.user-details {
+    flex: 1;
+}
+
+.user-rating {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.rating {
+    display: flex;
+    gap: 5px;
+}
+
+
+.review-images {
+    display: flex;
+    gap: 10px;
+}
+
+.review-images img {
+    width: 5%;
+    height: auto;
+    object-fit: cover;
+}
+
+
+.read-all-reviews {
+    display: block;
+    text-align: right;
+    color: #6c63ff;
+    text-decoration: none;
+    margin-top: 10px;
+}
 
 
 </style>
@@ -204,10 +335,92 @@
                                 Compatible with select Bluetooth capable smartphones.<br>
                                 Galaxy Watch supported features may vary by carrier and compatible device.
                             </div>
+
+                            <!-- Reviews Section -->
                             <div class="tab-pane fade mb-2" id="ex1-pills-review" role="tabpanel" aria-labelledby="ex1-tab-review">
-                                Another tab content or sample information now <br />
-                                Dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                <div class="reviews-container" style="width: 90%;">
+                                    <div class="review-summary">
+                                        <div class="rating-score">
+                                            <h2>4.0</h2>
+                                            <div class="star-rating">
+                                                <span class="text-warning">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fas fa-star-half-alt"></i>
+                                                </span> 
+                                            </div>
+                                            <p>35K ratings</p>
+                                        </div>
+                                        <div class="rating-bars ms-5">
+                                            <div class="rating-bar">                                              
+                                                <div class="bar">
+                                                    <div class="fill" style="width: 80%;"></div>
+                                                </div>
+                                                <span class="ms-3">5.0</span><span class="text-secondary">14K reviews</span>
+                                            </div>
+                                            <div class="rating-bar">
+                                                <div class="bar">
+                                                    <div class="fill" style="width: 60%;"></div>
+                                                </div>
+                                                <span class="ms-3">4.0</span><span class="text-secondary">6K reviews</span>
+                                            </div>
+                                            <div class="rating-bar">
+                                                <div class="bar">
+                                                    <div class="fill" style="width: 40%;"></div>
+                                                </div>
+                                                <span class="ms-3">3.0</span><span class="text-secondary">4K reviews</span>
+                                            </div>
+                                            <div class="rating-bar">
+                                                <div class="bar">
+                                                    <div class="fill" style="width: 10%;"></div>
+                                                </div>
+                                                <span class="ms-3">2.0</span><span class="text-secondary">800 reviews</span>
+                                            </div>
+                                            <div class="rating-bar">
+                                                <div class="bar">
+                                                    <div class="fill" style="width: 20%;"></div>
+                                                </div>
+                                                <span class="ms-3">1.0</span><span class="text-secondary">9K reviews</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Review List -->
+                                    <div class="review-list">
+                                        <div class="review-item">
+                                            <div class="user-info">
+                                                <img src="\assets\images\user.png" alt="User image" class="user-image">
+                                                <div class="user-details mt-3">
+                                                    <h6>Alexander Rity</h6>
+                                                </div>
+                                                <div class="user-rating">
+                                                    <span class="me-1 ">5.0</span>
+                                                    <span class="rating text-warning">
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="user-review mt-2">
+                                                <p>With supporting text below as a natural lead-in to additional content. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                                                <div class="review-images">
+                                                    <img src="\assets\images\d (1).png" alt="image">
+                                                    <img src="\assets\images\d (2).png" alt="image">
+                                                    <img src="\assets\images\d (3).png" alt="image">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <a href="#" class="read-all-reviews">Read all reviews</a>
+                                    </div>
+                                </div>
                             </div>
+
                             <div class="tab-pane fade mb-2" id="ex1-pills-QA" role="tabpanel" aria-labelledby="ex1-tab-QA">
                                 Some other tab content or sample information now <br />
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -221,85 +434,38 @@
     </section>
 </div>
 
-<!--related products-->
-<div class="container mt-5 mb-4 related-products" style="width:100%;">
-    <h4 class="title1">Related Products</h4>
-    <div class="row  justify-content-between">
-        <div class="col-2">
-            <div class="special-offer-item mb-2">
-                <a href="{{ route('single_product_page', [
-                            'title' => 'Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG',
-                            'image' => '/assets/images/item1.png',
-                            'price' => 35699
-                        ]) }}">
-                    <img src="/assets/images/item1.png" class="card-img-top"/>
-                    <div class="card-body">
-                        <div class="wishlist"><i class="fa fa-heart"></i></div>
-                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                        <div class="price">Rs.35 699</div>
-                        <div class="discount">Extra 2% off with coins</div>
+
+<!-- Related products section -->
+@if($relatedProducts->isNotEmpty())
+    <div class="container mt-5 mb-4 related-products">
+        <h4 class="title1">Related Products</h4>
+        <div class="row">
+            @foreach ($relatedProducts as $index => $relatedProduct)
+                <div class="col-md-2">
+                    <div class="related-products-item position-relative">
+                        <a href="{{ route('single_product_page', ['product_id' => $relatedProduct->product_id]) }}" class="d-block text-decoration-none">
+                            @if($relatedProduct->images->isNotEmpty())
+                                <div class="product-image-wrapper position-relative">
+                                    <img src="{{ asset('storage/' . $relatedProduct->images->first()->image_path) }}" alt="Product Image" class="img-fluid">
+                                </div>
+                            @else
+                                <img src="{{ asset('storage/default-image.jpg') }}" alt="Default Image" class="img-fluid">
+                            @endif
+                            <h6>{{ Str::limit($relatedProduct->product_name, 30) }}</h6>
+                            <h6>{{ Str::limit($relatedProduct->product_description, 50) }}</h6>
+                            <div class="price">Rs.{{ number_format($relatedProduct->normal_price) }}</div>
+                        </a>
                     </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="special-offer-item mb-2">
-                <a href="">
-                    <img src="/assets/images/item2.png" class="card-img-top"/>
-                    <div class="card-body">
-                        <div class="wishlist"><i class="fa fa-heart"></i></div>
-                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                        <div class="price">Rs.35 699</div>
-                        <div class="discount">Extra 2% off with coins</div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="special-offer-item mb-2">
-                <a href="">
-                    <img src="/assets/images/item3.png" class="card-img-top"/>
-                    <div class="card-body">
-                        <div class="wishlist"><i class="fa fa-heart"></i></div>
-                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                        <div class="price">Rs.35 699</div>
-                        <div class="discount">Extra 2% off with coins</div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="special-offer-item mb-2">
-                <a href="">
-                    <img src="/assets/images/item4.png" class="card-img-top"/>
-                    <div class="card-body">
-                        <div class="wishlist"><i class="fa fa-heart"></i></div>
-                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                        <div class="price">Rs.35 699</div>
-                        <div class="discount">Extra 2% off with coins</div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="special-offer-item mb-2">
-                <a href="">
-                    <img src="/assets/images/item4.png" class="card-img-top"/>
-                    <div class="card-body">
-                        <div class="wishlist"><i class="fa fa-heart"></i></div>
-                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                        <div class="price">Rs.35 699</div>
-                        <div class="discount">Extra 2% off with coins</div>
-                    </div>
-                </a>
-            </div>
+                </div>
+            @endforeach
         </div>
     </div>
+@endif
+
 </div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
-
 <script>
 
 const lightbox = GLightbox({
@@ -461,6 +627,20 @@ $(document).ready(function() {
     });
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.btn-cart').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.stopPropagation();
+                event.preventDefault();
+            });
+        });
+    });
+
+</script>
+
+
+
+
 
 @endsection

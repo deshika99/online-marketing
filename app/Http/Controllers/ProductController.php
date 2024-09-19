@@ -42,11 +42,19 @@ class ProductController extends Controller
     }
 
     
+    //single product page product details
     public function show($product_id)
     {
-        $product = ProductS::with('images')->where('product_id', $product_id)->firstOrFail();
-        return view('single_product_page', compact('product'));
+        $product = Products::with('images')->where('product_id', $product_id)->firstOrFail();
+        //related products
+        $relatedProducts = Products::where('product_category', $product->product_category)
+                                ->where('product_id', '!=', $product->product_id)
+                                ->take(5)
+                                ->get();
+
+        return view('single_product_page', compact('product', 'relatedProducts'));
     }
+
     
 
     public function show_all_items()

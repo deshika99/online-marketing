@@ -43,12 +43,13 @@
             <div class="card-body">
                 <div class="container  mb-4">
                     <div class="d-flex justify-content-between mb-4">
-                        <select id="category-filter" class="form-select w-25" style="font-size:15px;">
-                            <option value="all">All Categories</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->parent_category }}</option>
-                            @endforeach
-                        </select>
+                    <select id="category-filter" class="form-select w-25" style="font-size:15px;">
+                        <option value="all">All Categories</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->parent_category }}">{{ $category->parent_category }}</option>
+                        @endforeach
+                    </select>
+
                         <div style="font-size:15px;">
                             <label for="affiliate-only" class="form-check-label">View Affiliate Products Only</label>
                             <input type="checkbox" id="affiliate-only" class="form-check-input">
@@ -74,7 +75,7 @@
                             <tbody>
                             @foreach ($products as $index => $product)
                                 <tr class="product-row" 
-                                    data-category="{{ $product->category_id }}" 
+                                    data-category="{{ $product->product_category }}" 
                                     data-affiliate="{{ $product->is_affiliate ? 'true' : 'false' }}" 
                                     data-id="{{ $product->product_id }}" 
                                     data-images="{{ $product->images->toJson() }}" 
@@ -190,10 +191,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const rows = document.querySelectorAll('.product-row');
 
         rows.forEach(row => {
-            const categoryId = row.getAttribute('data-category');
+            const categoryName = row.getAttribute('data-category');
             const isAffiliate = row.getAttribute('data-affiliate') === 'true';
 
-            const matchCategory = categoryFilter === 'all' || categoryFilter === categoryId;
+            const matchCategory = categoryFilter === 'all' || categoryFilter === categoryName;
             const matchAffiliate = !affiliateOnly || isAffiliate;
 
             if (matchCategory && matchAffiliate) {
@@ -279,6 +280,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const colorCircle = document.createElement('span');
                 colorCircle.className = 'color-circle';
                 colorCircle.style.backgroundColor = color; 
+                colorCircle.style.border = '2px solid #e8ebec'; 
                 colorCircle.style.width = '20px';
                 colorCircle.style.height = '20px';
                 colorCircle.style.display = 'inline-block';

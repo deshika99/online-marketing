@@ -15,7 +15,7 @@
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="commision-tab0" data-bs-toggle="tab" data-bs-target="#commision" type="button"
                     role="tab" aria-controls="commision" aria-selected="false">
-                    Higher Commision
+                    Higher Commission
                 </button>
             </li>
             <li class="nav-item" role="presentation">
@@ -43,13 +43,12 @@
                                     <select id="categoriesHotDeals" name="category" class="form-select" style="font-size: 0.8rem;">
                                         <option value="all" {{ request('category') == 'all' ? 'selected' : '' }}>All Categories</option>
                                         @foreach($categories as $category)
-                                            <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
+                                            <option value="{{ $category->parent_category }}" {{ request('category') == $category->parent_category ? 'selected' : '' }}>
                                                 {{ $category->parent_category }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
-
                                 <div class="col-md-2 mb-3">
                                     <select id="ship_from" class="form-select" style="font-size: 0.8rem;">
                                         <option selected>Ship From</option>
@@ -93,45 +92,83 @@
                         </form>
                         <div class="container mt-4 mb-4">
                             <div class="row">
-                                @foreach($hotDeals as $product)
-                                    <div class="col-md-3">
-                                        <div class="deal-items">
-                                            <input type="checkbox" class="select-item-checkbox" data-product-id="{{ $product->id }}" style="position: absolute; left: 12px;">
-                                            <a href="#">
-                                                @if($product->images->isNotEmpty())
-                                                    <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" alt="{{ $product->product_name }}" class="img-fluid">
-                                                @else
-                                                    <img src="{{ asset('storage/default-image.png') }}" alt="Default Image" class="img-fluid">
-                                                @endif
-                                                <p>{{ $product->product_name }}</p>
-                                                <p class="description">{{ $product->product_description }}</p>
-                                                <div class="price mb-2">Rs.{{ $product->total_price }}</div>
-                                                @php
-                                                    $commissionPrice = $product->total_price - $product->affiliate_price;
-                                                @endphp
-                                                <div class="commission mb-2">
-                                                    Est. Commission Rs. {{ $commissionPrice }} | {{ $product->commission_percentage }}%
-                                                </div>
-                                                <a href="{{ route('products.promoteModal', $product->id) }}" class="btn btn-primary  btn_promote mb-4" data-bs-toggle="modal" data-bs-target="#promoteModal">Promote Now</a>
+                            @foreach($hotDeals as $product)
+                                <div class="col-md-3">
+                                    <div class="deal-items">
+                                        <input type="checkbox" class="select-item-checkbox" data-product-id="{{ $product->product_id }}" style="position: absolute; left: 12px;">
+                                        <a href="#">
+                                            @if($product->images->isNotEmpty())
+                                                <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" alt="{{ $product->product_name }}" class="img-fluid">
+                                            @else
+                                                <img src="{{ asset('storage/default-image.png') }}" alt="Default Image" class="img-fluid">
+                                            @endif
+                                            <p>{{ $product->product_name }}</p>
+                                            <p class="description">{{ $product->product_description }}</p>
+                                            <div class="price mb-2">Rs.{{ $product->total_price }}</div>
+                                            @php
+                                                $commissionPrice = $product->total_price - $product->affiliate_price;
+                                            @endphp
+                                            <div class="commission mb-2">
+                                                Est. Commission Rs. {{ $commissionPrice }} | {{ $product->commission_percentage }}%
+                                            </div>
+                                            <a href="#" 
+                                            class="btn btn-primary btn_promote mb-4" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#promoteModal-{{ $product->product_id }}">
+                                            Promote Now
                                             </a>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- Promote Modal -->
+                                <div class="modal fade" id="promoteModal-{{ $product->product_id }}" tabindex="-1" aria-labelledby="promoteModalLabel-{{ $product->product_id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="promoteModalLabel-{{ $product->product_id }}">Promo Items for {{ $product->product_name }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                @if($product->images->count() > 0)
+                                                    <div class="d-flex">
+                                                        <div class="me-3">
+                                                            <p>Pictures:</p>
+                                                        </div>
+                                                        <div id="productImagesContainer-{{ $product->product_id }}" class="d-flex flex-wrap">
+                                                            @foreach($product->images as $image)
+                                                                <div class="image-wrapper position-relative mb-2 me-2">
+                                                                    <img src="{{ asset('storage/' . $image->image_path) }}" alt="Product Image" class="img-fluid" width="100px" data-image-id="{{ $image->id }}" style="cursor: pointer;">
+                                                                    <input type="checkbox" class="position-absolute top-0 start-0 m-2 image-checkbox" style="z-index: 1; display: none;">
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <p>No images available for this product.</p>
+                                                @endif
+                                                <button type="button" class="btn btn-secondary btn-sm" id="downloadAllBtn">Download All</button>
+                                                <button type="button" class="btn btn-secondary btn-sm" id="downloadSelectedBtn" disabled>Download Selected</button>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
                                         </div>
                                     </div>
-                                @endforeach
-                            </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-          
-
+                </div>
 
                     <!-- Higher Commission -->
                     <div class="tab-pane fade" id="commision" role="tabpanel" aria-labelledby="commision-tab0">
-                        <form id="highComForm" method="GET" action="{{ route('ad_center') }}">
+                        <form id="highComForm" method="GET" action="{{ route('ad_center') }}#commision">
                             <div class="row">
                                 <div class="col-md-2 mb-3">
                                     <select id="categoriesHighCom" name="category" class="form-select" style="font-size: 0.8rem;">
                                         <option value="all" {{ request('category') == 'all' ? 'selected' : '' }}>All Categories</option>
                                         @foreach($categories as $category)
-                                            <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
+                                            <option value="{{ $category->parent_category }}" {{ request('category') == $category->parent_category ? 'selected' : '' }}>
                                                 {{ $category->parent_category }}
                                             </option>
                                         @endforeach
@@ -224,41 +261,9 @@
 </main>
 
 
-<!-- Promote Modal -->
-<div class="modal fade" id="promoteModal" tabindex="-1" aria-labelledby="promoteModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="promoteModalLabel">Promo Items</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                @if(isset($product))
-                    <div class="d-flex">
-                        <div class="me-3">
-                            <p>Picture:</p>
-                        </div>
-                        <div id="productImagesContainer" class="d-flex flex-wrap">
-                            @foreach($product->images as $image)
-                                <div class="image-wrapper position-relative mb-2 me-2">
-                                    <img src="{{ asset('storage/' . $image->image_path) }}" alt="Product Image" class="img-fluid" width="100px" data-image-id="{{ $image->id }}" style="cursor: pointer;">
-                                    <input type="checkbox" class="position-absolute top-0 start-0 m-2 image-checkbox" style="z-index: 1; display: none;">
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                @else
-                    <p>No images available for this product.</p>
-                @endif
-                <button type="button" style="margin-left: 70px;" class="btn btn-secondary btn-sm" id="downloadAllBtn">Download All</button>
-                <button type="button" class="btn btn-secondary btn-sm" id="downloadSelectedBtn" disabled>Download Selected</button>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+
+
+
 
 
 
@@ -384,7 +389,40 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+
+//refreshing the tabs
+    document.addEventListener('DOMContentLoaded', function() {
+        var hash = window.location.hash;
+
+        document.querySelectorAll('.nav-link').forEach(function(navLink) {
+            navLink.classList.remove('active');
+            navLink.setAttribute('aria-selected', 'false');
+        });
+        document.querySelectorAll('.tab-pane').forEach(function(tabPane) {
+            tabPane.classList.remove('show', 'active');
+        });
+
+        if (hash) {
+            var tabLink = document.querySelector('.nav-link[data-bs-target="' + hash + '"]');
+            var tabPane = document.querySelector(hash);
+            if (tabLink && tabPane) {
+                tabLink.classList.add('active');
+                tabLink.setAttribute('aria-selected', 'true');
+                tabPane.classList.add('show', 'active');
+            }
+        } else {
+            var defaultTab = document.querySelector('.nav-link[data-bs-target="#hot_deals"]');
+            var defaultPane = document.querySelector('#hot_deals');
+            if (defaultTab && defaultPane) {
+                defaultTab.classList.add('active');
+                defaultTab.setAttribute('aria-selected', 'true');
+                defaultPane.classList.add('show', 'active');
+            }
+        }
+    });
 </script>
+
+
 
 
 @endsection

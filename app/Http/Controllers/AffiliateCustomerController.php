@@ -90,9 +90,9 @@ class AffiliateCustomerController extends Controller
     
         if ($customer) {
             if ($customer->status === 'pending') {
-                return redirect()->route('register_form')->with('status1', 'pending');
+                return redirect()->route('aff_home')->with('status1', 'pending');
             } elseif ($customer->status === 'rejected') {
-                return redirect()->route('register_form')->with('status1', 'rejected');
+                return redirect()->route('aff_home')->with('status1', 'rejected');
             } elseif ($customer->status === 'approved') {
                 if (Hash::check($request->password, $customer->password)) {
                     Session::put('customer_id', $customer->id);
@@ -100,11 +100,11 @@ class AffiliateCustomerController extends Controller
                     
                     return redirect()->route('index', ['affiliate_id' => $customer->id]);
                 } else {
-                    return redirect()->route('register_form')->withErrors(['password' => 'Invalid credentials.']);
+                    return redirect()->route('aff_home')->withErrors(['password' => 'Invalid credentials.']);
                 }
             }
         } else {
-            return redirect()->route('register_form')->withErrors(['email' => 'Email not found.']);
+            return redirect()->route('aff_home')->withErrors(['email' => 'Email not found.']);
         }
     }
     
