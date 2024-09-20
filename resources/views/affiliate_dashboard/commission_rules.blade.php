@@ -52,18 +52,19 @@ h2{
 
 .fl-table td {
     border-right: 1px solid #f8f8f8;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .fl-table thead th {
-    color: #ffffff;
-    background: #2b68e3;
+    color: #0456b0;
+    background: #d7e6f5;
+    font-style: serif;
 }
 
 
 .fl-table thead th:nth-child(odd) {
-    color: #ffffff;
-    background: #2b68e3;
+    color: #0456b0;
+    background: #d7e6f5;
 }
 
 .fl-table tr:nth-child(even) {
@@ -145,8 +146,12 @@ h2{
 
      <div class="wrap">
         <div class="search">
-        <input type="text" class="searchTerm" placeholder="Please enter a Sub-participant">    <a href="" class="btn btn-primary">View</a> 
-        </button>
+        <div style="display: flex; justify-content: left;">
+        <input type="text" class="searchTerm"  placeholder="Please enter a Sub-participant"style="font-size: 0.9rem; width: 30%;">
+        
+            <button type="button" id="toggleSelectAll2" class="btn btn-secondary btn-sm" style="font-size: 0.9rem; width: 10%;">
+            VIEW
+            </button> 
         </div>
         <br>
         <br>
@@ -163,11 +168,34 @@ h2{
     <table class="fl-table">
         <thead>
         <tr>
-          <th>Categary Name /ID</th>
-          <th>Categary Level</th>
-          <th>Commission rate of Affiliate Products made by new buyers</th>
-          <th>Commission rate of Affiliate Products made by old buyers</th>
-          <th>Commission rate of Non - Affiliate Products </th>
+          <th><div class="col-md-1 mb-3">
+              <label id="selectedCountLabel" style="font-size: 0.9rem;">
+                Categary Name /ID <span id="selectedCount"></span>
+              </label>
+          </div></th>
+          <th><div class="col-md-1 mb-3">
+              <label id="selectedCountLabel" style="font-size: 0.9rem;">
+              Categary Level <span id="selectedCount"></span>
+              </label>
+          </div></th>
+          <th><div class="col-md-1 mb-3">
+              <label id="selectedCountLabel" style="font-size: 0.9rem;">
+              Commission rate of Affiliate Products<br> 
+              made by new buyers <span id="selectedCount"></span>
+              </label>
+          </div></th>
+          <th><div class="col-md-1 mb-3">
+              <label id="selectedCountLabel" style="font-size: 0.9rem;">
+              Commission rate of Affiliate Products<br> 
+              made by old buyers <span id="selectedCount"></span>
+              </label>
+          </div></th>
+          <th><div class="col-md-1 mb-3">
+              <label id="selectedCountLabel" style="font-size: 0.9rem;">
+              Commission rate of Non - Affiliate Products <span id="selectedCount"></span>
+              </label>
+          </div></th>
+
         </tr>
         </thead>
         <tbody>

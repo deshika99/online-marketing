@@ -1,16 +1,31 @@
-@extends('layouts.affiliate_main.master')
+@extends('layouts.affiliate_main.master') 
 
 @section('content')
 <style>
-    .table thead {
-        background-color: #f9f9f9;
+    /* Blur everything except the form container */
+    body {
+        position: relative;
+        overflow: hidden; /* Disable scrolling */
+    }
+
+    .blur-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(1, 1, 1, 0.1); /* Darken the background */
+        backdrop-filter: blur(8px); /* Apply blur effect */
+        z-index: 1; /* Ensure it's behind the form */
     }
 
     .add-bank-account-container {
+        position: relative;
+        z-index: 2; /* Ensure form is on top of the blur */
         width: 100%;
-        max-width: 500px; /* Limits the max width for larger screens */
-        margin: 0 auto; /* Centers the form container on the page */
-        padding: 20px;
+        max-width: 500px;
+        margin: 50px auto;
+        padding: 15px;
         background-color: #f9f9f9;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -18,40 +33,40 @@
 
     .add-bank-account-container h1 {
         text-align: center;
-        margin-bottom: 20px;
-        font-size: 24px;
+        margin-bottom: 15px;
+        font-size: 22px;
     }
 
     .form-group {
-        margin-bottom: 15px;
+        margin-bottom: 10px;
     }
 
     .form-group label {
         display: block;
         font-weight: bold;
         margin-bottom: 5px;
-        font-size: 16px;
+        font-size: 15px;
     }
 
     .form-control {
         width: 100%;
-        padding: 10px;
+        padding: 8px;
         border: 1px solid #ccc;
         border-radius: 4px;
-        font-size: 16px;
+        font-size: 15px;
     }
 
     .btn-primary {
         background-color: #007bff;
         border-color: #007bff;
         color: white;
-        padding: 10px 16px;
+        padding: 8px 16px;
         border-radius: 4px;
         cursor: pointer;
         display: block;
         width: 100%;
         text-align: center;
-        font-size: 16px;
+        font-size: 15px;
     }
 
     .btn-primary:hover {
@@ -62,7 +77,7 @@
     /* Responsive Styles */
     @media (max-width: 768px) {
         .add-bank-account-container {
-            padding: 15px;
+            padding: 10px;
         }
 
         .add-bank-account-container h1 {
@@ -75,18 +90,18 @@
 
         .form-control {
             font-size: 14px;
-            padding: 8px;
+            padding: 7px;
         }
 
         .btn-primary {
             font-size: 14px;
-            padding: 8px 14px;
+            padding: 7px 14px;
         }
     }
 
     @media (max-width: 576px) {
         .add-bank-account-container {
-            padding: 10px;
+            padding: 8px;
         }
 
         .add-bank-account-container h1 {
@@ -99,15 +114,18 @@
 
         .form-control {
             font-size: 13px;
-            padding: 7px;
+            padding: 6px;
         }
 
         .btn-primary {
             font-size: 13px;
-            padding: 7px 12px;
+            padding: 6px 12px;
         }
     }
 </style>
+
+<!-- Overlay to blur the entire page -->
+<div class="blur-overlay"></div>
 
 <div class="add-bank-account-container">
     <h1>Add New Bank Account</h1>
@@ -143,21 +161,12 @@
         </div>
 
         <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary">Add</button>
+        <div style="display: flex; justify-content: center;">
+            <button type="button" id="toggleSelectAll2" class="btn btn-secondary btn-sm" style="font-size: 0.9rem; width: 50%;">
+                ADD
+            </button>
+        </div>
     </form>
 </div>
 
-<script>
-    // Example of a simple fetch request (for your reference)
-    fetch('/affiliate/dashboard/payment/bank_acc', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({
-            // Example payload to be sent with the request
-        })
-    });
-</script>
 @endsection
