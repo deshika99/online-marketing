@@ -2,17 +2,49 @@
 
 @section('dashboard-content')
 <style>
+.custom-select {
+    border: 1px solid #ced4da; 
+    border-radius: 5px; 
+    padding: 4px 13px; 
+    background-color: #ffffff; 
+    font-size: 14px; 
+    width: 150px;
+    color: #495057; 
+    transition: border-color 0.2s ease-in-out;
+}
+
+.custom-select:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25); 
+    outline: none; 
+}
+
+.custom-select option {
+    color: #495057; 
+}
 
 </style>
 
 <h4 class="py-2 px-2">My Orders</h4>
 
-<div class="button-tabs mt-4">
-    <button class="tab-button active" data-target="all-orders">All Orders</button>
-    <button class="tab-button" data-target="in-progress-orders">In Progress</button>
-    <button class="tab-button" data-target="delivered-orders">Delivered</button>
-    <button class="tab-button" data-target="cancelled-orders">Cancelled</button>
+<div class="d-flex justify-content-between align-items-center mt-4">
+    <div class="button-tabs">
+        <button class="tab-button mb-1 active" data-target="all-orders">All Orders</button>
+        <button class="tab-button mb-1 " data-target="in-progress-orders">In Progress</button>
+        <button class="tab-button" data-target="delivered-orders">Delivered</button>
+        <button class="tab-button" data-target="cancelled-orders">Cancelled</button>
+    </div>
+    <div class="order-filter ms-auto mb-3">
+        <select class="form-select custom-select" aria-label="Order Time Filter">
+            <option value="all" selected>All</option>
+            <option value="last_year">Last Year</option>
+            <option value="last_6_months">Last 6 Months</option>
+            <option value="last_2_years">Last 2 Years</option>
+        </select>
+
+    </div>
 </div>
+
 
 <!-- All Orders -->
 <div id="all-orders" class="tab-content active">
