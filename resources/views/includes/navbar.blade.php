@@ -35,14 +35,14 @@
                     </div>
 
 
-                        <div class="col-md-5 p-3">
+                        <div class="col-md-5 mt-2">
                             <form class="d-flex input-group w-auto my-auto mb-3 mb-md-0">
                                 <input autocomplete="off" type="search" class="form-control rounded" placeholder="Search" />
                                 <span class="input-group-text border-0 d-none d-lg-flex"><i class="fas fa-search"></i></span>
                             </form>
                         </div>
 
-                        <div class="col-md-3 d-flex justify-content-center justify-content-md-end align-items-center">
+                        <div class="col-md-3 mb-2 d-flex justify-content-center justify-content-md-end align-items-center">
                             <div class="d-flex align-items-center">
                                
                                 <div class="dropdown me-3">
