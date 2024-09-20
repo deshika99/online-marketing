@@ -23,7 +23,7 @@
             <a href="{{ route('code_center') }}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init>
                 <span>Code Center</span>
             </a>
-            <a href="#" class="list-group-item list-group-item-action py-2 " data-mdb-ripple-init>
+            <a href="{{ route('incentive_campaign') }}" class="list-group-item list-group-item-action py-2 " data-mdb-ripple-init>
                 <span>Incentive Campaign</span>
             </a>
 
@@ -48,7 +48,7 @@
                 </div>
             </div>
 
-            <a href="#" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init>
+            <a href="{{ route('tool') }}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init>
                 <i class=""></i><span>Tools</span>
             </a>
 
@@ -64,10 +64,10 @@
                     <a href="{{ route('account_balance') }}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init>
                         Account Balance
                     </a>
-                    <a href="" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init>
+                    <a href="{{ route('payment_info') }}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init>
                         Payment Information
                     </a>
-                    <a href="" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init>
+                    <a href="{{ route('commission_rules') }}" class="list-group-item list-group-item-action py-2" data-mdb-ripple-init>
                         Commission Rules
                     </a>
                 </div>

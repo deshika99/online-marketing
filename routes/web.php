@@ -69,6 +69,11 @@ Route::get('home/My-Account/logout', function () {
     return view('logout');
 });
 
+
+Route::get('/affiliate/dashboard/payment/bank_acc', function () {
+    return view('bank_acc');
+});
+
 Auth::routes();
 
 
@@ -94,12 +99,34 @@ Route::get('/affiliate/dashboard/ad_center/{product_id}/promote-modal', [Affilia
 Route::get('/affiliate/dashboard/ad_center/download-images', [AffiliateProductController::class, 'downloadImages'])->name('products.downloadImages');
 
 Route::view('/affiliate/dashboard/code_center', 'affiliate_dashboard.code_center')->name('code_center');
+Route::get('/affiliate/dashboard/ad_center/{id}/promote-modal', [AffiliateProductController::class, 'showPromoteModal'])->name('products.promoteModal');
+
+
+Route::get('/affiliate/dashboard/ad_center/download-images', [AffiliateProductController::class, 'downloadImages'])->name('products.downloadImages');
+
+Route::view('/affiliate/dashboard/code_center', 'affiliate_dashboard.code_center')->name('code_center');
+
+Route::view('/affiliate/dashboard/incentive_campaign', 'affiliate_dashboard.incentive_campaign')->name('incentive_campaign');
+
 Route::view('/affiliate/dashboard/reports/traffic_report', 'affiliate_dashboard.traffic_report')->name('traffic_report');
 Route::view('/affiliate/dashboard/reports/income_report', 'affiliate_dashboard.income_report')->name('income_report');
 Route::view('/affiliate/dashboard/reports/order_tracking', 'affiliate_dashboard.order_tracking')->name('order_tracking');
 Route::view('/affiliate/dashboard/reports/transaction_product_report', 'affiliate_dashboard.transaction_product_report')->name('transaction_product_report');
 Route::view('/affiliate/dashboard/payment/withdrawals', 'affiliate_dashboard.withdrawals')->name('withdrawals');
 Route::view('/affiliate/dashboard/payment/account_balance', 'affiliate_dashboard.account_balance')->name('account_balance');
+
+Route::view('/affiliate/dashboard/tool', 'affiliate_dashboard.tool')->name('tool');
+
+Route::view('/affiliate/dashboard/payment/withdrawals', 'affiliate_dashboard.withdrawals')->name('withdrawals');
+Route::view('/affiliate/dashboard/payment/account_balance', 'affiliate_dashboard.account_balance')->name('account_balance');
+Route::view('/affiliate/dashboard/payment/payment_info', 'affiliate_dashboard.payment_info')->name('payment_info');
+Route::view('/affiliate/dashboard/payment/bank_acc', 'affiliate_dashboard.bank_acc')->name('bank_acc');
+
+Route::view('/affiliate/dashboard/payment/commission_rules', 'affiliate_dashboard.commission_rules')->name('commission_rules');
+
+Route::post('/affiliate/dashboard/payment/bank_acc', [PaymentController::class, 'storeBankAccount'])->name('bank.acc');
+
+
 Route::view('/affiliate/dashboard/account/mywebsites_page', 'affiliate_dashboard.mywebsites_page')->name('mywebsites_page');
 Route::view('/affiliate/dashboard/account/tracking_id', 'affiliate_dashboard.tracking_id')->name('tracking_id');
 
@@ -132,10 +159,3 @@ Route::get('/admin/orders', [OrderController::class, 'index'])->name('orders');
 Route::get('/admin/order-details', [OrderController::class, 'show'])->name('customerorder_details');
 Route::post('/set-order-code', [OrderController::class, 'setOrderCode'])->name('set-order-code');
 Route::delete('/admin/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
-
-
-
-
-
-
-
