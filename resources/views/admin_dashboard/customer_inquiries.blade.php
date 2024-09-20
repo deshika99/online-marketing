@@ -2,6 +2,8 @@
 
 @section('content')
 
+
+
 <style>
 
 </style>
@@ -52,7 +54,10 @@
             </div>
         </div>
     </div>
+   
+
 </main>
+
 
 <div class="modal fade" id="inquiryDetailsModal" tabindex="-1" aria-labelledby="inquiryDetailsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">

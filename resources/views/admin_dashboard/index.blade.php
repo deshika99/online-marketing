@@ -52,7 +52,7 @@
 
         <section>
             <div class="row">
-                <div class="col-xl-3 col-sm-6 col-12 mb-4" >
+                <div class="col-xl-3 col-sm-6 col-12 mb-4">
                     <div class="card bg-gradient-warning text-white" style="border-radius: 0px;">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center px-md-1">
@@ -60,7 +60,7 @@
                                     <i class="fas fa-shopping-cart fa-3x"></i>
                                 </div>
                                 <div class="text-end">
-                                    <h3 class="mb-0">278</h3>
+                                    <h3 class="mb-0">{{ $orderCount }}</h3>
                                     <p class="mb-0 text-uppercase">Orders</p>
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                                     <i class="fa-solid fa-dollar-sign fa-3x"></i>
                                 </div>
                                 <div class="text-end">
-                                    <h3 class="mb-0">156</h3>
+                                    <h3 class="mb-0">1400</h3>
                                     <p class="mb-0 text-uppercase">Today Revenue</p>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                                     <i class="fas fa-users fa-3x"></i>
                                 </div>
                                 <div class="text-end">
-                                    <h3 class="mb-0">64</h3>
+                                    <h3 class="mb-0">{{ $customerCount }}</h3>
                                     <p class="mb-0 text-uppercase">Customers</p>
                                 </div>
                             </div>
@@ -105,7 +105,7 @@
                                     <i class="fas fa-box fa-3x"></i>
                                 </div>
                                 <div class="text-end">
-                                    <h3 class="mb-0">423</h3>
+                                    <h3 class="mb-0">{{ $productCount }}</h3>
                                     <p class="mb-0 text-uppercase">Products</p>
                                 </div>
                             </div>

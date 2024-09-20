@@ -20,7 +20,7 @@
                                 <p><a>Privacy Policy</a></p>
                                 <p><a>Contact Us</a></p>
                                 <p><a>Return Policy</a></p>
-                                <p><a href="{{ route('aff_reg') }}" class="text-white">Affiliate program</a></p>
+                                <p><a href="{{ route('aff_home') }}" target="_blank" class="text-white">Affiliate program</a></p>
                             </div>
                             
                             <hr class="w-100 clearfix d-md-none" />

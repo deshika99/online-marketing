@@ -8,37 +8,43 @@ use Illuminate\Http\Request;
 
 class AffiliateProductController extends Controller
 {
+
+
     public function showAdCenter(Request $request)
     {
-        $categoryId = $request->get('category', 'all');
+        $categoryName = $request->get('category', 'all');
         $query = Products::where('is_affiliate', 1);
-    
-        if ($categoryId != 'all') {
-            $query->where('product_category', $categoryId);
+
+        if ($categoryName != 'all') {
+            $query->where('product_category', $categoryName);
         }
-    
+
         $hotDeals = $query->get();
         $commissionThreshold = 8;
         $highComQuery = Products::where('commission_percentage', '>', $commissionThreshold)
             ->where('is_affiliate', 1);
-    
-        if ($categoryId != 'all') {
-            $highComQuery->where('product_category', $categoryId);
+
+        if ($categoryName != 'all') {
+            $highComQuery->where('product_category', $categoryName);
         }
-    
+
         $highCom = $highComQuery->get();
         $categories = Category::all(); 
-    
+
         return view('affiliate_dashboard.ad_center', compact('hotDeals', 'highCom', 'categories'));
     }
 
 
-    public function showPromoteModal($id)
+    
+
+
+    public function showPromoteModal($product_id)
     {
-        $product = Product::with('images')->findOrFail($id);
+        $product = Products::with('images')->where('product_id', $product_id)->firstOrFail();
         return view('promote-modal', compact('product'));
     }
 
+    
 
 
     public function downloadImages(Request $request)

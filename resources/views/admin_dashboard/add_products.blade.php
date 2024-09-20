@@ -1,6 +1,7 @@
 @extends('layouts.admin_main.master')
 
 @section('content')
+
 <style>
    .btn-create {
         font-size: 0.8rem;
@@ -88,6 +89,27 @@
         cursor: pointer;
     }
 
+
+.card1 {
+    border: 1px solid #ddd; 
+    box-shadow: none; 
+}
+
+
+.remove-btn {
+    border: 1px solid #b72626; 
+    color: #b72626; 
+    background-color: white; 
+    box-shadow: none; 
+}
+
+
+.remove-btn:hover {
+    background-color: #b72626; 
+    color: white; 
+}
+
+
 </style>
 
 
@@ -138,7 +160,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="category">Category</label>
-                                    <select id="category" name="category" class="form-control" onchange="this.form.submit()">
+                                    <select id="category" name="category" class="form-control">
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}" {{ $category->id == $selectedCategoryId ? 'selected' : '' }}>
@@ -149,24 +171,14 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="subcategory">Subcategory</label>
-                                    <select id="subcategory" name="subcategory" class="form-control" onchange="this.form.submit()">
+                                    <select id="subcategory" name="subcategory" class="form-control">
                                         <option value="">Select Subcategory</option>
-                                        @foreach ($subcategories as $subcategory)
-                                            <option value="{{ $subcategory->id }}" {{ $subcategory->id == $selectedSubcategoryId ? 'selected' : '' }}>
-                                                {{ $subcategory->subcategory }}
-                                            </option>
-                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="subsubcategory">Sub-Subcategory</label>
                                     <select id="subsubcategory" name="subsubcategory" class="form-control">
                                         <option value="">Select Sub-Subcategory</option>
-                                        @foreach ($subSubcategories as $subSubcategory)
-                                            <option value="{{ $subSubcategory->id }}" {{ $subSubcategory->id == old('subsubcategory') ? 'selected' : '' }}>
-                                                {{ $subSubcategory->sub_subcategory }}
-                                            </option>
-                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -175,7 +187,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label for="normalPrice">Normal Price</label>
                             <input type="number" id="normalPrice" name="normalPrice" class="form-control" placeholder="Enter normal price" step="0.01">
@@ -202,13 +213,39 @@
                             <label for="totalPrice">Total Price</label>
                             <input type="text" id="totalPrice" name="totalPrice" class="form-control" readonly>
                         </div>
-
-                        <button type="submit" class="btn btn-success btn-create">Add</button>
+                            <!-- Product Variations Card -->
+                            <div class="card1 px-2 py-2 mt-4">
+                                <div class="card-body">
+                                    <h5>Variations</h5>
+                                    <div class="form-group">
+                                        <label for="variations">Add Product Variations</label>
+                                        <div id="variations-container">
+                                            <div class="variation-row row mb-3" data-index="0">
+                                                <div class="col-md-3">
+                                                    <select class="form-control variation-type" name="variation[0][type]" onchange="handleVariationChange(this)">
+                                                        <option value="Size">Size</option>
+                                                        <option value="Color">Color</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 variation-input-container">
+                                                    <input type="text" class="form-control variation-input" name="variation[0][value]" placeholder="Variation">
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <button type="button" class="btn remove-btn" onclick="removeVariationRow(this)">X</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-secondary mt-3" id="addVariationBtn" style="width: 30%;">+ Add another variation</button>
+                                    </div>
+                                </div>
+                            </div>
+                        <button type="submit" class="btn btn-success btn-create mt-4">Add Product</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    
 </main>
 
 
@@ -334,7 +371,97 @@
     }
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    const categorySelect = document.getElementById('category');
+    const subcategorySelect = document.getElementById('subcategory');
+    const subsubcategorySelect = document.getElementById('subsubcategory');
+
+    function updateSubcategories(categoryId) {
+        fetch(`/subcategories/${categoryId}`)
+            .then(response => response.json())
+            .then(data => {
+                subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
+                data.subcategories.forEach(subcategory => {
+                    subcategorySelect.innerHTML += `<option value="${subcategory.id}">${subcategory.name}</option>`;
+                });
+                subsubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
+            });
+    }
+
+    function updateSubSubcategories(subcategoryId) {
+        fetch(`/sub-subcategories/${subcategoryId}`)
+            .then(response => response.json())
+            .then(data => {
+                subsubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
+                data.sub_subcategories.forEach(subsubcategory => {
+                    subsubcategorySelect.innerHTML += `<option value="${subsubcategory.id}">${subsubcategory.name}</option>`;
+                });
+            });
+    }
+
+    categorySelect.addEventListener('change', function () {
+        const categoryId = this.value;
+        if (categoryId) {
+            updateSubcategories(categoryId);
+        } else {
+            subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
+            subsubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
+        }
+    });
+
+    subcategorySelect.addEventListener('change', function () {
+        const subcategoryId = this.value;
+        if (subcategoryId) {
+            updateSubSubcategories(subcategoryId);
+        } else {
+            subsubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
+        }
+    });
+
+    
+});
 
 </script>
+
+
+<script>
+    let variationIndex = 1;
+
+    // Handle dynamic addition of variation rows
+    document.getElementById('addVariationBtn').addEventListener('click', function () {
+        const container = document.getElementById('variations-container');
+        const newRow = document.createElement('div');
+        newRow.classList.add('variation-row', 'row', 'mb-3');
+        newRow.setAttribute('data-index', variationIndex);
+        
+        newRow.innerHTML = `
+            <div class="col-md-3">
+                <select class="form-control variation-type" name="variation[${variationIndex}][type]" onchange="handleVariationChange(this)">
+                    <option value="Size">Size</option>
+                    <option value="Color">Color</option>
+                    <option value="Material">Material</option>
+                </select>
+            </div>
+            <div class="col-md-4 variation-input-container">
+                <input type="text" class="form-control variation-input" name="variation[${variationIndex}][value]" placeholder="Variation">
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn remove-btn" onclick="removeVariationRow(this)">X</button>
+            </div>
+        `;
+
+        container.appendChild(newRow);
+        variationIndex++;
+    });
+
+    function removeVariationRow(button) {
+        const row = button.closest('.variation-row');
+        row.remove();
+    }
+
+  
+</script>
+
+
 
 @endsection

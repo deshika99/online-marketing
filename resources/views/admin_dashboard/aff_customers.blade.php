@@ -2,6 +2,8 @@
 
 @section('content')
 
+
+
 <style>
     .table thead {
         background-color: #f9f9f9; 
@@ -38,15 +40,11 @@
         color: red;
         font-weight: bold;
     }
-</style>  
+</style> 
+
 
 <main style="margin-top: 58px">
-    <div class="container pt-4 px-4"> 
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
+    <div class="container pt-4 px-4">
         <div class="d-flex justify-content-between align-items-center">
             <h3 class="py-3 mb-0">Affiliate Customers</h3>
         </div>
@@ -102,5 +100,6 @@
         </div>
     </div>
 </main>
+
 
 @endsection

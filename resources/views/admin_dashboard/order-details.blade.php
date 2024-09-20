@@ -99,7 +99,6 @@
             </div>
         </div>
 
-
         <div class="order-cards-row mt-2">
             <div class="card">
                 <div class="card-title">Customer Details</div>
@@ -139,9 +138,11 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col">Image</th>
-                                    <th scope="col">Item Name</th>
+                                    <th scope="col">Product ID</th>
+                                    <th scope="col">Image</th> 
                                     <th scope="col">Quantity</th>
+                                    <th scope="col">Color</th>
+                                    <th scope="col">Size</th>
                                     <th scope="col" style="width:20%">Unit Price</th>
                                     <th scope="col" style="width:20%">Total</th>
                                 </tr>
@@ -149,9 +150,21 @@
                             <tbody>
                                 @foreach($items as $item)
                                 <tr>
-                                    <td><img src="" alt="" width="50"></td>
-                                    <td>{{ $item->item }}</td>
+                                    <td>{{ $item->product_id }}</td>
+                                    <td>
+                                        <img src="{{ asset('storage/' . $item->product->images->first()->image_path) }}" alt="Product Image" width="50">
+                                    </td>
                                     <td>{{ $item->quantity }}</td>
+                                    <td>
+                                        @if($item->color)
+                                            <span style="display: inline-block; width: 20px; height: 20px; background-color: {{ $item->color }}; border: 1px solid #e8ebec; border-radius: 50%;"></span>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        {{ $item->size ? $item->size : '-' }}
+                                    </td>
                                     <td>Rs {{ number_format($item->cost, 2) }}</td>
                                     <td>Rs {{ number_format($item->quantity * $item->cost, 2) }}</td>
                                 </tr>
@@ -162,10 +175,10 @@
                 </div>
             </div>
 
-            <div class="card summary-card">
+            <div class="card summary-card" style="height: 250px;">
                 <div class="card-title">Order Summary</div>
                 <div class="card-body">
-                    <p>Subtotal: Rs {{ number_format($item->quantity * $item->cost, 2) }}</p>
+                    <p>Subtotal: Rs {{ number_format($order->total_cost - 250, 2) }}</p>
                     <p>Delivery Charge: Rs 250.00</p>
                     <hr>
                     <p><strong>Total: Rs {{ number_format($order->total_cost, 2) }}</strong></p>

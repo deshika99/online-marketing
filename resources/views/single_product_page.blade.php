@@ -5,15 +5,145 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 <style>
-    .fit {
-        max-width: 100%;
-        max-height: 100vh;
-        margin: auto;
-    }
+  
     .product-price span {
         display: inline-block;
         margin-right: 10px;
     }
+    
+    .reviews-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 0 auto; 
+    }
+
+    @media (min-width: 769px) {
+    .col-md-2 {
+        flex: 0 0 19%; 
+        max-width: 19%;
+    }
+}
+
+.review-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-left: 20px;
+}
+
+.rating-score h2 {
+    font-size: 40px;
+    margin: 0;
+}
+
+.star-rating span {
+    font-size: 24px;
+}
+
+.rating-bars {
+    flex-grow: 1;
+    margin-left: 20px;
+}
+
+.rating-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.rating-bar span {
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.bar {
+    width: 70%;
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    position: relative;
+}
+
+.fill {
+    background-color: #fad21e; 
+    height: 100%;
+    border-radius: 5px;
+}
+
+.rating-categories {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+}
+
+.rating-categories .badge {
+    background-color: #f5f5f5;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.review-list {
+    margin-top: 20px;
+}
+
+.review-item {
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user-image {
+    width: 4%;
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.user-details {
+    flex: 1;
+}
+
+.user-rating {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.rating {
+    display: flex;
+    gap: 5px;
+}
+
+
+.review-images {
+    display: flex;
+    gap: 10px;
+}
+
+.review-images img {
+    width: 5%;
+    height: auto;
+    object-fit: cover;
+}
+
+
+.read-all-reviews {
+    display: block;
+    text-align: right;
+    color: #6c63ff;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+
 </style>
 
 <div class="container mt-4 mb-5">
@@ -30,35 +160,28 @@
 
 
     <section class="py-3">
-        <div class="container"  style="width: 80%;">
-            <div class="row gx-5">
+    <div class="container" style="width: 80%;">
+        <div class="row gx-5">
             <aside class="col-lg-5">
+               
                 <div class="rounded-4 mb-3 d-flex justify-content-center">
-                    <a class="rounded-4 glightbox" data-type="image" href="{{ $image }}">
-                        <img id="product-image" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="{{ $image }}" />
+                    <a class="rounded-4 glightbox" data-type="image" href="{{ asset('storage/' . $product->images->first()->image_path) }}">
+                        <img id="product-image" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="{{ asset('storage/' . $product->images->first()->image_path) }}" />
                     </a>
                 </div>
                 <div class="d-flex justify-content-center mb-3">
-                    <a class="glightbox mx-1 rounded-2" style="border: none;" data-type="image" href="/assets/images/item1.png">
-                        <img width="60" height="60" class="rounded-2" src="" />
-                    </a>
-                    <a class="glightbox mx-1 rounded-2" style="border: none;" data-type="image" href="/assets/images/item5.png">
-                        <img width="60" height="60" class="rounded-2" src="" />
-                    </a>
-                    <a class="glightbox mx-1 rounded-2" style="border: none;" data-type="image" href="/assets/images/item7.png">
-                        <img width="60" height="60" class="rounded-2" src="" />
-                    </a>
-                    <a class="glightbox mx-1 rounded-2" style="border: none;" data-type="image" href="/assets/images/item6.png">
-                        <img width="60" height="60" class="rounded-2" src="" />
-                    </a>
+                    @foreach($product->images as $image)
+                        <a class="glightbox mx-1 rounded-2" style="border: none;" data-type="image" href="{{ asset('storage/' . $image->image_path) }}">
+                            <img class="thumbnail rounded-2" src="{{ asset('storage/' . $image->image_path) }}" />
+                        </a>
+                    @endforeach
                 </div>
             </aside>
 
             <main class="col-lg-7">
                 <div class="ps-lg-3">
-                    <h4 class="title text-dark">
-                        {{ $title }}
-                    </h4>
+                    <h4 class="title text-dark">{{ $product->product_name }}</h4>
+                    <h5 class="title text-dark">{{ $product->product_description }}</h5>                 
                     <div class="d-flex flex-row my-3">
                         <div class="text-warning mb-1 me-2">
                             <i class="fa fa-star"></i>
@@ -73,41 +196,69 @@
                     </div>
                     <div style="margin-top: -15px;">
                         <span class="text-muted">Brand: </span>
-                        <span class="text-primary"> No Brand | More Wearable technology from No Brand</span>
+                        <span class="text-primary">No Brand | More Wearable technology from No Brand</span>
                     </div>
-
                     <hr />
+                    <div class="product-availability mt-3">
+                        <span class="">Availability :</span>
+                        @if($product->quantity > 1)
+                            <span class="ms-1" style="color:#4caf50;">In stock</span>
+                        @else
+                            <span class="ms-1" style="color:red;">Out of stock</span>
+                        @endif
+                    </div>
+                    <div class="product-variations mt-3">
+                       
+                        @if($product->variations->where('type', 'Size')->isNotEmpty())
+                            <div class="mb-3">
+                                <span>Size: </span>
+                                @foreach($product->variations->where('type', 'Size') as $size)
+                                    <button class="btn btn-outline-secondary btn-sm me-1 ms-1 size-option"  style="height:28px;" >{{ $size->value }}</button>
+                                @endforeach
+                            </div>
+                        @endif
 
-                    <span class="">Availability :</span>
-                    <span class="ms-1" style="color:#4caf50;">In stock</span>
-                    <span class="ms-5">Color:</span>
-                    <div class="d-inline-block ms-2">
-                        <span class="color-label" style="background-color: #f55b29;"></span>
-                        <span class="color-label" style="background-color: black;"></span>
-                        <span class="color-label" style="background-color: #ffeb3b;"></span>
-                        <span class="color-label" style="background-color: blue;"></span>
+                        @if($product->variations->where('type', 'Color')->isNotEmpty())
+                            <div class="mb-2">
+                                <span>Color: </span>
+                                <span id="selected-color-name" class="fw-bold"></span>
+                                <br> 
+                                @foreach($product->variations->where('type', 'Color') as $color)
+                                    <button class="btn btn-outline-secondary btn-sm mt-2 me-1 color-option" 
+                                        style="background-color: {{ $color->value }}; border-color: #e8ebec; height: 20px; width: 20px; " 
+                                        data-color="{{ $color->value }}" 
+                                        data-color-name="{{ $color->value }}">
+                                    </button>
+                                @endforeach
+                            </div>
+                        @endif
+
                     </div>
                     <div class="product-price mb-3 mt-3">
-                        <span class="h4" style="color:#f55b29;">Rs. {{ $price }}</span>
+                        <span class="h4" style="color:#f55b29;">Rs. {{ $product->normal_price }}</span>
                     </div>
 
                     <div class="d-flex">
-                        <a href="#" class="btn btn-custom-buy shadow-0 me-2" data-product-id="{{ $productId }}" onclick="buyNow()">Buy now</a>
-
-                        <a href="#" class="btn btn-custom-cart shadow-0" data-product-id="{{ $productId }}">
-                            <i class="me-1 fa fa-shopping-basket"></i>Add to cart
-                        </a>
+                        @auth
+                            <a href="#" class="btn btn-custom-buy shadow-0 me-2 {{ $product->quantity <= 1 ? 'btn-disabled' : '' }}" data-product-id="{{ $product->product_id }}" data-auth="true" onclick="buyNow()">Buy now</a>
+                            <a href="#" class="btn btn-custom-cart shadow-0 {{ $product->quantity <= 1 ? 'btn-disabled' : '' }}" data-product-id="{{ $product->product_id }}" data-auth="true">
+                                <i class="me-1 fa fa-shopping-basket"></i>Add to cart
+                            </a>
+                        @else
+                            <a href="#" class="btn btn-custom-buy shadow-0 me-2 {{ $product->quantity <= 1 ? 'btn-disabled' : '' }}" data-product-id="{{ $product->product_id }}" data-auth="false" onclick="buyNow()">Buy now</a>
+                            <a href="#" class="btn btn-custom-cart shadow-0 {{ $product->quantity <= 1 ? 'btn-disabled' : '' }}" data-product-id="{{ $product->product_id }}" data-auth="false">
+                                <i class="me-1 fa fa-shopping-basket"></i>Add to cart
+                            </a>
+                        @endauth
                     </div>
                 </div>
             </main>
-            <div>
-    
-
-
-
-            </div>
         </div>
-    </section>
+    </div>
+</section>
+
+
+
 
     <section class="bg-light border-top py-4" >
         <div class="container">
@@ -184,10 +335,92 @@
                                 Compatible with select Bluetooth capable smartphones.<br>
                                 Galaxy Watch supported features may vary by carrier and compatible device.
                             </div>
+
+                            <!-- Reviews Section -->
                             <div class="tab-pane fade mb-2" id="ex1-pills-review" role="tabpanel" aria-labelledby="ex1-tab-review">
-                                Another tab content or sample information now <br />
-                                Dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                <div class="reviews-container" style="width: 90%;">
+                                    <div class="review-summary">
+                                        <div class="rating-score">
+                                            <h2>4.0</h2>
+                                            <div class="star-rating">
+                                                <span class="text-warning">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fas fa-star-half-alt"></i>
+                                                </span> 
+                                            </div>
+                                            <p>35K ratings</p>
+                                        </div>
+                                        <div class="rating-bars ms-5">
+                                            <div class="rating-bar">                                              
+                                                <div class="bar">
+                                                    <div class="fill" style="width: 80%;"></div>
+                                                </div>
+                                                <span class="ms-3">5.0</span><span class="text-secondary">14K reviews</span>
+                                            </div>
+                                            <div class="rating-bar">
+                                                <div class="bar">
+                                                    <div class="fill" style="width: 60%;"></div>
+                                                </div>
+                                                <span class="ms-3">4.0</span><span class="text-secondary">6K reviews</span>
+                                            </div>
+                                            <div class="rating-bar">
+                                                <div class="bar">
+                                                    <div class="fill" style="width: 40%;"></div>
+                                                </div>
+                                                <span class="ms-3">3.0</span><span class="text-secondary">4K reviews</span>
+                                            </div>
+                                            <div class="rating-bar">
+                                                <div class="bar">
+                                                    <div class="fill" style="width: 10%;"></div>
+                                                </div>
+                                                <span class="ms-3">2.0</span><span class="text-secondary">800 reviews</span>
+                                            </div>
+                                            <div class="rating-bar">
+                                                <div class="bar">
+                                                    <div class="fill" style="width: 20%;"></div>
+                                                </div>
+                                                <span class="ms-3">1.0</span><span class="text-secondary">9K reviews</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Review List -->
+                                    <div class="review-list">
+                                        <div class="review-item">
+                                            <div class="user-info">
+                                                <img src="\assets\images\user.png" alt="User image" class="user-image">
+                                                <div class="user-details mt-3">
+                                                    <h6>Alexander Rity</h6>
+                                                </div>
+                                                <div class="user-rating">
+                                                    <span class="me-1 ">5.0</span>
+                                                    <span class="rating text-warning">
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="user-review mt-2">
+                                                <p>With supporting text below as a natural lead-in to additional content. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                                                <div class="review-images">
+                                                    <img src="\assets\images\d (1).png" alt="image">
+                                                    <img src="\assets\images\d (2).png" alt="image">
+                                                    <img src="\assets\images\d (3).png" alt="image">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <a href="#" class="read-all-reviews">Read all reviews</a>
+                                    </div>
+                                </div>
                             </div>
+
                             <div class="tab-pane fade mb-2" id="ex1-pills-QA" role="tabpanel" aria-labelledby="ex1-tab-QA">
                                 Some other tab content or sample information now <br />
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -201,85 +434,38 @@
     </section>
 </div>
 
-<!--related products-->
-<div class="container mt-5 mb-4 related-products" style="width:100%;">
-    <h4 class="title1">Related Products</h4>
-    <div class="row  justify-content-between">
-        <div class="col-2">
-            <div class="special-offer-item mb-2">
-                <a href="{{ route('single_product_page', [
-                            'title' => 'Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG',
-                            'image' => '/assets/images/item1.png',
-                            'price' => 35699
-                        ]) }}">
-                    <img src="/assets/images/item1.png" class="card-img-top"/>
-                    <div class="card-body">
-                        <div class="wishlist"><i class="fa fa-heart"></i></div>
-                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                        <div class="price">Rs.35 699</div>
-                        <div class="discount">Extra 2% off with coins</div>
+
+<!-- Related products section -->
+@if($relatedProducts->isNotEmpty())
+    <div class="container mt-5 mb-4 related-products">
+        <h4 class="title1">Related Products</h4>
+        <div class="row">
+            @foreach ($relatedProducts as $index => $relatedProduct)
+                <div class="col-md-2">
+                    <div class="related-products-item position-relative">
+                        <a href="{{ route('single_product_page', ['product_id' => $relatedProduct->product_id]) }}" class="d-block text-decoration-none">
+                            @if($relatedProduct->images->isNotEmpty())
+                                <div class="product-image-wrapper position-relative">
+                                    <img src="{{ asset('storage/' . $relatedProduct->images->first()->image_path) }}" alt="Product Image" class="img-fluid">
+                                </div>
+                            @else
+                                <img src="{{ asset('storage/default-image.jpg') }}" alt="Default Image" class="img-fluid">
+                            @endif
+                            <h6>{{ Str::limit($relatedProduct->product_name, 30) }}</h6>
+                            <h6>{{ Str::limit($relatedProduct->product_description, 50) }}</h6>
+                            <div class="price">Rs.{{ number_format($relatedProduct->normal_price) }}</div>
+                        </a>
                     </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="special-offer-item mb-2">
-                <a href="">
-                    <img src="/assets/images/item2.png" class="card-img-top"/>
-                    <div class="card-body">
-                        <div class="wishlist"><i class="fa fa-heart"></i></div>
-                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                        <div class="price">Rs.35 699</div>
-                        <div class="discount">Extra 2% off with coins</div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="special-offer-item mb-2">
-                <a href="">
-                    <img src="/assets/images/item3.png" class="card-img-top"/>
-                    <div class="card-body">
-                        <div class="wishlist"><i class="fa fa-heart"></i></div>
-                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                        <div class="price">Rs.35 699</div>
-                        <div class="discount">Extra 2% off with coins</div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="special-offer-item mb-2">
-                <a href="">
-                    <img src="/assets/images/item4.png" class="card-img-top"/>
-                    <div class="card-body">
-                        <div class="wishlist"><i class="fa fa-heart"></i></div>
-                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                        <div class="price">Rs.35 699</div>
-                        <div class="discount">Extra 2% off with coins</div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="special-offer-item mb-2">
-                <a href="">
-                    <img src="/assets/images/item4.png" class="card-img-top"/>
-                    <div class="card-body">
-                        <div class="wishlist"><i class="fa fa-heart"></i></div>
-                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                        <div class="price">Rs.35 699</div>
-                        <div class="discount">Extra 2% off with coins</div>
-                    </div>
-                </a>
-            </div>
+                </div>
+            @endforeach
         </div>
     </div>
+@endif
+
 </div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
-
 <script>
 
 const lightbox = GLightbox({
@@ -320,58 +506,77 @@ const lightbox = GLightbox({
 
 <script>
 $(document).ready(function() {
-    // Fetch initial cart count
-    $.get("{{ route('cart.count') }}", function(data) {
-        $('#cart-count').text(data.cart_count);
-    });
-
     $('.btn-custom-cart').on('click', function(e) {
         e.preventDefault();
 
-        const productId = $(this).data('product-id'); 
-        const title = $('.title').text().trim();
-        const price = $('.product-price .h4').text().trim().replace('Rs. ', '');
-        const image = $('#product-image').attr('src'); 
+        const productId = $(this).data('product-id');
+        const isAuth = $(this).data('auth');
+        const selectedSize = $('button.size-option.active').text();  
+        const selectedColor = $('button.color-option.active').data('color');  
 
-        $.ajax({
-            url: "{{ route('cart.add') }}",
-            method: 'POST',
-            data: {
-                _token: "{{ csrf_token() }}",
-                product_id: productId, 
-                title: title,
-                price: price,
-                image: image
-            },
-            success: function(response) {
-                $.get("{{ route('cart.count') }}", function(data) {
-                    $('#cart-count').text(data.cart_count);
-                });
-                alert('Item added to cart!');
-            },
-            error: function(xhr) {
-                console.log(xhr.responseText); 
-                alert('Something went wrong. Please try again.');
-            }
-        });
+        if (isAuth) {
+            $.ajax({
+                url: "{{ route('cart.add') }}",
+                method: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    product_id: productId,
+                    size: selectedSize,   
+                    color: selectedColor 
+                },
+                success: function(response) {
+                    $.get("{{ route('cart.count') }}", function(data) {
+                        $('#cart-count').text(data.cart_count);
+                    });
+                    
+                    toastr.success('Item added to cart!', 'Success', {
+                        positionClass: 'toast-top-right',
+                        timeOut: 3000, 
+                    });
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                    toastr.error('Something went wrong. Please try again.', 'Error', {
+                        positionClass: 'toast-top-right',
+                        timeOut: 3000,
+                    });
+                }
+            });
+        } else {
+            toastr.warning('Please log in to add items to your cart.', 'Warning', {
+                positionClass: 'toast-top-right',
+                timeOut: 3000,
+            });
+        }
     });
 
-    // Buy Now button
-    window.buyNow = function() {
-        const productId = $('.btn-custom-buy').data('product-id'); // Get product ID from data attribute
-        const title = $('.title').text().trim();
-        const price = $('.product-price .h4').text().trim().replace('Rs. ', '');
-        const image = $('#product-image').attr('src'); 
+    $('.size-option').on('click', function() {
+        $('.size-option').removeClass('active');
+        $(this).addClass('active');
+    });
 
+    $('.color-option').on('click', function() {
+        $('.color-option').removeClass('active');
+        $(this).addClass('active');
+    });
+
+
+    window.buyNow = function() {
+    const productId = $('.btn-custom-buy').data('product-id');
+    const isAuth = $('.btn-custom-buy').data('auth');
+
+    const selectedSize = $('button.size-option.active').text();  
+    const selectedColor = $('button.color-option.active').data('color');  
+
+    if (isAuth) {
         $.ajax({
             url: "{{ route('cart.add') }}",
             method: 'POST',
             data: {
                 _token: "{{ csrf_token() }}",
-                product_id: productId, 
-                title: title,
-                price: price,
-                image: image
+                product_id: productId,
+                size: selectedSize,  
+                color: selectedColor 
             },
             success: function(response) {
                 $.get("{{ route('cart.count') }}", function(data) {
@@ -380,17 +585,62 @@ $(document).ready(function() {
                 window.location.href = "{{ route('shopping_cart') }}";
             },
             error: function(xhr) {
-                alert('Something went wrong. Please try again.');
+                toastr.error('Something went wrong. Please try again.', 'Error', {
+                    positionClass: 'toast-top-right',
+                    timeOut: 3000,
+                });
             }
         });
+    } else {
+        toastr.warning('Please log in to proceed with your purchase.', 'Warning', {
+            positionClass: 'toast-top-right',
+            timeOut: 3000,
+        });
     }
+}
+
 });
 
+$(document).ready(function() {
+
+    $('.color-option').on('click', function() {
+        $('.color-option').removeClass('selected-color');
+        $(this).addClass('selected-color');
+    });
+});
+
+
+
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const colorButtons = document.querySelectorAll('.color-option');
+        const colorNameDisplay = document.getElementById('selected-color-name');
+
+        colorButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const colorName = this.getAttribute('data-color-name');
+                colorNameDisplay.textContent = colorName;
+            });
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.btn-cart').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.stopPropagation();
+                event.preventDefault();
+            });
+        });
+    });
 
 </script>
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
 @endsection

@@ -1,4 +1,4 @@
-@extends('layouts.sidebar')
+@extends('layouts.user_sidebar')
 
 @section('dashboard-content')
 <div class="container p-4">

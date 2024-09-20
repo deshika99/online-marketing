@@ -10,7 +10,8 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id(); 
-            $table->string('parent_category')->nullable();  
+            $table->string('parent_category')->nullable(); 
+            $table->string('image')->nullable();  
             $table->timestamps();
         });
     }

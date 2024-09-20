@@ -24,6 +24,64 @@
       @include('layouts.affiliate_main.sidebar')
       {{-- main content --}}
         @yield('content')
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (session('status'))
+                Swal.fire({
+                    title: 'Success!',
+                    text: "{{ session('status') }}",
+                    icon: 'success',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    }
+                });
+            @endif
+
+            @if (session('error'))
+                Swal.fire({
+                    title: 'Error!',
+                    text: "{{ session('error') }}",
+                    icon: 'error',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    }
+                });
+            @endif
+        });
+
+        function confirmDelete(formId, message) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: message || "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel',
+                customClass: {
+                    container: 'delete-confirm-modal'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(formId).submit();
+                }
+            });
+        }
+
+    </script>
     </div> <!-- .wrapper -->
     {{-- jquery --}}
     @include('layouts.affiliate_main.script')

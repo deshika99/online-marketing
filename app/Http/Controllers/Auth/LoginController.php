@@ -44,12 +44,29 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        
-        $user->last_login = Carbon::now(); 
-        $user->save(); 
+        $user->last_login = Carbon::now();
+        $user->save();
     }
 
-    
+      /**
+     * Handle the authentication logic and check for the "Remember Me" option.
+     */
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+        $remember = $request->has('remember'); 
+        
+        if (Auth::attempt($credentials, $remember)) {
+            // Update last login timestamp
+            $this->authenticated($request, Auth::user());
+            return redirect()->intended($this->redirectPath());
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->withInput();
+    }
+
 
     public function logout(Request $request)
     {

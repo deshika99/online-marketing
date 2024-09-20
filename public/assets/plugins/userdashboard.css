@@ -1,0 +1,38 @@
+body {
+    background-color: #fafafa;
+}
+.dashboard-container {
+    margin-top: 20px;
+}
+.sidebar {
+    background-color: white;
+    color: black;
+    position: sticky;
+    top: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    border: 1px solid #e0e0e0; 
+}
+.sidebar a {
+    color: black;
+    border-bottom: 1px solid #e0e0e0; 
+    padding: 10px;
+    display: block;
+}
+.sidebar a:hover {
+    background-color: #e8ecf0;
+    color: black;
+}
+.sidebar .nav-item {
+    padding: 5px; 
+}
+.sidebar .nav-link.active {
+    background-color: #e8ecf0;
+}
+.card-container {
+    padding: 20px;
+}
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    border: 1px solid #e0e0e0; 
+    height:80vh;
+}
