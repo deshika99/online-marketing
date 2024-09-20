@@ -13,7 +13,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NavbarController;
-
+use App\Http\Controllers\UserDashboardController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -45,9 +45,7 @@ Route::get('home/My-Account/edit-profile', function () {
     return view('member_dashboard.edit-profile');
 })->name('edit-profile');
 
-Route::get('home/My-Account/order-history', function () {
-    return view('member_dashboard.order-history');
-})->name('order-history');
+Route::get('home/My-Account/myorders', [UserDashboardController::class, 'myOrders'])->name('myorders');
 
 Route::get('home/My-Account/order-details', function () {
     return view('member_dashboard.order-details');
@@ -125,7 +123,6 @@ Route::view('/affiliate/dashboard/payment/bank_acc', 'affiliate_dashboard.bank_a
 Route::view('/affiliate/dashboard/payment/commission_rules', 'affiliate_dashboard.commission_rules')->name('commission_rules');
 
 Route::post('/affiliate/dashboard/payment/bank_acc', [PaymentController::class, 'storeBankAccount'])->name('bank.acc');
-
 
 Route::view('/affiliate/dashboard/account/mywebsites_page', 'affiliate_dashboard.mywebsites_page')->name('mywebsites_page');
 Route::view('/affiliate/dashboard/account/tracking_id', 'affiliate_dashboard.tracking_id')->name('tracking_id');

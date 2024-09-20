@@ -178,7 +178,7 @@
             <div class="card summary-card" style="height: 250px;">
                 <div class="card-title">Order Summary</div>
                 <div class="card-body">
-                    <p>Subtotal: Rs {{ number_format($item->quantity * $item->cost, 2) }}</p>
+                    <p>Subtotal: Rs {{ number_format($order->total_cost - 250, 2) }}</p>
                     <p>Delivery Charge: Rs 250.00</p>
                     <hr>
                     <p><strong>Total: Rs {{ number_format($order->total_cost, 2) }}</strong></p>
