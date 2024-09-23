@@ -2,6 +2,7 @@
 
 @section('dashboard-content')
 
+
 <style>
     .card-order {
         margin: 10px; 
@@ -34,14 +35,66 @@
     margin-bottom: 20px;
 }
 
+
+
 </style>
 
 <h4 class="py-2 px-4">Order Details</h4>
 <h6 class="px-4">Order ID: {{ $order->order_code }}</h6>
 <h6 class="px-4 order-date">Order date: {{ $order->date }}</h6>
-<h6 class="px-4">{{ $order->items->count() }} items</h6>
+<h6 class="px-4 order-date">
+    <span class="status {{ strtolower(str_replace(' ', '-', $order->status)) }}">
+        {{ $order->status }}
+    </span>
+</h6>
 
-<div class="orderdetail-cards-row mt-2 m-3">
+
+<div class="card" style="z-index: 0; border:none;">
+    <div class="d-flex justify-content-center">
+        <div class="col-12">
+            <div class="container">
+                <div class="card-body px-5 mt-4 mb-3">
+                    <ul id="progressbar-2" class="d-flex justify-content-between mx-0 mt-0 px-0 pt-0">
+                        <li class="step0 {{ $order->status === 'Pending' ? '' : 'active' }}" id="step1"></li>
+                        <li class="step0 {{ in_array($order->status, ['In Progress', 'Shipped', 'Delivered']) ? 'active' : '' }}" id="step2"></li>
+                        <li class="step0 {{ in_array($order->status, ['Shipped', 'Delivered']) ? 'active' : '' }}" id="step3"></li>
+                        <li class="step0 {{ $order->status === 'Delivered' ? 'active' : '' }}" id="step4"></li>
+                    </ul>
+                    <div class="d-flex justify-content-between">
+                        <div class="d-lg-flex align-items-center">
+                            <i class="fas fa-check-circle me-lg-2 mb-lg-0"></i>
+                            <div>
+                                <p class="mb-0">Order Confirmed</p>
+                            </div>
+                        </div>
+                        <div class="d-lg-flex align-items-center">
+                            <i class="fas fa-clipboard-list me-lg-2 mb-lg-0"></i>
+                            <div>
+                                <p class="mb-0">Order Processed</p>
+                            </div>
+                        </div>
+                        <div class="d-lg-flex align-items-center">
+                            <i class="fas fa-shipping-fast me-lg-2 mb-lg-0"></i>
+                            <div>
+                                <p class="mb-0">Order Shipped</p>
+                            </div>
+                        </div>
+                        <div class="d-lg-flex align-items-center">
+                            <i class="fas fa-home me-lg-2 mb-lg-0"></i>
+                            <div>
+                                <p class="mb-0">Order Delivered</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="orderdetail-cards-row mx-3">
     <div class="card card-order" style="height: auto; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); position: relative;">
         <i class="fa-solid fa-location-dot fa-2x" style="position: absolute; top: 10px; right: 20px; color: #0056b3"></i>
         <div class="card-body p-0">
@@ -65,7 +118,7 @@
 </div>
 
 <div class="order-items mt-3">
-    <h6 class="px-4">Order Items:</h6>
+    <h6 class="px-4">Order Items: {{ $order->items->count() }}</h6>
     <div class="order-items-list px-3">
         @foreach($order->items as $item)
             <div class="order-item" style="display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #eaeaea;">

@@ -78,43 +78,37 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($users as $index => $user)
+                                @foreach($users as $key => $user)
                                 <tr>
-                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $key + 1 }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>
-                                        <img src="{{ $user->profile_image ? asset('storage/user_images/' . $user->profile_image) : asset('assets/images/default-user.png') }}" width="40" alt="User Image">
+                                        <img src="{{ $user->image_path ? asset('storage/user_images/' . $user->image_path) : asset('assets/images/default-user.png') }}" width="40" alt="User Image">
                                     </td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->phone_num }}</td>
-                                    <td>{{ $user->role }}</td>
+                                    <td>{{ $user->contact }}</td>
+                                    <td>{{ ucfirst($user->role) }}</td>
                                     <td>
-                                        @if($user->status === 'Active')
-                                            <span class="badge status-badge bg-success">Active</span>
+                                        @if($user->status)
+                                            <span class="status-badge badge bg-success">Active</span>
                                         @else
-                                            <span class="badge status-badge bg-danger">Inactive</span>
+                                            <span class="status-badge badge bg-danger">Inactive</span>
                                         @endif
                                     </td>
                                     <td class="action-buttons">
-                                        <button class="btn btn-info btn-sm view-btn" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" data-bs-toggle="modal" data-bs-target="#UserdetailsModal" data-id="{{ $user->id }}">
+                                        <button class="btn btn-info btn-sm view-btn" data-bs-toggle="modal" data-bs-target="#UserdetailsModal" data-id="{{ $user->id }}" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">
                                             <i class="fas fa-eye"></i>
                                         </button>
- 
-                                        @if($user->role !== 'customer')
-                                            <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning btn-sm" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        @endif
-
-                                       
-                                        <form id="delete-form-{{ $user->id }}" action="{{ route('delete_user', ['id' => $user->id]) }}" method="POST" style="display:inline;">
+                                        <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning btn-sm"  style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <form id="delete-form-{{ $user->id }}" action="{{ route('delete_user', $user->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="button" class="btn btn-danger btn-sm" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="confirmDelete('delete-form-{{ $user->id }}', 'you want to delete this User?')">
+                                            <button type="button" class="btn btn-danger btn-sm" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="confirmDelete('delete-form-{{ $user->id }}', 'Are you sure you want to delete this user?')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
-                                       
                                     </td>
                                 </tr>
                                 @endforeach
@@ -124,6 +118,7 @@
                 </div>
             </div>
         </div>
+
 
     </div>
 </main>
@@ -143,8 +138,8 @@
                     @csrf
                     <div class="row">
                         <div class="col-md-12 form-group">
-                            <label for="Name">Name</label>
-                            <input type="text" id="Name" name="Name" class="form-control" placeholder="Enter Name">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter Name">
                         </div>
                         <div class="col-md-6 form-group">
                             <label for="email">Email</label>
@@ -159,7 +154,7 @@
                             <select id="role" name="role" class="form-control select-width">
                                 <option value="">Select Role</option>
                                 <option value="admin">Admin</option>
-                                <option value="customer">Customer</option>
+                                <option value="user">User</option>
                             </select>
                         </div>
                         <div class="col-md-6 form-group">
@@ -190,6 +185,7 @@
             </div>
             <div class="modal-body">
                 <div id="userDetailsContainer">
+                  
                 </div>
             </div>
         </div>
@@ -212,16 +208,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     var userDetailsContainer = document.getElementById('userDetailsContainer');
                     userDetailsContainer.innerHTML = `
                         <div class="modal-user-details">
-                            <img src="${data.profile_image ? '/storage/user_images/' + data.profile_image : '/assets/images/default-user.png'}" class="img-fluid mb-3" alt="User Image" />
+                            <img src="${data.image_path ? '/storage/user_images/' + data.image_path : '/assets/images/default-user.png'}" class="img-fluid mb-3" alt="User Image" />
                             <h5>${data.name}</h5>
                             <p>USER ID #000${data.id}</p>
                         </div>
                         <div class="user-info">
                             <p><strong>Email:</strong> <span>${data.email}</span></p>
-                            <p><strong>Contact No:</strong> <span>${data.phone_num}</span></p>
+                            <p><strong>Contact No:</strong> <span>${data.contact}</span></p>
                             <p><strong>Role:</strong> <span>${data.role}</span></p>
                             <p><strong>Status:</strong> 
-                                ${data.status === 'Active' ? '<span class="badge status-badge bg-success">Active</span>' : '<span class="badge status-badge bg-danger">Inactive</span>'}
+                                ${data.status ? '<span class="badge status-badge bg-success">Active</span>' : '<span class="badge status-badge bg-danger">Inactive</span>'}
                             </p>
                             <p><strong>Permissions:</strong> <span>${data.permissions || '-'}</span></p>
                         </div>

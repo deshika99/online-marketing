@@ -88,28 +88,74 @@ body {
     margin-bottom: 10px;
 }
 
-.status.inprogress {
+.status {
+    display: inline-flex; 
+    align-items: center;  
+    justify-content: center;
+    width: 100px; 
+    padding: 6px 11px; 
+    border-radius: 15px;
+    font-size: 12px; 
+}
+
+.status.in-progress {
     background-color: #ffedd4; 
     color: #f0ad4e; 
-    padding: 4px 9px;
-    border-radius: 15px;
-    font-size: 12px;
 }
 
 .status.delivered {
     background-color: #d4edda; 
     color: #28a745;
-    padding: 4px 9px;
-    border-radius: 15px;
-    font-size: 12px;
 }
 
 .status.cancelled {
     background-color: #f8d7da;
     color: #dc3545;
-    padding: 4px 9px;
-    border-radius: 15px;
-    font-size: 12px;
+}
+
+.status.pending {
+    background-color: #fff3cd; 
+    color: #856404;
+}
+
+.status.shipped {
+    background-color: #e2e3e5;
+    color: #6c757d;
+}
+
+.btn-primary, .btn-cancel, .btn-confirm, .btn-remove {
+    color: white; 
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px; 
+    text-decoration: none; 
+    width: 150px;
+    display: inline-block;
+    text-align: center;
+    font-size: 13px;
+}
+
+.btn-primary {
+    color: white;
+}
+
+.btn-cancel {
+    background-color: #bb5151; 
+}
+.btn-confirm {
+    background-color: #28a745; 
+}
+
+.btn-remove {
+    background-color: white; 
+    color: black;
+    border: 1px solid black;
+}
+
+.btn-remove:hover {
+    background-color: black; 
+    color: white;
+    border: 1px solid white;
 }
 
 
@@ -160,4 +206,68 @@ body {
 .order-price {
     font-size: 15px;
     font-weight: bold;
+}
+
+
+#progressbar-2 {
+    color: #455A64;
+}
+
+#progressbar-2 li {
+    list-style-type: none;
+    font-size: 13px;
+    width: 25%; 
+    float: left;
+    position: relative;
+    text-align: center;
+}
+
+#progressbar-2 li:before {
+    line-height: 20px;
+    display: block;
+    font-size: 12px;
+    background: #c1ebaf;
+    border-radius: 50%;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    margin: 0 auto 5px;
+    padding: 5px;
+    font-family: "Font Awesome 5 Free";
+    content: '\f111'; 
+}
+
+#progressbar-2 li:after {
+    content: '';
+    width: 100%;
+    height: 5px;
+    background: #c1ebaf;
+    position: absolute;
+    left: 0;
+    top: 15px;
+    z-index: -1;
+}
+
+#progressbar-2 li:nth-child(1):after {
+    left: 50%;
+    width: 50%;
+}
+
+#progressbar-2 li:nth-child(2):after,
+#progressbar-2 li:nth-child(3):after {
+    width: 100%;
+    left: 0;
+}
+
+#progressbar-2 li:nth-child(4):after {
+    width: 50%;
+}
+
+#progressbar-2 li.active:before {
+    content: '\f058'; 
+    background: #40cd06; 
+}
+
+#progressbar-2 li.active:after {
+    background: #40cd06;
 }
