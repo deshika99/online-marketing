@@ -151,7 +151,29 @@
                 </div>
             </div>
         </div>
+
+
+    <!-- Order Status Update Card -->
+        <div class="card mt-4" style="width: 50%">
+            <div class="card-title">Update Order Status</div>
+            <div class="card-body">
+                <form action="{{ route('update_order_status', $order->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-3">
+                        <label for="orderStatus" class="form-label">Select Status</label>
+                        <select id="orderStatus" name="status" class="form-select" required>
+                            <option value="In Progress" {{ $order->status == 'In Progress' ? 'selected' : '' }}>In Progress</option>
+                            <option value="Shipped" {{ $order->status == 'Shipped' ? 'selected' : '' }}>Shipped</option>
+                            <option value="Delivered" {{ $order->status == 'Delivered' ? 'selected' : '' }}>Delivered</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Status</button>
+                </form>
+            </div>
+        </div>
+
+        
     </div>
 </main>
-
 @endsection

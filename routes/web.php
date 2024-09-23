@@ -104,7 +104,6 @@ Route::get('/affiliate/dashboard/ad_center/download-images', [AffiliateProductCo
 Route::view('/affiliate/dashboard/code_center', 'affiliate_dashboard.code_center')->name('code_center');
 Route::get('/affiliate/dashboard/ad_center/{id}/promote-modal', [AffiliateProductController::class, 'showPromoteModal'])->name('products.promoteModal');
 
-
 Route::get('/affiliate/dashboard/ad_center/download-images', [AffiliateProductController::class, 'downloadImages'])->name('products.downloadImages');
 
 Route::view('/affiliate/dashboard/code_center', 'affiliate_dashboard.code_center')->name('code_center');
@@ -142,22 +141,31 @@ Route::post('/admin/products/add_products', [ProductController::class, 'store'])
 Route::get('/admin/products/edit/{id}', [ProductController::class, 'edit'])->name('edit_product');
 Route::put('/admin/products/{id}', [ProductController::class, 'update'])->name('update_product');
 Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy'])->name('delete_product');
+
 Route::get('/admin/aff_customers', [AffiliateCustomerController::class, 'showAffCustomers'])->name('aff_customers');
 Route::patch('/admin/aff_customers/{id}/status', [AffiliateCustomerController::class, 'updateStatus'])->name('aff_customers.updateStatus');
+
 Route::get('/admin/users', [UserController::class, 'show_users'])->name('show_users');
 Route::get('/admin/users/{id}/edit', [UserController::class, 'editUserPage'])->name('admin.users.edit');
 Route::put('/admin/users/{id}', [UserController::class, 'update'])->name('admin.users.update');
 Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('delete_user');
 Route::get('/admin/users/{id}', [UserController::class, 'getUserDetails']);
 Route::post('/admin/users', [UserController::class, 'store'])->name('admin_users.store');
+
 Route::view('/admin/customer_inquiries', 'admin_dashboard.customer_inquiries')->name('customer_inquiries');
+
 Route::get('/admin/category', [CategoryController::class, 'showCategories'])->name('category');
 Route::post('/admin/category/add', [CategoryController::class, 'store'])->name('category_add');
 Route::delete('/admin/category/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 Route::get('category/edit/{id}', [CategoryController::class, 'edit'])->name('edit_category');
 Route::put('category/update/{id}', [CategoryController::class, 'update'])->name('update_category');
+
 Route::get('/admin/orders', [OrderController::class, 'index'])->name('orders');
 Route::get('/admin/order-details', [OrderController::class, 'show'])->name('customerorder_details');
 Route::post('/set-order-code', [OrderController::class, 'setOrderCode'])->name('set-order-code');
 Route::delete('/admin/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
+Route::put('/admin/orders/{id}/status', [OrderController::class, 'updateOrderStatus'])->name('update_order_status');
+
+
+Route::view('/admin/customers', 'admin_dashboard.customers')->name('customers');
 

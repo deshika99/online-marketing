@@ -90,9 +90,9 @@
                                     <td>{{ ucfirst($user->role) }}</td>
                                     <td>
                                         @if($user->status)
-                                            <span class="badge bg-success">Active</span>
+                                            <span class="status-badge badge bg-success">Active</span>
                                         @else
-                                            <span class="badge bg-danger">Inactive</span>
+                                            <span class="status-badge badge bg-danger">Inactive</span>
                                         @endif
                                     </td>
                                     <td class="action-buttons">
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <p><strong>Contact No:</strong> <span>${data.contact}</span></p>
                             <p><strong>Role:</strong> <span>${data.role}</span></p>
                             <p><strong>Status:</strong> 
-                                ${data.status ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Inactive</span>'}
+                                ${data.status ? '<span class="badge status-badge bg-success">Active</span>' : '<span class="badge status-badge bg-danger">Inactive</span>'}
                             </p>
                             <p><strong>Permissions:</strong> <span>${data.permissions || '-'}</span></p>
                         </div>

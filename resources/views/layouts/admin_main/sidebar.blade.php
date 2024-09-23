@@ -46,6 +46,9 @@
         <a href="{{ route('aff_customers') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('aff_customers') ? 'active' : '' }}" data-mdb-ripple-init>
             <i class="fas fa-users text-muted"></i><span class="text-muted">Affiliate Customers</span>
         </a>
+        <a href="{{ route('customers') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('customers') ? 'active' : '' }}" data-mdb-ripple-init>
+            <i class="fas fa-users text-muted"></i><span class="text-muted">Customers</span>
+        </a>
         <a href="{{ route('products') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('products') ? 'active' : '' }}" data-mdb-ripple-init>
             <i class="fas fa-box text-muted"></i><span class="text-muted">Products</span>
         </a>

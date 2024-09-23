@@ -67,7 +67,19 @@ class OrderController extends Controller
 
     
     
-    
+    public function updateOrderStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|string|max:255',
+        ]);
+
+        $order = CustomerOrder::findOrFail($id);
+        $order->status = $request->status;
+        $order->save();
+        
+        return redirect()->route('orders')->with('status', 'Order status updated successfully.');
+    }
+
 
 
 }
