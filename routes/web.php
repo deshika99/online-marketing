@@ -71,6 +71,7 @@ Route::get('/affiliate/dashboard/payment/bank_acc', function () {
     return view('bank_acc');
 });
 
+
 Auth::routes();
 
 
@@ -82,6 +83,10 @@ Route::post('/cart/update', [CartController::class, 'update'])->name('cart.updat
 Route::delete('/cart/remove/{index}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('order.store');
+
+Route::get('/dashboard/profile/edit', [UserDashboardController::class, 'editProfile'])->name('user.editProfile');
+Route::put('/dashboard/profile/update', [UserDashboardController::class, 'updateProfile'])->name('user.updateProfile');
+
 
 
 //affiliate dashboard
@@ -154,3 +159,4 @@ Route::get('/admin/orders', [OrderController::class, 'index'])->name('orders');
 Route::get('/admin/order-details', [OrderController::class, 'show'])->name('customerorder_details');
 Route::post('/set-order-code', [OrderController::class, 'setOrderCode'])->name('set-order-code');
 Route::delete('/admin/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
+
