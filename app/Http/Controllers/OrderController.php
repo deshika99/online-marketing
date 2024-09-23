@@ -10,9 +10,14 @@ class OrderController extends Controller
 
     public function index()
     {
-        $orders = CustomerOrder::all();
-        return view('admin_dashboard.orders', compact('orders'));
+        $allOrders = CustomerOrder::all();
+        $inProgressOrders = CustomerOrder::where('status', 'InProgress')->get();
+        $deliveredOrders = CustomerOrder::where('status', 'Delivered')->get();
+        $cancelledOrders = CustomerOrder::where('status', 'Cancelled')->get();
+    
+        return view('admin_dashboard.orders', compact('allOrders', 'inProgressOrders', 'deliveredOrders', 'cancelledOrders'));
     }
+    
 
 
     public function destroy($id)
