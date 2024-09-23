@@ -1,11 +1,6 @@
 @extends('layouts.admin_main.master')
 
 @section('content')
-
-<style>
-  
-</style>
-
 <main style="margin-top: 58px">
     <div class="container py-4 px-4">
         <div class="d-flex justify-content-between align-items-center">
@@ -18,22 +13,22 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group mb-3">
-                            <label for="Name">Name</label>
-                            <input type="text" name="Name" class="form-control" value="{{ $user->name }}">
+                            <label for="name">Name</label>
+                            <input type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}" required>
                         </div>
                         <div class="form-group mb-3">
                             <label for="email">Email</label>
-                            <input type="email" name="email" class="form-control" value="{{ $user->email }}">
+                            <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}" required>
                         </div>
                         <div class="form-group mb-3">
                             <label for="contact">Contact</label>
-                            <input type="text" name="contact" class="form-control" value="{{ $user->phone_num }}">
+                            <input type="text" name="contact" class="form-control" value="{{ old('contact', $user->contact) }}">
                         </div>
                         <div class="form-group mb-3">
                             <label for="role">Role</label>
-                            <select name="role" class="form-control">
+                            <select name="role" class="form-control" required>
                                 <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
-                                <option value="customer" {{ $user->role == 'customer' ? 'selected' : '' }}>Customer</option>
+                                <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
                             </select>
                         </div>
                         <div class="form-group mb-3">
@@ -42,7 +37,7 @@
                         </div>
                         <div class="form-check form-switch mb-3">
                             <input type="hidden" name="status" value="0">
-                            <input class="form-check-input" type="checkbox" name="status" value="1" {{ $user->status == 'Active' ? 'checked' : '' }}>
+                            <input class="form-check-input" type="checkbox" name="status" value="1" {{ $user->status ? 'checked' : '' }}>
                             <label class="form-check-label" for="status">Status</label>
                         </div>
                         <button type="submit" class="btn btn-success">Update User</button>
@@ -52,7 +47,4 @@
         </div>
     </div>
 </main>
-
-
-
 @endsection

@@ -47,6 +47,9 @@ Route::get('home/My-Account/edit-profile', function () {
 
 Route::get('home/My-Account/myorders', [UserDashboardController::class, 'myOrders'])->name('myorders');
 Route::get('home/My-Account/order-details/{order_code}', [UserDashboardController::class, 'orderDetails'])->name('myorder-details');
+Route::post('/order/cancel/{order_code}', [UserDashboardController::class, 'cancelOrder']);
+Route::post('/confirm-delivery', [UserDashboardController::class, 'confirmDelivery'])->name('confirm-delivery');
+
 
 
 Route::get('home/My-Account/change-password', function () {
