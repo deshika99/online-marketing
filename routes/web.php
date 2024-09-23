@@ -164,8 +164,10 @@ Route::get('/admin/orders', [OrderController::class, 'index'])->name('orders');
 Route::get('/admin/order-details', [OrderController::class, 'show'])->name('customerorder_details');
 Route::post('/set-order-code', [OrderController::class, 'setOrderCode'])->name('set-order-code');
 Route::delete('/admin/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
+
 Route::put('/admin/orders/{id}/status', [OrderController::class, 'updateOrderStatus'])->name('update_order_status');
 
 
 Route::view('/admin/customers', 'admin_dashboard.customers')->name('customers');
+
 
