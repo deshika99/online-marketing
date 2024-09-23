@@ -74,7 +74,7 @@
     </div>
 @endif
 <nav class="navbar navbar-expand-lg navbar-light fixed-top p-0 m-0">
-    <div class="container"  style="display: flex; flex-direction: column;">
+    <div class="container mb-3"  style="display: flex; flex-direction: column;">
         <div class="row w-100">
             <div class="col-md-4 d-flex justify-content-center justify-content-md-start align-items-center mb-md-0">
                 <a href="{{ url('/') }}" class="d-flex align-items-center" style="text-decoration: none">
@@ -84,13 +84,13 @@
                     <img src="/assets/images/brand_name.png" height="30" width="320" alt="brand"/>
                 </a>
             </div>
-            <div class="col-md-5 p-3 mt-2">
-                <form class="d-flex input-group w-auto my-auto mb-3 mb-md-0">
+            <div class="col-md-5 mt-4">
+                <form class="d-flex input-group w-auto my-auto mb-md-0">
                     <input autocomplete="off" type="search" class="form-control rounded" placeholder="Search" />
                     <span class="input-group-text border-0 d-none d-lg-flex"><i class="fas fa-search"></i></span>
                 </form>
             </div>
-            <div class="col-md-3 d-flex justify-content-center justify-content-md-end align-items-center">
+            <div class="col-md-3 p-3 d-flex justify-content-center justify-content-md-end align-items-center">
                 <div class="d-flex align-items-center">
                     <div class="dropdown me-3">
                         <a class="text-reset dropdown-toggle1" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -207,8 +207,8 @@
         <div class="carousel-item active" style="background-image: url('/assets/images/slider/slider6.png');">
             <div class="d-flex justify-content-center align-items-center h-100">
                 <div class="text-white">
-                    <h1 class="mb-3">Elevate Your <br>Lifestyle</h1>
-                    <h5 class="mb-4">On home & living, leisure & more</h5>
+                    <h1 class="mb-4 mt-5">Elevate Your <br>Lifestyle</h1>
+                    <h5 class="mb-4 mt-5">On home & living, leisure & more</h5>
                     <!--<a class="btn btn-outline-light btn-lg m-2" href="#" role="button" rel="nofollow">Add to Cart</a>-->
                 </div>
             </div>
@@ -216,8 +216,8 @@
         <div class="carousel-item" style="background-image: url('/assets/images/slider/slider6.png');">
             <div class="d-flex justify-content-center align-items-center h-100">
                 <div class="text-white">
-                    <h1 class="mb-3">Elevate Your <br>Lifestyle</h1>
-                    <h5 class="mb-4">On home & living, leisure & more</h5>
+                    <h1 class="mb-4 mt-5">Elevate Your <br>Lifestyle</h1>
+                    <h5 class="mb-4 mt-5">On home & living, leisure & more</h5>
                     <!--<a class="btn btn-outline-light btn-lg m-2" href="#" role="button" rel="nofollow">Add to Cart</a>-->
                 </div>
                 
@@ -342,7 +342,7 @@
 <div class="container mt-5 mb-4 special-offers" style="width:76%;">
     <h4>Special Offers</h4>
     <div class="row  justify-content-between">
-        <div class="col-2">
+        <div class="col-md-2 col-sm-5 col-6">
             <div class="special-offer-item mb-2">
                 <a href="">
                     <img src="/assets/images/item1.png" class="card-img-top"/>
@@ -355,7 +355,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-2">
+        <div class="col-md-2 col-sm-5 col-6">
             <div class="special-offer-item mb-2">
                 <a href="">
                     <img src="/assets/images/item2.png" class="card-img-top"/>
@@ -368,7 +368,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-2">
+        <div class="col-md-2 col-sm-5 col-6">
             <div class="special-offer-item mb-2">
                 <a href="">
                     <img src="/assets/images/item3.png" class="card-img-top"/>
@@ -381,7 +381,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-2">
+        <div class="col-md-2 col-sm-5 col-6">
             <div class="special-offer-item mb-2">
                 <a href="">
                     <img src="/assets/images/item4.png" class="card-img-top"/>
@@ -394,7 +394,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-2">
+        <div class="col-md-2 col-sm-5 col-6">
             <div class="special-offer-item mb-2">
                 <a href="">
                     <img src="/assets/images/item4.png" class="card-img-top"/>
@@ -416,32 +416,32 @@
 <div class="container mt-5 flash-sale" style="width:76%; background: linear-gradient(to top, #f0f0f0, #ffffff);">
     <h4><i class="fas fa-bolt" style="color: #FFD43B;"></i> Flash Sale</h4>
     <div class="row">
-        <div class="col-md-2 flash-sale-item">
+        <div class="col-md-2 col-sm-5 col-6 flash-sale-item">
             <img src="/assets/images/sale2.png" alt="Product 1">
             <h6>Brand new Bluetooth Earbuds </h6>
             <div class="price">Rs.1000</div>
         </div>
-        <div class="col-md-2 flash-sale-item">
+        <div class="col-md-2 col-sm-5 col-6 flash-sale-item">
             <img src="/assets/images/schl1.jpg" alt="Product 2">
             <h6>2.4G Wireless Mouse With USB Bluetooth Mouse Silent Computer Mice</h6>
             <div class="price">Rs.950</div>
         </div>
-        <div class="col-md-2 flash-sale-item">
+        <div class="col-md-2 col-sm-5 col-6 flash-sale-item">
             <img src="/assets/images/sale2.png" alt="Product 3">
             <h6>Buy Cow & Gate Step Up (1 - 3 Years) 350G</h6>
             <div class="price">Rs.1840</div>
         </div>
-        <div class="col-md-2 flash-sale-item">
+        <div class="col-md-2 col-sm-5 col-6 flash-sale-item">
             <img src="/assets/images/sale5.jpg" alt="Product 4">
             <h6>Microfiber Car Washing Sponge Towel Cloth Cleaning </h6>
             <div class="price">Rs.230</div>
         </div>
-        <div class="col-md-2 flash-sale-item">
+        <div class="col-md-2 col-sm-5 col-6 flash-sale-item">
             <img src="/assets/images/schl3.jpg" alt="Product 4">
             <h6>Buy Office 365 lifetime 5 Devices Online Activation for windows</h6>
             <div class="price">Rs.530</div>
         </div>
-        <div class="col-md-2 flash-sale-item">
+        <div class="col-md-2 col-sm-5 col-6 flash-sale-item">
             <img src="/assets/images/schl1.jpg" alt="Product 4">
             <h6>Buy Office 365 lifetime 5 Devices Online Activation for windows</h6>
             <div class="price">Rs.530</div>

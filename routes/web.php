@@ -46,10 +46,8 @@ Route::get('home/My-Account/edit-profile', function () {
 })->name('edit-profile');
 
 Route::get('home/My-Account/myorders', [UserDashboardController::class, 'myOrders'])->name('myorders');
+Route::get('home/My-Account/order-details/{order_code}', [UserDashboardController::class, 'orderDetails'])->name('myorder-details');
 
-Route::get('home/My-Account/order-details', function () {
-    return view('member_dashboard.order-details');
-})->name('myorder-details');
 
 Route::get('home/My-Account/change-password', function () {
     return view('member_dashboard.change-password');

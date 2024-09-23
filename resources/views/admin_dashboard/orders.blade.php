@@ -12,6 +12,30 @@
     .tab-content .table {
         margin-top: 20px;
     }
+
+    .status.inprogress {
+    background-color: #ffedd4; 
+    color: #f0ad4e; 
+    padding: 6px 11px;
+    border-radius: 15px;
+    font-size: 12px;
+    }
+
+    .status.delivered {
+        background-color: #d4edda; 
+        color: #28a745;
+        padding: 6px 11px;
+        border-radius: 15px;
+        font-size: 12px;
+    }
+
+    .status.cancelled {
+        background-color: #f8d7da;
+        color: #dc3545;
+        padding: 6px 11px;
+        border-radius: 15px;
+        font-size: 12px;
+    }
 </style>
 
 <main style="margin-top: 58px">
@@ -41,145 +65,186 @@
             </li>
         </ul>
 
-        <!-- All orders -->
         <div class="tab-content" id="myTabContent">
+            <!-- All Orders Tab -->
             <div class="tab-pane fade show active" id="all-orders" role="tabpanel" aria-labelledby="all-orders-tab">
                 <div class="card mt-1">
                     <div class="card-body">
-                        <div class="container mt-1 mb-4">
-                            <div class="table-responsive">
-                            <table id="example" class="table" style="width:100%">
+                        <div class="table-responsive">
+                            <table class="table" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Order ID</th>
-                                        <th scope="col">Customer</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Amount</th>
-                                        <th scope="col" style="width: 15%">Action</th>
+                                        <th>#</th>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Total Amount</th>
+                                        <th style="width: 15%">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($orders as $order)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $order->order_code }}</td>
-                                        <td>{{ $order->customer_fname }} {{ $order->customer_lname }}</td>
-                                        <td>{{ $order->date }}</td>
-                                        <td>{{ $order->status }}</td>
-                                        <td>{{ $order->total_cost }}</td>
-                                        <td class="action-buttons">
-                                            <button class="btn btn-info btn-sm" onclick="setOrderCode('{{ $order->order_code }}')">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <form id="delete-form-{{ $order->id }}" action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="button" class="btn btn-danger btn-sm "  onclick="confirmDelete('delete-form-{{ $order->id }}', 'you want to delete this Order?')">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                    @foreach($allOrders as $order)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $order->order_code }}</td>
+                                            <td>{{ $order->customer_fname }} {{ $order->customer_lname }}</td>
+                                            <td>{{ $order->date }}</td>
+                                            <td><span class="status {{ strtolower(str_replace(' ', '-', $order->status)) }} fw-bold">
+                                                    {{ $order->status }}
+                                                </span></td>
+                                            <td>{{ $order->total_cost }}</td>
+                                            <td class="action-buttons">
+                                                <button class="btn btn-info btn-sm" onclick="setOrderCode('{{ $order->order_code }}')"><i class="fas fa-eye"></i></button>
+                                                <form id="delete-form-{{ $order->id }}" action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('delete-form-{{ $order->id }}', 'Do you want to delete this order?')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-
-            <!-- inprogress -->
+            <!-- In Progress Orders Tab -->
             <div class="tab-pane fade" id="inprogress" role="tabpanel" aria-labelledby="inprogress-tab">
                 <div class="card mt-1">
-                        <div class="card-body">
-                            <div class="container mt-1 mb-4">
-                                <div class="table-responsive">
-                                    <table id="example2" class="table" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Order ID</th>
-                                                <th scope="col">Customer</th>
-                                                <th scope="col">Date</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Amount</th>
-                                                <th scope="col" style="width: 15%">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                        </tbody>
-                                    </table>   
-                                </div>
-                            </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Date</th>
+                                        <th>Total Amount</th>
+                                        <th style="width: 15%">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($inProgressOrders as $order)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $order->order_code }}</td>
+                                            <td>{{ $order->customer_fname }} {{ $order->customer_lname }}</td>
+                                            <td>{{ $order->date }}</td>
+                                            <td>{{ $order->total_cost }}</td>
+                                            <td class="action-buttons">
+                                                <button class="btn btn-info btn-sm" onclick="setOrderCode('{{ $order->order_code }}')"><i class="fas fa-eye"></i></button>
+                                                <form id="delete-form-{{ $order->id }}" action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('delete-form-{{ $order->id }}', 'Do you want to delete this order?')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
+                </div>
             </div>
 
-
-            <!-- delivered -->
+            <!-- Delivered Orders Tab -->
             <div class="tab-pane fade" id="delivered" role="tabpanel" aria-labelledby="delivered-tab">
                 <div class="card mt-1">
-                        <div class="card-body">
-                            <div class="container mt-1 mb-4">
-                                <div class="table-responsive">
-                                    <table id="example3" class="table" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Order ID</th>
-                                                <th scope="col">Customer</th>
-                                                <th scope="col">Date</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Amount</th>
-                                                <th scope="col" style="width: 15%">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                        </tbody>
-                                    </table>   
-                                </div>
-                            </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Date</th>
+                                        <th>Total Amount</th>
+                                        <th style="width: 15%">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($deliveredOrders as $order)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $order->order_code }}</td>
+                                            <td>{{ $order->customer_fname }} {{ $order->customer_lname }}</td>
+                                            <td>{{ $order->date }}</td>
+                                            <td>{{ $order->total_cost }}</td>
+                                            <td class="action-buttons">
+                                                <button class="btn btn-info btn-sm" onclick="setOrderCode('{{ $order->order_code }}')"><i class="fas fa-eye"></i></button>
+                                                <form id="delete-form-{{ $order->id }}" action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('delete-form-{{ $order->id }}', 'Do you want to delete this order?')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
+                </div>
             </div>
 
-            <!-- cancelled -->
+            <!-- Cancelled Orders Tab -->
             <div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="cancelled-tab">
                 <div class="card mt-1">
-                        <div class="card-body">
-                            <div class="container mt-1 mb-4">
-                                <div class="table-responsive">
-                                    <table id="example4" class="table" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Order ID</th>
-                                                <th scope="col">Customer</th>
-                                                <th scope="col">Date</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Amount</th>
-                                                <th scope="col" style="width: 15%">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                        </tbody>
-                                    </table>   
-                                </div>
-                            </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Date</th>
+                                        <th>Total Amount</th>
+                                        <th style="width: 15%">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($cancelledOrders as $order)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $order->order_code }}</td>
+                                            <td>{{ $order->customer_fname }} {{ $order->customer_lname }}</td>
+                                            <td>{{ $order->date }}</td>
+                                            <td>{{ $order->total_cost }}</td>
+                                            <td class="action-buttons">
+                                                <button class="btn btn-info btn-sm" onclick="setOrderCode('{{ $order->order_code }}')"><i class="fas fa-eye"></i></button>
+                                                <form id="delete-form-{{ $order->id }}" action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('delete-form-{{ $order->id }}', 'Do you want to delete this order?')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
+                </div>
             </div>
-
         </div>
     </div>
 </main>
+
 
 <script>
 function setOrderCode(orderCode) {

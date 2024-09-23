@@ -451,8 +451,7 @@
                             @else
                                 <img src="{{ asset('storage/default-image.jpg') }}" alt="Default Image" class="img-fluid">
                             @endif
-                            <h6>{{ Str::limit($relatedProduct->product_name, 30) }}</h6>
-                            <h6>{{ Str::limit($relatedProduct->product_description, 50) }}</h6>
+                            <h6>{{ $relatedProduct->product_name }}</h6>
                             <div class="price">Rs.{{ number_format($relatedProduct->normal_price) }}</div>
                         </a>
                     </div>
