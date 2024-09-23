@@ -24,14 +24,15 @@ class ViewServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+   public function boot()
     {
-        // Share affiliate data with all views
         View::composer('*', function ($view) {
             $affiliateId = Session::get('customer_id');
-            $affiliateName = $affiliateId ? Aff_Customer::find($affiliateId)->name : 'Guest';
+            $affiliate = $affiliateId ? Aff_Customer::find($affiliateId) : null;
+            $affiliateName = $affiliate ? $affiliate->name : 'Guest';
             
             $view->with(compact('affiliateName', 'affiliateId'));
         });
     }
+
 }

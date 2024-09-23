@@ -40,12 +40,14 @@
     </script>
 @endif
 
+
+
         <header>
             <div class="text-center bg-white border-bottom" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
                 <div class="px-5">
                     <div class="row">
                     <div class="col-md-4 d-flex justify-content-center justify-content-md-start align-items-center mb-md-0">
-                        <a href="{{ url('/') }}" class="d-flex align-items-center" style="text-decoration: none">
+                        <a href="{{ url('/home/affiliate/affiliate_home') }}" class="d-flex align-items-center" style="text-decoration: none">
                             <div class="navbar-brand">
                                 <img src="/assets/images/logo.png" height="70" width="40" alt="Logo"/>
                             </div>
@@ -124,27 +126,49 @@
                         <div class="row mb-3">
                             <label for="dob-day" class="col-md-4 col-form-label text-md-start">Date Of Birth</label>
                             <div class="col-md-7 d-flex">
-                                <input id="dob-day" type="text" class="form-control me-2 @error('dob_day') is-invalid @enderror" name="dob_day" value="{{ old('dob_day') }}" placeholder="Day" required>
-                                <input id="dob-month" type="text" class="form-control me-2 @error('dob_month') is-invalid @enderror" name="dob_month" value="{{ old('dob_month') }}" placeholder="Month" required>
-                                <input id="dob-year" type="text" class="form-control @error('dob_year') is-invalid @enderror" name="dob_year" value="{{ old('dob_year') }}" placeholder="Year" required>
-                                @error('dob')
+                              
+                                <input id="dob-day" type="number" class="form-control me-2 @error('dob_day') is-invalid @enderror" name="dob_day" value="{{ old('dob_day') }}" placeholder="Day" required>
+                                @error('dob_day')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+
+                                
+                                <input id="dob-month" type="number" class="form-control me-2 @error('dob_month') is-invalid @enderror" name="dob_month" value="{{ old('dob_month') }}" placeholder="Month" required>
+                                @error('dob_month')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+
+                                
+                                <input id="dob-year" type="number" class="form-control @error('dob_year') is-invalid @enderror" name="dob_year" value="{{ old('dob_year') }}" placeholder="Year" required>
+                                @error('dob_year')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
                         </div>
+
                         <div class="row mb-3">
                             <label for="gender" class="col-md-4 col-form-label text-md-start">Gender</label>
-                            <div class="col-md-7">          
-                                <select class="form-select" id="gender" name="gender">
+                            <div class="col-md-7">
+                                <select class="form-select @error('gender') is-invalid @enderror" id="gender" name="gender">
                                     <option selected disabled></option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="other">Other</option>
+                                    <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male</option>
+                                    <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female</option>
+                                    <option value="other" {{ old('gender') == 'other' ? 'selected' : '' }}>Other</option>
                                 </select>
+                                @error('gender')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
+
                         <div class="row mb-3">
                             <label for="email" class="col-md-4 col-form-label text-md-start">Email Address</label>
                             <div class="col-md-7">
@@ -192,12 +216,18 @@
                         <div class="row mb-5">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-start">Confirm Password</label>
                             <div class="col-md-7">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <input id="password-confirm" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" required autocomplete="new-password">
+                                @error('password_confirmation')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
+
                         <div class="row submit-btn mb-0">
                             <div class="col-md-7 offset-md-4">
-                                <button type="submit" class="btn btn-warning">Submit</button> 
+                                <button type="submit" class="btn btn-warning">Submit</button>
                             </div>
                         </div>
                     </form>
@@ -206,6 +236,9 @@
         </div>
     </div>
 </div>
+
+
+
 
 <!-- Login Modal -->
 <div class="modal fade" id="affloginModal" tabindex="-1" aria-labelledby="affloginModalLabel" aria-hidden="true">
@@ -248,6 +281,17 @@
         </div>
     </div>
 </div>
+<!-- End Login Modal -->
+
+@if ($errors->has('email') || $errors->has('password'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var affloginModal = new bootstrap.Modal(document.getElementById('affloginModal'));
+            affloginModal.show();
+        });
+    </script>
+@endif
+
 
 <!-- Pending Modal -->
 <div class="modal fade" id="pendingModal" tabindex="-1" aria-labelledby="pendingModalLabel" aria-hidden="true">

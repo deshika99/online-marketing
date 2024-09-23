@@ -17,6 +17,8 @@ class CustomerOrderItems extends Model
         'item',
         'product_id',
         'quantity',
+        'size',
+        'color',
         'date',
         'cost',
     ];
@@ -25,5 +27,11 @@ class CustomerOrderItems extends Model
     public function order()
     {
         return $this->belongsTo(CustomerOrder::class, 'order_code', 'order_code');
+    }
+
+    
+    public function product()
+    {
+        return $this->belongsTo(Products::class, 'product_id', 'product_id'); 
     }
 }

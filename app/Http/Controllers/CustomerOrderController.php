@@ -15,13 +15,11 @@ class CustomerOrderController extends Controller
 {
     
    
-
-        public function store(Request $request)
+    public function store(Request $request)
     {
         DB::beginTransaction();
-
+    
         try {
-
             $request->validate([
                 'first_name' => 'required|string|max:255',
                 'last_name' => 'required|string|max:255',
@@ -30,18 +28,28 @@ class CustomerOrderController extends Controller
                 'address' => 'required|string|max:255',
                 'city' => 'required|string|max:255',
                 'postal_code' => 'required|string|max:10',
+                'company_name' => 'nullable|string|max:255', 
+                'apartment' => 'nullable|string|max:255', 
             ]);
-
-            $cart = Auth::check() ? CartItem::where('user_id', Auth::id())->get() : session('cart', []);
-            
-            $cartArray = $cart->toArray();
-            
+    
+            $cart = Auth::check() ? CartItem::where('user_id', Auth::id())->with('product')->get() : collect(session('cart', []));
+    
+            $cartArray = $cart->map(function($item) {
+                return [
+                    'product_id' => $item->product_id,
+                    'price' => $item->product->normal_price, 
+                    'quantity' => $item->quantity,
+                    'size' => $item->size,
+                    'color' => $item->color,
+                ];
+            })->toArray();
+    
             $subtotal = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cartArray));
             $shipping = 250;
             $total = $subtotal + $shipping;
-
+    
             $orderCode = 'ORD-' . substr((string) Str::uuid(), 0, 8);
-
+    
             $orderData = [
                 'order_code' => $orderCode,
                 'customer_fname' => $request->input('first_name'),
@@ -59,26 +67,27 @@ class CustomerOrderController extends Controller
                 'vat' => 0,
                 'user_id' => Auth::id(), 
             ];
-
+    
             $order = CustomerOrder::create($orderData);
-
+    
             foreach ($cartArray as $item) {
                 CustomerOrderItems::create([
                     'order_code' => $orderCode,
                     'product_id' => $item['product_id'], 
-                    'item' => $item['title'],
                     'date' => Carbon::now()->format('Y-m-d'), 
-                    'cost' => $item['price'],
+                    'cost' => $item['price'], 
                     'quantity' => $item['quantity'], 
+                    'size' => $item['size'], 
+                    'color' => $item['color'],
                 ]);
             }
-
+    
             if (Auth::check()) {
                 CartItem::where('user_id', Auth::id())->delete();
             } else {
                 session()->forget('cart');
             }
-
+    
             DB::commit();
             return redirect()->route('payment')->with('success', 'Order placed successfully!');
         } catch (\Exception $e) {
@@ -87,6 +96,7 @@ class CustomerOrderController extends Controller
             return redirect()->back()->with('error', 'An error occurred while placing the order. Please try again.');
         }
     }
+    
 
-
+    
 }

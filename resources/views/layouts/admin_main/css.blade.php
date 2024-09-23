@@ -3,3 +3,21 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link rel="stylesheet" href="/assets/plugins/custom_style.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.css" rel="stylesheet">
+<style>
+    .swal2-container.delete-confirm-modal .swal2-popup {
+        width: 350px !important; 
+        height: auto; 
+        padding: 5px !important; 
+    }
+    .swal2-container.delete-confirm-modal .swal2-title {
+        font-size: 1.25rem !important; 
+    }
+    .swal2-container.delete-confirm-modal .swal2-html-container {
+        font-size: 1rem !important; 
+    }
+    .swal2-container.delete-confirm-modal .swal2-confirm, 
+    .swal2-container.delete-confirm-modal .swal2-cancel {
+        padding: 0.5rem 1rem !important; 
+    }
+</style>

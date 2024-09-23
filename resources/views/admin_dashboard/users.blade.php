@@ -99,18 +99,22 @@
                                         <button class="btn btn-info btn-sm view-btn" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" data-bs-toggle="modal" data-bs-target="#UserdetailsModal" data-id="{{ $user->id }}">
                                             <i class="fas fa-eye"></i>
                                         </button>
-                                        
-                                        <a href="#" class="btn btn-warning btn-sm" data-id="{{ $user->id }}" data-bs-toggle="modal" data-bs-target="#editUserModal" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                      
-                                        <form action="{{ route('delete_user', ['id' => $user->id]) }}" method="POST" style="display:inline;">
+ 
+                                        @if($user->role !== 'customer')
+                                            <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning btn-sm" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        @endif
+
+                                       
+                                        <form id="delete-form-{{ $user->id }}" action="{{ route('delete_user', ['id' => $user->id]) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="return confirm('Are you sure?')">
+                                            <button type="button" class="btn btn-danger btn-sm" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="confirmDelete('delete-form-{{ $user->id }}', 'you want to delete this User?')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
+                                       
                                     </td>
                                 </tr>
                                 @endforeach
@@ -123,6 +127,7 @@
 
     </div>
 </main>
+
 
 
 <!-- add user Modal -->
@@ -173,58 +178,6 @@
         </div>
     </div>
 </div>
-
-<!-- edit user Modal -->
-<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body p-4">
-                <form id="editUserForm" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <input type="hidden" id="userId" name="userId">
-                    <div class="row">
-                        <div class="col-md-12 form-group">
-                            <label for="Name">Name</label>
-                            <input type="text" id="Name" name="Name" class="form-control">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" class="form-control">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label for="contact">Contact</label>
-                            <input type="text" id="contact" name="contact" class="form-control">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label for="role">Role</label>
-                            <select id="role" name="role" class="form-control select-width">
-                                <option value="">Select Role</option>
-                                <option value="admin">Admin</option>
-                                <option value="customer">Customer</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label for="userImage">User Image</label><br>
-                            <input type="file" id="userImage" name="userImage" class="form-control-file" style="width:100%">
-                        </div>
-                        <div class="form-check form-switch ms-3">
-                            <input class="form-check-input" type="checkbox" id="statusCheckbox" name="status">
-                            <label class="form-check-label" for="statusCheckbox">Status</label>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-success btn-create">Update</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 
 
 <!-- User Details Modal -->
@@ -280,39 +233,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 </script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    var editButtons = document.querySelectorAll('.btn-warning');
-
-    editButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            var userId = this.getAttribute('data-id');
-            var form = document.getElementById('editUserForm');
-
-            form.action = `/admin/users/${userId}`;
-
-            fetch(`/admin/users/${userId}/edit`)
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Fetched data:', data); // Debugging: Check the fetched data
-
-                    // Check for null or undefined values
-                    document.getElementById('userId').value = data.id || '';
-                    document.getElementById('Name').value = data.name || '';
-                    document.getElementById('email').value = data.email || '';
-                    document.getElementById('contact').value = data.phone_num || '';
-                    document.getElementById('role').value = data.role || '';
-                    document.getElementById('statusCheckbox').checked = data.status === 'Active';
-
-                })
-                .catch(error => console.error('Error fetching user details:', error));
-        });
-    });
-});
-
-
-</script>
-
 
 @endsection

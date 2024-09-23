@@ -32,7 +32,9 @@
                     <table id="example" class="table category-table" style="width:100%">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Category</th>
+                                <th>Image</th>
                                 <th>Subcategories</th>
                                 <th style="width:20%">Actions</th>
                             </tr>
@@ -40,7 +42,15 @@
                         <tbody>
                             @foreach ($categories as $category)
                                 <tr>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $category->parent_category }}</td>
+                                    <td>
+                                        @if ($category->image)
+                                        <img src="{{ asset('storage/category_images/' . basename($category->image)) }}" alt="Category Image" style="max-width: 70px;">
+                                        @else
+                                            No Image
+                                        @endif
+                                    </td>
                                     <td>
                                         <ul class="subcategory-list">
                                             @foreach ($category->subcategories as $subcategory)
@@ -62,7 +72,7 @@
                                     </td>
                                     <td>
                                         <div class="category-actions">
-                                            <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editCategoryModal">
+                                            <a href="{{ route('edit_category', $category->id ) }}" class="btn btn-sm btn-warning" >
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             <button class="btn btn-sm btn-danger delete-category" data-id="{{ $category->id }}">
@@ -95,11 +105,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="categoryForm" method="POST" action="{{ route('category_add') }}">
+                <form id="categoryForm" method="POST" action="{{ route('category_add') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="parentCategory" class="form-label text-black">Category Name</label>
                         <input type="text" class="form-control" id="parentCategory" name="parent_category" placeholder="Enter category name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="categoryImage" class="form-label text-black">Category Image</label>
+                        <input type="file" class="form-control" id="categoryImage" name="image">
                     </div>
                     <div class="mb-3">
                         <label for="subcategories" class="form-label text-black">Subcategories</label>
@@ -117,7 +131,7 @@
 
 
 
-<!-- Edit Category Modal -->
+<!-- Edit Category Modal 
 <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content p-2">
@@ -151,7 +165,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 
 
 
@@ -235,38 +249,72 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// delete category
+//delete the categories
 document.addEventListener('DOMContentLoaded', function() {
-
     document.querySelectorAll('.delete-category').forEach(function(button) {
         button.addEventListener('click', function() {
             const categoryId = this.getAttribute('data-id');
 
-            if (confirm('Are you sure you want to delete this category and its subcategories?')) {
-                fetch(`/admin/category/${categoryId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        this.closest('tr').remove();
-                        alert('Category and its subcategories deleted successfully.');
-                    } else {
-                        alert('Failed to delete the category.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while deleting the category.');
-                });
-            }
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel',
+                customClass: {
+                    container: 'delete-confirm-modal' 
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/admin/category/${categoryId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => {                     
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.status) {
+                            Swal.fire(
+                                'Deleted!',
+                                'Category and its subcategories have been deleted.',
+                                'success'
+                            ).then(() => {
+                                this.closest('tr').remove();
+                            });
+                        } else {
+                            console.error('Server response does not indicate success:', data);
+                            Swal.fire(
+                                'Failed!',
+                                data.message || 'Failed to delete the category.',
+                                'error'
+                            );
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire(
+                            'Error!',
+                            'An error occurred while deleting the category.',
+                            'error'
+                        );
+                    });
+                }
+            });
         });
     });
 });
+
+
 </script>
 
 

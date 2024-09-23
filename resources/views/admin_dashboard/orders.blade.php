@@ -31,10 +31,7 @@
                 <a class="nav-link active" id="all-orders-tab" data-bs-toggle="tab" href="#all-orders" role="tab" aria-controls="all-orders" aria-selected="true">All Orders</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="ongoing-tab" data-bs-toggle="tab" href="#ongoing" role="tab" aria-controls="ongoing" aria-selected="false">Ongoing</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="dispatched-tab" data-bs-toggle="tab" href="#dispatched" role="tab" aria-controls="dispatched" aria-selected="false">Dispatched</a>
+                <a class="nav-link" id="inprogress-tab" data-bs-toggle="tab" href="#inprogress" role="tab" aria-controls="inprogress" aria-selected="false">In Progress</a>
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="delivered-tab" data-bs-toggle="tab" href="#delivered" role="tab" aria-controls="delivered" aria-selected="false">Delivered</a>
@@ -76,10 +73,10 @@
                                             <button class="btn btn-info btn-sm" onclick="setOrderCode('{{ $order->order_code }}')">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <form action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display:inline;">
+                                            <form id="delete-form-{{ $order->id }}" action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
+                                                <button type="button" class="btn btn-danger btn-sm "  onclick="confirmDelete('delete-form-{{ $order->id }}', 'you want to delete this Order?')">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </form>
@@ -95,38 +92,8 @@
             </div>
 
 
-             <!-- dispatched -->
-                <div class="tab-pane fade" id="dispatched" role="tabpanel" aria-labelledby="dispatched-tab">
-                    <div class="card mt-1">
-                        <div class="card-body">
-                            <div class="container mt-1 mb-4">
-                                <div class="table-responsive">
-                                    <table id="example1" class="table" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Order ID</th>
-                                                <th scope="col">Customer</th>
-                                                <th scope="col">Date</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Amount</th>
-                                                <th scope="col" style="width: 15%">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                           
-                                                
-                                        </tbody>
-                                    </table>   
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-            <!-- ongoing -->
-            <div class="tab-pane fade" id="ongoing" role="tabpanel" aria-labelledby="ongoing-tab">
+            <!-- inprogress -->
+            <div class="tab-pane fade" id="inprogress" role="tabpanel" aria-labelledby="inprogress-tab">
                 <div class="card mt-1">
                         <div class="card-body">
                             <div class="container mt-1 mb-4">

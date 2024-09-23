@@ -11,6 +11,8 @@
     <title>{{ config('app.name', 'Online Marketing Complex') }}</title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    
 
 
     @include('includes.css')
@@ -25,9 +27,10 @@
 <body>
     <div id="app">
         
-    @if (!Request::is('/') && !Request::is('home/affiliate/register'))
+    @if (!Request::is('/') && !Request::is('home/affiliate/register') && !Request::is('home/affiliate/affiliate_home'))
     @include('includes.navbar')
 @endif
+
 
 
 

@@ -12,8 +12,13 @@ class CartItem extends Model
         'user_id',
         'product_id',
         'quantity',
-        'price',
-        'title',
+        'size',
+        'color',
         'image',
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Products::class, 'product_id', 'product_id');
+    }
 }

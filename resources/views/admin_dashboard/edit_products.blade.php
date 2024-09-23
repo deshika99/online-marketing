@@ -86,6 +86,23 @@
         border-radius: 50%;
         cursor: pointer;
     }
+    .card1 {
+    border: 1px solid #ddd; 
+    box-shadow: none; 
+}
+
+    .remove-btn {
+        border: 1px solid #b72626; 
+        color: #b72626; 
+        background-color: white; 
+        box-shadow: none; 
+    }
+
+
+    .remove-btn:hover {
+        background-color: #b72626; 
+        color: white; 
+    }
 
 </style>
 
@@ -148,10 +165,10 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="category">Category</label>
-                                    <select id="category" name="category" class="form-control" onchange="updateSubcategories()">
+                                    <select id="category" name="category" class="form-control">
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->parent_category }}" {{ $product->product_category == $category->parent_category ? 'selected' : '' }}>
+                                            <option value="{{ $category->id }}" {{ $category->id == $selectedCategoryId ? 'selected' : '' }}>
                                                 {{ $category->parent_category }}
                                             </option>
                                         @endforeach
@@ -160,10 +177,10 @@
 
                                 <div class="form-group">
                                     <label for="subcategory">Subcategory</label>
-                                    <select id="subcategory" name="subcategory" class="form-control" onchange="updateSubSubcategories()">
+                                    <select id="subcategory" name="subcategory" class="form-control">
                                         <option value="">Select Subcategory</option>
                                         @foreach ($subcategories as $subcategory)
-                                            <option value="{{ $subcategory->subcategory }}" {{ $product->subcategory == $subcategory->subcategory ? 'selected' : '' }}>
+                                            <option value="{{ $subcategory->id }}" {{ $subcategory->id == $selectedSubcategoryId ? 'selected' : '' }}>
                                                 {{ $subcategory->subcategory }}
                                             </option>
                                         @endforeach
@@ -175,12 +192,13 @@
                                     <select id="subsubcategory" name="subsubcategory" class="form-control">
                                         <option value="">Select Sub-Subcategory</option>
                                         @foreach ($subSubcategories as $subSubcategory)
-                                            <option value="{{ $subSubcategory->sub_subcategory }}" {{ $product->subsubcategory == $subSubcategory->sub_subcategory ? 'selected' : '' }}>
+                                            <option value="{{ $subSubcategory->id }}" {{ $subSubcategory->id == $product->sub_subcategory_id ? 'selected' : '' }}>
                                                 {{ $subSubcategory->sub_subcategory }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
+
 
                                 <div class="form-group">
                                     <label for="quantity">Quantity</label>
@@ -215,8 +233,35 @@
                             <label for="totalPrice">Total Price</label>
                             <input type="text" id="totalPrice" name="totalPrice" class="form-control" value="{{ old('totalPrice', $product->total_price) }}" readonly>
                         </div>
-
-                        <button type="submit" class="btn btn-success btn-create">Update</button>
+                        <!-- Product Variations Card -->
+                        <div class="card1 px-2 py-2 mt-4">
+                            <div class="card-body">
+                                <h5>Product Variations</h5>
+                                <div class="form-group">
+                                    <label for="variations">Add Product Variations</label>
+                                    <div id="variations-container">
+                                        @foreach ($variations as $index => $variation)
+                                            <div class="variation-row row mb-3" data-index="{{ $index }}">
+                                                <div class="col-md-3">
+                                                    <select class="form-control variation-type" name="variation[{{ $index }}][type]" onchange="handleVariationChange(this)">
+                                                        <option value="Size" {{ $variation->type === 'Size' ? 'selected' : '' }}>Size</option>
+                                                        <option value="Color" {{ $variation->type === 'Color' ? 'selected' : '' }}>Color</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 variation-input-container">
+                                                    <input type="text" class="form-control variation-input" name="variation[{{ $index }}][value]" value="{{ $variation->value }}" placeholder="Variation">
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <button type="button" class="btn remove-btn" onclick="removeVariationRow(this)">X</button>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <button type="button" class="btn btn-secondary mt-3" id="addVariationBtn" style="width: 30%;">+ Add another variation</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-create mt-3">Update</button>
                     </form>
                 </div>
             </div>
@@ -360,7 +405,104 @@
     });
 });
 
+</script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const categorySelect = document.getElementById('category');
+    const subcategorySelect = document.getElementById('subcategory');
+    const subsubcategorySelect = document.getElementById('subsubcategory');
+
+    function updateSubcategories(categoryId) {
+        fetch(`/subcategories/${categoryId}`)
+            .then(response => response.json())
+            .then(data => {
+                subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
+                data.subcategories.forEach(subcategory => {
+                    subcategorySelect.innerHTML += `<option value="${subcategory.id}">${subcategory.name}</option>`;
+                });
+                if (subcategorySelect.dataset.selected) {
+                    updateSubSubcategories(subcategorySelect.dataset.selected);
+                } else {
+                    subsubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
+                }
+            });
+    }
+
+    function updateSubSubcategories(subcategoryId) {
+        fetch(`/sub-subcategories/${subcategoryId}`)
+            .then(response => response.json())
+            .then(data => {
+                subsubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
+                data.sub_subcategories.forEach(subsubcategory => {
+                    subsubcategorySelect.innerHTML += `<option value="${subsubcategory.id}">${subsubcategory.name}</option>`;
+                });
+            });
+    }
+
+    categorySelect.addEventListener('change', function () {
+        const categoryId = this.value;
+        if (categoryId) {
+            updateSubcategories(categoryId);
+        } else {
+            subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
+            subsubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
+        }
+    });
+
+    subcategorySelect.addEventListener('change', function () {
+        const subcategoryId = this.value;
+        if (subcategoryId) {
+            updateSubSubcategories(subcategoryId);
+        } else {
+            subsubcategorySelect.innerHTML = '<option value="">Select Sub-Subcategory</option>';
+        }
+    });
+
+    if (categorySelect.dataset.selected) {
+        updateSubcategories(categorySelect.dataset.selected);
+    }
+    if (subcategorySelect.dataset.selected) {
+        updateSubSubcategories(subcategorySelect.dataset.selected);
+    }
+});
+
+
+</script>
+
+<script>
+let variationIndex = {{ count($variations) }};
+
+// Handle dynamic addition of variation rows
+document.getElementById('addVariationBtn').addEventListener('click', function () {
+    const container = document.getElementById('variations-container');
+    const newRow = document.createElement('div');
+    newRow.classList.add('variation-row', 'row', 'mb-3');
+    newRow.setAttribute('data-index', variationIndex);
+    
+    newRow.innerHTML = `
+        <div class="col-md-3">
+            <select class="form-control variation-type" name="variation[${variationIndex}][type]" onchange="handleVariationChange(this)">
+                <option value="Size">Size</option>
+                <option value="Color">Color</option>
+            </select>
+        </div>
+        <div class="col-md-4 variation-input-container">
+            <input type="text" class="form-control variation-input" name="variation[${variationIndex}][value]" placeholder="Variation">
+        </div>
+        <div class="col-md-1">
+            <button type="button" class="btn remove-btn" onclick="removeVariationRow(this)">X</button>
+        </div>
+    `;
+
+    container.appendChild(newRow);
+    variationIndex++;
+});
+
+function removeVariationRow(button) {
+    const row = button.closest('.variation-row');
+    row.remove();
+}
 
 </script>
 
