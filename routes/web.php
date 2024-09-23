@@ -65,7 +65,6 @@ Route::get('home/My-Account/logout', function () {
     return view('logout');
 });
 
-
 Route::get('/affiliate/dashboard/payment/bank_acc', function () {
     return view('bank_acc');
 });

@@ -42,7 +42,7 @@
         
 </style>
 
-<main style="margin-top: 58px">
+<main style="margin-top:  58px">
     <div class="container pt-4 px-4">
         <h2 class="py-3">Payment Information</h2>
         <br>
