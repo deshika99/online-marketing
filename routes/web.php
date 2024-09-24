@@ -170,6 +170,13 @@ Route::put('/admin/orders/{id}/status', [OrderController::class, 'updateOrderSta
 
 Route::get('/admin/customers', [CustomerController::class, 'show_customers'])->name('customers');
 Route::get('/admin/customer-details/{user_id}', [CustomerController::class, 'showCustomerDetails'])->name('customer-details');
+//about 
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+
+
 
 
 
