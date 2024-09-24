@@ -15,7 +15,7 @@
 
                             <div class="info-grid col-md-2 col-lg-2 col-xl-2 mx-auto mt-3 mb-3">
                                 <h6 class="text-uppercase mb-4 font-weight-bold">Information</h6>
-                                <p><a>About Us</a></p>
+                                <p><a href="{{ route('about') }}" class="text-white">About Us</a></p>
                                 <p><a>Delivery Information</a></p>
                                 <p><a>Privacy Policy</a></p>
                                 <p><a>Contact Us</a></p>

@@ -155,6 +155,10 @@ Route::get('/admin/order-details', [OrderController::class, 'show'])->name('cust
 Route::post('/set-order-code', [OrderController::class, 'setOrderCode'])->name('set-order-code');
 Route::delete('/admin/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
 
+//about 
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
 
 
 
