@@ -310,7 +310,15 @@ public function store(Request $request)
     
     
 
- 
+    public function showProductDetails($id)
+    {
+        $product = Products::with(['images', 'variations'])->findOrFail($id);
+        
+        
+        return view('admin_dashboard.product-details', compact('product'));
+    }
+    
+    
 
 
 

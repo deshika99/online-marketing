@@ -375,14 +375,14 @@
 </div>
 
 
-<!-- Confirm Delivery  Modal -->
+<!-- Confirm Delivery Modal -->
 <div class="modal fade" id="confirmDeliveryModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeliveryModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="confirmDeliveryModalLabel">Confirm Delivery</h5>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="confirmDeliveryMessage">
                 Are you sure you want to confirm delivery for this order?
             </div>
             <div class="modal-footer">
@@ -392,6 +392,7 @@
         </div>
     </div>
 </div>
+
 
 
 
@@ -412,7 +413,7 @@ let orderToCancel = '';
 
 function openCancelModal(orderCode) {
     orderToCancel = orderCode;
-    $('#cancel-confirmation-modal').modal('show'); // Use Bootstrap's modal method to show the modal
+    $('#cancel-confirmation-modal').modal('show'); 
 }
 
 document.getElementById('confirm-cancel').onclick = function() {
@@ -431,7 +432,7 @@ function updateOrderStatus(orderCode, status) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            location.reload(); // Refresh to see changes
+            location.reload();
         } else {
             alert('Failed to cancel the order. Please try again.');
         }
@@ -450,7 +451,7 @@ function openConfirmDeliveryModal(orderCode) {
 
 $('#confirmDeliveryBtn').on('click', function() {
     $.ajax({
-        url: '{{ route("confirm-delivery") }}',  // You need to create this route
+        url: '{{ route("confirm-delivery") }}',
         type: 'POST',
         data: {
             _token: '{{ csrf_token() }}',
@@ -458,8 +459,11 @@ $('#confirmDeliveryBtn').on('click', function() {
         },
         success: function(response) {
             if (response.success) {
-                // Update the order status in the UI
-                location.reload();  // Reload the page to reflect changes
+                $('#confirmDeliveryMessage').html(`
+                    <p>Delivery confirmed! Would you like to leave a review?</p>
+                    <a href="/leave-review-page" class="btn btn-primary" style="font-size: 13px">Leave a Review</a>
+                `);
+                $('.modal-footer').html('');
             } else {
                 alert('Failed to confirm delivery. Please try again.');
             }
@@ -468,7 +472,6 @@ $('#confirmDeliveryBtn').on('click', function() {
             alert('An error occurred. Please try again.');
         }
     });
-    $('#confirmDeliveryModal').modal('hide');
 });
 
 </script>

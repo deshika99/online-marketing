@@ -96,9 +96,8 @@
                                     <td class="commission" style="display:none;">{{ $product->commission_percentage ? $product->commission_percentage . '%' : '-' }}</td>
                                     <td>Rs {{ number_format($product->total_price, 2) }}</td>
                                     <td class="action-buttons">
-                                        <button class="btn btn-info btn-sm mb-1 view-btn" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" data-id="{{ $product->product_id }}" data-description="{{ $product->product_description }}">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
+                                        <a href="{{ route('product-details', $product->id) }}" class="btn btn-info btn-sm view-btn mb-1" 
+                                        style="font-size: 0.75rem; padding: 0.25rem 0.5rem;"> <i class="fas fa-eye"></i></a>
                                         <a href="{{ route('edit_product', $product->id) }}" class="btn btn-warning btn-sm mb-1" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;"><i class="fas fa-edit"></i></a>
                                         <form id="delete-form-{{ $product->id }}" action="{{ route('delete_product', $product->id) }}" method="POST" style="display:inline;">
                                             @csrf
@@ -119,64 +118,6 @@
     </div>
 </main>
 
-<!-- Product Details Modal -->
-<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg-8">
-        <div class="modal-content p-3">
-            <div class="modal-header">
-                <h5 class="modal-title" id="productModalLabel">Product Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="modal-details">
-                    <div class="row mb-2">
-                        <div class="col-md-3"><strong>Name:</strong></div>
-                        <div class="col-md-9" id="modal-product-name"></div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-md-3"><strong>Images:</strong></div>
-                        <div class="col-md-9" id="modal-product-images" class="d-flex flex-wrap"></div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-md-3"><strong>Description:</strong></div>
-                        <div class="col-md-9" id="modal-product-desc"></div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-md-3"><strong>Normal Price:</strong></div>
-                        <div class="col-md-9">Rs <span id="modal-normal-price"></span></div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-md-3"><strong>Affiliate:</strong></div>
-                        <div class="col-md-9" id="modal-affiliate"></div>
-                    </div>
-                                       
-                    <div class="affiliate-fields">
-                        <div class="row mb-2">
-                            <div class="col-md-3"><strong>Affiliate Price:</strong></div>
-                            <div class="col-md-9">Rs <span id="modal-affiliate-price"></span></div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-md-3"><strong>Commission:</strong></div>
-                            <div class="col-md-9" id="modal-commission"></div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-md-3"><strong>Total Price:</strong></div>
-                            <div class="col-md-9">Rs <span id="modal-total-price"></span></div>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-md-3"><strong>Sizes:</strong></div>
-                        <div class="col-md-9" id="modal-sizes"></div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-md-3"><strong>Colors:</strong></div>
-                        <div class="col-md-9 d-flex" id="modal-colors"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 
@@ -208,95 +149,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('category-filter').addEventListener('change', filterProducts);
     document.getElementById('affiliate-only').addEventListener('change', filterProducts);
     filterProducts();
-
-
-
-    // Product Details Modal
-    document.querySelectorAll('.view-btn').forEach(button => {
-    button.addEventListener('click', function () {
-        const row = this.closest('.product-row');
-        const name = row.querySelector('td:nth-child(2)').textContent;
-        const images = JSON.parse(row.getAttribute('data-images')); 
-        const desc = this.getAttribute('data-description');
-        const normalPrice = row.querySelector('.normal-price').textContent.replace('Rs ', '');
-        const affiliate = row.getAttribute('data-affiliate') === 'true' ? 'Yes' : 'No';
-        const affiliatePrice = row.querySelector('.affiliate-price').textContent.replace('Rs ', '');
-        const commission = row.querySelector('.commission').textContent;
-        const totalPrice = row.querySelector('td:nth-child(9)').textContent.replace('Rs ', '');
-        const variations = JSON.parse(row.getAttribute('data-variations'));
-
-        document.getElementById('modal-product-name').textContent = name;
-
-        const imageContainer = document.getElementById('modal-product-images');
-        imageContainer.innerHTML = ''; 
-
-        images.forEach(image => {
-            const img = document.createElement('img');
-            img.src = `/storage/${image.image_path}`;
-            img.className = 'img-fluid me-2 mb-2';
-            img.style.maxWidth = '100px'; 
-            imageContainer.appendChild(img);
-        });
-
-        document.getElementById('modal-product-desc').textContent = desc;
-        document.getElementById('modal-normal-price').textContent = normalPrice;
-
-        if (affiliate === 'Yes') {
-            document.getElementById('modal-affiliate').textContent = 'Yes';
-            document.querySelector('.affiliate-fields').style.display = ''; 
-            document.getElementById('modal-affiliate-price').textContent = affiliatePrice;
-            document.getElementById('modal-commission').textContent = commission;
-            document.getElementById('modal-total-price').textContent = totalPrice;
-        } else {
-            document.getElementById('modal-affiliate').textContent = 'No';
-            document.querySelector('.affiliate-fields').style.display = 'none'; 
-        }
-
-        const sizesContainer = document.getElementById('modal-sizes');
-        const colorsContainer = document.getElementById('modal-colors');
-
-        sizesContainer.innerHTML = '';  
-        colorsContainer.innerHTML = ''; 
-
-        const sizes = [];
-        const colors = [];
-
-        variations.forEach(variation => {
-            if (variation.type.toLowerCase() === 'size') {
-                sizes.push(variation.value);
-            } else if (variation.type.toLowerCase() === 'color') {
-                colors.push(variation.value);
-            }
-        });
-
-        if (sizes.length > 0) {
-            sizesContainer.textContent = sizes.join(', ');
-        } else {
-            sizesContainer.textContent = '-';
-        }
-
-        if (colors.length > 0) {
-            colors.forEach(color => {
-                const colorCircle = document.createElement('span');
-                colorCircle.className = 'color-circle';
-                colorCircle.style.backgroundColor = color; 
-                colorCircle.style.border = '2px solid #e8ebec'; 
-                colorCircle.style.width = '20px';
-                colorCircle.style.height = '20px';
-                colorCircle.style.display = 'inline-block';
-                colorCircle.style.borderRadius = '50%';
-                colorCircle.style.marginRight = '10px';
-                colorsContainer.appendChild(colorCircle);
-            });
-        } else {
-            colorsContainer.textContent = '-';
-        }
-
-        const modalElement = document.getElementById('productModal');
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-    });
-});
 
 
 

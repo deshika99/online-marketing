@@ -142,6 +142,8 @@ Route::post('/admin/products/add_products', [ProductController::class, 'store'])
 Route::get('/admin/products/edit/{id}', [ProductController::class, 'edit'])->name('edit_product');
 Route::put('/admin/products/{id}', [ProductController::class, 'update'])->name('update_product');
 Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy'])->name('delete_product');
+Route::get('/admin/product-details/{id}', [ProductController::class, 'showProductDetails'])->name('product-details');
+
 
 Route::get('/admin/aff_customers', [AffiliateCustomerController::class, 'showAffCustomers'])->name('aff_customers');
 Route::patch('/admin/aff_customers/{id}/status', [AffiliateCustomerController::class, 'updateStatus'])->name('aff_customers.updateStatus');
@@ -170,6 +172,7 @@ Route::put('/admin/orders/{id}/status', [OrderController::class, 'updateOrderSta
 
 Route::get('/admin/customers', [CustomerController::class, 'show_customers'])->name('customers');
 Route::get('/admin/customer-details/{user_id}', [CustomerController::class, 'showCustomerDetails'])->name('customer-details');
+
 //about 
 Route::get('/about', function () {
     return view('about');
