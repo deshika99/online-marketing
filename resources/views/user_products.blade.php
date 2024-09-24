@@ -80,7 +80,6 @@
                                     <img src="{{ asset('storage/default-image.jpg') }}" alt="Default Image" class="img-fluid">
                                 @endif
                                 <h6>{{ $product->product_name }}</h6>
-                                <h6>{{ $product->product_description }}</h6>
                                 <div class="price">Rs.{{ $product->normal_price }}</div>
                             </a>
                         </div>

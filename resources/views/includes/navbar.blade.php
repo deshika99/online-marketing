@@ -35,14 +35,14 @@
                     </div>
 
 
-                        <div class="col-md-5 p-3">
+                        <div class="col-md-5 mt-2">
                             <form class="d-flex input-group w-auto my-auto mb-3 mb-md-0">
                                 <input autocomplete="off" type="search" class="form-control rounded" placeholder="Search" />
                                 <span class="input-group-text border-0 d-none d-lg-flex"><i class="fas fa-search"></i></span>
                             </form>
                         </div>
 
-                        <div class="col-md-3 d-flex justify-content-center justify-content-md-end align-items-center">
+                        <div class="col-md-3 mb-2 d-flex justify-content-center justify-content-md-end align-items-center">
                             <div class="d-flex align-items-center">
                                
                                 <div class="dropdown me-3">
@@ -83,16 +83,21 @@
                                     </a>
                                 @endif
                                 @else
-                                <div class="dropdown me-3">
-                                    <a id="navbarDropdown" class="text-reset dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <div class="dropdown me-3"> 
+                                        <a id="navbarDropdown" class="text-reset dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                         <div class="icon-circle">
-                                            {{ Auth::user()->name[0] }}
+                                          @if(Auth::user()->profile_image)
+                                            <img src="{{ asset('storage/profile_image/' . Auth::user()->profile_image) }}" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;" class="profile_image">
+
+                                          @else
+                                             {{ Auth::user()->name[0] }}
+                                          @endif
                                         </div>
-                                    </a>
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="{{ route('dashboard') }}">
                                             {{ __('My Profile') }}
                                         </a>
+
                                         <!-- Logout link -->
                                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                             {{ __('Logout') }}

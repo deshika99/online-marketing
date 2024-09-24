@@ -46,6 +46,5 @@
         <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
     </form>
 </div>
-
 @endsection
 
