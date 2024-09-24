@@ -103,6 +103,11 @@ body {
     color: #f0ad4e; 
 }
 
+.status.paid {
+    background-color: #bad4f1; 
+    color: #2863a7;
+}
+
 .status.delivered {
     background-color: #d4edda; 
     color: #28a745;
@@ -123,7 +128,7 @@ body {
     color: #6c757d;
 }
 
-.btn-primary, .btn-cancel, .btn-confirm, .btn-remove {
+.btn-pay, .btn-cancel, .btn-confirm, .btn-remove {
     color: white; 
     padding: 5px 10px;
     border: none;

@@ -10,29 +10,46 @@ use Illuminate\Support\Facades\Storage;
 
 class UserDashboardController extends Controller
 {
+    
     public function myOrders()
     {
         $orders = CustomerOrder::with(['items.product'])
             ->where('user_id', auth()->id())
             ->get();
-    
+
+        // Sort the orders based on the desired status hierarchy
+        $orders = $orders->sortBy(function ($order) {
+            return match ($order->status) {
+                'Shipped' => 1,
+                'Pending' => 2,
+                'In Progress', 'Paid' => 3,
+                'Delivered' => 4,
+                'Cancelled' => 5,
+                default => 6, 
+            };
+        });
+
         $pendingOrders = $orders->where('status', 'Pending');
         $confirmedOrders = $orders->where('status', 'Confirmed');
-        $inProgressOrders = $orders->where('status', 'In Progress');
+        $inProgressOrders = $orders->filter(function ($order) {
+            return $order->status === 'In Progress' || $order->status === 'Paid';
+        });
         $shippedOrders = $orders->where('status', 'Shipped');
         $deliveredOrders = $orders->where('status', 'Delivered');
         $cancelledOrders = $orders->where('status', 'Cancelled');
-    
+
         return view('member_dashboard.myorders', compact(
-            'orders', 
-            'pendingOrders', 
-            'confirmedOrders', 
-            'inProgressOrders', 
-            'shippedOrders', 
-            'deliveredOrders', 
+            'orders',
+            'pendingOrders',
+            'confirmedOrders',
+            'inProgressOrders',
+            'shippedOrders',
+            'deliveredOrders',
             'cancelledOrders'
         ));
     }
+
+    
 
     
 
@@ -57,13 +74,13 @@ class UserDashboardController extends Controller
 
         $user = auth()->user();
 
-        // Handle file upload for profile image
+       // Handle file upload for profile image
         if ($request->hasFile('profile_image')) {
             if ($user->profile_image) {
-                Storage::delete($user->profile_image);
+                Storage::delete('public/' . $user->profile_image);
             }
-
-            $profilePicturePath = $request->file('profile_image')->store('profile_image');
+            $profilePicturePath = $request->file('profile_image')->store('profile_image', 'public');
+            
             $user->profile_image = $profilePicturePath;
         }
 

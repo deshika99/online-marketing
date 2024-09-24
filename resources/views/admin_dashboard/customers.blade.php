@@ -29,44 +29,47 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Image</th>
                                     <th scope="col">Email</th>
-                                    <th scope="col">Contact No.</th>
+                                    <th scope="col">Phone</th>
+                                    <th scope="col">Registered Date</th>
+                                    <th scope="col">Total Orders</th>
                                     <th scope="col">Status</th>
-                                    <th scope="col" style="width: 15%">Action</th>
+                                    <th scope="col" style="width: 10%">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                               
+                                @foreach ($customers as $index => $customer)
                                 <tr>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $customer->name }}</td>
+                                    <td>{{ $customer->email }}</td>
+                                    <td>{{ $customer->phone_num }}</td>
+                                    <td>{{ $customer->created_at->format('Y-m-d') }}</td>
+                                    <td>{{ $customer->customer_orders_count }}</td>
                                     <td>
-                                        <img src="" width="40" alt="Customer Image">
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>                                    
-                                            <span class="status-badge badge bg-success">Active</span>                                     
-                                            <span class="status-badge badge bg-danger">Inactive</span>                                      
+                                        @if ($customer->status == 'Active')
+                                            <span class="status-badge badge bg-success">Active</span>
+                                        @else
+                                            <span class="status-badge badge bg-danger">Inactive</span>
+                                        @endif
                                     </td>
                                     <td class="action-buttons">
-                                        <button class="btn btn-info btn-sm view-btn" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">
+                                        <a href="{{ route('customer-details', $customer->id) }}" class="btn btn-info btn-sm view-btn" 
+                                            style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">
                                             <i class="fas fa-eye"></i>
-                                        </button>
+                                        </a>
                                     </td>
                                 </tr>
-                          
+                                @endforeach
                             </tbody>
                         </table>   
                     </div>
                 </div>
             </div>
         </div>
-
-
     </div>
 </main>
+
 
 
 

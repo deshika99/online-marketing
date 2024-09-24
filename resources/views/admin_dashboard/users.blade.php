@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="modal-user-details">
                             <img src="${data.image_path ? '/storage/user_images/' + data.image_path : '/assets/images/default-user.png'}" class="img-fluid mb-3" alt="User Image" />
                             <h5>${data.name}</h5>
-                            <p>USER ID #000${data.id}</p>
+                            <p>USER ID: #${String(data.id).padStart(4, '0')}</p>
                         </div>
                         <div class="user-info">
                             <p><strong>Email:</strong> <span>${data.email}</span></p>

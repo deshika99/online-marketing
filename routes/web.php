@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NavbarController;
 use App\Http\Controllers\UserDashboardController;
@@ -167,7 +168,8 @@ Route::delete('/admin/orders/{id}', [OrderController::class, 'destroy'])->name('
 
 Route::put('/admin/orders/{id}/status', [OrderController::class, 'updateOrderStatus'])->name('update_order_status');
 
+Route::get('/admin/customers', [CustomerController::class, 'show_customers'])->name('customers');
+Route::get('/admin/customer-details/{user_id}', [CustomerController::class, 'showCustomerDetails'])->name('customer-details');
 
-Route::view('/admin/customers', 'admin_dashboard.customers')->name('customers');
 
 
