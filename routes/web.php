@@ -52,7 +52,9 @@ Route::get('home/My-Account/order-details/{order_code}', [UserDashboardControlle
 Route::post('/order/cancel/{order_code}', [UserDashboardController::class, 'cancelOrder']);
 Route::post('/confirm-delivery', [UserDashboardController::class, 'confirmDelivery'])->name('confirm-delivery');
 
-
+Route::get('home/My-Account/My-Reviews', function () {
+    return view('member_dashboard.myreviews');
+})->name('myreviews');
 
 Route::get('home/My-Account/change-password', function () {
     return view('member_dashboard.change-password');

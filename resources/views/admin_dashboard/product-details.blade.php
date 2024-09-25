@@ -67,41 +67,54 @@
                         </div>
                     @endif
 
+                    @if($product->variations->where('type', 'Size')->isNotEmpty())
                     <div class="row mb-2">
                         <div class="col-12"><strong class="me-2">Sizes:</strong>
                             @php
                                 $sizes = $product->variations->where('type', 'Size'); 
                             @endphp
-                            @if($sizes->isNotEmpty())
-                                @foreach($sizes as $size)
-                                    <span>{{ $size['value'] }} </span>
-                                    @if (!$loop->last)
-                                        <span>, </span>
-                                    @endif
-                                @endforeach
-                            @else
-                                <span>-</span>
-                            @endif
+                            @foreach($sizes as $size)
+                                <span>{{ $size['value'] }} </span>
+                                @if (!$loop->last)
+                                    <span>, </span>
+                                @endif
+                            @endforeach
                         </div>
                     </div>
+                    @endif
 
+                    @if($product->variations->where('type', 'Color')->isNotEmpty())
                     <div class="row mb-2">
                         <div class="col-12 d-flex align-items-center"><strong>Colors:</strong>
                             @php
                                 $colors = $product->variations->where('type', 'Color');
                             @endphp
-                            @if($colors->isNotEmpty())
-                                @foreach($colors as $index => $color)
-                                    <span class="ms-3">{{ $color['value'] }}</span> 
-                                    <span style="background-color: {{ $color['value'] }}; width: 20px; height: 20px; border: 1px solid #e8ebec; display: inline-block; border-radius: 50%; margin-left: 5px;"></span>
-                                @endforeach
-                            @else
-                                <span>-</span>
-                            @endif
+                            @foreach($colors as $index => $color)
+                                <span class="ms-3">{{ $color['value'] }}</span> 
+                                <span style="background-color: {{ $color['value'] }}; width: 20px; height: 20px; border: 1px solid #e8ebec; display: inline-block; border-radius: 50%; margin-left: 5px;"></span>
+                            @endforeach
                         </div>
                     </div>
-                </div>
+                    @endif
 
+                    @if($product->variations->where('type', 'Material')->isNotEmpty())
+                    <div class="row mb-2">
+                        <div class="col-12"><strong class="me-2">Material:</strong>
+                            @php
+                                $materials = $product->variations->where('type', 'Material'); 
+                            @endphp
+                            @foreach($materials as $material)
+                                <span>{{ $material['value'] }} </span>
+                                @if (!$loop->last)
+                                    <span>, </span>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+
+
+                </div>
             </div>
         </div>
     </div>
