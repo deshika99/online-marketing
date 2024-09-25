@@ -58,6 +58,11 @@ body {
       background-color: #fff3cd; 
       color: #856404;
   }
+
+  .status.paid {
+    background-color: #bad4f1; 
+    color: #2863a7;
+  }
   
   .status.shipped {
       background-color: #e2e3e5;

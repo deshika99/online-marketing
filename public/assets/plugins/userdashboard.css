@@ -103,6 +103,11 @@ body {
     color: #f0ad4e; 
 }
 
+.status.paid {
+    background-color: #bad4f1; 
+    color: #2863a7;
+}
+
 .status.delivered {
     background-color: #d4edda; 
     color: #28a745;
@@ -123,7 +128,7 @@ body {
     color: #6c757d;
 }
 
-.btn-primary, .btn-cancel, .btn-confirm, .btn-remove {
+.btn-pay, .btn-cancel, .btn-confirm, .btn-remove, .btn-review {
     color: white; 
     padding: 5px 10px;
     border: none;
@@ -158,6 +163,17 @@ body {
     border: 1px solid white;
 }
 
+.btn-review {
+    background-color: white; 
+    color: rgb(248, 113, 50);
+    border: 1px solid rgb(248, 113, 50);
+}
+
+.btn-review:hover {
+    background-color: rgb(248, 113, 50); 
+    color: white;
+    border: 1px solid rgb(248, 113, 50);
+}
 
 
 .order-details-link {

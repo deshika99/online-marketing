@@ -58,7 +58,7 @@
                 <div class="card mt-1">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table" style="width:100%">
+                            <table id="example" class="table" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>#</th>

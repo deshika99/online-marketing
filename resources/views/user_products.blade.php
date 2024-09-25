@@ -170,6 +170,15 @@
                                 </div>
                             @endif
 
+                            @if($product->variations->where('type', 'Material')->isNotEmpty())
+                                <div class="mb-3 mt-2 d-flex align-items-center"> 
+                                    <span class="me-2">Material:</span>
+                                    @foreach($product->variations->where('type', 'Material') as $material)
+                                        <span class="me-3">{{ $material->value }}</span> 
+                                    @endforeach
+                                </div>
+                            @endif
+
                             <div class="product-price mb-3 mt-3">
                                 <span class="h4" style="color:#f55b29;">Rs. {{ $product->normal_price }}</span>
                             </div>
