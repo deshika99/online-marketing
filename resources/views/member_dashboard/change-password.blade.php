@@ -11,7 +11,7 @@
     @endif
     <form action="{{ route('password.update') }}" method="POST">
     @csrf
-        <!-- වත්මන් මුරපදය -->
+        
         <div class="mb-3 position-relative">
             <label for="current_password" class="form-label">Current Password</label>
             <input type="password" class="form-control" id="current_password" name="current_password" placeholder="Current password">
@@ -20,7 +20,7 @@
             @enderror
         </div>
 
-        <!-- නව මුරපදය -->
+        
         <div class="mb-3 position-relative">
             <label for="new_password" class="form-label">New Password</label>
             <input type="password" class="form-control" id="new_password" name="new_password" placeholder="New password">
@@ -29,7 +29,7 @@
             @enderror
         </div>
 
-        <!-- නව මුරපදය තහවුරු කිරීම -->
+        
         <div class="mb-3 position-relative">
             <label for="new_password_confirmation" class="form-label">Retype New Password</label>
             <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation" placeholder="Retype new password">
@@ -38,12 +38,12 @@
             @enderror
         </div>
 
-        <!-- ඉදිරිපත් කිරීමේ බොත්තම -->
+        
         <button type="submit" class="btn btn-primary mt-3">Change Password</button>
     </form>
 </div>
 
-<!-- මුරපදය පෙන්වීමේ විකල්පය -->
+
 <script>
     document.querySelectorAll('.toggle-password').forEach(item => {
         item.addEventListener('click', function () {
