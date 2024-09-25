@@ -43,6 +43,9 @@
                         <a class="nav-link {{ request()->routeIs('myorders') ? 'active' : '' }}" href="{{ route('myorders') }}">My Orders</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('myreviews') ? 'active' : '' }}" href="{{ route('myreviews') }}">My Reviews</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('points') ? 'active' : '' }}" href="{{ route('points') }}">Points</a>
                     </li>
                     <li class="nav-item">

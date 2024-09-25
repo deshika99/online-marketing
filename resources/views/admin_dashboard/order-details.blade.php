@@ -55,49 +55,15 @@
             <h3 class="mb-1">Order Details</h3>
         </div>
         <div class="d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Order #{{ $order->order_code }}</h5>
+            <h5 class="mb-1 mt-2">Order #{{ $order->order_code }}</h5>
         </div>
 
-        <div class="d-flex justify-content-center">
-            <div class="col-8">
-                <div class="container">
-                <div class="card-body px-5 mt-4 mb-5">
-                    <ul id="progressbar-2" class="d-flex justify-content-between mx-0 mt-0 px-0 pt-0 pb-2">
-                    <li class="step0 active text-center" id="step1"></li>
-                    <li class="step0 active text-center" id="step2"></li>
-                    <li class="step0 active text-center" id="step3"></li>
-                    <li class="step0 text-muted text-end" id="step4"></li>
-                    </ul>
-                    <div class="d-flex justify-content-between">
-                    <div class="d-lg-flex align-items-center">
-                        <i class="fas fa-clipboard-list me-lg-2 mb-lg-0"></i>
-                        <div>
-                        <p class="mb-0">Order Processed</p>
-                        </div>
-                    </div>
-                    <div class="d-lg-flex align-items-center">
-                        <i class="fas fa-box-open me-lg-2 mb-lg-0"></i>
-                        <div>
-                        <p class="mb-0">Order Dispatched</p>
-                        </div>
-                    </div>
-                    <div class="d-lg-flex align-items-center">
-                        <i class="fas fa-shipping-fast me-lg-2 mb-lg-0"></i>
-                        <div>
-                        <p class="mb-0">Out for delivery</p>
-                        </div>
-                    </div>
-                    <div class="d-lg-flex align-items-center">
-                        <i class="fas fa-home me-lg-2 mb-lg-0"></i>
-                        <div>
-                        <p class="mb-0">Order Arrived</p>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                </div>
-            </div>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+           <span class="status {{ strtolower(str_replace(' ', '-', $order->status)) }} fw-bold"  style="font-size: 13px;">
+                            {{ $order->status }}
+                            </span>
         </div>
+        
 
         <div class="order-cards-row mt-2">
             <div class="card">
@@ -185,7 +151,29 @@
                 </div>
             </div>
         </div>
+
+
+    <!-- Order Status Update Card -->
+        <div class="card mt-4" style="width: 50%">
+            <div class="card-title">Update Order Status</div>
+            <div class="card-body">
+                <form action="{{ route('update_order_status', $order->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-3">
+                        <label for="orderStatus" class="form-label">Select Status</label>
+                        <select id="orderStatus" name="status" class="form-select" required>
+                            <option value="In Progress" {{ $order->status == 'In Progress' ? 'selected' : '' }}>In Progress</option>
+                            <option value="Shipped" {{ $order->status == 'Shipped' ? 'selected' : '' }}>Shipped</option>
+                            <option value="Delivered" {{ $order->status == 'Delivered' ? 'selected' : '' }}>Delivered</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Status</button>
+                </form>
+            </div>
+        </div>
+
+        
     </div>
 </main>
-
 @endsection

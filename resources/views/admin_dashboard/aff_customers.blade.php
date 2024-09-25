@@ -76,7 +76,7 @@
                                     <td>{{ $customer->gender }}</td>
                                     <td>{{ $customer->contactno }}</td>
                                     <td>{{ $customer->email }}</td>
-                                    <td class="status">
+                                    <td class="status1">
                                         @if ($customer->status == 'pending')
                                             <form action="{{ route('aff_customers.updateStatus', $customer->id) }}" method="POST" style="display:inline;">
                                                 @csrf

@@ -225,6 +225,7 @@
                                                     <select class="form-control variation-type" name="variation[0][type]" onchange="handleVariationChange(this)">
                                                         <option value="Size">Size</option>
                                                         <option value="Color">Color</option>
+                                                        <option value="Material">Material</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-4 variation-input-container">
