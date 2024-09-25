@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\Models\CustomerOrder;
+use App\Models\Products;
 use App\Models\CustomerOrderItems;
 use App\Models\CartItem;
 use Illuminate\Http\Request;
@@ -66,6 +67,7 @@ class CustomerOrderController extends Controller
                 'discount' => 0, 
                 'vat' => 0,
                 'user_id' => Auth::id(), 
+                'status' => 'Pending',
             ];
     
             $order = CustomerOrder::create($orderData);
@@ -80,6 +82,13 @@ class CustomerOrderController extends Controller
                     'size' => $item['size'], 
                     'color' => $item['color'],
                 ]);
+
+                 // Reduce the quantity in the Products table
+                $product = Products::where('product_id', $item['product_id'])->first();
+                if ($product) {
+                    $product->quantity -= $item['quantity'];
+                    $product->save();
+                }
             }
     
             if (Auth::check()) {

@@ -56,4 +56,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function customerOrders()
+    {
+        return $this->hasMany(CustomerOrder::class, 'user_id', 'id');
+    }
 }
