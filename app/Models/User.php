@@ -24,6 +24,7 @@ class User extends Authenticatable
         'profile_image',
         'district',
         'date_of_birth',
+        'gender',
         'phone_num',
         'acc_no',
         'bank_name',

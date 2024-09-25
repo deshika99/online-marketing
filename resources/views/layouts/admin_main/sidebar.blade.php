@@ -55,6 +55,9 @@
         <a href="{{ route('orders') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('orders') ? 'active' : '' }}" data-mdb-ripple-init>
             <i class="fas fa-shopping-cart text-muted"></i><span class="text-muted">Orders</span>
         </a>
+        <a href="{{ route('manage_reviews') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('manage_reviews') ? 'active' : '' }}" data-mdb-ripple-init>
+            <i class="fa-solid fa-comments text-muted"></i><span class="text-muted">Manage Reviews</span>
+        </a>
         <a href="{{ route('customer_inquiries') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('customer_inquiries') ? 'active' : '' }}" data-mdb-ripple-init>
             <i class="fas fa-envelope text-muted"></i><span class="text-muted">Customer Inquiries</span>
         </a>

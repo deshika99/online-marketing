@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CustomerOrder;
+use App\Models\CustomerOrderItems;
+use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
@@ -17,20 +19,9 @@ class UserDashboardController extends Controller
     {
         $orders = CustomerOrder::with(['items.product'])
             ->where('user_id', auth()->id())
+            ->orderBy('created_at', 'desc') 
             ->get();
-
-        /* Sort the orders based on the desired status hierarchy
-        $orders = $orders->sortBy(function ($order) {
-            return match ($order->status) {
-                'Shipped' => 1,
-                'Pending' => 2,
-                'In Progress', 'Paid' => 3,
-                'Delivered' => 4,
-                'Cancelled' => 5,
-                default => 6, 
-            };
-        });*/
-
+    
         $pendingOrders = $orders->where('status', 'Pending');
         $confirmedOrders = $orders->where('status', 'Confirmed');
         $inProgressOrders = $orders->filter(function ($order) {
@@ -39,7 +30,7 @@ class UserDashboardController extends Controller
         $shippedOrders = $orders->where('status', 'Shipped');
         $deliveredOrders = $orders->where('status', 'Delivered');
         $cancelledOrders = $orders->where('status', 'Cancelled');
-
+    
         return view('member_dashboard.myorders', compact(
             'orders',
             'pendingOrders',
@@ -50,7 +41,7 @@ class UserDashboardController extends Controller
             'cancelledOrders'
         ));
     }
-
+    
     
 
 
@@ -62,7 +53,7 @@ class UserDashboardController extends Controller
             'email' => 'required|email|max:255|unique:users,email,' . auth()->id(),
             'phone_num' => 'nullable|string|max:15',
             'date_of_birth' => 'nullable|date',
-            'status' => 'nullable|string|in:male,female,other',
+            'gender' => 'nullable|string|in:male,female,other',
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     
@@ -83,7 +74,7 @@ class UserDashboardController extends Controller
         $user->email = $request->input('email');
         $user->phone_num = $request->input('phone_num');
         $user->date_of_birth = $request->input('date_of_birth');
-        $user->status = $request->input('status');
+        $user->gender = $request->input('gender');
         
     
         // Save the updated user information
@@ -162,6 +153,26 @@ class UserDashboardController extends Controller
     // 5. Redirect user to login page with success message
     return redirect()->route('login')->with('success', 'Password changed successfully. Please login with your new password.');
     }
+
+
+
+    public function myReviews()
+    {
+        $toBeReviewedItems = CustomerOrderItems::with(['order', 'product.images', 'product.variations']) 
+            ->whereHas('order', function ($query) {
+                $query->where('status', 'Delivered');
+            })
+            ->where('reviewed', 'no')
+            ->get();
+    
+        $reviewedItems = Review::with(['product.images', 'product.variations']) 
+            ->where('user_id', auth()->id())
+            ->get();
+    
+        return view('member_dashboard.myreviews', compact('toBeReviewedItems', 'reviewedItems'));
+    }
+    
+
 
 
 }

@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('variations', function (Blueprint $table) {
+        Schema::create('reviews', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('product_id');
-            $table->string('order_code');
-            $table->string('type')->nullable(); 
-            $table->string('value')->nullable(); 
+            $table->string('rating')->nullable(); 
+            $table->text('comment')->nullable();
+            $table->enum('status', ['pending', 'published', 'rejected'])->default('pending');
             $table->timestamps();
-        
-            $table->foreign('product_id')->references('product_id')->on('products')->onDelete('cascade');
         });
         
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('variations');
+        Schema::dropIfExists('reviews');
     }
 };
