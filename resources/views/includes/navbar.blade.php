@@ -66,10 +66,8 @@
                                         0
                                     </span>
                                 </a>
-
-                               
-
                                 @guest
+                                
                                 @if (Route::has('login'))
                                     <a class="text-reset me-3" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
                                         <div  style="font-weight:500">
@@ -83,16 +81,21 @@
                                     </a>
                                 @endif
                                 @else
-                                <div class="dropdown me-3">
-                                    <a id="navbarDropdown" class="text-reset dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <div class="dropdown me-3"> 
+                                        <a id="navbarDropdown" class="text-reset dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                         <div class="icon-circle">
-                                            {{ Auth::user()->name[0] }}
+                                          @if(Auth::user()->profile_image)
+                                            <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;" class="profile_image">
+
+                                          @else
+                                             {{ Auth::user()->name[0] }}
+                                          @endif
                                         </div>
-                                    </a>
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="{{ route('dashboard') }}">
                                             {{ __('My Profile') }}
                                         </a>
+
                                         <!-- Logout link -->
                                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                             {{ __('Logout') }}
