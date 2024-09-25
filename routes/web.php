@@ -16,6 +16,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NavbarController;
 use App\Http\Controllers\UserDashboardController;
 
+use Illuminate\Http\Request;     //contact form
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -177,6 +178,22 @@ Route::get('/admin/customer-details/{user_id}', [CustomerController::class, 'sho
 Route::get('/about', function () {
     return view('about');
 })->name('about');
+
+//contac
+Route::get('/contac', function () {
+    return view('contac');
+})->name('contac');
+
+
+//contact form
+
+Route::post('/contact-submit', function (Request $request) {
+    // Form handling logic here (e.g., saving to database or sending email)
+    // Example:
+    // Mail::to('admin@example.com')->send(new ContactFormMail($request->all()));
+    
+    return back()->with('success', 'Thank you for contacting us!');
+})->name('contact.submit');
 
 
 
