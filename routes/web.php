@@ -10,7 +10,7 @@ use App\Http\Controllers\AffiliateCustomerController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
-
+use Illuminate\Http\Request;     //contact form
 
 Route::get('/', function () {
     return view('home');
@@ -159,6 +159,22 @@ Route::delete('/admin/orders/{id}', [OrderController::class, 'destroy'])->name('
 Route::get('/about', function () {
     return view('about');
 })->name('about');
+
+//contac
+Route::get('/contac', function () {
+    return view('contac');
+})->name('contac');
+
+
+//contact form
+
+Route::post('/contact-submit', function (Request $request) {
+    // Form handling logic here (e.g., saving to database or sending email)
+    // Example:
+    // Mail::to('admin@example.com')->send(new ContactFormMail($request->all()));
+    
+    return back()->with('success', 'Thank you for contacting us!');
+})->name('contact.submit');
 
 
 
