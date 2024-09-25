@@ -19,7 +19,7 @@ class UserDashboardController extends Controller
             ->where('user_id', auth()->id())
             ->get();
 
-        // Sort the orders based on the desired status hierarchy
+        /* Sort the orders based on the desired status hierarchy
         $orders = $orders->sortBy(function ($order) {
             return match ($order->status) {
                 'Shipped' => 1,
@@ -29,7 +29,7 @@ class UserDashboardController extends Controller
                 'Cancelled' => 5,
                 default => 6, 
             };
-        });
+        });*/
 
         $pendingOrders = $orders->where('status', 'Pending');
         $confirmedOrders = $orders->where('status', 'Confirmed');
