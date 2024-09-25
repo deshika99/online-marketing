@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\CustomerOrder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 
 class UserDashboardController extends Controller
@@ -51,14 +53,6 @@ class UserDashboardController extends Controller
 
     
 
-    
-
-
-    public function editProfile()
-    {
-        // Display the current user's profile
-        return view('member_dashboard.edit-profile');
-    }
 
     public function updateProfile(Request $request)
     {
@@ -71,10 +65,10 @@ class UserDashboardController extends Controller
             'status' => 'nullable|string|in:male,female,other',
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
+    
         $user = auth()->user();
-
-       // Handle file upload for profile image
+        
+        // Handle file upload for profile image
         if ($request->hasFile('profile_image')) {
             if ($user->profile_image) {
                 Storage::delete('public/' . $user->profile_image);
@@ -83,17 +77,18 @@ class UserDashboardController extends Controller
             
             $user->profile_image = $profilePicturePath;
         }
-
+    
         // Update the user's profile with the provided input
         $user->name = $request->input('full_name');
         $user->email = $request->input('email');
         $user->phone_num = $request->input('phone_num');
-        $user->date_of_birth = $request->input('birthday');
+        $user->date_of_birth = $request->input('date_of_birth');
         $user->status = $request->input('status');
-
-        // Save updated user information
+        
+    
+        // Save the updated user information
         $user->save();
-
+    
         return redirect()->back()->with('status', 'Profile updated successfully!');
     }
 
@@ -139,7 +134,34 @@ class UserDashboardController extends Controller
 
     
 
-   
+
+
+    public function updatePassword(Request $request) 
+    {
+    // 1. Validation
+    $request->validate([
+        'current_password' => 'required',
+        'new_password' => 'required|min:8|confirmed',
+    ]);
+
+    // 2. Check if current password is correct
+    if (!Hash::check($request->input('current_password'), Auth::user()->password)) {
+        throw ValidationException::withMessages([
+            'current_password' => ['The provided password does not match your current password.'],
+        ]);
+    }
+
+    // 3. Update the password
+    $user = Auth::user();
+    $user->password = Hash::make($request->input('new_password'));
+    $user->save();
+
+    // 4. Logout the user after password change to refresh session
+    Auth::logout();
+
+    // 5. Redirect user to login page with success message
+    return redirect()->route('login')->with('success', 'Password changed successfully. Please login with your new password.');
+    }
 
 
 }

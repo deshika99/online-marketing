@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="birthday" class="form-label">Birthday</label>
-                <input type="date" class="form-control" id="birthday" name="birthday" value="{{ old('birthday', auth()->user()->date_of_birth) }}">
+                <input type="date" class="form-control" id="birthday" name="date_of_birth" value="{{ old('date_of_birth', auth()->user()->date_of_birth) }}">
             </div>
             <div class="col-md-6 mb-3">
                 <label for="gender" class="form-label">Gender</label>
@@ -46,6 +46,5 @@
         <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
     </form>
 </div>
-
 @endsection
 

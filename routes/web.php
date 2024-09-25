@@ -92,6 +92,8 @@ Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('or
 Route::get('/dashboard/profile/edit', [UserDashboardController::class, 'editProfile'])->name('user.editProfile');
 Route::put('/dashboard/profile/update', [UserDashboardController::class, 'updateProfile'])->name('user.updateProfile');
 
+Route::post('/dashboard/password/update', [UserDashboardController::class, 'updatePassword'])->name('password.update');
+
 
 
 //affiliate dashboard
