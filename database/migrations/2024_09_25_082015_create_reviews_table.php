@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('order_code');
             $table->string('product_id');
             $table->string('rating')->nullable(); 
             $table->text('comment')->nullable();
             $table->enum('status', ['pending', 'published', 'rejected'])->default('pending');
+            $table->boolean('is_anonymous')->default(false);
             $table->timestamps();
         });
         

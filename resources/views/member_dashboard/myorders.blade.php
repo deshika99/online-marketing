@@ -24,8 +24,6 @@
 }
 
 
-
-
 </style>
 
 <h4 class="py-2 px-2">My Orders</h4>
@@ -465,6 +463,9 @@ $('#confirmDeliveryBtn').on('click', function() {
         }
     });
 });
+
+
+
 
 </script>
 

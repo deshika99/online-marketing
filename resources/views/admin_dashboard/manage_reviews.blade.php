@@ -12,7 +12,16 @@
     .tab-content .table {
         margin-top: 20px;
     }
+    .review-images {
+    display: flex;
+    gap: 10px;
+    }
 
+    .review-images img {
+        width: 15%;
+        height: auto;
+        object-fit: cover;
+    }
    
 </style>
 
@@ -74,7 +83,14 @@
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
                                             </div>
-                                            <p>I just love it! I bought this hat for my boyfriend, but then I found out he cheated on me, so I kept it and I love it! I wear it all the time and there is no problem with the fit even though it's a men's hat.</p>
+                                            <p>I just love it! I bought this hat for my boyfriend, but then I found out he cheated on me, 
+                                                so I kept it and I love it! I wear it all the time and there is no problem with the 
+                                                fit even though it's a men's hat.</p>
+                                                <div class="review-images">
+                                                    <img src="\assets\images\d (1).png" alt="image">
+                                                    <img src="\assets\images\d (2).png" alt="image">
+                                                    <img src="\assets\images\d (3).png" alt="image">
+                                                </div>
                                         </td>
                                         <td>23/09/2024</td>
                                         <td><span class="badge bg-success">Published</span></td>
@@ -129,7 +145,14 @@
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>
                                             </div>
-                                            <p>I just love it! I bought this hat for my boyfriend, but then I found out he cheated on me, so I kept it and I love it! I wear it all the time and there is no problem with the fit even though it's a men's hat.</p>
+                                            <p>I just love it! I bought this hat for my boyfriend, but then I found out he cheated on me, 
+                                                so I kept it and I love it! I wear it all the time and there is no problem with the fit 
+                                                even though it's a men's hat.</p>
+                                                <div class="review-images">
+                                                    <img src="\assets\images\d (1).png" alt="image">
+                                                    <img src="\assets\images\d (2).png" alt="image">
+                                                    <img src="\assets\images\d (3).png" alt="image">
+                                                </div>
                                         </td>
                                         <td>23/09/2024</td>
                                         <td><span class="badge bg-warning">Pending</span></td>

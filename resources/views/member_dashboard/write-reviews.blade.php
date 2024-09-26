@@ -111,8 +111,8 @@
     }
 
     .review-submit {
-        width: 100%;
-        padding: 15px;
+        width: 15%;
+        padding: 10px;
         background: linear-gradient(to right, hsl(226, 93%, 27%), hsl(226, 91%, 58%));
         border: none;
         border-radius: 5px;
@@ -121,9 +121,6 @@
         cursor: pointer;
     }
 
-    .review-submit:hover {
-        background: linear-gradient(to right,hsl(226, 93%, 27%), hsl(226, 91%, 58%));
-    }
 </style>
 
 <div class="review-container">
@@ -135,20 +132,23 @@
     <div class="review-product">
         <div class="col-md-1 d-flex align-items-center">
             <div style="margin-right: 15px;">
-                <a href="#"><img src="\assets\images\d (1).png" alt="Product Image" width="70" height="auto"></a>
+                @if($product->images->isNotEmpty())
+                    <a href="#"><img src="{{ asset('storage/' . $product->images->first()->image_path) }}" alt="Product Image" width="70" height="auto"></a>
+                @endif
             </div>
         </div>
 
         <div class="col-md-3 d-flex flex-column justify-content-center" style="font-size: 13px;">
-            <span style="font-weight: 600;">Sara Off Red Strape Dress</span>
+            <span style="font-weight: 600;">{{ $product->product_name }}</span>
             <div>
-                <span class="me-2">Color: <span style="font-weight: 600;">Yellow</span></span> | 
-                <span class="me-2 ms-2">Size: <span style="font-weight: 600;">M</span></span> |
-                <span class="ms-2">Qty: <span style="font-weight: 600;">1</span></span>
+                <span class="me-2">Color: <span style="font-weight: 600;">{{ $color }}</span></span> | 
+                <span class="me-2 ms-2">Size: <span style="font-weight: 600;">{{ $size }}</span></span> |
+                <span class="ms-2">Qty: <span style="font-weight: 600;">{{ $quantity }}</span></span>
             </div>
-            <h6 class="mt-2" style="font-size: 13px;font-weight: bold;">Rs 3400</h6>  
+            <h6 class="mt-2" style="font-size: 13px;font-weight: bold;">Rs {{ $cost }}</h6>  
         </div>
     </div>
+
 
     <div class="review-rating-container">
         <h6>Overall Rating</h6>
@@ -162,22 +162,24 @@
     </div>
 
     <textarea class="review-textarea" rows="5" placeholder="Please tell us what needs to be improved."></textarea>
-
     <div class="review-upload">
-        <div>
-            <i class="fas fa-camera"></i>
-            <p>Upload Photo</p>
-            <input type="file" accept="image/*" multiple style="display:none;" id="upload-photo">
-        </div>
-        <div>
-            <i class="fas fa-video"></i>
-            <p>Upload Video</p>
-            <input type="file" accept="video/*" style="display:none;" id="upload-video">
-        </div>
+    <div>
+        <i class="fas fa-camera"></i>
+        <p>Upload Photo</p>
+        <input type="file" accept="image/*" multiple style="display:none;" id="upload-photo">
+        <div id="uploaded-photos" class="uploaded-container"></div>
     </div>
+    <div>
+        <i class="fas fa-video"></i>
+        <p>Upload Video</p>
+        <input type="file" accept="video/*" style="display:none;" id="upload-video">
+        <div id="uploaded-videos" class="uploaded-container"></div>
+    </div>
+</div>
 
-    <div id="uploaded-photos"></div>
-    <div id="uploaded-videos"></div>
+
+    
+    
 
     <div class="review-checkbox">
         <input type="checkbox" id="anonymous">
@@ -188,10 +190,11 @@
 </div>
 
 <script>
+// Review rating functionality
 document.querySelectorAll('.review-rating i').forEach((star) => {
     star.addEventListener('click', function() {
         const ratingValue = this.getAttribute('data-value'); // Get clicked star's value
-        
+
         // Highlight the clicked star and all previous stars
         document.querySelectorAll('.review-rating i').forEach((s, index) => {
             if (index < ratingValue) {
@@ -199,69 +202,133 @@ document.querySelectorAll('.review-rating i').forEach((star) => {
                 s.classList.add('fas', 'filled'); // Add filled star class (solid stars)
             } else {
                 s.classList.remove('fas', 'filled'); // Remove solid filled class
-                s.classList.add('far');      // Add unfilled star class back
+                s.classList.add('far'); // Add unfilled star class back
             }
         });
     });
 });
 
 // Photo upload functionality
-document.querySelector('#upload-photo').parentElement.addEventListener('click', function() {
-    document.querySelector('#upload-photo').click(); // Trigger image upload
+const photoInput = document.querySelector('#upload-photo');
+const photoPreviewContainer = document.querySelector('#uploaded-photos'); // Correctly referencing the preview container
+
+photoInput.parentElement.addEventListener('click', function() {
+    photoInput.click(); // Trigger image upload
 });
 
-document.querySelector('#upload-photo').addEventListener('change', function(event) {
+photoInput.addEventListener('change', function(event) {
     const files = event.target.files;
-    const photoContainer = document.getElementById('uploaded-photos');
-    photoContainer.innerHTML = ''; // Clear previous uploads
 
-    Array.from(files).forEach(file => {
+    Array.from(files).forEach((file) => {
         const reader = new FileReader();
+
         reader.onload = function(e) {
-            const uploadedItem = document.createElement('div');
-            uploadedItem.className = 'uploaded-item';
-            uploadedItem.innerHTML = `
-                <img src="${e.target.result}" alt="Uploaded Photo">
-                <span class="remove-item" onclick="removeItem(this)">Remove</span>
-            `;
-            photoContainer.appendChild(uploadedItem);
-        }
+            const imgWrapper = document.createElement('div');
+            imgWrapper.style.position = 'relative';
+            imgWrapper.style.width = '100px';
+            imgWrapper.style.height = '100px';
+            imgWrapper.style.display = 'inline-block'; // Ensure images are inline
+
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'cover';
+            imgWrapper.appendChild(img);
+
+            // Add delete button
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = '×';
+            deleteBtn.style.position = 'absolute';
+            deleteBtn.style.top = '0';
+            deleteBtn.style.right = '0';
+            deleteBtn.style.backgroundColor = '#ff0000';
+            deleteBtn.style.color = '#fff';
+            deleteBtn.style.border = 'none';
+            deleteBtn.style.borderRadius = '50%';
+            deleteBtn.style.width = '20px';
+            deleteBtn.style.height = '20px';
+            deleteBtn.style.cursor = 'pointer';
+            deleteBtn.style.padding = '0';
+
+            // Add delete functionality
+            deleteBtn.addEventListener('click', function() {
+                imgWrapper.remove(); // This removes only the specific imgWrapper
+            });
+
+            imgWrapper.appendChild(deleteBtn);
+            photoPreviewContainer.appendChild(imgWrapper);
+        };
+
         reader.readAsDataURL(file);
     });
+
 });
 
 // Video upload functionality
-document.querySelector('#upload-video').parentElement.addEventListener('click', function() {
-    document.querySelector('#upload-video').click(); // Trigger video upload
+const videoInput = document.querySelector('#upload-video');
+const videoPreviewContainer = document.querySelector('#uploaded-videos'); // Correctly referencing the preview container
+
+videoInput.parentElement.addEventListener('click', function() {
+    videoInput.click(); // Trigger video upload
 });
 
-document.querySelector('#upload-video').addEventListener('change', function(event) {
+videoInput.addEventListener('change', function(event) {
     const files = event.target.files;
-    const videoContainer = document.getElementById('uploaded-videos');
-    videoContainer.innerHTML = ''; // Clear previous uploads
 
+    // Clear previous video preview
+    videoPreviewContainer.innerHTML = '';
+
+    // Check the number of files
     if (files.length > 1) {
         alert("You can only upload one video at a time.");
         event.target.value = ''; // Reset the input field
-    } else {
+        return; // Prevent further execution
+    } else if (files.length === 1) {
         const reader = new FileReader();
+
         reader.onload = function(e) {
-            const uploadedItem = document.createElement('div');
-            uploadedItem.className = 'uploaded-item';
-            uploadedItem.innerHTML = `
-                <video controls src="${e.target.result}"></video>
-                <span class="remove-item" onclick="removeItem(this)">Remove</span>
-            `;
-            videoContainer.appendChild(uploadedItem);
-        }
-        reader.readAsDataURL(files[0]);
+            const videoWrapper = document.createElement('div');
+            videoWrapper.style.position = 'relative';
+            videoWrapper.style.width = '200px';
+
+            const video = document.createElement('video');
+            video.src = e.target.result;
+            video.controls = true;
+            video.style.width = '100%';
+            videoWrapper.appendChild(video);
+
+            // Add delete button
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = '×';
+            deleteBtn.style.position = 'absolute';
+            deleteBtn.style.top = '0';
+            deleteBtn.style.right = '0';
+            deleteBtn.style.backgroundColor = '#ff0000';
+            deleteBtn.style.color = '#fff';
+            deleteBtn.style.border = 'none';
+            deleteBtn.style.borderRadius = '50%';
+            deleteBtn.style.width = '20px';
+            deleteBtn.style.height = '20px';
+            deleteBtn.style.cursor = 'pointer';
+            deleteBtn.style.padding = '0';
+
+            // Add delete functionality
+            deleteBtn.addEventListener('click', function() {
+                videoWrapper.remove(); // This removes only the specific videoWrapper
+                videoInput.value = ''; // Reset video input
+            });
+
+            videoWrapper.appendChild(deleteBtn);
+            videoPreviewContainer.appendChild(videoWrapper);
+        };
+
+        reader.readAsDataURL(files[0]); // Read the selected video file
     }
 });
 
-// Remove uploaded item
-function removeItem(element) {
-    element.parentElement.remove(); // Remove the uploaded item from the DOM
-}
+
+
 </script>
 
 @endsection

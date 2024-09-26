@@ -2,7 +2,17 @@
 
 @section('dashboard-content')
 <style>
+    .review-images {
+        display: flex;
+        gap: 10px;
+    }
 
+    .review-images img {
+        width: 10%;
+        height: auto;
+        object-fit: cover;
+    }
+   
 
 </style>
 
@@ -37,13 +47,11 @@
                         </div>
                     </div>
                     <div class="ml-auto" style="text-align: right;">
-                        <a href="" class="btn-review">Review</a>
+                        <a href="{{ route('write.reviews', ['product_id' => $item->product_id, 'color' => $item->color, 
+                        'size' => $item->size, 'quantity' => $item->quantity, 'cost' => $item->cost]) }}" class="btn-review">Review</a>
                     </div>
                 </div>
             @endforeach
-                <div class="ml-auto" style="text-align: right;">
-                    <a href="{{ route('write.reviews') }}" class="btn-review">Review</a>
-                </div>
             </div>
         </div>
     </div>
@@ -55,7 +63,7 @@
         <div class="order-items-list px-3">
             @foreach ($reviewedItems as $review)
                 <div class="order-item row" style="padding: 10px; border-bottom: 1px solid #eaeaea;">
-                    <div class="col-md-1 d-flex align-items-center">
+                    <div class="col-md-1 d-flex flex-column align-items-start">
                         <div style="margin-right: 15px;">
                             @if ($review->product->images->isNotEmpty())
                                 <a href="#"><img src="{{ asset('storage/' . $review->product->images->first()->image_path) }}" alt="Product Image" width="70" height="auto"></a>
@@ -63,10 +71,10 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3 d-flex flex-column justify-content-center border-end" style="border-right: 1px solid #eaeaea; font-size: 13px;">
+                    <div class="col-md-3 d-flex flex-column align-items-start border-end" style="border-right: 1px solid #eaeaea; font-size: 13px;">
                         <span style="font-weight: 600;">{{ $review->product->product_name }}</span>
                         <div>
-                            @if ($review->orderItem) <!-- Check if orderItem exists -->
+                            @if ($review->orderItem)
                                 <span class="me-2">Color: <span style="font-weight: 600;">{{ $review->orderItem->color }}</span></span> | 
                                 <span class="me-2 ms-2">Size: <span style="font-weight: 600;">{{ $review->orderItem->size }}</span></span> |
                                 <span class="ms-2">Qty: <span style="font-weight: 600;">{{ $review->orderItem->quantity }}</span></span>
@@ -88,6 +96,11 @@
                         </div>
                         <div class="review-description text-start">
                             <p style="font-size: 13px;">{{ $review->comment }}</p>
+                        </div>
+                        <div class="review-images">
+                            <img src="\assets\images\d (1).png" alt="image">
+                            <img src="\assets\images\d (2).png" alt="image">
+                            <img src="\assets\images\d (3).png" alt="image">
                         </div>
                     </div>
                     <div class="col-md-2 d-flex align-items-start justify-content-start">

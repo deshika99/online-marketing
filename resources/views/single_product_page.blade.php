@@ -162,26 +162,26 @@
     <section class="py-3">
     <div class="container" style="width: 80%;">
         <div class="row gx-5">
-            <aside class="col-lg-5">
-               
-                <div class="rounded-4 mb-3 d-flex justify-content-center">
-                    <a class="rounded-4 glightbox" data-type="image" href="{{ asset('storage/' . $product->images->first()->image_path) }}">
-                        <img id="product-image" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="{{ asset('storage/' . $product->images->first()->image_path) }}" />
+        <aside class="col-lg-5 d-flex">
+            <div class="d-flex flex-column justify-content-start align-items-center me-3">
+                @foreach($product->images as $image)
+                    <a class="glightbox mb-2 rounded-2" style="border: none;" data-type="image" href="{{ asset('storage/' . $image->image_path) }}">
+                        <img class="thumbnail rounded-2" style="width: 80px; height: 80px; object-fit: cover;" src="{{ asset('storage/' . $image->image_path) }}" />
                     </a>
-                </div>
-                <div class="d-flex justify-content-center mb-3">
-                    @foreach($product->images as $image)
-                        <a class="glightbox mx-1 rounded-2" style="border: none;" data-type="image" href="{{ asset('storage/' . $image->image_path) }}">
-                            <img class="thumbnail rounded-2" src="{{ asset('storage/' . $image->image_path) }}" />
-                        </a>
-                    @endforeach
-                </div>
-            </aside>
+                @endforeach
+            </div>
+
+            <div class="rounded-4 mb-3 d-flex justify-content-center" style="flex-grow: 1;">
+                <a class="rounded-4 glightbox" data-type="image" href="{{ asset('storage/' . $product->images->first()->image_path) }}">
+                    <img id="product-image" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="{{ asset('storage/' . $product->images->first()->image_path) }}" />
+                </a>
+            </div>
+        </aside>
+
 
             <main class="col-lg-7">
                 <div class="ps-lg-3">
-                    <h4 class="title text-dark">{{ $product->product_name }}</h4>
-                    <h5 class="title text-dark">{!! $product->product_description !!}</h5>                 
+                    <h4 class="title text-dark">{{ $product->product_name }}</h4>              
                     <div class="d-flex flex-row my-3">
                         <div class="text-warning mb-1 me-2">
                             <i class="fa fa-star"></i>
@@ -339,10 +339,7 @@
                             </div>
                             <div class="tab-pane fade mb-2 show active p-4" id="ex1-pills-description" role="tabpanel" aria-labelledby="ex1-tab-description">
                                 <h5>Product Full Description</h5>
-                                Live a stronger, smarter life with Galaxy Watch at your wrist. Rest well, stay active and keep stress at bay with built in health tracking. <br>Go for days without charging your watch.<br>
-                                The Bluetooth connection keeps everything at your wrist.<br>
-                                Compatible with select Bluetooth capable smartphones.<br>
-                                Galaxy Watch supported features may vary by carrier and compatible device.
+                                {!! $product->product_description !!}
                             </div>
 
                             <!-- Reviews Section -->
@@ -350,85 +347,71 @@
                                 <div class="reviews-container" style="width: 90%;">
                                     <div class="review-summary">
                                         <div class="rating-score">
-                                            <h2>4.0</h2>
+                                            <h2>{{ number_format($averageRating, 1) }}</h2>
                                             <div class="star-rating">
                                                 <span class="text-warning">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                </span> 
+                                                    @for($i = 1; $i <= 5; $i++)
+                                                        @if($i <= $averageRating)
+                                                            <i class="fa fa-star"></i>
+                                                        @elseif($i - $averageRating < 1)
+                                                            <i class="fas fa-star-half-alt"></i>
+                                                        @else
+                                                            <i class="fa fa-star-o"></i>
+                                                        @endif
+                                                    @endfor
+                                                </span>
                                             </div>
-                                            <p>35K ratings</p>
+                                            <p>{{ $totalReviews }} ratings</p>
                                         </div>
                                         <div class="rating-bars ms-5">
-                                            <div class="rating-bar">                                              
-                                                <div class="bar">
-                                                    <div class="fill" style="width: 80%;"></div>
+                                            @foreach([5, 4, 3, 2, 1] as $star)
+                                                <div class="rating-bar">
+                                                    <div class="bar">
+                                                        <div class="fill" style="width: {{ $totalReviews ? ($ratingsCount[$star] / $totalReviews) * 100 : 0 }}%;"></div>
+                                                    </div>
+                                                    <span class="ms-3">{{ $star }}.0</span><span class="text-secondary">{{ $ratingsCount[$star] }} reviews</span>
                                                 </div>
-                                                <span class="ms-3">5.0</span><span class="text-secondary">14K reviews</span>
-                                            </div>
-                                            <div class="rating-bar">
-                                                <div class="bar">
-                                                    <div class="fill" style="width: 60%;"></div>
-                                                </div>
-                                                <span class="ms-3">4.0</span><span class="text-secondary">6K reviews</span>
-                                            </div>
-                                            <div class="rating-bar">
-                                                <div class="bar">
-                                                    <div class="fill" style="width: 40%;"></div>
-                                                </div>
-                                                <span class="ms-3">3.0</span><span class="text-secondary">4K reviews</span>
-                                            </div>
-                                            <div class="rating-bar">
-                                                <div class="bar">
-                                                    <div class="fill" style="width: 10%;"></div>
-                                                </div>
-                                                <span class="ms-3">2.0</span><span class="text-secondary">800 reviews</span>
-                                            </div>
-                                            <div class="rating-bar">
-                                                <div class="bar">
-                                                    <div class="fill" style="width: 20%;"></div>
-                                                </div>
-                                                <span class="ms-3">1.0</span><span class="text-secondary">9K reviews</span>
-                                            </div>
+                                            @endforeach
                                         </div>
                                     </div>
 
                                     <!-- Review List -->
                                     <div class="review-list">
-                                        <div class="review-item">
-                                            <div class="user-info">
-                                                <img src="\assets\images\user.png" alt="User image" class="user-image">
-                                                <div class="user-details mt-3">
-                                                    <h6>Alexander Rity</h6>
+                                        @foreach($reviews as $review)
+                                            <div class="review-item">
+                                                <div class="user-info">
+                                                    <img src="{{ $review->is_anonymous ? asset('assets/images/default-user.png') : asset('storage/' . Auth::user()->profile_image) }}" alt="User image" class="user-image">
+                                                    <div class="user-details mt-3">
+                                                        <h6>{{ $review->is_anonymous ? 'Anonymous' : $review->user->name }}</h6>
+                                                    </div>
+                                                    <div class="user-rating">
+                                                        <span class="me-1">{{ $review->rating }}.0</span>
+                                                        <span class="rating text-warning">
+                                                            @for($i = 1; $i <= 5; $i++)
+                                                                <i class="fas fa-star{{ $i <= $review->rating ? '' : '-o' }}"></i>
+                                                            @endfor
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                                <div class="user-rating">
-                                                    <span class="me-1 ">5.0</span>
-                                                    <span class="rating text-warning">
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                    </span>
+                                                <div class="user-review mt-2">
+                                                    <p>{{ $review->comment }}</p>
+                                                    @if($review->images)
+                                                        <div class="review-images">
+                                                            @foreach($review->images as $image)
+                                                                <img src="{{ asset('storage/' . $image->image_path) }}" alt="Review image">
+                                                            @endforeach
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </div>
-                                            <div class="user-review mt-2">
-                                                <p>With supporting text below as a natural lead-in to additional content. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-                                                <div class="review-images">
-                                                    <img src="\assets\images\d (1).png" alt="image">
-                                                    <img src="\assets\images\d (2).png" alt="image">
-                                                    <img src="\assets\images\d (3).png" alt="image">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <a href="#" class="read-all-reviews">Read all reviews</a>
+                                        @endforeach
+                                    </div>
+                                    <div class="mt-4">
+                                        {{ $reviews->links() }} 
                                     </div>
                                 </div>
                             </div>
+
 
                             <div class="tab-pane fade mb-2" id="ex1-pills-QA" role="tabpanel" aria-labelledby="ex1-tab-QA">
                                 Some other tab content or sample information now <br />
@@ -436,6 +419,7 @@
                             </div>
                         </div>
                         <!-- Pills content -->
+
                     </div>
                 </div>
             </div>

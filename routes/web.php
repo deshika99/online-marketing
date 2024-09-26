@@ -55,9 +55,7 @@ Route::get('home/My-Account/My-Reviews', [UserDashboardController::class, 'myRev
 
 
 //write-reviews
-Route::get('/member-dashboard/write-reviews', function () {
-    return view('member_dashboard.write-reviews');
-})->name('write.reviews');
+Route::get('/member-dashboard/write-reviews', [UserDashboardController::class, 'writeReview'])->name('write.reviews');
 
 
 Route::get('home/My-Account/change-password', function () {

@@ -122,137 +122,134 @@
         <div class="card-container px-4">
             <div class="card py-3 px-5">
                 <div class="card-body">
-                <form id="productForm" action="{{ route('update_product', $product->id) }}" method="POST" enctype="multipart/form-data">
-    @csrf
-    @method('PUT')
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="productName">Product Name</label>
-                <input type="text" id="productName" name="productName" class="form-control" placeholder="Enter product name" value="{{ old('productName', $product->product_name) }}">
-            </div>
-            <div class="form-group">
-                <label for="productDesc">Product Description</label>
-                <div id="productDesc" style="height: 200px;">{!! old('productDesc', $product->product_description) !!}</div>
-                <textarea id="productDescInput" name="productDesc" style="display:none;">{{ old('productDesc', $product->product_description) }}</textarea>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="category">Category</label>
-                <select id="category" name="category" class="form-control">
-                    <option value="">Select Category</option>
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}" {{ $category->id == $selectedCategoryId ? 'selected' : '' }}>
-                            {{ $category->parent_category }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="subcategory">Subcategory</label>
-                <select id="subcategory" name="subcategory" class="form-control">
-                    <option value="">Select Subcategory</option>
-                    @foreach ($subcategories as $subcategory)
-                        <option value="{{ $subcategory->id }}" {{ $subcategory->id == $selectedSubcategoryId ? 'selected' : '' }}>
-                            {{ $subcategory->subcategory }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="subsubcategory">Sub-Subcategory</label>
-                <select id="subsubcategory" name="subsubcategory" class="form-control">
-                    <option value="">Select Sub-Subcategory</option>
-                    @foreach ($subSubcategories as $subSubcategory)
-                        <option value="{{ $subSubcategory->id }}" {{ $subSubcategory->id == $product->sub_subcategory_id ? 'selected' : '' }}>
-                            {{ $subSubcategory->sub_subcategory }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="quantity">Quantity</label>
-                <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter quantity" value="{{ old('quantity', $product->quantity) }}">
-            </div>
-            <div class="form-group">
-                <label for="normalPrice">Normal Price</label>
-                <input type="number" id="normalPrice" name="normalPrice" class="form-control" placeholder="Enter normal price" step="0.01" value="{{ old('normalPrice', $product->normal_price) }}">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="productImages">Product Images</label>
-                <div id="dropZone" class="drop-zone">
-                    <p><i class="fas fa-images me-2"></i>Drag and drop images here or click to select</p>
-                    <input type="file" id="productImages" name="productImages[]" accept="image/*" multiple style="display: none;">
-                    <div class="image-preview" id="imagePreview">
-                        @if($product->images->isNotEmpty())
-                            @foreach($product->images as $image)
-                                <div class="image-container" data-image-id="{{ $image->id }}" style="position: relative; display: inline-block; margin-right: 10px;">
-                                    <img src="{{ asset('storage/' . $image->image_path) }}" alt="Product Image" style="max-width: 100px;">
-                                    <button type="button" class="delete-btn" data-image-id="{{ $image->id }}" style="position: absolute; top: 5px; right: 5px; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; text-align: center; line-height: 20px; cursor: pointer;">X</button>
+                    <form id="productForm" action="{{ route('update_product', $product->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="productName">Product Name</label>
+                                    <input type="text" id="productName" name="productName" class="form-control" placeholder="Enter product name" value="{{ old('productName', $product->product_name) }}">
                                 </div>
-                            @endforeach
-                        @else
-                            <p>No images uploaded</p>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="form-check">
-            <input type="checkbox" id="affiliateProduct" name="affiliateProduct" class="form-check-input" {{ old('affiliateProduct', $product->is_affiliate) ? 'checked' : '' }}>
-            <label class="form-check-label" for="affiliateProduct">Affiliate the Product</label>
-        </div>
-    </div>
-    <div class="form-group" id="affiliatePriceGroup" style="{{ $product->is_affiliate ? 'display: flex;' : 'display: none;' }}">
-        <label for="affiliatePrice">Affiliate Price</label>
-        <input type="number" id="affiliatePrice" name="affiliatePrice" class="form-control" value="{{ old('affiliatePrice', $product->affiliate_price) }}" placeholder="Enter affiliate price" step="0.01">
-    </div>
-    <div class="form-group" id="commissionGroup" style="{{ $product->is_affiliate ? 'display: flex;' : 'display: none;' }}">
-        <label for="commissionPercentage">Commission %</label>
-        <input type="number" id="commissionPercentage" name="commissionPercentage" class="form-control" value="{{ old('commissionPercentage', $product->commission_percentage) }}" placeholder="Enter commission percentage" step="0.01" min="0" max="100">
-    </div>
-    <div class="form-group">
-        <label for="totalPrice">Total Price</label>
-        <input type="text" id="totalPrice" name="totalPrice" class="form-control" value="{{ old('totalPrice', $product->total_price) }}" readonly>
-    </div>
-    <!-- Product Variations Card -->
-    <div class="card1 px-2 py-2 mt-4">
-        <div class="card-body">
-            <h5>Product Variations</h5>
-            <div class="form-group">
-                <label for="variations">Add Product Variations</label>
-                <div id="variations-container">
-                    @foreach ($variations as $index => $variation)
-                        <div class="variation-row row mb-3" data-index="{{ $index }}">
-                            <div class="col-md-3">
-                                <select class="form-control variation-type" name="variation[{{ $index }}][type]" onchange="handleVariationChange(this)">
-                                    <option value="Size" {{ $variation->type === 'Size' ? 'selected' : '' }}>Size</option>
-                                    <option value="Color" {{ $variation->type === 'Color' ? 'selected' : '' }}>Color</option>
-                                    <option value="Material" {{ $variation->type === 'Material' ? 'selected' : '' }}>Material</option>
-                                </select>
+                                <div class="form-group">
+                                    <label for="productDesc">Product Description</label>
+                                    <div id="productDesc" style="height: 200px;">{!! old('productDesc', $product->product_description) !!}</div>
+                                    <textarea id="productDescInput" name="productDesc" style="display:none;">{{ old('productDesc', $product->product_description) }}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productImages">Product Images</label>
+                                    <div id="dropZone" class="drop-zone">
+                                        <p><i class="fas fa-images me-2"></i>Drag and drop images here or click to select</p>
+                                        <input type="file" id="productImages" name="productImages[]" accept="image/*" multiple style="display: none;">
+                                        <div class="image-preview" id="imagePreview">
+                                            @if($product->images->isNotEmpty())
+                                                @foreach($product->images as $image)
+                                                    <div class="image-container" data-image-id="{{ $image->id }}" style="position: relative; display: inline-block; margin-right: 10px;">
+                                                        <img src="{{ asset('storage/' . $image->image_path) }}" alt="Product Image" style="max-width: 100px;">
+                                                        <button type="button" class="delete-btn" data-image-id="{{ $image->id }}" style="position: absolute; top: 5px; right: 5px; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; text-align: center; line-height: 20px; cursor: pointer;">X</button>
+                                                    </div>
+                                                @endforeach
+                                            @else
+                                                <p>No images uploaded</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-4 variation-input-container">
-                                <input type="text" class="form-control variation-input" name="variation[{{ $index }}][value]" value="{{ $variation->value }}" placeholder="Variation">
-                            </div>
-                            <div class="col-md-1">
-                                <button type="button" class="btn remove-btn" onclick="removeVariationRow(this)">X</button>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="category">Category</label>
+                                    <select id="category" name="category" class="form-control">
+                                        <option value="">Select Category</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}" {{ $category->id == $selectedCategoryId ? 'selected' : '' }}>
+                                                {{ $category->parent_category }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="subcategory">Subcategory</label>
+                                    <select id="subcategory" name="subcategory" class="form-control">
+                                        <option value="">Select Subcategory</option>
+                                        @foreach ($subcategories as $subcategory)
+                                            <option value="{{ $subcategory->id }}" {{ $subcategory->id == $selectedSubcategoryId ? 'selected' : '' }}>
+                                                {{ $subcategory->subcategory }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="subsubcategory">Sub-Subcategory</label>
+                                    <select id="subsubcategory" name="subsubcategory" class="form-control">
+                                        <option value="">Select Sub-Subcategory</option>
+                                        @foreach ($subSubcategories as $subSubcategory)
+                                            <option value="{{ $subSubcategory->id }}" {{ $subSubcategory->id == $product->sub_subcategory_id ? 'selected' : '' }}>
+                                                {{ $subSubcategory->sub_subcategory }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="quantity">Quantity</label>
+                                    <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter quantity" value="{{ old('quantity', $product->quantity) }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="normalPrice">Normal Price</label>
+                                    <input type="number" id="normalPrice" name="normalPrice" class="form-control" placeholder="Enter normal price" step="0.01" value="{{ old('normalPrice', $product->normal_price) }}">
+                                </div>
+                                <div class="form-group">
+                            <div class="form-check">
+                                <input type="checkbox" id="affiliateProduct" name="affiliateProduct" class="form-check-input" {{ old('affiliateProduct', $product->is_affiliate) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="affiliateProduct">Affiliate the Product</label>
                             </div>
                         </div>
-                    @endforeach
-                </div>
-                <button type="button" class="btn btn-secondary mt-3" id="addVariationBtn" style="width: 30%;">+ Add another variation</button>
-            </div>
-        </div>
-    </div>
-    <button type="submit" class="btn btn-success btn-create mt-3">Update</button>
-</form>
+                                <div class="form-group" id="affiliatePriceGroup" style="{{ $product->is_affiliate ? 'display: flex;' : 'display: none;' }}">
+                                    <label for="affiliatePrice">Affiliate Price</label>
+                                    <input type="number" id="affiliatePrice" name="affiliatePrice" class="form-control" value="{{ old('affiliatePrice', $product->affiliate_price) }}" placeholder="Enter affiliate price" step="0.01">
+                                </div>
+                                <div class="form-group" id="commissionGroup" style="{{ $product->is_affiliate ? 'display: flex;' : 'display: none;' }}">
+                                    <label for="commissionPercentage">Commission %</label>
+                                    <input type="number" id="commissionPercentage" name="commissionPercentage" class="form-control" value="{{ old('commissionPercentage', $product->commission_percentage) }}" placeholder="Enter commission percentage" step="0.01" min="0" max="100">
+                                </div>
+                                <div class="form-group">
+                                    <label for="totalPrice">Total Price</label>
+                                    <input type="text" id="totalPrice" name="totalPrice" class="form-control" value="{{ old('totalPrice', $product->total_price) }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Product Variations Card -->
+                        <div class="card1 px-2 py-2 mt-4">
+                            <div class="card-body">
+                                <h5>Product Variations</h5>
+                                <div class="form-group">
+                                    <label for="variations">Add Product Variations</label>
+                                    <div id="variations-container">
+                                        @foreach ($variations as $index => $variation)
+                                            <div class="variation-row row mb-3" data-index="{{ $index }}">
+                                                <div class="col-md-3">
+                                                    <select class="form-control variation-type" name="variation[{{ $index }}][type]" onchange="handleVariationChange(this)">
+                                                        <option value="Size" {{ $variation->type === 'Size' ? 'selected' : '' }}>Size</option>
+                                                        <option value="Color" {{ $variation->type === 'Color' ? 'selected' : '' }}>Color</option>
+                                                        <option value="Material" {{ $variation->type === 'Material' ? 'selected' : '' }}>Material</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 variation-input-container">
+                                                    <input type="text" class="form-control variation-input" name="variation[{{ $index }}][value]" value="{{ $variation->value }}" placeholder="Variation">
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <button type="button" class="btn remove-btn" onclick="removeVariationRow(this)">X</button>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <button type="button" class="btn btn-secondary mt-3" id="addVariationBtn" style="width: 30%;">+ Add another variation</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-create mt-3">Update</button>
+                    </form>
 
                 </div>
             </div>
