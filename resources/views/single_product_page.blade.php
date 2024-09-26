@@ -2,7 +2,7 @@
 
 @section('content')
 
-
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 <style>
   
@@ -181,7 +181,7 @@
             <main class="col-lg-7">
                 <div class="ps-lg-3">
                     <h4 class="title text-dark">{{ $product->product_name }}</h4>
-                    <h5 class="title text-dark">{{ $product->product_description }}</h5>                 
+                    <h5 class="title text-dark">{!! $product->product_description !!}</h5>                 
                     <div class="d-flex flex-row my-3">
                         <div class="text-warning mb-1 me-2">
                             <i class="fa fa-star"></i>
