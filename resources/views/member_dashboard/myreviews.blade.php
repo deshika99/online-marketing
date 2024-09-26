@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 <div class="ml-auto" style="text-align: right;">
-                    <a href="" class="btn-review">Review</a>
+                    <a href="{{ route('write.reviews') }}" class="btn-review">Review</a>
                 </div>
             </div>
         </div>

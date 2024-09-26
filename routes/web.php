@@ -56,6 +56,12 @@ Route::get('home/My-Account/My-Reviews', function () {
     return view('member_dashboard.myreviews');
 })->name('myreviews');
 
+//write-reviews
+Route::get('/member-dashboard/write-reviews', function () {
+    return view('member_dashboard.write-reviews');
+})->name('write.reviews');
+
+
 Route::get('home/My-Account/change-password', function () {
     return view('member_dashboard.change-password');
 })->name('change-password');
@@ -64,7 +70,7 @@ Route::get('home/My-Account/points', function () {
     return view('member_dashboard.points');
 })->name('points');
 
-Route::get('home/My-Account/addresses', function () {
+Route::get('home/My-Account/addresses', function () { 
     return view('member_dashboard.addresses');
 })->name('addresses');
 
