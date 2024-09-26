@@ -61,6 +61,7 @@
         display: flex;
         gap: 15px;
         margin-bottom: 15px;
+        flex-wrap: wrap; /* Allow wrapping of images/videos */
     }
 
     .review-upload div {
@@ -83,15 +84,23 @@
         cursor: pointer;
     }
 
-    .review-upload i {
-        font-size: 1.5rem;
-        color: #555;
-        margin-bottom: 5px;
+    .uploaded-item {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
     }
 
-    .review-upload p {
-        font-size: 0.9rem;
-        color: #555;
+    .uploaded-item img,
+    .uploaded-item video {
+        max-width: 100px;
+        max-height: 100px;
+        margin-right: 10px;
+    }
+
+    .remove-item {
+        color: red;
+        cursor: pointer;
+        margin-left: 5px;
     }
 
     .review-checkbox {
@@ -167,6 +176,9 @@
         </div>
     </div>
 
+    <div id="uploaded-photos"></div>
+    <div id="uploaded-videos"></div>
+
     <div class="review-checkbox">
         <input type="checkbox" id="anonymous">
         <label for="anonymous">Anonymously</label>
@@ -200,9 +212,22 @@ document.querySelector('#upload-photo').parentElement.addEventListener('click', 
 
 document.querySelector('#upload-photo').addEventListener('change', function(event) {
     const files = event.target.files;
-    if (files.length > 0) {
-        alert(`${files.length} photos selected.`);
-    }
+    const photoContainer = document.getElementById('uploaded-photos');
+    photoContainer.innerHTML = ''; // Clear previous uploads
+
+    Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const uploadedItem = document.createElement('div');
+            uploadedItem.className = 'uploaded-item';
+            uploadedItem.innerHTML = `
+                <img src="${e.target.result}" alt="Uploaded Photo">
+                <span class="remove-item" onclick="removeItem(this)">Remove</span>
+            `;
+            photoContainer.appendChild(uploadedItem);
+        }
+        reader.readAsDataURL(file);
+    });
 });
 
 // Video upload functionality
@@ -212,13 +237,31 @@ document.querySelector('#upload-video').parentElement.addEventListener('click', 
 
 document.querySelector('#upload-video').addEventListener('change', function(event) {
     const files = event.target.files;
+    const videoContainer = document.getElementById('uploaded-videos');
+    videoContainer.innerHTML = ''; // Clear previous uploads
+
     if (files.length > 1) {
         alert("You can only upload one video at a time.");
         event.target.value = ''; // Reset the input field
     } else {
-        alert("Video selected.");
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const uploadedItem = document.createElement('div');
+            uploadedItem.className = 'uploaded-item';
+            uploadedItem.innerHTML = `
+                <video controls src="${e.target.result}"></video>
+                <span class="remove-item" onclick="removeItem(this)">Remove</span>
+            `;
+            videoContainer.appendChild(uploadedItem);
+        }
+        reader.readAsDataURL(files[0]);
     }
 });
+
+// Remove uploaded item
+function removeItem(element) {
+    element.parentElement.remove(); // Remove the uploaded item from the DOM
+}
 </script>
 
 @endsection
