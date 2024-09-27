@@ -44,6 +44,9 @@ class UserDashboardController extends Controller
         ));
     }
     
+
+
+
     
 
 
@@ -60,6 +63,9 @@ class UserDashboardController extends Controller
         ]);
     
         $user = auth()->user();
+        
+
+
         
         // Handle file upload for profile image
         if ($request->hasFile('profile_image')) {
@@ -255,6 +261,8 @@ class UserDashboardController extends Controller
     
     
     
-
-
 }
+   
+
+
+
