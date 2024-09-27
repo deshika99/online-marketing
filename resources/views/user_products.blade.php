@@ -274,6 +274,7 @@
                     <label><input type="checkbox"> L</label>
                     <label><input type="checkbox"> XL</label>
                     <label><input type="checkbox"> 2XL</label>
+                    <label><input type="checkbox"> 3XL</label>
                 </div>
             </li>
             <!-- Color Filter -->
