@@ -54,6 +54,26 @@ class UserDashboardController extends Controller
     
 
 
+    
+    public function orderDetails($order_code)
+
+
+    
+
+    
+
+
+    public function editProfile()
+
+    {
+        $order = CustomerOrder::with(['items.product'])->where('order_code', $order_code)->first();
+        if (!$order) {
+            return redirect()->route('myorders')->with('error', 'Order not found');
+        }
+        return view('member_dashboard.order-details', compact('order'));
+    }
+
+
     public function updateProfile(Request $request)
     {
         // Validate the request inputs
@@ -69,6 +89,13 @@ class UserDashboardController extends Controller
         $user = auth()->user();
         
         // Handle file upload for profile image
+
+        
+        // Handle file upload for profile image
+
+
+       // Handle file upload for profile image
+
         if ($request->hasFile('profile_image')) {
             if ($user->profile_image) {
                 Storage::delete('public/' . $user->profile_image);
@@ -91,18 +118,46 @@ class UserDashboardController extends Controller
     
         return redirect()->back()->with('status', 'Profile updated successfully!');
     }
+    
 
+
+
+    public function updatePassword(Request $request) 
 
 
 
     public function orderDetails($order_code)
+
     {
-        $order = CustomerOrder::with(['items.product'])->where('order_code', $order_code)->first();
-        if (!$order) {
-            return redirect()->route('myorders')->with('error', 'Order not found');
-        }
-        return view('member_dashboard.order-details', compact('order'));
+    // 1. Validation
+    $request->validate([
+        'current_password' => 'required',
+        'new_password' => 'required|min:8|confirmed',
+    ]);
+
+    // 2. Check if current password is correct
+    if (!Hash::check($request->input('current_password'), Auth::user()->password)) {
+        throw ValidationException::withMessages([
+            'current_password' => ['The provided password does not match your current password.'],
+        ]);
     }
+
+
+    // 3. Update the password
+    $user = Auth::user();
+    $user->password = Hash::make($request->input('new_password'));
+    $user->save();
+
+    // 4. Logout the user after password change to refresh session
+    Auth::logout();
+
+    // 5. Redirect user to login page with success message
+    return redirect()->route('login')->with('success', 'Password changed successfully. Please login with your new password.');
+    }
+
+
+}
+
 
 
     public function cancelOrder(Request $request, $order_code)
@@ -165,3 +220,8 @@ class UserDashboardController extends Controller
 
 
 }
+   
+
+
+}
+
