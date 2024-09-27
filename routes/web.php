@@ -31,6 +31,7 @@ Route::get('/home/products/{category?}/{subcategory?}/{subsubcategory?}', [Produ
     ->name('user_products');
 Route::get('/product/{product_id?}', [ProductController::class, 'show'])->name('single_product_page');
 Route::get('/home/all_items', [ProductController::class, 'show_all_items'])->name('all_items');
+Route::post('/filter-products', [ProductController::class, 'filterProducts']);
 
 
 Route::view('/home/affiliate/all', 'aff_all')->name('aff_all');

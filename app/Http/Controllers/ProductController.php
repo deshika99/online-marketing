@@ -19,11 +19,10 @@ class ProductController extends Controller
 {
 
 
-
     public function showProductsByCategory($category = null, $subcategory = null, $subsubcategory = null)
     {
         $query = Products::with('images');
-
+    
         if ($subsubcategory) {
             $query->where('sub_subcategory', $subsubcategory);
         } elseif ($subcategory) {
@@ -31,16 +30,45 @@ class ProductController extends Controller
         } elseif ($category) {
             $query->where('product_category', $category);
         }
-
+    
         $products = $query->get();
-
+        $colors = Variation::where('type', 'color')->pluck('value'); 
+    
         return view('user_products', [
             'products' => $products,
             'category' => $category,
             'subcategory' => $subcategory,
-            'subsubcategory' => $subsubcategory
+            'subsubcategory' => $subsubcategory,
+            'colors' => $colors, 
         ]);
     }
+    
+
+
+    public function filterProducts(Request $request)
+    {
+        $query = Products::with('images');
+
+        if (!empty($request->selectedSizes)) {
+            $query->whereHas('variations', function ($q) use ($request) {
+                $q->whereIn('value', $request->selectedSizes)->where('type', 'size');
+            });
+        }
+        if (!empty($request->selectedColors)) {
+            $query->whereHas('variations', function ($q) use ($request) {
+                $q->whereIn('value', $request->selectedColors)->where('type', 'color');
+            });
+        }
+        if ($request->priceMin) {
+            $query->where('normal_price', '>=', $request->priceMin);
+        }
+        if ($request->priceMax) {
+            $query->where('normal_price', '<=', $request->priceMax);
+        }
+        $products = $query->get();
+        return response()->json(['products' => $products]);
+    }
+
 
     
     public function show($product_id)
@@ -49,13 +77,14 @@ class ProductController extends Controller
         $relatedProducts = Products::where('product_category', $product->product_category)
             ->where('product_id', '!=', $product->product_id)
             ->get();
-    
-        $reviews = Review::where('product_id', $product_id)
+
+        $reviews = Review::with('media')->where('product_id', $product_id)
             ->where('status', 'published')
-            ->paginate(4); 
-    
+            ->get();
+
         $averageRating = $reviews->avg('rating');
-        $totalReviews = $reviews->total();
+        $totalReviews = $reviews->count(); 
+
         $ratingsCount = [
             '5' => Review::where('product_id', $product_id)->where('rating', 5)->count(),
             '4' => Review::where('product_id', $product_id)->where('rating', 4)->count(),
@@ -63,20 +92,22 @@ class ProductController extends Controller
             '2' => Review::where('product_id', $product_id)->where('rating', 2)->count(),
             '1' => Review::where('product_id', $product_id)->where('rating', 1)->count(),
         ];
-    
+
         return view('single_product_page', compact('product', 'relatedProducts', 'reviews', 'averageRating', 'totalReviews', 'ratingsCount'));
     }
-    
-    
 
     
-
     public function show_all_items()
     {
         $products = Products::all();
-        return view('all_items', compact('products'));
+        $colors = Variation::where('type', 'color')->pluck('value'); 
+        return view('all_items', compact('products', 'colors'));
     }
+   
+
+
     
+    //admin products
 
     public function showProducts()
     {
@@ -87,8 +118,6 @@ class ProductController extends Controller
     }
 
 
-    
-    
     
     public function edit($id)
     {
@@ -106,8 +135,6 @@ class ProductController extends Controller
     }
 
     
-
-
 
     public function destroy($id)
     {
@@ -218,7 +245,6 @@ class ProductController extends Controller
 
     
 
-    
 
 public function store(Request $request)
 {
@@ -322,18 +348,14 @@ public function store(Request $request)
         return response()->json(['sub_subcategories' => $subSubcategories]);
     }
     
-    
 
     public function showProductDetails($id)
     {
         $product = Products::with(['images', 'variations'])->findOrFail($id);
-        
-        
         return view('admin_dashboard.product-details', compact('product'));
     }
     
     
-
 
 
 }

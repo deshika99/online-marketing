@@ -395,17 +395,25 @@
                                                 </div>
                                                 <div class="user-review mt-2">
                                                     <p>{{ $review->comment }}</p>
-                                                    @if($review->images)
-                                                        <div class="review-images">
+                                                    <div class="review-images mt-2 d-flex flex-wrap">
+                                                        @if($review->images->isNotEmpty())
                                                             @foreach($review->images as $image)
-                                                                <img src="{{ asset('storage/' . $image->image_path) }}" alt="Review image">
+                                                                <img src="{{ asset('storage/' . $image->media_path) }}" alt="Review image" class="review-img">
                                                             @endforeach
-                                                        </div>
-                                                    @endif
+                                                        @endif
+                                                        @if($review->videos->isNotEmpty())
+                                                            @foreach($review->videos as $video)
+                                                                <video width="100" height="75" controls style="margin-right: 5px;">
+                                                                    <source src="{{ asset('storage/' . $video->media_path) }}" type="video/mp4">
+                                                                    Your browser does not support the video tag.
+                                                                </video>
+                                                            @endforeach
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </div>
                                         @endforeach
-                                    </div>
+                                    </div>                                
                                 </div>
                             </div>
 
