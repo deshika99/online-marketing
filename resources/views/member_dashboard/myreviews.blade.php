@@ -15,6 +15,15 @@
    
 
 </style>
+@if (session('status'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            toastr.success("{{ session('status') }}", 'Success', {
+                positionClass: 'toast-top-right'
+            });
+        });
+    </script>
+@endif
 
 <h4 class="py-2 px-2">My Reviews</h4>
 <div class="d-flex justify-content-between align-items-center mt-4">
@@ -48,11 +57,10 @@
                     </div>
                     <div class="ml-auto" style="text-align: right;">
                         <a href="{{ route('write.reviews', ['product_id' => $item->product_id, 'color' => $item->color, 
-                        'size' => $item->size, 'quantity' => $item->quantity, 'cost' => $item->cost]) }}" class="btn-review">Review</a>
+                        'size' => $item->size, 'quantity' => $item->quantity, 'cost' => $item->cost, 'order_code' => $item->order->order_code]) }}" class="btn-review">Review</a>
                     </div>
                 </div>
             @endforeach
-            </div>
         </div>
     </div>
 </div>
@@ -62,7 +70,7 @@
     <div class="order-items mt-3">
         <div class="order-items-list px-3">
             @foreach ($reviewedItems as $review)
-                <div class="order-item row" style="padding: 10px; border-bottom: 1px solid #eaeaea;">
+                <div class="order-item row mb-5" style="padding: 10px; border-bottom: 1px solid #eaeaea;">
                     <div class="col-md-1 d-flex flex-column align-items-start">
                         <div style="margin-right: 15px;">
                             @if ($review->product->images->isNotEmpty())
@@ -98,9 +106,16 @@
                             <p style="font-size: 13px;">{{ $review->comment }}</p>
                         </div>
                         <div class="review-images">
-                            <img src="\assets\images\d (1).png" alt="image">
-                            <img src="\assets\images\d (2).png" alt="image">
-                            <img src="\assets\images\d (3).png" alt="image">
+                            @foreach ($review->media as $media)
+                                @if ($media->media_type === 'image')
+                                    <img src="{{ asset('storage/' . $media->media_path) }}" alt="Review Image" style="">
+                                @elseif ($media->media_type === 'video')
+                                    <video width="100" controls>
+                                        <source src="{{ asset('storage/' . $media->media_path) }}" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                @endif
+                            @endforeach
                         </div>
                     </div>
                     <div class="col-md-2 d-flex align-items-start justify-content-start">
@@ -111,7 +126,6 @@
         </div>
     </div>
 </div>
-
 
 
 

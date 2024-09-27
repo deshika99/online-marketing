@@ -36,5 +36,11 @@ class Review extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+
+    public function media()
+    {
+        return $this->hasMany(ReviewMedia::class);
+    }
+
 }
 

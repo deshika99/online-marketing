@@ -48,7 +48,6 @@ class ProductController extends Controller
         $product = Products::with('images')->where('product_id', $product_id)->firstOrFail();
         $relatedProducts = Products::where('product_category', $product->product_category)
             ->where('product_id', '!=', $product->product_id)
-            ->take(5)
             ->get();
     
         $reviews = Review::where('product_id', $product_id)

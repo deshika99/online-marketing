@@ -122,6 +122,15 @@
     }
 
 </style>
+@if (session('status'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            toastr.success("{{ session('status') }}", 'Success', {
+                positionClass: 'toast-top-right'
+            });
+        });
+    </script>
+@endif
 
 <div class="review-container">
     <!-- Combined Title and Container -->
@@ -149,6 +158,11 @@
         </div>
     </div>
 
+    <form action="{{ route('reviews.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <input type="hidden" name="product_id" value="{{ $product->product_id }}">
+    <input type="hidden" name="order_code" value="{{ $order_code }}"> <!-- Hidden input to store order code -->
+    <input type="hidden" name="rating" id="rating-value"> <!-- Hidden input to store the rating -->
 
     <div class="review-rating-container">
         <h6>Overall Rating</h6>
@@ -161,39 +175,45 @@
         </div>
     </div>
 
-    <textarea class="review-textarea" rows="5" placeholder="Please tell us what needs to be improved."></textarea>
+    <textarea class="review-textarea" rows="5" name="comment" placeholder="Please tell us what needs to be improved."></textarea>
+
+    <!-- Upload section (Images/Videos) -->
     <div class="review-upload">
-    <div>
-        <i class="fas fa-camera"></i>
-        <p>Upload Photo</p>
-        <input type="file" accept="image/*" multiple style="display:none;" id="upload-photo">
-        <div id="uploaded-photos" class="uploaded-container"></div>
+        <div>
+            <i class="fas fa-camera"></i>
+            <p>Upload Photo</p>
+            <input type="file" name="images[]" accept="image/*" multiple style="display:none;" id="upload-photo">
+            <div id="uploaded-photos" class="uploaded-container"></div>
+        </div>
+        <div>
+            <i class="fas fa-video"></i>
+            <p>Upload Video</p>
+            <input type="file" name="video" accept="video/*" style="display:none;" id="upload-video">
+            <div id="uploaded-videos" class="uploaded-container"></div>
+        </div>
     </div>
-    <div>
-        <i class="fas fa-video"></i>
-        <p>Upload Video</p>
-        <input type="file" accept="video/*" style="display:none;" id="upload-video">
-        <div id="uploaded-videos" class="uploaded-container"></div>
-    </div>
-</div>
-
-
-    
-    
 
     <div class="review-checkbox">
-        <input type="checkbox" id="anonymous">
+        <input type="hidden" name="is_anonymous" value="0"> <!-- Hidden input to ensure unchecked state is sent -->
+        <input type="checkbox" id="anonymous" name="is_anonymous" value="1">
         <label for="anonymous">Anonymously</label>
     </div>
 
     <button type="submit" class="review-submit">Submit</button>
-</div>
+</form>
+
+
+
+
 
 <script>
 // Review rating functionality
 document.querySelectorAll('.review-rating i').forEach((star) => {
     star.addEventListener('click', function() {
         const ratingValue = this.getAttribute('data-value'); // Get clicked star's value
+
+        // Update the hidden input field with the selected rating value
+        document.getElementById('rating-value').value = ratingValue;
 
         // Highlight the clicked star and all previous stars
         document.querySelectorAll('.review-rating i').forEach((s, index) => {
@@ -208,12 +228,13 @@ document.querySelectorAll('.review-rating i').forEach((star) => {
     });
 });
 
+
 // Photo upload functionality
 const photoInput = document.querySelector('#upload-photo');
-const photoPreviewContainer = document.querySelector('#uploaded-photos'); // Correctly referencing the preview container
+const photoPreviewContainer = document.querySelector('#uploaded-photos'); 
 
 photoInput.parentElement.addEventListener('click', function() {
-    photoInput.click(); // Trigger image upload
+    photoInput.click(); 
 });
 
 photoInput.addEventListener('change', function(event) {
@@ -227,7 +248,7 @@ photoInput.addEventListener('change', function(event) {
             imgWrapper.style.position = 'relative';
             imgWrapper.style.width = '100px';
             imgWrapper.style.height = '100px';
-            imgWrapper.style.display = 'inline-block'; // Ensure images are inline
+            imgWrapper.style.display = 'inline-block'; 
 
             const img = document.createElement('img');
             img.src = e.target.result;
@@ -253,7 +274,7 @@ photoInput.addEventListener('change', function(event) {
 
             // Add delete functionality
             deleteBtn.addEventListener('click', function() {
-                imgWrapper.remove(); // This removes only the specific imgWrapper
+                imgWrapper.remove(); 
             });
 
             imgWrapper.appendChild(deleteBtn);
@@ -267,7 +288,7 @@ photoInput.addEventListener('change', function(event) {
 
 // Video upload functionality
 const videoInput = document.querySelector('#upload-video');
-const videoPreviewContainer = document.querySelector('#uploaded-videos'); // Correctly referencing the preview container
+const videoPreviewContainer = document.querySelector('#uploaded-videos');
 
 videoInput.parentElement.addEventListener('click', function() {
     videoInput.click(); // Trigger video upload
@@ -282,8 +303,8 @@ videoInput.addEventListener('change', function(event) {
     // Check the number of files
     if (files.length > 1) {
         alert("You can only upload one video at a time.");
-        event.target.value = ''; // Reset the input field
-        return; // Prevent further execution
+        event.target.value = ''; 
+        return; 
     } else if (files.length === 1) {
         const reader = new FileReader();
 
@@ -315,15 +336,15 @@ videoInput.addEventListener('change', function(event) {
 
             // Add delete functionality
             deleteBtn.addEventListener('click', function() {
-                videoWrapper.remove(); // This removes only the specific videoWrapper
-                videoInput.value = ''; // Reset video input
+                videoWrapper.remove();
+                videoInput.value = '';
             });
 
             videoWrapper.appendChild(deleteBtn);
             videoPreviewContainer.appendChild(videoWrapper);
         };
 
-        reader.readAsDataURL(files[0]); // Read the selected video file
+        reader.readAsDataURL(files[0]); 
     }
 });
 

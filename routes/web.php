@@ -56,15 +56,13 @@ Route::get('home/My-Account/My-Reviews', [UserDashboardController::class, 'myRev
 
 //write-reviews
 Route::get('/member-dashboard/write-reviews', [UserDashboardController::class, 'writeReview'])->name('write.reviews');
+Route::post('/member-dashboard/reviews', [UserDashboardController::class, 'storeReview'])->name('reviews.store');
 
 
 Route::get('home/My-Account/change-password', function () {
     return view('member_dashboard.change-password');
 })->name('change-password');
 
-Route::get('home/My-Account/points', function () {
-    return view('member_dashboard.points');
-})->name('points');
 
 Route::get('home/My-Account/addresses', function () { 
     return view('member_dashboard.addresses');

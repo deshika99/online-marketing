@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use App\Models\CustomerOrder;
 use App\Models\CustomerOrderItems;
 use App\Models\Review;
+use App\Models\ReviewMedia;
 use App\Models\Products;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-
+use Illuminate\Support\Facades\Log;
 
 class UserDashboardController extends Controller
 {
@@ -171,11 +172,13 @@ class UserDashboardController extends Controller
     public function myReviews()
     {
         $toBeReviewedItems = CustomerOrderItems::with(['order', 'product.images', 'product.variations']) 
-            ->whereHas('order', function ($query) {
-                $query->where('status', 'Delivered');
-            })
-            ->where('reviewed', 'no')
-            ->get();
+        ->whereHas('order', function ($query) {
+            $query->where('status', 'Delivered');
+        })
+        ->where('reviewed', 'no')
+        ->whereHas('product') 
+        ->get();
+
     
         $reviewedItems = Review::with(['product.images', 'product.variations']) 
             ->where('user_id', auth()->id())
@@ -188,19 +191,81 @@ class UserDashboardController extends Controller
 
     public function writeReview(Request $request)
     {
-        // Fetch the details of the product from the order item
         $product_id = $request->input('product_id');
         $color = $request->input('color');
         $size = $request->input('size');
         $quantity = $request->input('quantity');
         $cost = $request->input('cost');
-
-        // Get the product details based on the product_id
+        $order_code = $request->input('order_code'); 
+    
         $product = Products::with('images')->where('product_id', $product_id)->firstOrFail();
-
-        // Pass the details to the view
-        return view('member_dashboard.write-reviews', compact('product', 'color', 'size', 'quantity', 'cost'));
+    
+        return view('member_dashboard.write-reviews', compact('product', 'color', 'size', 'quantity', 'cost', 'order_code'));
     }
+    
+
+
+
+
+    public function storeReview(Request $request)
+    {
+    
+        try {
+            $request->validate([
+                'product_id' => 'required',
+                'order_code' => 'required|string', 
+                'rating' => 'required|integer|min:1|max:5',
+                'comment' => 'nullable|string',
+                'is_anonymous' => 'required|boolean', 
+                'images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+                'video' => 'nullable|mimes:mp4,mov,ogg|max:50000',
+            ]);
+    
+
+            $review = Review::create([
+                'user_id' => auth()->id(),
+                'product_id' => $request->product_id,
+                'order_code' => $request->order_code, 
+                'rating' => $request->rating,
+                'comment' => $request->comment,
+                'is_anonymous' => $request->is_anonymous,
+            ]);
+    
+    
+            CustomerOrderItems::where('order_code', $request->order_code)
+                ->where('product_id', $request->product_id)
+                ->update(['reviewed' => 'yes']);
+    
+    
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $imagePath = $image->store('reviews/images', 'public'); 
+                    ReviewMedia::create([
+                        'review_id' => $review->id,
+                        'media_type' => 'image',
+                        'media_path' => $imagePath,
+                    ]);
+                }
+            }
+    
+            if ($request->hasFile('video')) {
+                $videoPath = $request->file('video')->store('reviews/videos', 'public'); 
+    
+                ReviewMedia::create([
+                    'review_id' => $review->id,
+                    'media_type' => 'video',
+                    'media_path' => $videoPath,
+                ]);
+            }
+    
+            return redirect()->route('myreviews')->with('status', 'Review submitted successfully');
+        } catch (\Exception $e) {
+            return back()->with('error', 'An error occurred while submitting your review. Please try again.');
+        }
+    }
+    
+    
+    
 
 
 }
