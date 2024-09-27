@@ -336,7 +336,7 @@
    <!-- cart modal-->
     @foreach ($products as $product)
     <div class="modal fade" id="cartModal_{{ $product->product_id }}" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered  modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content" style="border-radius: 0;">
                 <div class="modal-header">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -360,7 +360,7 @@
 
                         <main class="col-lg-7">
                             <h4>{{ $product->product_name }}</h4>
-                            <p>{{ $product->product_description }}</p>
+                            <p>{!! $product->product_description !!}</p>
                             <div class="d-flex flex-row my-3">
                                 <div class="text-warning mb-1 me-2">
                                     <i class="fa fa-star"></i>
@@ -442,9 +442,12 @@
     </div>
     @endforeach
 
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.btn-cart').forEach(button => {

@@ -2,6 +2,9 @@
 
 @section('content')
 
+
+
+
 <style>
    .btn-create {
         font-size: 0.8rem;
@@ -126,7 +129,6 @@
         </div>
 
         <div class="card-container px-4">
-            <!-- Product Form Card -->
             <div class="card py-3 px-5">
                 <div class="card-body">
                     <form id="productForm" action="{{ route('store_product') }}" method="POST" enctype="multipart/form-data">
@@ -137,17 +139,13 @@
                                     <label for="productName">Product Name</label>
                                     <input type="text" id="productName" name="productName" class="form-control" placeholder="Enter product name">
                                 </div>
-                            </div>
-                            <div class="col-md-6">
+                                
                                 <div class="form-group">
                                     <label for="productDesc">Product Description</label>
-                                    <input type="text" id="productDesc" name="productDesc" class="form-control" placeholder="Enter product description">
+                                    <div id="productDesc" style="height: 200px;"></div>
+                                    <textarea id="productDescInput" name="productDesc" style="display:none;"></textarea>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
+                                
                                 <div class="form-group">
                                     <label for="productImages">Product Images</label>
                                     <div id="dropZone" class="drop-zone">
@@ -157,6 +155,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="category">Category</label>
@@ -169,88 +168,123 @@
                                         @endforeach
                                     </select>
                                 </div>
+
                                 <div class="form-group">
                                     <label for="subcategory">Subcategory</label>
                                     <select id="subcategory" name="subcategory" class="form-control">
                                         <option value="">Select Subcategory</option>
                                     </select>
                                 </div>
+
                                 <div class="form-group">
                                     <label for="subsubcategory">Sub-Subcategory</label>
                                     <select id="subsubcategory" name="subsubcategory" class="form-control">
                                         <option value="">Select Sub-Subcategory</option>
                                     </select>
                                 </div>
+
                                 <div class="form-group">
                                     <label for="quantity">Quantity</label>
                                     <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter quantity">
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="normalPrice">Normal Price</label>
+                                    <input type="number" id="normalPrice" name="normalPrice" class="form-control" placeholder="Enter normal price" step="0.01">
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input type="checkbox" id="affiliateProduct" name="affiliateProduct" class="form-check-input">
+                                        <label class="form-check-label" for="affiliateProduct">Affiliate the Product</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="affiliatePriceGroup" style="display: none;">
+                                    <label for="affiliatePrice">Affiliate Price</label>
+                                    <input type="number" id="affiliatePrice" name="affiliatePrice" class="form-control" placeholder="Enter affiliate price" step="0.01">
+                                </div>
+
+                                <div class="form-group" id="commissionGroup" style="display: none;">
+                                    <label for="commissionPercentage">Commission %</label>
+                                    <input type="number" id="commissionPercentage" name="commissionPercentage" class="form-control" placeholder="Enter commission percentage" step="0.01" min="0" max="100">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="totalPrice">Total Price</label>
+                                    <input type="text" id="totalPrice" name="totalPrice" class="form-control" readonly>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="normalPrice">Normal Price</label>
-                            <input type="number" id="normalPrice" name="normalPrice" class="form-control" placeholder="Enter normal price" step="0.01">
-                        </div>
 
-                        <div class="form-group">
-                            <div class="form-check">
-                                <input type="checkbox" id="affiliateProduct" name="affiliateProduct" class="form-check-input">
-                                <label class="form-check-label" for="affiliateProduct">Affiliate the Product</label>
-                            </div>
-                        </div>
-
-                        <div class="form-group" id="affiliatePriceGroup" style="display: none;">
-                            <label for="affiliatePrice">Affiliate Price</label>
-                            <input type="number" id="affiliatePrice" name="affiliatePrice" class="form-control" placeholder="Enter affiliate price" step="0.01">
-                        </div>
-
-                        <div class="form-group" id="commissionGroup" style="display: none;">
-                            <label for="commissionPercentage">Commission %</label>
-                            <input type="number" id="commissionPercentage" name="commissionPercentage" class="form-control" placeholder="Enter commission percentage" step="0.01" min="0" max="100">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="totalPrice">Total Price</label>
-                            <input type="text" id="totalPrice" name="totalPrice" class="form-control" readonly>
-                        </div>
-                            <!-- Product Variations Card -->
-                            <div class="card1 px-2 py-2 mt-4">
-                                <div class="card-body">
-                                    <h5>Variations</h5>
-                                    <div class="form-group">
-                                        <label for="variations">Add Product Variations</label>
-                                        <div id="variations-container">
-                                            <div class="variation-row row mb-3" data-index="0">
-                                                <div class="col-md-3">
-                                                    <select class="form-control variation-type" name="variation[0][type]" onchange="handleVariationChange(this)">
-                                                        <option value="Size">Size</option>
-                                                        <option value="Color">Color</option>
-                                                        <option value="Material">Material</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-4 variation-input-container">
-                                                    <input type="text" class="form-control variation-input" name="variation[0][value]" placeholder="Variation">
-                                                </div>
-                                                <div class="col-md-1">
-                                                    <button type="button" class="btn remove-btn" onclick="removeVariationRow(this)">X</button>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card1 px-2 py-2 mt-4">
+                                    <div class="card-body">
+                                        <h5>Variations</h5>
+                                        <div class="form-group">
+                                            <label for="variations">Add Product Variations</label>
+                                            <div id="variations-container">
+                                                <div class="variation-row row mb-3" data-index="0">
+                                                    <div class="col-md-3">
+                                                        <select class="form-control variation-type" name="variation[0][type]" onchange="handleVariationChange(this)">
+                                                            <option value="Size">Size</option>
+                                                            <option value="Color">Color</option>
+                                                            <option value="Material">Material</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 variation-input-container">
+                                                        <input type="text" class="form-control variation-input" name="variation[0][value]" placeholder="Variation">
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <button type="button" class="btn remove-btn" onclick="removeVariationRow(this)">X</button>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <button type="button" class="btn btn-secondary mt-3" id="addVariationBtn" style="width: 30%;">+ Add another variation</button>
                                         </div>
-                                        <button type="button" class="btn btn-secondary mt-3" id="addVariationBtn" style="width: 30%;">+ Add another variation</button>
                                     </div>
                                 </div>
                             </div>
-                        <button type="submit" class="btn btn-success btn-create mt-4">Add Product</button>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-end">
+                                <button type="submit" class="btn btn-success btn-create mt-4">Add Product</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
+
         </div>
     </div>
-    
 </main>
 
 
 
+
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+        var quill = new Quill('#productDesc', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, false] }],
+                    ['bold', 'italic', 'underline'],
+                    ['link', 'image'],
+                    ['clean']
+                ]
+            }
+        });
+
+        quill.on('text-change', function() {
+            var html = quill.root.innerHTML;
+            $('#productDescInput').val(html);
+        });
+
+        
+    </script>
 
 
 <script>
@@ -462,7 +496,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   
 </script>
-
 
 
 @endsection

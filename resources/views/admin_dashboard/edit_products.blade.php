@@ -131,17 +131,11 @@
                                     <label for="productName">Product Name</label>
                                     <input type="text" id="productName" name="productName" class="form-control" placeholder="Enter product name" value="{{ old('productName', $product->product_name) }}">
                                 </div>
-                            </div>
-                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="productDesc">Product Description</label>
-                                    <input type="text" id="productDesc" name="productDesc" class="form-control" placeholder="Enter product description" value="{{ old('productDesc', $product->product_description) }}">
+                                    <div id="productDesc" style="height: 200px;">{!! old('productDesc', $product->product_description) !!}</div>
+                                    <textarea id="productDescInput" name="productDesc" style="display:none;">{{ old('productDesc', $product->product_description) }}</textarea>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="productImages">Product Images</label>
                                     <div id="dropZone" class="drop-zone">
@@ -174,7 +168,6 @@
                                         @endforeach
                                     </select>
                                 </div>
-
                                 <div class="form-group">
                                     <label for="subcategory">Subcategory</label>
                                     <select id="subcategory" name="subcategory" class="form-control">
@@ -186,7 +179,6 @@
                                         @endforeach
                                     </select>
                                 </div>
-
                                 <div class="form-group">
                                     <label for="subsubcategory">Sub-Subcategory</label>
                                     <select id="subsubcategory" name="subsubcategory" class="form-control">
@@ -198,41 +190,35 @@
                                         @endforeach
                                     </select>
                                 </div>
-
-
                                 <div class="form-group">
                                     <label for="quantity">Quantity</label>
                                     <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter quantity" value="{{ old('quantity', $product->quantity) }}">
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="normalPrice">Normal Price</label>
-                            <input type="number" id="normalPrice" name="normalPrice" class="form-control" placeholder="Enter normal price" step="0.01" value="{{ old('normalPrice', $product->normal_price) }}">
-                        </div>
-
-                        <div class="form-group">
+                                <div class="form-group">
+                                    <label for="normalPrice">Normal Price</label>
+                                    <input type="number" id="normalPrice" name="normalPrice" class="form-control" placeholder="Enter normal price" step="0.01" value="{{ old('normalPrice', $product->normal_price) }}">
+                                </div>
+                                <div class="form-group">
                             <div class="form-check">
                                 <input type="checkbox" id="affiliateProduct" name="affiliateProduct" class="form-check-input" {{ old('affiliateProduct', $product->is_affiliate) ? 'checked' : '' }}>
                                 <label class="form-check-label" for="affiliateProduct">Affiliate the Product</label>
                             </div>
                         </div>
-
-                        <div class="form-group" id="affiliatePriceGroup" style="{{ $product->is_affiliate ? 'display: flex;' : 'display: none;' }}">
-                            <label for="affiliatePrice">Affiliate Price</label>
-                            <input type="number" id="affiliatePrice" name="affiliatePrice" class="form-control" value="{{ old('affiliatePrice', $product->affiliate_price) }}" placeholder="Enter affiliate price" step="0.01">
+                                <div class="form-group" id="affiliatePriceGroup" style="{{ $product->is_affiliate ? 'display: flex;' : 'display: none;' }}">
+                                    <label for="affiliatePrice">Affiliate Price</label>
+                                    <input type="number" id="affiliatePrice" name="affiliatePrice" class="form-control" value="{{ old('affiliatePrice', $product->affiliate_price) }}" placeholder="Enter affiliate price" step="0.01">
+                                </div>
+                                <div class="form-group" id="commissionGroup" style="{{ $product->is_affiliate ? 'display: flex;' : 'display: none;' }}">
+                                    <label for="commissionPercentage">Commission %</label>
+                                    <input type="number" id="commissionPercentage" name="commissionPercentage" class="form-control" value="{{ old('commissionPercentage', $product->commission_percentage) }}" placeholder="Enter commission percentage" step="0.01" min="0" max="100">
+                                </div>
+                                <div class="form-group">
+                                    <label for="totalPrice">Total Price</label>
+                                    <input type="text" id="totalPrice" name="totalPrice" class="form-control" value="{{ old('totalPrice', $product->total_price) }}" readonly>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="form-group" id="commissionGroup" style="{{ $product->is_affiliate ? 'display: flex;' : 'display: none;' }}">
-                            <label for="commissionPercentage">Commission %</label>
-                            <input type="number" id="commissionPercentage" name="commissionPercentage" class="form-control" value="{{ old('commissionPercentage', $product->commission_percentage) }}" placeholder="Enter commission percentage" step="0.01" min="0" max="100">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="totalPrice">Total Price</label>
-                            <input type="text" id="totalPrice" name="totalPrice" class="form-control" value="{{ old('totalPrice', $product->total_price) }}" readonly>
-                        </div>
+                        
                         <!-- Product Variations Card -->
                         <div class="card1 px-2 py-2 mt-4">
                             <div class="card-body">
@@ -264,13 +250,33 @@
                         </div>
                         <button type="submit" class="btn btn-success btn-create mt-3">Update</button>
                     </form>
+
                 </div>
             </div>
         </div>
     </div>
 </main>
 
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
 
+    var quill = new Quill('#productDesc', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                    [{ 'header': [1, 2, false] }],
+                    ['bold', 'italic', 'underline'],
+                    ['link', 'image'],
+                    ['clean']
+                ]
+        }
+    });
+
+    document.getElementById('productForm').onsubmit = function() {
+        var description = quill.root.innerHTML;
+        document.getElementById('productDescInput').value = description;
+    };
+</script>
 <script>
   
     document.addEventListener('DOMContentLoaded', function() {

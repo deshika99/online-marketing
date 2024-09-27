@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Products;
 use App\Models\ProductImage;
 use App\Models\Category;
+use App\Models\Review;
 use App\Models\Variation;
 use App\Models\VariationImage;
 use App\Models\SubSubcategory;
@@ -42,18 +43,32 @@ class ProductController extends Controller
     }
 
     
-    //single product page product details
     public function show($product_id)
     {
         $product = Products::with('images')->where('product_id', $product_id)->firstOrFail();
-        //related products
         $relatedProducts = Products::where('product_category', $product->product_category)
-                                ->where('product_id', '!=', $product->product_id)
-                                ->take(5)
-                                ->get();
-
-        return view('single_product_page', compact('product', 'relatedProducts'));
+            ->where('product_id', '!=', $product->product_id)
+            ->take(5)
+            ->get();
+    
+        $reviews = Review::where('product_id', $product_id)
+            ->where('status', 'published')
+            ->paginate(4); 
+    
+        $averageRating = $reviews->avg('rating');
+        $totalReviews = $reviews->total();
+        $ratingsCount = [
+            '5' => Review::where('product_id', $product_id)->where('rating', 5)->count(),
+            '4' => Review::where('product_id', $product_id)->where('rating', 4)->count(),
+            '3' => Review::where('product_id', $product_id)->where('rating', 3)->count(),
+            '2' => Review::where('product_id', $product_id)->where('rating', 2)->count(),
+            '1' => Review::where('product_id', $product_id)->where('rating', 1)->count(),
+        ];
+    
+        return view('single_product_page', compact('product', 'relatedProducts', 'reviews', 'averageRating', 'totalReviews', 'ratingsCount'));
     }
+    
+    
 
     
 

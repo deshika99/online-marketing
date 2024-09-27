@@ -30,7 +30,7 @@
                             <div class="navbar-brand">
                                 <img src="/assets/images/logo.png" height="60" width="40" alt="Logo"/>
                             </div>
-                            <img src="/assets/images/brand_name.png" height="27" width="310" alt="brand"/>
+                            <img src="/assets/images/brand_name.png" height="27" width="290" alt="brand"/>
                         </a>
                     </div>
 

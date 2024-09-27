@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('variations', function (Blueprint $table) {
             $table->id();
             $table->string('product_id');
+            $table->string('order_code');
             $table->string('type')->nullable(); 
             $table->string('value')->nullable(); 
             $table->timestamps();

@@ -7,10 +7,20 @@
     <form action="{{ route('user.updateProfile') }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
+
+        <div class="col-md-3 text-left mb-3">
+            @if(auth()->user()->profile_image)
+                <img src="{{ asset('storage/' . auth()->user()->profile_image) }}" alt="Profile Image" class="rounded-circle" id="profileImagePreview" width="120" height="120" style="cursor: pointer;">
+            @else
+                <img src="{{ asset('assets/images/default-user.png') }}" alt="Default Profile Image" class="rounded-circle" id="profileImagePreview" width="120" height="120" style="cursor: pointer;">
+            @endif
+        </div>
+
         <div class="mb-3">
             <label for="fullName" class="form-label">Full Name</label>
             <input type="text" class="form-control" id="fullName" name="full_name" value="{{ old('full_name', auth()->user()->name) }}" placeholder="Enter your full name">
         </div>
+        
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="email" class="form-label">Email address</label>
@@ -21,6 +31,7 @@
                 <input type="tel" class="form-control" id="mobile" name="phone_num" value="{{ old('phone_num', auth()->user()->phone_num) }}" placeholder="Enter your mobile number">
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="birthday" class="form-label">Birthday</label>
@@ -37,14 +48,31 @@
             </div>
         </div>
 
-        <!-- File upload for profile picture -->
-        <div class="mb-3">
-            <label for="profilePicture" class="form-label">Profile Picture</label>
-            <input type="file" class="form-control" id="profilePicture" name="profile_image">
-        </div>
-
         <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
     </form>
 </div>
+
+
+<script>
+
+    const profileImagePreview = document.getElementById('profileImagePreview');
+    const profileImageInput = document.getElementById('profileImageInput');
+
+    profileImagePreview.addEventListener('click', function() {
+        profileImageInput.click();
+    });
+
+    profileImageInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                profileImagePreview.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
 @endsection
 
