@@ -46,16 +46,6 @@ class UserDashboardController extends Controller
     
 
 
-    
-
-
-
-    public function orderDetails($order_code)
-
-
-
-
-    
 
 
     public function updateProfile(Request $request)
@@ -177,7 +167,6 @@ class UserDashboardController extends Controller
 
 
 
-}
    
 
 
