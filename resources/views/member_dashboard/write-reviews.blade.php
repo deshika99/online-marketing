@@ -111,6 +111,7 @@
     }
 
     .review-submit {
+
         width: 15%;
         padding: 10px;
         background: linear-gradient(to right, hsl(226, 93%, 27%), hsl(226, 91%, 58%));
@@ -120,6 +121,7 @@
         font-size: 1rem;
         cursor: pointer;
     }
+
 
 </style>
 @if (session('status'))
@@ -132,6 +134,8 @@
     </script>
 @endif
 
+
+
 <div class="review-container">
     <!-- Combined Title and Container -->
     <div class="review-header">
@@ -141,13 +145,16 @@
     <div class="review-product">
         <div class="col-md-1 d-flex align-items-center">
             <div style="margin-right: 15px;">
+
                 @if($product->images->isNotEmpty())
                     <a href="#"><img src="{{ asset('storage/' . $product->images->first()->image_path) }}" alt="Product Image" width="70" height="auto"></a>
                 @endif
+
             </div>
         </div>
 
         <div class="col-md-3 d-flex flex-column justify-content-center" style="font-size: 13px;">
+
             <span style="font-weight: 600;">{{ $product->product_name }}</span>
             <div>
                 <span class="me-2">Color: <span style="font-weight: 600;">{{ $color }}</span></span> | 
@@ -164,6 +171,7 @@
     <input type="hidden" name="order_code" value="{{ $order_code }}"> <!-- Hidden input to store order code -->
     <input type="hidden" name="rating" id="rating-value"> <!-- Hidden input to store the rating -->
 
+
     <div class="review-rating-container">
         <h6>Overall Rating</h6>
         <div class="review-rating">
@@ -175,19 +183,24 @@
         </div>
     </div>
 
+
     <textarea class="review-textarea" rows="5" name="comment" placeholder="Please tell us what needs to be improved."></textarea>
 
     <!-- Upload section (Images/Videos) -->
+
     <div class="review-upload">
         <div>
             <i class="fas fa-camera"></i>
             <p>Upload Photo</p>
+
             <input type="file" name="images[]" accept="image/*" multiple style="display:none;" id="upload-photo">
             <div id="uploaded-photos" class="uploaded-container"></div>
+                                                                                                                                                
         </div>
         <div>
             <i class="fas fa-video"></i>
             <p>Upload Video</p>
+
             <input type="file" name="video" accept="video/*" style="display:none;" id="upload-video">
             <div id="uploaded-videos" class="uploaded-container"></div>
         </div>
@@ -196,10 +209,12 @@
     <div class="review-checkbox">
         <input type="hidden" name="is_anonymous" value="0"> <!-- Hidden input to ensure unchecked state is sent -->
         <input type="checkbox" id="anonymous" name="is_anonymous" value="1">
+
         <label for="anonymous">Anonymously</label>
     </div>
 
     <button type="submit" class="review-submit">Submit</button>
+ 
 </form>
 
 
@@ -222,6 +237,7 @@ document.querySelectorAll('.review-rating i').forEach((star) => {
                 s.classList.add('fas', 'filled'); // Add filled star class (solid stars)
             } else {
                 s.classList.remove('fas', 'filled'); // Remove solid filled class
+
                 s.classList.add('far'); // Add unfilled star class back
             }
         });
@@ -347,6 +363,7 @@ videoInput.addEventListener('change', function(event) {
         reader.readAsDataURL(files[0]); 
     }
 });
+
 
 
 

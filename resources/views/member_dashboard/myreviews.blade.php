@@ -1,4 +1,3 @@
-
 @extends('layouts.user_sidebar')
 
 @section('dashboard-content')
@@ -49,9 +48,17 @@
                         <div style="line-height: 1.5;">
                             <span style="font-weight: 600; font-size: 15px;">{{ $item->product->product_name }}</span><br>
                             <div>
-                                <span class="me-2">Color: <span style="font-weight: 600;">{{ $item->color }}</span></span> | 
-                                <span class="me-2 ms-2">Size: <span style="font-weight: 600;">{{ $item->size }}</span></span> |
-                                <span class="ms-2">Qty: <span style="font-weight: 600;">{{ $item->quantity }}</span></span>
+                                @if($item->color)
+                                    <span class="me-2">Color: <span style="font-weight: 600;">{{ $item->color }}</span></span> |
+                                @endif
+                                
+                                @if($item->size)
+                                    <span class="me-2 ms-2">Size: <span style="font-weight: 600;">{{ $item->size }}</span></span> |
+                                @endif
+                                
+                                @if($item->quantity)
+                                    <span class="ms-2">Qty: <span style="font-weight: 600;">{{ $item->quantity }}</span></span>
+                                @endif
                             </div>
                             <h6 class="mt-2" style="font-weight: bold;">Rs {{ $item->cost }}</h6>  
                         </div>
@@ -61,24 +68,10 @@
                         'size' => $item->size, 'quantity' => $item->quantity, 'cost' => $item->cost, 'order_code' => $item->order->order_code]) }}" class="btn-review">Review</a>
                     </div>
                 </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-            @endforeach
-=======
-=======
->>>>>>> b4f8b6e54c8e789f6ec27df799ebc52cd7419e87
-
-                <div class="ml-auto" style="text-align: right;">
-                    <a href="{{ route('write.reviews') }}" class="btn-review">Review</a>
-                </div>
             </div>
 
             @endforeach
 
-<<<<<<< HEAD
->>>>>>> b4f8b6e54c8e789f6ec27df799ebc52cd7419e87
-=======
->>>>>>> b4f8b6e54c8e789f6ec27df799ebc52cd7419e87
         </div>
     </div>
 </div>
