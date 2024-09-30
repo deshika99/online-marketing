@@ -45,12 +45,6 @@ class UserDashboardController extends Controller
     }
     
 
-    
-
-
-
-    public function orderDetails($order_code)
-
 
     
 
@@ -173,7 +167,6 @@ class UserDashboardController extends Controller
 
 
 
-}
    
 
 

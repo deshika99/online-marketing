@@ -19,7 +19,6 @@ class ReviewController extends Controller
             ->get();
 
         $pendingCount = $pendingReviews->count();
-
         return view('admin.manage_reviws', compact('publishedReviews', 'pendingReviews', 'pendingCount'));
     }
 
@@ -27,7 +26,6 @@ class ReviewController extends Controller
     {
         $review = Review::findOrFail($id);
         $review->update(['status' => 'published']);
-
         return redirect()->route('manage.reviews')->with('success', 'Review published successfully.');
     }
 
@@ -35,7 +33,6 @@ class ReviewController extends Controller
     {
         $review = Review::findOrFail($id);
         $review->delete();
-
         return redirect()->route('manage.reviews')->with('success', 'Review deleted successfully.');
     }
 }

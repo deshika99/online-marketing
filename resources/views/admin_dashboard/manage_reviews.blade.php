@@ -64,7 +64,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($write-s as $review)
+                                    @foreach($publishedReview as $review)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>
