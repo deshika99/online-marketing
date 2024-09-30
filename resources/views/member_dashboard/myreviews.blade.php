@@ -1,3 +1,4 @@
+
 @extends('layouts.user_sidebar')
 
 @section('dashboard-content')
@@ -60,7 +61,24 @@
                         'size' => $item->size, 'quantity' => $item->quantity, 'cost' => $item->cost, 'order_code' => $item->order->order_code]) }}" class="btn-review">Review</a>
                     </div>
                 </div>
+<<<<<<< HEAD
+<<<<<<< HEAD
             @endforeach
+=======
+=======
+>>>>>>> b4f8b6e54c8e789f6ec27df799ebc52cd7419e87
+
+                <div class="ml-auto" style="text-align: right;">
+                    <a href="{{ route('write.reviews') }}" class="btn-review">Review</a>
+                </div>
+            </div>
+
+            @endforeach
+
+<<<<<<< HEAD
+>>>>>>> b4f8b6e54c8e789f6ec27df799ebc52cd7419e87
+=======
+>>>>>>> b4f8b6e54c8e789f6ec27df799ebc52cd7419e87
         </div>
     </div>
 </div>

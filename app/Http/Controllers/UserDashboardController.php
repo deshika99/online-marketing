@@ -45,8 +45,10 @@ class UserDashboardController extends Controller
     }
     
 
-
     
+
+
+
     public function orderDetails($order_code)
 
 
@@ -67,7 +69,7 @@ class UserDashboardController extends Controller
     
         $user = auth()->user();
         
-        // Handle file upload for profile image
+
 
         
         // Handle file upload for profile image
@@ -166,8 +168,19 @@ class UserDashboardController extends Controller
     }
 
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> b4f8b6e54c8e789f6ec27df799ebc52cd7419e87
+
 }
    
+
+<<<<<<< HEAD
+>>>>>>> b4f8b6e54c8e789f6ec27df799ebc52cd7419e87
+=======
+>>>>>>> b4f8b6e54c8e789f6ec27df799ebc52cd7419e87
 
     public function myReviews()
     {
@@ -188,6 +201,8 @@ class UserDashboardController extends Controller
     }
     
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 
     public function writeReview(Request $request)
     {
@@ -203,6 +218,10 @@ class UserDashboardController extends Controller
         return view('member_dashboard.write-reviews', compact('product', 'color', 'size', 'quantity', 'cost', 'order_code'));
     }
     
+=======
+>>>>>>> b4f8b6e54c8e789f6ec27df799ebc52cd7419e87
+=======
+>>>>>>> b4f8b6e54c8e789f6ec27df799ebc52cd7419e87
 
 
 
@@ -266,6 +285,4 @@ class UserDashboardController extends Controller
     
     
     
-
-
 }

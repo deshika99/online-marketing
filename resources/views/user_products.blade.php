@@ -445,9 +445,25 @@
 
 </div>
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
+=======
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+>>>>>>> b4f8b6e54c8e789f6ec27df799ebc52cd7419e87
+=======
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+>>>>>>> b4f8b6e54c8e789f6ec27df799ebc52cd7419e87
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.btn-cart').forEach(button => {

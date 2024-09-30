@@ -15,6 +15,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NavbarController;
 use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\ReviewController;
 
 use Illuminate\Http\Request;     //contact form
 
@@ -67,6 +68,19 @@ Route::get('home/My-Account/change-password', function () {
 Route::get('home/My-Account/addresses', function () { 
     return view('member_dashboard.addresses');
 })->name('addresses');
+
+//new return button
+Route::get('home/My-Account/returns', function () { 
+    return view('member_dashboard.returns');
+})->name('returns');
+
+// new route return details page
+Route::get('home/My-Account/returns-details', function () {
+    return view('member_dashboard.returns-details');
+})->name('returns.details');
+
+
+
 
 Route::get('home/My-Account/logout', function () {
     return view('logout');
@@ -178,6 +192,14 @@ Route::put('/admin/orders/{id}/status', [OrderController::class, 'updateOrderSta
 Route::get('/admin/customers', [CustomerController::class, 'show_customers'])->name('customers');
 Route::get('/admin/customer-details/{user_id}', [CustomerController::class, 'showCustomerDetails'])->name('customer-details');
 Route::view('/admin/manage_reviews', 'admin_dashboard.manage_reviews')->name('manage_reviews');
+
+// reviwes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/manage_reviews', [ReviewController::class, 'index'])->name('manage_reviews');
+    Route::post('/admin/manage_reviews/{id}/publish', [ReviewController::class, 'publish'])->name('manage_reviews.publish');
+    Route::delete('/admin/manage_reviews/{id}', [ReviewController::class, 'destroy'])->name('manage_reviews.destroy');
+});
+
 
 
 
