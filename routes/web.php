@@ -69,6 +69,19 @@ Route::get('home/My-Account/addresses', function () {
     return view('member_dashboard.addresses');
 })->name('addresses');
 
+//new return button
+Route::get('home/My-Account/returns', function () { 
+    return view('member_dashboard.returns');
+})->name('returns');
+
+// new route return details page
+Route::get('home/My-Account/returns-details', function () {
+    return view('member_dashboard.returns-details');
+})->name('returns.details');
+
+
+
+
 Route::get('home/My-Account/logout', function () {
     return view('logout');
 });
