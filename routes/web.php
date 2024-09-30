@@ -51,10 +51,8 @@ Route::get('home/My-Account/myorders', [UserDashboardController::class, 'myOrder
 Route::get('home/My-Account/order-details/{order_code}', [UserDashboardController::class, 'orderDetails'])->name('myorder-details');
 Route::post('/order/cancel/{order_code}', [UserDashboardController::class, 'cancelOrder']);
 Route::post('/confirm-delivery', [UserDashboardController::class, 'confirmDelivery'])->name('confirm-delivery');
+Route::get('home/My-Account/My-Reviews', [UserDashboardController::class, 'myReviews'])->name('myreviews');
 
-Route::get('home/My-Account/My-Reviews', function () {
-    return view('member_dashboard.myreviews');
-})->name('myreviews');
 
 //write-reviews
 Route::get('/member-dashboard/write-reviews', function () {
@@ -110,6 +108,8 @@ Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('or
 
 Route::get('/dashboard/profile/edit', [UserDashboardController::class, 'editProfile'])->name('user.editProfile');
 Route::put('/dashboard/profile/update', [UserDashboardController::class, 'updateProfile'])->name('user.updateProfile');
+
+Route::post('/dashboard/password/update', [UserDashboardController::class, 'updatePassword'])->name('password.update');
 
 
 
@@ -194,6 +194,9 @@ Route::put('/admin/orders/{id}/status', [OrderController::class, 'updateOrderSta
 
 Route::get('/admin/customers', [CustomerController::class, 'show_customers'])->name('customers');
 Route::get('/admin/customer-details/{user_id}', [CustomerController::class, 'showCustomerDetails'])->name('customer-details');
+Route::view('/admin/manage_reviews', 'admin_dashboard.manage_reviews')->name('manage_reviews');
+
+
 
 //about 
 Route::get('/about', function () {

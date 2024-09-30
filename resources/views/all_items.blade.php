@@ -65,7 +65,7 @@
                                     <img src="{{ asset('storage/default-image.jpg') }}" alt="Default Image" class="img-fluid">
                                 @endif
                                 <h6>{{ $product->product_name }}</h6>
-                                <h6>{{ $product->product_description }}</h6>
+                                <h6>{!! $product->product_description !!}</h6>
                                 <div class="price">Rs.{{ $product->normal_price }}</div>
                             </a>
                         </div>
@@ -107,7 +107,7 @@
 
                         <main class="col-lg-7">
                             <h4>{{ $product->product_name }}</h4>
-                            <p>{{ $product->product_description }}</p>
+                            <p>{!! $product->product_description !!}</p>
                             <div class="d-flex flex-row my-3">
                                 <div class="text-warning mb-1 me-2">
                                     <i class="fa fa-star"></i>

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('district')->nullable();
             $table->date('date_of_birth')->nullable();
+            $table->string('gender')->nullable();
             $table->string('phone_num')->nullable();
             $table->string('acc_no')->nullable();
             $table->string('bank_name')->nullable();
@@ -30,6 +31,7 @@ return new class extends Migration
             $table->string('role')->nullable();
             $table->string('profile_image')->nullable();
             $table->string('status')->nullable();
+
 
             $table->rememberToken();
             $table->timestamps();

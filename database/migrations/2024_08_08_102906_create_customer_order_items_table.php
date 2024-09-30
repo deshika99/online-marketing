@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('color')->nullable();;
             $table->date('date');
             $table->decimal('cost', 15, 2);
+            $table->enum('reviewed', ['yes', 'no'])->default('no')->nullable();
             $table->timestamps(); 
         });
     }
