@@ -54,6 +54,12 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('change-password') ? 'active' : '' }}" href="{{ route('change-password') }}">Password</a>
                     </li>
+
+                     <!-- new "Returns" button  -->
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('returns') ? 'active' : '' }}" href="{{ route('returns') }}">Returns</a>
+                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link text-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
                     </li>
