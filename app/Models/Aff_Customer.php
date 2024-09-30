@@ -20,6 +20,17 @@ class Aff_Customer extends Model
         'contactno',
         'email',
         'password',
+        'promotion_method',
+        'instagram_url',
+        'facebook_url',
+        'tiktok_url',
+        'youtube_url',
+        'content_website_url',
+        'content_whatsapp_url',
+        'bank_name',
+        'branch',
+        'account_name',
+        'account_number',
         'status',
     ];
 }
