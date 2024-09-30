@@ -46,6 +46,7 @@ class UserDashboardController extends Controller
     
 
 
+
     public function orderDetails($order_code)
 
 
@@ -79,6 +80,8 @@ class UserDashboardController extends Controller
         ]);
     
         $user = auth()->user();
+        
+        // Handle file upload for profile image
 
         
         // Handle file upload for profile image
@@ -216,6 +219,10 @@ class UserDashboardController extends Controller
     return redirect()->route('login')->with('success', 'Password changed successfully. Please login with your new password.');
     }
 
+
+
+}
+   
 
 
     public function myReviews()
