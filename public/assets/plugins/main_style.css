@@ -898,6 +898,7 @@ label {
 /* Filter Sidebar Styles */
 .filter-sidebar {
     width: 290px;
+    height: 60%;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;

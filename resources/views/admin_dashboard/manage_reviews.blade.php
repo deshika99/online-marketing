@@ -64,7 +64,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($publishedReview as $review)
+                                    @foreach($publishedReviews as $review)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>
@@ -98,7 +98,7 @@
                                             <td>{{ $review->created_at->format('d/m/Y') }}</td>
                                             <td><span class="badge bg-success">Published</span></td>
                                             <td>
-                                                <form action="{{ route('reviews.destroy', $review->id) }}" method="POST" style="display:inline;">
+                                                <form action="" method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="button" class="btn btn-danger btn-sm mb-1" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="confirmDelete('')">
@@ -155,8 +155,8 @@
                                             <td>{{ $review->created_at->format('d/m/Y') }}</td>
                                             <td><span class="badge bg-warning">Pending</span></td>
                                             <td>
-                                                <a href="{{ route('reviews.publish', $review->id) }}" class="btn btn-success btn-sm">Publish</a>
-                                                <form action="{{ route('reviews.destroy', $review->id) }}" method="POST" style="display:inline;">
+                                                <a href="" class="btn btn-success btn-sm">Publish</a>
+                                                <form action="" method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('')">

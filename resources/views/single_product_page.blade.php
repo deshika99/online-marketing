@@ -250,7 +250,19 @@
 
                     </div>
                     <div class="product-price mb-3 mt-3">
-                        <span class="h4" style="color:#f55b29;">Rs. {{ $product->normal_price }}</span>
+                        <span class="h4" style="color:#f55b29; display: flex; align-items: center;">
+                            @if($specialOffer)
+                                Rs. {{ number_format($specialOffer->offer_price, 2) }}
+                                <s style="font-size: 14px; color: #989595; font-weight: 500; margin-left: 10px;">
+                                    Rs. {{ number_format($specialOffer->normal_price, 2) }}
+                                </s>
+                                <div class="discount" style="color:red; font-size: 18px; margin-left: 10px;">
+                                        {{ number_format($specialOffer->offer_rate, 0) }}% off
+                                </div>
+                            @else
+                                Rs. {{ number_format($product->normal_price, 2) }}
+                            @endif
+                        </span>
                     </div>
 
                     <div class="d-flex">

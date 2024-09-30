@@ -209,22 +209,15 @@
                 </li>
             </ul>
         </div>
-    
-            <div class="products" style="width: 85%">
-            @if($products->isEmpty())
-                <div class="no-products">
-                    <p>No products found.</p>
-                </div>
-            @else
 
-    <div class="products">
+        <div class="products" style="width: 85%">
         @if($products->isEmpty())
             <div class="no-products">
                 <p>No products found.</p>
             </div>
         @else
-        
-            <div class="row mt-3">
+    
+        <div class="row mt-3">
                 @foreach ($products as $index => $product)
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4">
                         <div class="products-item position-relative">
@@ -240,21 +233,29 @@
                                     <img src="{{ asset('storage/default-image.jpg') }}" alt="Default Image" class="img-fluid">
                                 @endif
                                 <h6>{{ $product->product_name }}</h6>
-                                <div class="price">Rs.{{ $product->normal_price }}</div>
+                                <div class="price">
+                                    @if($product->specialOffer && $product->specialOffer->status === 'active')
+                                        <span class="offer-price">Rs. {{ number_format($product->specialOffer->offer_price, 2) }}</span>
+                                    @else
+                                        Rs. {{ number_format($product->normal_price, 2) }}
+                                    @endif
+                                </div>
                             </a>
                         </div>
                     </div>
                 @endforeach
             </div>
-    @endif
-</div>
+            @endif
+            </div>
 
 
 </div>
+
+
+
 
 
 <!-- cart modal-->
-
     @foreach ($products as $product)
     <div class="modal fade" id="cartModal_{{ $product->product_id }}" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered  modal-lg">
@@ -329,8 +330,20 @@
                                 </div>
                             @endif
 
-                            <div class="product-price mb-3 mt-3">
-                                <span class="h4" style="color:#f55b29;">Rs. {{ $product->normal_price }}</span>
+                            <div class="product-price mb-3 mt-3 d-flex align-items-center">
+                                <span class="h4" style="color:#f55b29; margin-right: 10px;">
+                                    @if($product->specialOffer && $product->specialOffer->status === 'active') 
+                                        Rs. {{ number_format($product->specialOffer->offer_price, 2) }} 
+                                        <s style="font-size: 14px; color: #989595; font-weight: 500; margin-left: 5px;">
+                                            Rs. {{ number_format($product->specialOffer->normal_price, 2) }}
+                                        </s>
+                                        <span class="discount" style="color:red; font-size: 18px; margin-left: 10px;">
+                                            {{ floor($product->specialOffer->offer_rate) }}% off 
+                                        </span>
+                                    @else
+                                        Rs. {{ number_format($product->normal_price, 2) }}
+                                    @endif
+                                </span>
                             </div>
 
                             @auth
@@ -573,6 +586,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <script>
+
+function toggleFilter() {
+    const filterSidebar = document.querySelector('.filter-sidebar');
+    filterSidebar.classList.toggle('active');
+}
         function toggleSection(sectionId) {
             var section = document.getElementById(sectionId);
             var toggle = document.getElementById(sectionId.split('-')[0] + '-toggle');

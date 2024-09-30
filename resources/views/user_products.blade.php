@@ -64,6 +64,7 @@
 
     <div class="filter-button" onclick="toggleFilter()">Filter</div>
     <div class="container products-container">
+    <input type="hidden" id="current-category" value="{{ $category ?? '' }}">
    
     <!-- Filter sidebar -->
     <div class="filter-sidebar" style="width: 25%">
@@ -102,7 +103,6 @@
             </div>
         </li>
 
-
         <li>
             <div class="filter-item" onclick="toggleSection('price-range-section')">
                 <span>Price Range (Rs)</span>
@@ -110,12 +110,13 @@
             </div>
             <div id="price-range-section" class="filter-content price-range">
                 <div class="price-inputs">
-                    <input type="number" id="price-min-input" placeholder="Min" oninput="updatePriceRange()">
-                    <input type="number" id="price-max-input" placeholder="Max" oninput="updatePriceRange()">
+                    <input type="number" id="price-min-input" placeholder="Min" oninput="filterProducts()">
+                    <input type="number" id="price-max-input" placeholder="Max" oninput="filterProducts()">
                 </div>
                 <div id="price-range" style="margin-top: 10px;"></div>
             </div>
         </li>
+
 
         <li>
             <div class="filter-item" onclick="toggleSection('rating-section')">
@@ -210,13 +211,23 @@
                             <img src="{{ asset('storage/default-image.jpg') }}" alt="Default Image" class="img-fluid">
                         @endif
                         <h6>{{ $product->product_name }}</h6>
-                        <div class="price">Rs.{{ $product->normal_price }}</div>
+                        <div class="price">
+                            <span>
+                                @if($product->specialOffer && $product->specialOffer->status === 'active') 
+                                    Rs. {{ number_format($product->specialOffer->offer_price, 2) }} <br>
+                                @else
+                                    Rs. {{ number_format($product->normal_price, 2) }}
+                                @endif
+                            </span>
+                        </div>
+                        
                     </a>
                 </div>
             </div>
         @endforeach
     </div>
     @endif
+    
 </div>
 
 </div>
@@ -307,8 +318,20 @@
                                 </div>
                             @endif
 
-                            <div class="product-price mb-3 mt-3">
-                                <span class="h4" style="color:#f55b29;">Rs. {{ $product->normal_price }}</span>
+                            <div class="product-price mb-3 mt-3 d-flex align-items-center">
+                                <span class="h4" style="color:#f55b29; margin-right: 10px;">
+                                    @if($product->specialOffer && $product->specialOffer->status === 'active') 
+                                        Rs. {{ number_format($product->specialOffer->offer_price, 2) }} 
+                                        <s style="font-size: 14px; color: #989595; font-weight: 500; margin-left: 5px;">
+                                            Rs. {{ number_format($product->specialOffer->normal_price, 2) }}
+                                        </s>
+                                        <span class="discount" style="color:red; font-size: 18px; margin-left: 10px;">
+                                            {{ floor($product->specialOffer->offer_rate) }}% off 
+                                        </span>
+                                    @else
+                                        Rs. {{ number_format($product->normal_price, 2) }}
+                                    @endif
+                                </span>
                             </div>
 
                             @auth
@@ -374,11 +397,11 @@ function resetFilters() {
     location.reload();
 }
 
-
 function selectSize(button) {
     button.classList.toggle('selected');
     filterProducts();
 }
+
 function selectColor(circle) {
     circle.classList.toggle('selected-color');
     filterProducts(); 
@@ -387,10 +410,11 @@ function selectColor(circle) {
 function filterProducts() {
     const selectedSizes = Array.from(document.querySelectorAll('.size-button.selected')).map(btn => btn.innerText);
     const selectedColors = Array.from(document.querySelectorAll('.color-circle.selected-color')).map(circle => circle.style.backgroundColor);
-    const priceMin = document.getElementById('price-min-input').value;
-    const priceMax = document.getElementById('price-max-input').value;
+    
+    const priceMin = parseFloat(document.getElementById('price-min-input').value) || 0; 
+    const priceMax = parseFloat(document.getElementById('price-max-input').value) || Number.MAX_SAFE_INTEGER; 
 
-    fetch(/filter-products, {
+    fetch(`/filter-products`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -404,6 +428,12 @@ function filterProducts() {
     });
 }
 
+
+document.getElementById('price-min-input').addEventListener('input', filterProducts);
+document.getElementById('price-max-input').addEventListener('input', filterProducts);
+
+
+
 function updateProductDisplay(products) {
     const productsContainer = document.querySelector('.products .row');
     productsContainer.innerHTML = '';
@@ -414,13 +444,26 @@ function updateProductDisplay(products) {
     }
 
     products.forEach(product => {
+        // Determine the price to display
+        const priceHTML = product.specialOffer && product.specialOffer.status === 'active' 
+            ? `
+                <span>
+                    Rs. ${parseFloat(product.specialOffer.offer_price).toFixed(2)} <br>
+                </span>
+              `
+            : `
+                <span>
+                    Rs. ${parseFloat(product.normal_price).toFixed(2)}
+                </span>
+              `;
+
         const productHTML = `
             <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4">
                 <div class="products-item position-relative">
                     <a href="/single_product/${product.product_id}" class="d-block text-decoration-none">
                         <img src="/storage/${product.images[0].image_path}" alt="Product Image" class="img-fluid">
                         <h6>${product.product_name}</h6>
-                        <div class="price">Rs.${product.normal_price}</div>
+                        <div class="price">${priceHTML}</div>
                     </a>
                 </div>
             </div>
@@ -430,8 +473,6 @@ function updateProductDisplay(products) {
 }
 
 
-document.getElementById('price-min-input').addEventListener('input', filterProducts);
-document.getElementById('price-max-input').addEventListener('input', filterProducts);
 </script>
 
 
@@ -515,6 +556,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <script>
+
+function toggleFilter() {
+    const filterSidebar = document.querySelector('.filter-sidebar');
+    filterSidebar.classList.toggle('active');
+}
         function toggleSection(sectionId) {
             var section = document.getElementById(sectionId);
             var toggle = document.getElementById(sectionId.split('-')[0] + '-toggle');
@@ -530,8 +576,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function updatePriceRange() {
             let rangeValue = document.getElementById('price-range').value;
-            document.getElementById('price-min').innerText = Rs ${rangeValue};
-            document.getElementById('price-max').innerText = Rs ${2194 - rangeValue};
+            document.getElementById('price-min').innerText = `Rs ${rangeValue}`;
+            document.getElementById('price-max').innerText = `Rs ${2194 - rangeValue}`;
         }
+
+
+
     </script>
 @endsection
