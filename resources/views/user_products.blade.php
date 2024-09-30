@@ -37,8 +37,6 @@
 
 
 
-
-
 </style>
 
 <div class="container mt-4 mb-5" style="width: 100%;">
@@ -103,127 +101,6 @@
                 @endforeach
             </div>
         </li>
-
-
-        <li>
-            <div class="filter-item" onclick="toggleSection('price-range-section')">
-                <span>Price Range (Rs)</span>
-                <span class="toggle" id="price-range-toggle">+</span>
-            </div>
-            <div id="price-range-section" class="filter-content price-range">
-                <div class="price-inputs">
-                    <input type="number" id="price-min-input" placeholder="Min" oninput="updatePriceRange()">
-                    <input type="number" id="price-max-input" placeholder="Max" oninput="updatePriceRange()">
-                </div>
-                <div id="price-range" style="margin-top: 10px;"></div>
-            </div>
-        </li>
-
-        <li>
-            <div class="filter-item" onclick="toggleSection('rating-section')">
-                <span>Rating</span>
-                <span class="toggle" id="rating-toggle">+</span>
-            </div>
-            <div id="rating-section" class="filter-content">
-                <div class="rating-row">
-                    <label class="mb-2">
-                        <input type="checkbox" name="rating" value="5">
-                        <div class="star-rating">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        </div>
-                    </label>
-                </div>
-                <div class="rating-row">
-                    <label class="mb-2">
-                        <input type="checkbox" name="rating" value="4"> 
-                        <div class="star-rating">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        </div>
-                    </label>
-                </div>
-                <div class="rating-row">
-                    <label class="mb-2">
-                        <input type="checkbox" name="rating" value="3">
-                        <div class="star-rating">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        </div>
-                    </label>
-                </div>
-                <div class="rating-row">
-                    <label class="mb-2">
-                        <input type="checkbox" name="rating" value="2"> 
-                        <div class="star-rating">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        </div>
-                    </label>
-                </div>
-                <div class="rating-row">
-                    <label class="mb-2">
-                        <input type="checkbox" name="rating" value="1">
-                        <div class="star-rating">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        </div>
-                    </label>
-                </div>
-            </div>
-        </li>
-    </ul>
-    </div>
-    
-    <div class="products" style="width: 85%">
-    @if($products->isEmpty())
-        <div class="no-products">
-            <p>No products found under this category.</p>
-        </div>
-    @else
-    <div class="row mt-3">
-        @foreach ($products as $index => $product)
-            <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4"> 
-                <div class="products-item position-relative">
-                    <a href="{{ route('single_product_page', ['product_id' => $product->product_id]) }}" class="d-block text-decoration-none">
-                        @if($product->images->isNotEmpty())
-                            <div class="product-image-wrapper position-relative">
-                                <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" alt="Product Image" class="img-fluid">
-                                <button type="button" class="btn btn-cart position-absolute bottom-0 end-0 me-2 mb-2" data-bs-toggle="modal" data-bs-target="#cartModal_{{ $product->product_id }}">
-                                    <i class="bi bi-cart-plus"></i>
-                                </button>
-                            </div>
-                        @else
-                            <img src="{{ asset('storage/default-image.jpg') }}" alt="Default Image" class="img-fluid">
-                        @endif
-                        <h6>{{ $product->product_name }}</h6>
-                        <div class="price">Rs.{{ $product->normal_price }}</div>
-                    </a>
-                </div>
-            </div>
-        @endforeach
-    </div>
-    @endif
-</div>
-
-</div>
-
-
 
 
         <li>
@@ -513,7 +390,7 @@ function filterProducts() {
     const priceMin = document.getElementById('price-min-input').value;
     const priceMax = document.getElementById('price-max-input').value;
 
-    fetch(`/filter-products`, {
+    fetch(/filter-products, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

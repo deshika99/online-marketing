@@ -5,6 +5,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerOrderController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SpecialOffersController;
 use App\Http\Controllers\AffiliateProductController;
 use App\Http\Controllers\AffiliateCustomerController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -54,7 +55,6 @@ Route::get('home/My-Account/order-details/{order_code}', [UserDashboardControlle
 Route::post('/order/cancel/{order_code}', [UserDashboardController::class, 'cancelOrder']);
 Route::post('/confirm-delivery', [UserDashboardController::class, 'confirmDelivery'])->name('confirm-delivery');
 Route::get('home/My-Account/My-Reviews', [UserDashboardController::class, 'myReviews'])->name('myreviews');
-
 
 //write-reviews
 
@@ -156,6 +156,15 @@ Route::view('/affiliate/dashboard/account/tracking_id', 'affiliate_dashboard.tra
 
 //admin dashboard
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.index');
+
+
+Route::get('/admin/edit_offers/{id}', [SpecialOffersController::class, 'edit'])->name('edit_offers');
+Route::put('/admin/edit_offers/{id}', [SpecialOffersController::class, 'update']);
+Route::get('/admin/add_offers', [SpecialOffersController::class, 'createOffer'])->name('add_offers');
+Route::post('/admin/store_offers', [SpecialOffersController::class, 'storeOffer'])->name('store_offers');
+Route::get('/admin/special_offers', [SpecialOffersController::class, 'showOffers'])->name('special_offers');
+Route::delete('/admin/special_offers/delete/{id}', [SpecialOffersController::class, 'destroy'])->name('delete_offer');
+
 Route::get('/admin/products', [ProductController::class, 'showProducts'])->name('products');
 Route::get('/subcategories/{categoryId}', [ProductController::class, 'getSubcategories']);
 Route::get('/sub-subcategories/{subcategoryId}', [ProductController::class, 'getSubSubcategories']);

@@ -114,10 +114,6 @@
 
         width: 15%;
         padding: 10px;
-
-        width: 100%;
-        padding: 15px;
-
         background: linear-gradient(to right, hsl(226, 93%, 27%), hsl(226, 91%, 58%));
         border: none;
         border-radius: 5px;

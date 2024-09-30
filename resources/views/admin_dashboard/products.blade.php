@@ -3,26 +3,6 @@
 @section('content')
 
 <style> 
-.modal-body {
-    padding: 1rem;
-}
-
-.modal-details p {
-    margin-bottom: 1rem;
-    line-height: 1.4; 
-}
-
-.modal-details strong {
-    display: inline-block;
-    width: 150px; 
-}
-
-
-#modal-product-image {
-    max-width: 20%;
-    height: auto;
-}
-
 
 
 </style>  
@@ -64,10 +44,7 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">Image</th>
                                     <th scope="col" style="width:20%">Category</th>
-                                    <th scope="col" id="normal-price-header" style="display:none;">Normal Price</th>
                                     <th scope="col" style="width:10%">Quantity</th>
-                                    <th scope="col" id="affiliate-price-header" style="display:none;">Affiliate Price</th>
-                                    <th scope="col" id="commission-header" style="display:none;">Commission%</th>
                                     <th scope="col">Total Price</th>
                                     <th scope="col" style="width:15%">Action</th>
                                 </tr>
@@ -90,10 +67,7 @@
                                         @endif
                                     </td>
                                     <td>{{ $product->product_category ?? 'No Category' }}</td>
-                                    <td class="normal-price" style="display:none;">Rs {{ number_format($product->normal_price, 2) }}</td>
                                     <td>{{ $product->quantity }}</td>
-                                    <td class="affiliate-price" style="display:none;">Rs {{ $product->affiliate_price ? number_format($product->affiliate_price, 2) : '-' }}</td>
-                                    <td class="commission" style="display:none;">{{ $product->commission_percentage ? $product->commission_percentage . '%' : '-' }}</td>
                                     <td>Rs {{ number_format($product->total_price, 2) }}</td>
                                     <td class="action-buttons">
                                         <a href="{{ route('product-details', $product->id) }}" class="btn btn-info btn-sm view-btn mb-1" 

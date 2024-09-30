@@ -184,14 +184,20 @@
                     <h4 class="title text-dark">{{ $product->product_name }}</h4>              
                     <div class="d-flex flex-row my-3">
                         <div class="text-warning mb-1 me-2">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <span class="ms-1">4.5</span>
+                            <span class="text-warning">
+                                @for($i = 1; $i <= 5; $i++)
+                                    @if($i <= $averageRating)
+                                        <i class="fa fa-star"></i>
+                                    @elseif($i - $averageRating < 1)
+                                        <i class="fas fa-star-half-alt"></i>
+                                    @else
+                                        <i class="fa fa-star-o"></i>
+                                    @endif
+                                @endfor
+                            </span>
+                            <span class="ms-1">{{ number_format($averageRating, 1) }}</span>
                         </div>
-                        <span class="text-primary">18 Ratings | </span>
+                        <span class="text-primary">{{ $totalReviews }} Ratings | </span>
                         <span class="text-primary">&nbsp; 25 Questions Answered</span>
                     </div>
                     <div style="margin-top: -15px;">
@@ -361,7 +367,7 @@
                                                     @endfor
                                                 </span>
                                             </div>
-                                            <p>{{ $totalReviews }} ratings</p>
+                                            <p>{{ $totalReviews }} Ratings</p>
                                         </div>
                                         <div class="rating-bars ms-5">
                                             @foreach([5, 4, 3, 2, 1] as $star)

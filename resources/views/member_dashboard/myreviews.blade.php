@@ -68,10 +68,6 @@
                         'size' => $item->size, 'quantity' => $item->quantity, 'cost' => $item->cost, 'order_code' => $item->order->order_code]) }}" class="btn-review">Review</a>
                     </div>
                 </div>
-
-                <div class="ml-auto" style="text-align: right;">
-                    <a href="{{ route('write.reviews') }}" class="btn-review">Review</a>
-                </div>
             </div>
 
             @endforeach
