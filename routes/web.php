@@ -54,6 +54,12 @@ Route::post('/confirm-delivery', [UserDashboardController::class, 'confirmDelive
 Route::get('home/My-Account/My-Reviews', [UserDashboardController::class, 'myReviews'])->name('myreviews');
 
 
+//write-reviews
+Route::get('/member-dashboard/write-reviews', function () {
+    return view('member_dashboard.write-reviews');
+})->name('write.reviews');
+
+
 Route::get('home/My-Account/change-password', function () {
     return view('member_dashboard.change-password');
 })->name('change-password');
@@ -62,9 +68,22 @@ Route::get('home/My-Account/points', function () {
     return view('member_dashboard.points');
 })->name('points');
 
-Route::get('home/My-Account/addresses', function () {
+Route::get('home/My-Account/addresses', function () { 
     return view('member_dashboard.addresses');
 })->name('addresses');
+
+//new return button
+Route::get('home/My-Account/returns', function () { 
+    return view('member_dashboard.returns');
+})->name('returns');
+
+// new route return details page
+Route::get('home/My-Account/returns-details', function () {
+    return view('member_dashboard.returns-details');
+})->name('returns.details');
+
+
+
 
 Route::get('home/My-Account/logout', function () {
     return view('logout');
