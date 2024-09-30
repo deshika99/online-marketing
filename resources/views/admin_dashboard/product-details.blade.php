@@ -30,7 +30,10 @@
                     </div>
 
                     <div class="row mb-2">
-                        <div class="col-12"><strong class="me-2">Description:</strong>{{ $product->product_description }}</div>
+                        <div class="col-12">
+                            <strong class="me-2">Description:</strong>
+                            {!! $product->product_description !!}
+                        </div>
                     </div>
 
                     <div class="row mb-2">

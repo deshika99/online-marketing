@@ -103,14 +103,10 @@
                         <a href="#" class="btn-cancel mt-1" onclick="openCancelModal('{{ $order->order_code }}')">Cancel</a>
                         @elseif($order->status === 'Paid')
                         <a href="#" class="btn-cancel mt-1" onclick="openCancelModal('{{ $order->order_code }}')">Cancel</a>
-                        @elseif($order->status === 'Cancelled')
-                        <a href="" class="btn-remove">Remove</a>
                         @elseif($order->status === 'Shipped')
                             <a href="javascript:void(0);" class="btn-confirm" onclick="openConfirmDeliveryModal('{{ $order->order_code }}')">Confirm Delivery</a>
                             <br>
                             <a href="#" class="btn-cancel mt-1" onclick="openCancelModal('{{ $order->order_code }}')">Cancel</a>
-                        @elseif($order->status === 'Delivered')
-                            <a href="" class="btn-remove">Remove</a>
                         @endif
                     </div>
             </div>
@@ -345,14 +341,10 @@
                 
                 <h6 class="order-price">Rs {{ $order->total_cost }}</h6>
             </div>
-                     <div style="text-align: right; margin-top: 10px;">
-                        <a href="" class="btn-remove">Remove</a>
-                    </div>
         </div>
     </div>
     @endforeach
 </div>
-
 
 
 
@@ -475,5 +467,6 @@ $('#confirmDeliveryBtn').on('click', function() {
 });
 
 </script>
+
 
 @endsection
