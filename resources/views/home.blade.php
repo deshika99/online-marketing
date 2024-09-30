@@ -125,7 +125,7 @@
                                         <a id="navbarDropdown" class="text-reset dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                         <div class="icon-circle">
                                           @if(Auth::user()->profile_image)
-                                            <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;" class="profile_image">
+                                            <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" style="width: 33px; height: 33px; border-radius: 50%; object-fit: cover;" class="profile_image">
 
                                           @else
                                              {{ Auth::user()->name[0] }}
@@ -186,10 +186,9 @@
                     <!-- other Links -->
                     <div class="d-flex justify-content-center align-items-center flex-grow-1 otherlinks" style="font-size:16px;">
                         <a href="{{ route('all_items') }}" class="mx-3">All Items</a>
-                        <a href="#" class="mx-3">Bundle Deals</a>
-                        <a href="#" class="mx-3">Top Brands</a>
-                        <a href="#" class="mx-3">Bestsellers</a>
+                        <a href="#" class="mx-3">Special Offers</a>
                         <a href="#" class="mx-3">Flash Sale</a>
+                        <a href="#" class="mx-3">Bestsellers</a>
                         <a href="#" class="mx-3">Super Deals</a>
                     </div>
                 </div>

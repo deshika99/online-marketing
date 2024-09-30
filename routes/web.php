@@ -31,6 +31,7 @@ Route::get('/home/products/{category?}/{subcategory?}/{subsubcategory?}', [Produ
     ->name('user_products');
 Route::get('/product/{product_id?}', [ProductController::class, 'show'])->name('single_product_page');
 Route::get('/home/all_items', [ProductController::class, 'show_all_items'])->name('all_items');
+Route::post('/filter-products', [ProductController::class, 'filterProducts']);
 
 
 Route::view('/home/affiliate/all', 'aff_all')->name('aff_all');
@@ -55,18 +56,16 @@ Route::get('home/My-Account/My-Reviews', [UserDashboardController::class, 'myRev
 
 
 //write-reviews
-Route::get('/member-dashboard/write-reviews', function () {
-    return view('member_dashboard.write-reviews');
-})->name('write.reviews');
+
+Route::get('/member-dashboard/write-reviews', [UserDashboardController::class, 'writeReview'])->name('write.reviews');
+Route::post('/member-dashboard/reviews', [UserDashboardController::class, 'storeReview'])->name('reviews.store');
+
 
 
 Route::get('home/My-Account/change-password', function () {
     return view('member_dashboard.change-password');
 })->name('change-password');
 
-Route::get('home/My-Account/points', function () {
-    return view('member_dashboard.points');
-})->name('points');
 
 Route::get('home/My-Account/addresses', function () { 
     return view('member_dashboard.addresses');
