@@ -193,13 +193,11 @@ Route::get('/admin/customers', [CustomerController::class, 'show_customers'])->n
 Route::get('/admin/customer-details/{user_id}', [CustomerController::class, 'showCustomerDetails'])->name('customer-details');
 Route::view('/admin/manage_reviews', 'admin_dashboard.manage_reviews')->name('manage_reviews');
 
-// reviwes
-Route::middleware(['auth'])->group(function () {
-    Route::get('/admin/manage_reviews', [ReviewController::class, 'index'])->name('manage_reviews');
-    Route::post('/admin/manage_reviews/{id}/publish', [ReviewController::class, 'publish'])->name('manage_reviews.publish');
-    Route::delete('/admin/manage_reviews/{id}', [ReviewController::class, 'destroy'])->name('manage_reviews.destroy');
-});
-
+// Reviews
+Route::get('/admin/manage_reviews', [ReviewController::class, 'index'])->name('manage_reviews'); // Update to 'index'
+Route::get('/admin/manage_reviews/{id}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
+Route::post('/admin/manage_reviews/{review}/approve', [ReviewController::class, 'approve'])->name('reviews.approve');
+Route::delete('/admin/manage_reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 
 
 
