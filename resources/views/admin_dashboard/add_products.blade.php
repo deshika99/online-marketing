@@ -136,12 +136,12 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="productName">Product Name</label>
-                                    <input type="text" id="productName" name="productName" class="form-control" placeholder="Enter product name">
+                                    <label for="productName">Product Name <span class="text-danger">*</span></label>
+                                    <input type="text" id="productName" name="productName" class="form-control" placeholder="Enter product name" required>
                                 </div>
                                 
                                 <div class="form-group">
-                                    <label for="productDesc">Product Description</label>
+                                    <label for="productDesc">Product Description <span class="text-danger">*</span></label>
                                     <div id="productDesc" style="height: 200px;"></div>
                                     <textarea id="productDescInput" name="productDesc" style="display:none;"></textarea>
                                 </div>
@@ -158,8 +158,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="category">Category</label>
-                                    <select id="category" name="category" class="form-control">
+                                    <label for="category">Category <span class="text-danger">*</span></label>
+                                    <select id="category" name="category" class="form-control" required>
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}" {{ $category->id == $selectedCategoryId ? 'selected' : '' }}>
@@ -184,13 +184,18 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="quantity">Quantity</label>
+                                    <label for="quantity">Total Quantity</label>
                                     <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter quantity">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="normalPrice">Normal Price</label>
-                                    <input type="number" id="normalPrice" name="normalPrice" class="form-control" placeholder="Enter normal price" step="0.01">
+                                    <label for="tags">Tags</label>
+                                    <input type="text" id="tags" name="tags" class="form-control" placeholder="Enter tags separated by commas">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="normalPrice">Normal Price <span class="text-danger">*</span></label>
+                                    <input type="number" id="normalPrice" name="normalPrice" class="form-control" placeholder="Enter normal price" step="0.01" required>
                                 </div>
 
                                 <div class="form-group">
@@ -235,6 +240,9 @@
                                                     </div>
                                                     <div class="col-md-4 variation-input-container">
                                                         <input type="text" class="form-control variation-input" name="variation[0][value]" placeholder="Variation">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="number" class="form-control" name="variation[0][quantity]" placeholder="Quantity">
                                                     </div>
                                                     <div class="col-md-1">
                                                         <button type="button" class="btn remove-btn" onclick="removeVariationRow(this)">X</button>
@@ -480,6 +488,9 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="col-md-4 variation-input-container">
                 <input type="text" class="form-control variation-input" name="variation[${variationIndex}][value]" placeholder="Variation">
             </div>
+            <div class="col-md-3">
+                <input type="number" class="form-control" name="variation[${variationIndex}][quantity]" placeholder="Quantity" min="0" value="0">
+            </div>
             <div class="col-md-1">
                 <button type="button" class="btn remove-btn" onclick="removeVariationRow(this)">X</button>
             </div>
@@ -493,9 +504,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const row = button.closest('.variation-row');
         row.remove();
     }
-
-  
 </script>
+
 
 
 @endsection

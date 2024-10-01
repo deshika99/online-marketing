@@ -64,13 +64,6 @@ class UserDashboardController extends Controller
 
         
         // Handle file upload for profile image
-
-
-        
-
-
-        
-        // Handle file upload for profile image
         if ($request->hasFile('profile_image')) {
             if ($user->profile_image) {
                 Storage::delete('public/' . $user->profile_image);

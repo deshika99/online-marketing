@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\CustomerOrder;
 use App\Models\User;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -29,22 +30,24 @@ class CustomerController extends Controller
 
     public function showCustomerDetails($user_id)
     {
+
         $customer = User::findOrFail($user_id);
+        
         $orders = CustomerOrder::where('user_id', $user_id)
             ->with('items.product')
             ->get();
-    
-        // Calculate total cost, total orders, and total products
+        
         $totalCost = $orders->sum('total_cost');
-    
         $totalOrders = $orders->count();
-    
         $totalProducts = $orders->sum(function ($order) {
             return $order->items->sum('quantity');
         });
-    
-        return view('admin_dashboard.customer-details', compact('customer', 'orders', 'totalCost', 'totalOrders', 'totalProducts'));
+        
+        $totalReviews = Review::where('user_id', $user_id)->count();
+
+        return view('admin_dashboard.customer-details', compact('customer', 'orders', 'totalCost', 'totalOrders', 'totalProducts', 'totalReviews'));
     }
+    
     
 
 

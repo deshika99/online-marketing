@@ -219,7 +219,7 @@
     
         <div class="row mt-3">
                 @foreach ($products as $index => $product)
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-2">
                         <div class="products-item position-relative">
                             <a href="{{ route('single_product_page', ['product_id' => $product->product_id]) }}" class="d-block text-decoration-none">
                                 @if($product->images->isNotEmpty())
@@ -246,13 +246,35 @@
                 @endforeach
             </div>
             @endif
-            </div>
-
-
+        </div>
 </div>
 
-
-
+<!-- Pagination -->
+<nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center mb-4" id="pagination">
+                @if ($products->currentPage() > 1)
+                    <li class="page-item" id="prevPage">
+                        <a class="page-link" href="#" aria-label="Previous" data-page="{{ $products->currentPage() - 1 }}">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                @endif
+                
+                @for ($i = 1; $i <= $products->lastPage(); $i++)
+                    <li class="page-item @if ($i == $products->currentPage()) active @endif">
+                        <a class="page-link" href="#" data-page="{{ $i }}">{{ $i }}</a>
+                    </li>
+                @endfor
+                
+                @if ($products->hasMorePages())
+                    <li class="page-item" id="nextPage">
+                        <a class="page-link" href="#" aria-label="Next" data-page="{{ $products->currentPage() + 1 }}">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                @endif
+            </ul>
+        </nav>
 
 
 <!-- cart modal-->
@@ -285,14 +307,18 @@
                             <p>{!! $product->product_description !!}</p>
                             <div class="d-flex flex-row my-3">
                                 <div class="text-warning mb-1 me-2">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                    <span class="ms-1">4.5</span>
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        @if ($product->average_rating >= $i)
+                                            <i class="fa fa-star"></i>
+                                        @elseif ($product->average_rating >= $i - 0.5)
+                                            <i class="fas fa-star-half-alt"></i>
+                                        @else
+                                            <i class="fa fa-star-o"></i> 
+                                        @endif
+                                    @endfor
+                                    <span class="ms-1">{{ number_format($product->average_rating, 1) }}</span>
                                 </div>
-                                <span class="text-primary">18 Ratings | </span>
+                                <span class="text-primary">{{ $product->rating_count }} Ratings | </span>
                                 <span class="text-primary">&nbsp; 25 Questions Answered</span>
                             </div>
                             <div style="margin-top: -15px;">
@@ -314,7 +340,11 @@
                                 <div class="mb-2">
                                     <span>Size: </span>
                                     @foreach($product->variations->where('type', 'Size') as $size)
-                                        <button class="btn btn-outline-secondary btn-sm me-1 size-option" style="height:28px;" data-size="{{ $size->value }}">{{ $size->value }}</button>
+                                        @if($size->quantity > 0)  
+                                            <button class="btn btn-outline-secondary btn-sm me-1 size-option" style="height:28px;" data-size="{{ $size->value }}">
+                                                {{ $size->value }}
+                                            </button>
+                                        @endif
                                     @endforeach
                                 </div>
                             @endif
@@ -323,9 +353,12 @@
                                 <div class="mb-2">
                                     <span>Color: </span>
                                     @foreach($product->variations->where('type', 'Color') as $color)
-                                        <button class="btn btn-outline-secondary btn-sm color-option" 
-                                            style="background-color: {{ $color->value }}; border-color: #e8ebec; height: 17px; width: 15px;" 
-                                            data-color="{{ $color->value }}"></button>
+                                        @if($color->quantity > 0)  
+                                            <button class="btn btn-outline-secondary btn-sm color-option" 
+                                                style="background-color: {{ $color->value }}; border-color: #e8ebec; height: 17px; width: 15px;" 
+                                                data-color="{{ $color->value }}">
+                                            </button>
+                                        @endif
                                     @endforeach
                                 </div>
                             @endif
@@ -382,6 +415,32 @@
             });
         });
     });
+
+    //pagination
+    document.addEventListener('DOMContentLoaded', function () {
+    const paginationButtons = document.getElementById('pagination');
+
+    paginationButtons.addEventListener('click', function (event) {
+        if (event.target.tagName === 'A') {
+            event.preventDefault();
+            const page = event.target.getAttribute('data-page');
+            fetchProducts(page);
+        }
+    });
+
+    function fetchProducts(page) {
+        fetch(`/home/all_items?page=${page}`)
+            .then(response => response.text())
+            .then(data => {
+
+                document.querySelector('.products').innerHTML = new DOMParser().parseFromString(data, 'text/html').querySelector('.products').innerHTML;
+
+                const newPagination = new DOMParser().parseFromString(data, 'text/html').getElementById('pagination');
+                paginationButtons.innerHTML = newPagination.innerHTML;
+            })
+            .catch(error => console.error('Error fetching products:', error));
+    }
+});
 
 </script>
 
@@ -448,10 +507,10 @@ function toggleSubSection(subsectionId, toggleId) {
     const toggle = document.getElementById(toggleId);
     if (subsection.style.display === "none" || subsection.style.display === "") {
         subsection.style.display = "block";
-        toggle.innerText = "-"; // Change toggle to minus
+        toggle.innerText = "-"; 
     } else {
         subsection.style.display = "none";
-        toggle.innerText = "+"; // Change toggle back to plus
+        toggle.innerText = "+"; 
     }
 }
 
@@ -479,7 +538,7 @@ function filterProducts() {
 
 function updateProductDisplay(products) {
     const productsContainer = document.querySelector('.products .row');
-    productsContainer.innerHTML = '';
+    productsContainer.innerHTML = '';  
 
     if (products.length === 0) {
         productsContainer.innerHTML = '<div class="no-products"><p>No products found under this category.</p></div>';
@@ -487,20 +546,47 @@ function updateProductDisplay(products) {
     }
 
     products.forEach(product => {
+        let priceHTML = '';
+
+        if (product.special_offer && product.special_offer.status === 'active') {
+            priceHTML = `
+                <span class="offer-price">Rs. ${parseFloat(product.special_offer.offer_price).toFixed(2)}</span> 
+            `;
+        } else {
+            priceHTML = `Rs. ${parseFloat(product.normal_price).toFixed(2)}`;
+        }
+
+       
         const productHTML = `
             <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4">
                 <div class="products-item position-relative">
-                    <a href="/single_product/${product.product_id}" class="d-block text-decoration-none">
-                        <img src="/storage/${product.images[0].image_path}" alt="Product Image" class="img-fluid">
+                    <a href="/product/${product.product_id}" class="d-block text-decoration-none">
+                        <div class="product-image-wrapper position-relative">
+                            <img src="/storage/${product.images[0].image_path}" alt="Product Image" class="img-fluid">
+                            <button type="button" class="btn btn-cart position-absolute bottom-0 end-0 me-2 mb-2" data-bs-toggle="modal" data-bs-target="#cartModal_${product.product_id}">
+                                <i class="bi bi-cart-plus"></i>
+                            </button>
+                        </div>
                         <h6>${product.product_name}</h6>
-                        <div class="price">Rs.${product.normal_price}</div>
+                        <div class="price">${priceHTML}</div>
                     </a>
                 </div>
             </div>
         `;
+        
         productsContainer.innerHTML += productHTML;
     });
+
+    document.querySelectorAll('.btn-cart').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation(); 
+            event.preventDefault(); 
+            
+        });
+    });
+
 }
+
 
 
 document.getElementById('price-min-input').addEventListener('input', filterProducts);
@@ -509,8 +595,8 @@ document.getElementById('price-max-input').addEventListener('input', filterProdu
 </script>
 
 <script>
- $(document).ready(function() {
-    //Add to Cart click event
+$(document).ready(function() {
+    // Add to Cart click event for buttons with class .add-to-cart-modal
     $('.add-to-cart-modal').on('click', function(e) {
         e.preventDefault();
 
@@ -557,33 +643,37 @@ document.getElementById('price-max-input').addEventListener('input', filterProdu
         }
     });
 
+    // Handle size option selection
     $('.size-option').on('click', function() {
         $('.size-option').removeClass('active');
         $(this).addClass('active');
     });
 
+    // Handle color option selection
     $('.color-option').on('click', function() {
         $('.color-option').removeClass('active');
         $(this).addClass('active');
-    });
-
-    $('.color-option').on('click', function() {
         $('.color-option').removeClass('selected-color');
         $(this).addClass('selected-color');
-    });  
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.thumbnail-image').forEach(function(thumbnail) {
-            thumbnail.addEventListener('click', function() {
-                const newImage = this.getAttribute('data-image');
-                document.getElementById('mainImage').setAttribute('src', newImage);
-                document.querySelector('.main-image-link').setAttribute('href', newImage);
-            });
-        });
     });
 
+    // Handle clicks on cart buttons
+    $('.btn-cart').on('click', function(event) {
+        event.stopPropagation(); // Prevent the click event from bubbling up
+        event.preventDefault(); // Prevent the default anchor action
+    });
+
+    // Thumbnail image click event to change main image
+    document.querySelectorAll('.thumbnail-image').forEach(function(thumbnail) {
+        thumbnail.addEventListener('click', function() {
+            const newImage = this.getAttribute('data-image');
+            document.getElementById('mainImage').setAttribute('src', newImage);
+            document.querySelector('.main-image-link').setAttribute('href', newImage);
+        });
+    });
+});
 </script>
+
 
 <script>
 

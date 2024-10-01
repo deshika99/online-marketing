@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('order_code');
             $table->string('type')->nullable(); 
             $table->string('value')->nullable(); 
+            $table->integer('quantity')->nullable();
             $table->timestamps();
         
             $table->foreign('product_id')->references('product_id')->on('products')->onDelete('cascade');
