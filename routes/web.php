@@ -5,6 +5,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerOrderController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SpecialOffersController;
 use App\Http\Controllers\AffiliateProductController;
 use App\Http\Controllers\AffiliateCustomerController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NavbarController;
 use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\ReviewController;
 
 use Illuminate\Http\Request;     //contact form
 
@@ -53,7 +55,6 @@ Route::get('home/My-Account/order-details/{order_code}', [UserDashboardControlle
 Route::post('/order/cancel/{order_code}', [UserDashboardController::class, 'cancelOrder']);
 Route::post('/confirm-delivery', [UserDashboardController::class, 'confirmDelivery'])->name('confirm-delivery');
 Route::get('home/My-Account/My-Reviews', [UserDashboardController::class, 'myReviews'])->name('myreviews');
-
 
 //write-reviews
 
@@ -155,6 +156,15 @@ Route::view('/affiliate/dashboard/account/tracking_id', 'affiliate_dashboard.tra
 
 //admin dashboard
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.index');
+
+
+Route::get('/admin/edit_offers/{id}', [SpecialOffersController::class, 'edit'])->name('edit_offers');
+Route::put('/admin/edit_offers/{id}', [SpecialOffersController::class, 'update']);
+Route::get('/admin/add_offers', [SpecialOffersController::class, 'createOffer'])->name('add_offers');
+Route::post('/admin/store_offers', [SpecialOffersController::class, 'storeOffer'])->name('store_offers');
+Route::get('/admin/special_offers', [SpecialOffersController::class, 'showOffers'])->name('special_offers');
+Route::delete('/admin/special_offers/delete/{id}', [SpecialOffersController::class, 'destroy'])->name('delete_offer');
+
 Route::get('/admin/products', [ProductController::class, 'showProducts'])->name('products');
 Route::get('/subcategories/{categoryId}', [ProductController::class, 'getSubcategories']);
 Route::get('/sub-subcategories/{subcategoryId}', [ProductController::class, 'getSubSubcategories']);
@@ -194,6 +204,14 @@ Route::put('/admin/orders/{id}/status', [OrderController::class, 'updateOrderSta
 Route::get('/admin/customers', [CustomerController::class, 'show_customers'])->name('customers');
 Route::get('/admin/customer-details/{user_id}', [CustomerController::class, 'showCustomerDetails'])->name('customer-details');
 Route::view('/admin/manage_reviews', 'admin_dashboard.manage_reviews')->name('manage_reviews');
+
+// reviwes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/manage_reviews', [ReviewController::class, 'index'])->name('manage_reviews');
+    Route::post('/admin/manage_reviews/{id}/publish', [ReviewController::class, 'publish'])->name('manage_reviews.publish');
+    Route::delete('/admin/manage_reviews/{id}', [ReviewController::class, 'destroy'])->name('manage_reviews.destroy');
+});
+
 
 
 

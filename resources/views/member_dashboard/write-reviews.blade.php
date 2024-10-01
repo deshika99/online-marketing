@@ -114,10 +114,6 @@
 
         width: 15%;
         padding: 10px;
-
-        width: 100%;
-        padding: 15px;
-
         background: linear-gradient(to right, hsl(226, 93%, 27%), hsl(226, 91%, 58%));
         border: none;
         border-radius: 5px;
@@ -138,11 +134,6 @@
     </script>
 @endif
 
-    .review-submit:hover {
-        background: linear-gradient(to right,hsl(226, 93%, 27%), hsl(226, 91%, 58%));
-    }
-</style>
-
 
 <div class="review-container">
     <!-- Combined Title and Container -->
@@ -157,9 +148,6 @@
                 @if($product->images->isNotEmpty())
                     <a href="#"><img src="{{ asset('storage/' . $product->images->first()->image_path) }}" alt="Product Image" width="70" height="auto"></a>
                 @endif
-
-                <a href="#"><img src="\assets\images\d (1).png" alt="Product Image" width="70" height="auto"></a>
-
             </div>
         </div>
 

@@ -19,4 +19,6 @@ class AdminDashboardController extends Controller
         return view('admin_dashboard.index', compact('orderCount', 'customerCount', 'productCount'));
     }
 
+
+
 }

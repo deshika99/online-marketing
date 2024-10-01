@@ -54,6 +54,11 @@ class Products extends Model
         return $this->hasMany(Variation::class, 'product_id', 'product_id');
     }
 
+    public function specialOffer()
+    {
+        return $this->hasOne(SpecialOffers::class, 'product_id', 'product_id')->where('status', 'active');
+    }
     
+
 
 }

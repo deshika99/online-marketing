@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Products;
 use App\Models\ProductImage;
 use App\Models\Category;
+use App\Models\SpecialOffers;
 use App\Models\Review;
 use App\Models\Variation;
 use App\Models\VariationImage;
@@ -18,11 +19,10 @@ use Illuminate\Support\Facades\Storage;
 class ProductController extends Controller
 {
 
-
     public function showProductsByCategory($category = null, $subcategory = null, $subsubcategory = null)
     {
-        $query = Products::with('images');
-    
+        $query = Products::with('images', 'specialOffer');
+        
         if ($subsubcategory) {
             $query->where('sub_subcategory', $subsubcategory);
         } elseif ($subcategory) {
@@ -32,59 +32,86 @@ class ProductController extends Controller
         }
     
         $products = $query->get();
-        $colors = Variation::where('type', 'color')->pluck('value'); 
+        $colors = Variation::where('type', 'color')->pluck('value');
     
         return view('user_products', [
             'products' => $products,
             'category' => $category,
             'subcategory' => $subcategory,
             'subsubcategory' => $subsubcategory,
-            'colors' => $colors, 
+            'colors' => $colors,
         ]);
     }
+    
     
 
 
     public function filterProducts(Request $request)
     {
-        $query = Products::with('images');
-
+        $query = Products::with(['images', 'specialOffer']);
+    
+        if (!empty($request->category)) {
+            $query->where('category', $request->category);
+        }
+    
         if (!empty($request->selectedSizes)) {
             $query->whereHas('variations', function ($q) use ($request) {
                 $q->whereIn('value', $request->selectedSizes)->where('type', 'size');
             });
         }
+    
         if (!empty($request->selectedColors)) {
             $query->whereHas('variations', function ($q) use ($request) {
                 $q->whereIn('value', $request->selectedColors)->where('type', 'color');
             });
         }
+    
         if ($request->priceMin) {
-            $query->where('normal_price', '>=', $request->priceMin);
+            $query->where(function ($q) use ($request) {
+                $q->where('normal_price', '>=', $request->priceMin)
+                  ->orWhereHas('specialOffer', function ($q) use ($request) {
+                      $q->where('offer_price', '>=', $request->priceMin);
+                  });
+            });
         }
+    
         if ($request->priceMax) {
-            $query->where('normal_price', '<=', $request->priceMax);
+            $query->where(function ($q) use ($request) {
+                $q->where('normal_price', '<=', $request->priceMax)
+                  ->orWhereHas('specialOffer', function ($q) use ($request) {
+                      $q->where('offer_price', '<=', $request->priceMax);
+                  });
+            });
         }
+    
         $products = $query->get();
         return response()->json(['products' => $products]);
     }
+    
+    
+    
 
 
     
     public function show($product_id)
     {
         $product = Products::with('images')->where('product_id', $product_id)->firstOrFail();
+        
+        $specialOffer = SpecialOffers::where('product_id', $product_id)
+        ->where('status', 'active') 
+        ->first();
+        
         $relatedProducts = Products::where('product_category', $product->product_category)
             ->where('product_id', '!=', $product->product_id)
             ->get();
-
+    
         $reviews = Review::with('media')->where('product_id', $product_id)
             ->where('status', 'published')
             ->get();
-
+    
         $averageRating = $reviews->avg('rating');
         $totalReviews = $reviews->count(); 
-
+    
         $ratingsCount = [
             '5' => Review::where('product_id', $product_id)->where('rating', 5)->count(),
             '4' => Review::where('product_id', $product_id)->where('rating', 4)->count(),
@@ -92,18 +119,18 @@ class ProductController extends Controller
             '2' => Review::where('product_id', $product_id)->where('rating', 2)->count(),
             '1' => Review::where('product_id', $product_id)->where('rating', 1)->count(),
         ];
-
-        return view('single_product_page', compact('product', 'relatedProducts', 'reviews', 'averageRating', 'totalReviews', 'ratingsCount'));
-    }
-
     
+        return view('single_product_page', compact('product', 'relatedProducts', 'reviews', 'averageRating', 'totalReviews', 'ratingsCount', 'specialOffer'));
+    }
+    
+
     public function show_all_items()
     {
-        $products = Products::all();
+        $products = Products::with('specialOffer')->get(); 
         $colors = Variation::where('type', 'color')->pluck('value'); 
         return view('all_items', compact('products', 'colors'));
     }
-   
+    
 
 
     

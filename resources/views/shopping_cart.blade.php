@@ -52,15 +52,24 @@
                                     </div>
                                     <div class="col-lg-3 d-flex flex-column align-items-start">
                                         <div class="d-flex flex-column align-items-start">
-                                            <p class="text-orange h6 mt-4">Rs. <span class="item-price">{{ $item->product->normal_price }}</span></p>
+                                            @if($item->product->specialOffer && $item->product->specialOffer->status === 'active')
+                                                <p class="text-orange h6 mt-3">
+                                                    Rs. <span class="item-price">{{ number_format($item->product->specialOffer->offer_price, 2) }}</span>
+                                                </p>
+                                            @else
+                                                <p class="text-orange h6 mt-4">
+                                                    Rs. <span class="item-price">{{ number_format($item->product->normal_price, 2) }}</span>
+                                                </p>
+                                            @endif
                                         </div>
                                     </div>
+
                                     <div class="col-lg-2 d-flex align-items-center justify-content-end">
                                         <div class="input-group quantity-input">
                                             <button class="btn btn-white button-minus" type="button">
                                                 <i class="fas fa-minus"></i>
                                             </button>
-                                            <input type="text" class="form-control text-center quantity" id="quantity" value="{{ $item->quantity }}" aria-label="Quantity" data-price="{{ $item->product->normal_price }}" style="width: 50px;" />
+                                            <input type="text" class="form-control text-center quantity" id="quantity" value="{{ $item->quantity }}" aria-label="Quantity" data-price="{{ $item->product->specialOffer && $item->product->specialOffer->status === 'active' ? $item->product->specialOffer->offer_price : $item->product->normal_price }}" style="width: 50px;" />
                                             <button class="btn btn-white button-plus" type="button">
                                                 <i class="fas fa-plus"></i>
                                             </button>
@@ -88,14 +97,22 @@
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2">SubTotal ({{ count($cart) }} items):</p>
                                 <p class="mb-2" id="subtotal">
-                                    Rs. {{ $cart->sum(fn($item) => $item->product->normal_price) }}
+                                    Rs. {{ $cart->sum(fn($item) => 
+                                        ($item->product->specialOffer && $item->product->specialOffer->status === 'active') 
+                                        ? $item->product->specialOffer->offer_price 
+                                        : $item->product->normal_price
+                                    ) }}
                                 </p>
-                            </div>                       
+                            </div>
                             <hr />
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2">Total:</p>
                                 <p class="mb-2 fw-bold" id="total" style="color:#f55b29;">
-                                    Rs. {{ $cart->sum(fn($item) => $item->product->normal_price) }}
+                                    Rs. {{ $cart->sum(fn($item) => 
+                                        ($item->product->specialOffer && $item->product->specialOffer->status === 'active') 
+                                        ? $item->product->specialOffer->offer_price 
+                                        : $item->product->normal_price
+                                    ) }}
                                 </p>
                             </div>
                             <div class="mt-3">
@@ -104,6 +121,7 @@
                         </div>
                     </div>
                 </div>
+
             @else
             <div class="col-lg-12">
                 <div class="card p-4 text-center">
@@ -129,7 +147,6 @@ $(document).ready(function() {
     // Update quantity and price
     $('.button-plus, .button-minus').on('click', function() {
         const quantityInput = $(this).siblings('.quantity');
-        const price = parseFloat(quantityInput.data('price'));
         let currentValue = parseInt(quantityInput.val());
         
         if ($(this).hasClass('button-plus')) {
@@ -145,9 +162,12 @@ $(document).ready(function() {
         let subtotal = 0;
         $('.item-row').each(function() {
             const quantity = parseInt($(this).find('.quantity').val());
-            const price = parseFloat($(this).find('.item-price').text().replace('Rs. ', ''));
-            subtotal += quantity * price;
+            // Get the price from data-price
+            const price = parseFloat($(this).find('.quantity').data('price'));
+
+            subtotal += quantity * price; // Update subtotal
         });
+
         $('#subtotal').text('Rs. ' + subtotal.toFixed(2));
         $('#total').text('Rs. ' + subtotal.toFixed(2));
 
@@ -194,6 +214,7 @@ $(document).ready(function() {
         });
     });
 });
+
 </script>
 
 

@@ -40,34 +40,47 @@
 <nav id="sidebarMenu" class="collapse navbar-collapse d-lg-block sidebar collapse bg-white">
     <div class="position-sticky">
         <div class="list-group list-group-flush mx-2 mt-4">
-        <a href="{{ route('admin.index') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('admin.index') ? 'active' : '' }}" data-mdb-ripple-init aria-current="true">
-            <i class="fas fa-tachometer-alt text-muted"></i><span class="text-muted">Dashboard</span>
-        </a>
-        <a href="{{ route('aff_customers') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('aff_customers') ? 'active' : '' }}" data-mdb-ripple-init>
-            <i class="fas fa-users text-muted"></i><span class="text-muted">Affiliate Customers</span>
-        </a>
-        <a href="{{ route('customers') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('customers') ? 'active' : '' }}" data-mdb-ripple-init>
-            <i class="fas fa-users text-muted"></i><span class="text-muted">Customers</span>
-        </a>
-        <a href="{{ route('products') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('products') ? 'active' : '' }}" data-mdb-ripple-init>
-            <i class="fas fa-box text-muted"></i><span class="text-muted">Products</span>
-        </a>
-        <a href="{{ route('orders') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('orders') ? 'active' : '' }}" data-mdb-ripple-init>
-            <i class="fas fa-shopping-cart text-muted"></i><span class="text-muted">Orders</span>
-        </a>
-        <a href="{{ route('manage_reviews') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('manage_reviews') ? 'active' : '' }}" data-mdb-ripple-init>
-            <i class="fa-solid fa-comments text-muted"></i><span class="text-muted">Manage Reviews</span>
-        </a>
-        <a href="{{ route('customer_inquiries') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('customer_inquiries') ? 'active' : '' }}" data-mdb-ripple-init>
-            <i class="fas fa-envelope text-muted"></i><span class="text-muted">Customer Inquiries</span>
-        </a>
-        <a href="{{ route('category') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('category') ? 'active' : '' }}" data-mdb-ripple-init>
-            <i class="fa-solid fa-folder-tree text-muted"></i><span  class="text-muted">Product Categories</span>
-        </a>
-        <a href="{{ route('show_users') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('show_users') ? 'active' : '' }}" data-mdb-ripple-init>
-            <i class="fas fa-user text-muted"></i><span class="text-muted">User Management</span>
-        </a>
+            <a href="{{ route('admin.index') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('admin.index') ? 'active' : '' }}" data-mdb-ripple-init aria-current="true">
+                <i class="fas fa-tachometer-alt text-muted"></i><span class="text-muted">Dashboard</span>
+            </a>
+            <a href="{{ route('aff_customers') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('aff_customers') ? 'active' : '' }}" data-mdb-ripple-init>
+                <i class="fas fa-users text-muted"></i><span class="text-muted">Affiliate Customers</span>
+            </a>
+            <a href="{{ route('customers') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('customers') ? 'active' : '' }}" data-mdb-ripple-init>
+                <i class="fas fa-users text-muted"></i><span class="text-muted">Customers</span>
+            </a>
+
+            <!-- Products Dropdown -->
+            <a class="list-group-item list-group-item-action py-2 d-flex justify-content-between align-items-center {{ request()->is('products*') ? 'active' : '' }}" data-bs-toggle="collapse" href="#productsSubMenu" role="button" aria-expanded="false" aria-controls="productsSubMenu">
+                <i class="fas fa-box text-muted"></i><span class="text-muted">Products</span>
+                <i class="fas fa-chevron-down float-end mt-2" style="font-size:10px;"></i> 
+            </a>
+            <div class="collapse {{ request()->is('products*') ? 'show' : '' }}" id="productsSubMenu">
+                <a href="{{ route('products') }}" class="list-group-item list-group-item-action ms-4" style="height: 35px; width:180px;">
+                    Products
+                </a>
+                <a href="{{ route('special_offers') }}" class="list-group-item list-group-item-action ms-4" style="height: 35px; width:180px;">
+                    Special Offers
+                </a>
+            </div>
+
+            <a href="{{ route('orders') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('orders') ? 'active' : '' }}" data-mdb-ripple-init>
+                <i class="fas fa-shopping-cart text-muted"></i><span class="text-muted">Orders</span>
+            </a>
+            <a href="{{ route('manage_reviews') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('manage_reviews') ? 'active' : '' }}" data-mdb-ripple-init>
+                <i class="fa-solid fa-comments text-muted"></i><span class="text-muted">Manage Reviews</span>
+            </a>
+            <a href="{{ route('customer_inquiries') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('customer_inquiries') ? 'active' : '' }}" data-mdb-ripple-init>
+                <i class="fas fa-envelope text-muted"></i><span class="text-muted">Customer Inquiries</span>
+            </a>
+            <a href="{{ route('category') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('category') ? 'active' : '' }}" data-mdb-ripple-init>
+                <i class="fa-solid fa-folder-tree text-muted"></i><span class="text-muted">Product Categories</span>
+            </a>
+            <a href="{{ route('show_users') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('show_users') ? 'active' : '' }}" data-mdb-ripple-init>
+                <i class="fas fa-user text-muted"></i><span class="text-muted">User Management</span>
+            </a>
         </div>
     </div>
 </nav>
+
 
