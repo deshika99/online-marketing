@@ -30,15 +30,16 @@ class AffiliateCustomerController extends Controller
 
     public function register(Request $request)
     {
-        try {
         
+        try {
+            // Merge the day, month, and year for the date of birth
             $request->merge([
                 'dob_day' => (int) $request->input('dob_day'),
                 'dob_month' => (int) $request->input('dob_month'),
                 'dob_year' => (int) $request->input('dob_year'),
             ]);
-    
-       
+
+            // Validate the input data
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255',
                 'address' => 'required|string|max:255',
@@ -51,12 +52,23 @@ class AffiliateCustomerController extends Controller
                 'phone_num' => 'required|string|max:20|regex:/^[0-9]{10}$/',
                 'email' => 'required|email|max:255|unique:aff_customers,email',
                 'password' => 'required|string|min:8|confirmed',
+                'promotion_method' => 'nullable|array',
+                'instagram_url' => 'nullable|url|max:255',
+                'facebook_url' => 'nullable|url|max:255',
+                'tiktok_url' => 'nullable|url|max:255',
+                'youtube_url' => 'nullable|url|max:255',
+                'content_website_url' => 'nullable|url|max:255',
+                'content_whatsapp_url' => 'nullable|url|max:255',
+                'bank_name' => 'nullable|string|max:255',
+                'branch' => 'nullable|string|max:255',
+                'account_name' => 'nullable|string|max:255',
+                'account_number' => 'nullable|string|max:255',
             ]);
-    
-            
-            $dob = $validatedData['dob_year'] . '-' . $validatedData['dob_month'] . '-' . $validatedData['dob_day'];
-    
-      
+            //dd($request);
+            // Create a date of birth string
+            $dob = $validatedData['dob_year'] . '-' . str_pad($validatedData['dob_month'], 2, '0', STR_PAD_LEFT) . '-' . str_pad($validatedData['dob_day'], 2, '0', STR_PAD_LEFT);
+
+            // Create the aff_customer record
             $aff_Customer = Aff_Customer::create([
                 'name' => $validatedData['name'],
                 'address' => $validatedData['address'],
@@ -68,18 +80,29 @@ class AffiliateCustomerController extends Controller
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
                 'status' => 'pending',
+                'promotion_method' => json_encode($validatedData['promotion_method']), // Store as JSON
+                'instagram_url' => $validatedData['instagram_url'],
+                'facebook_url' => $validatedData['facebook_url'],
+                'tiktok_url' => $validatedData['tiktok_url'],
+                'youtube_url' => $validatedData['youtube_url'],
+                'content_website_url' => $validatedData['content_website_url'],
+                'content_whatsapp_url' => $validatedData['content_whatsapp_url'],
+                'bank_name' => $validatedData['bank_name'],
+                'branch' => $validatedData['branch'],
+                'account_name' => $validatedData['account_name'],
+                'account_number' => $validatedData['account_number'],
             ]);
-    
+
             return redirect()->route('register_form')->with('status', 'Successfully registered!');
-    
         } catch (\Exception $e) {
             \Log::error('Error creating aff Customer:', [
                 'message' => $e->getMessage(),
             ]);
-    
+
             return redirect()->back()->withErrors(['error' => 'Failed to register. Please try again.']);
         }
     }
+
     
 
 

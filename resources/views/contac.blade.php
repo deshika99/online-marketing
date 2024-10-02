@@ -7,12 +7,12 @@
     .contact-main {
         text-align: center;
         padding: 50px 0;
-        background-image: url('https://media.istockphoto.com/id/2165629955/photo/hand-shaking-icon-on-wooden-cube-blocks-and-human-in-circle-icon-for-business-deal-concept.jpg?s=612x612&w=0&k=20&c=Ht2jfk8f-frcyJ_dhTRhpj9xY1ozgoRMdmOpv-a-cLs=');
+        background-image: url('/assets/images/contact1.jpg');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         color: white;
-        height: 300px;
+        height: 200px;
     }
     .contact-main h1 {
         font-size: 50px;
@@ -54,7 +54,11 @@
     .contact-item:hover {
         transform: translateY(-10px);
         background-color: hsl(240, 3%, 7%);
-        color: #fff;
+    }
+    .contact-item:hover i,
+    .contact-item:hover h3,
+    .contact-item:hover p {
+        color: white;
     }
 
     .contact-item i {

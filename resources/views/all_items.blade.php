@@ -34,173 +34,9 @@
         color: white; 
     }
 
-/*FIlter*/
-
-    body {
-        font-family: Arial, sans-serif;
-    }
-
-    .filter-sidebar {
-        width: 250px;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .filter-title {
-            font-size: 1.6em;
-            color: #000;
-            font-weight: bold;
-            text-align: left;
-            border-bottom: 2px solid #000;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            position: relative;
-            padding-left: 35px; /* Space for the icon */
-        }
-
-    .filter-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .filter-list li {
-        margin-bottom: 15px;
-    }
-
-    .filter-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 0;
-        cursor: pointer;
-    }
-
-    .filter-item span {
-        font-size: 1em;
-    }
-
-    .filter-item .toggle {
-        font-size: 1.2em;
-        font-weight: bold;
-        color: #000;
-    }
-
-    .filter-item:hover .toggle {
-       color: #007bff;
-    }
-
-    .filter-content {
-       display: none;
-       padding: 10px 0;
-       margin-left: 15px;
-    }
-
-    .color-circle {
-       width: 20px;
-       height: 20px;
-       border-radius: 50%;
-       display: inline-block;
-       margin: 5px;
-       border: 1px solid #ccc;
-    }
-
-    label {
-       display: block;
-       margin: 5px 0;
-    }
-
-    .filter-sidebar {
-       overflow-y: auto;
-       height: 100vh;
-    }
-
-    .filter-sidebar::-webkit-scrollbar {
-       width: 6px;
-    }
-
-    .filter-sidebar::-webkit-scrollbar-track {
-       background: #f1f1f1;
-    }
-
-    .filter-sidebar::-webkit-scrollbar-thumb {
-       background-color: #ccc;
-       border-radius: 10px;
-}
-
-/* Star Rating */
-    .star-rating {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .star-rating input {
-        display: none;
-    }
-
-    .star-rating label {
-        font-size: 2em;
-        color: #ddd;
-        cursor: pointer;
-        padding: 0 5px;
-    }
-
-    .star-rating input:checked ~ label,
-    .star-rating label:hover,
-    .star-rating label:hover ~ label {
-        color: gold;
-    }
-
-/* Price Range Slider */
-    .price-range input[type="range"] {
-        width: 100%;
-        appearance: none;
-        background: transparent;
-    }
-
-    .price-range input[type="range"]::-webkit-slider-runnable-track {
-        height: 2px;
-        background: #000;
-    }
-
-    .price-range input[type="range"]::-webkit-slider-thumb {
-        appearance: none;
-        width: 20px;
-        height: 20px;
-        background: #fff;
-        border: 2px solid #ccc;
-        border-radius: 50%;
-        cursor: pointer;
-        margin-top: -9px;
-    }
-
-    .price-range input[type="range"]::-moz-range-thumb {
-        width: 20px;
-        height: 20px;
-        background: #fff;
-        border: 2px solid #ccc;
-        border-radius: 50%;
-        cursor: pointer;
-    }
-
-    .price-range-values {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.9em;
-        margin-top: 5px;
-    }
-
-/* Align min and max on the same line with a lighter color */
-    .price-range-values span {
-         color: #555;
-    }   
-
 </style>
 
-<div class="container mt-4 mb-5" style="width: 80%;">
+<div class="container mt-4 mb-5">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>        
@@ -208,16 +44,182 @@
         </ol>
     </nav>
 
-    <div class="products">
+
+
+    <div class="filter-button" onclick="toggleFilter()">Filter</div>
+    <div class="container products-container">
+    <!-- Filter sidebar -->
+    <div class="filter-sidebar"  style="width: 25%">
+        <div class="filter-header">
+            <h3 class="filter-title">Filter</h3>
+            <button class="reset-button mb-3" onclick="resetFilters()">Reset</button>
+        </div>
+        <ul class="filter-list">
+
+                <!-- <li>
+                <div class="filter-item" onclick="toggleSection('category-section')">
+                    <span>Category</span>
+                    <span class="toggle" id="category-toggle">+</span>
+                </div>
+                <div id="category-section" class="filter-content">
+                    @foreach($categories as $category)
+                        <div class="category-group">
+                            <div class="filter-item" onclick="toggleSubSection('subcategory-section-{{ $category->id }}', 'category-toggle-{{ $category->id }}')">
+                                <label>
+                                    <input type="radio" name="category" value="{{ $category->parent_category }}"> 
+                                    <span>{{ $category->parent_category }}</span>
+                                </label>
+                                <span class="toggle" id="category-toggle-{{ $category->id }}">+</span>
+                            </div>
+                            <div id="subcategory-section-{{ $category->id }}" class="subcategory-group ms-3" style="display: none;">
+                                @foreach($category->subcategories as $subcategory) 
+                                    <div class="filter-item" onclick="toggleSubSection('subsubcategory-section-{{ $subcategory->id }}', 'subcategory-toggle-{{ $subcategory->id }}')">
+                                        <label>
+                                            <input type="radio" name="subcategory" value="{{ $subcategory->subcategory }}"> 
+                                            <span>{{ $subcategory->subcategory }}</span>
+                                        </label>
+                                        <span class="toggle" id="subcategory-toggle-{{ $subcategory->id }}">+</span>
+                                    </div>
+                                    <div id="subsubcategory-section-{{ $subcategory->id }}" class="subsubcategory-group ms-4" style="display: none;">
+                                        @foreach($subcategory->subSubcategories as $subsubcategory) 
+                                            <div class="filter-item">
+                                                <label>
+                                                    <input type="radio" name="subsubcategory" value="{{ $subsubcategory->sub_subcategory }}"> 
+                                                    <span>{{ $subsubcategory->sub_subcategory }}</span>
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </li> -->
+                <li>
+                    <div class="filter-item" onclick="toggleSection('size-section')">
+                        <span>Size</span>
+                        <span class="toggle" id="size-toggle">+</span>
+                    </div>
+                    <div id="size-section" class="filter-content">
+                        <div class="size-buttons">
+                            <button class="size-button" onclick="selectSize(this)">XS</button>
+                            <button class="size-button" onclick="selectSize(this)">S</button>
+                            <button class="size-button" onclick="selectSize(this)">M</button>
+                            <button class="size-button" onclick="selectSize(this)">L</button>
+                            <button class="size-button" onclick="selectSize(this)">XL</button>
+                            <button class="size-button" onclick="selectSize(this)">2XL</button>
+                            <button class="size-button" onclick="selectSize(this)">3XL</button>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="filter-item" onclick="toggleSection('color-section')">
+                        <span>Color</span>
+                        <span class="toggle" id="color-toggle">+</span>
+                    </div>
+                    <div id="color-section" class="filter-content">
+                        @foreach($colors as $color)
+                            <div class="color-circle" style="background-color: {{ $color }};" onclick="selectColor(this)"></div>
+                        @endforeach
+                    </div>
+                </li>
+
+                <li>
+                    <div class="filter-item" onclick="toggleSection('price-range-section')">
+                        <span>Price Range (Rs)</span>
+                        <span class="toggle" id="price-range-toggle">+</span>
+                    </div>
+                    <div id="price-range-section" class="filter-content price-range">
+                        <div class="price-inputs">
+                            <input type="number" id="price-min-input" placeholder="Min" oninput="updatePriceRange()">
+                            <input type="number" id="price-max-input" placeholder="Max" oninput="updatePriceRange()">
+                        </div>
+                        <div id="price-range" style="margin-top: 10px;"></div>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="filter-item" onclick="toggleSection('rating-section')">
+                        <span>Rating</span>
+                        <span class="toggle" id="rating-toggle">+</span>
+                    </div>
+                    <div id="rating-section" class="filter-content">
+                        <div class="rating-row">
+                            <label class="mb-2">
+                                <input type="checkbox" name="rating" value="5">
+                                <div class="star-rating">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="rating-row">
+                            <label class="mb-2">
+                                <input type="checkbox" name="rating" value="4"> 
+                                <div class="star-rating">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="rating-row">
+                            <label class="mb-2">
+                                <input type="checkbox" name="rating" value="3">
+                                <div class="star-rating">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="rating-row">
+                            <label class="mb-2">
+                                <input type="checkbox" name="rating" value="2"> 
+                                <div class="star-rating">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="rating-row">
+                            <label class="mb-2">
+                                <input type="checkbox" name="rating" value="1">
+                                <div class="star-rating">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="products" style="width: 85%">
         @if($products->isEmpty())
             <div class="no-products">
                 <p>No products found.</p>
             </div>
         @else
-        
-            <div class="row mt-3">
+    
+        <div class="row mt-3">
                 @foreach ($products as $index => $product)
-                    <div class="col-md-3">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4">
                         <div class="products-item position-relative">
                             <a href="{{ route('single_product_page', ['product_id' => $product->product_id]) }}" class="d-block text-decoration-none">
                                 @if($product->images->isNotEmpty())
@@ -231,112 +233,29 @@
                                     <img src="{{ asset('storage/default-image.jpg') }}" alt="Default Image" class="img-fluid">
                                 @endif
                                 <h6>{{ $product->product_name }}</h6>
-                                <h6>{!! $product->product_description !!}</h6>
-                                <div class="price">Rs.{{ $product->normal_price }}</div>
+                                <div class="price">
+                                    @if($product->specialOffer && $product->specialOffer->status === 'active')
+                                        <span class="offer-price">Rs. {{ number_format($product->specialOffer->offer_price, 2) }}</span>
+                                    @else
+                                        Rs. {{ number_format($product->normal_price, 2) }}
+                                    @endif
+                                </div>
                             </a>
                         </div>
                     </div>
-
-                    @if (($loop->index + 1) % 4 == 0)
-                        </div>
-                        <div class="row-divider"></div>
-                        <div class="row">
-                    @endif
                 @endforeach
             </div>
-        @endif
-    </div>
+            @endif
+            </div>
 
 
-    <!-- filter modal-->
-    <div class="filter-sidebar">
-        <h3>Filter</h3>
-        <ul class="filter-list">
-            <!-- Categories Filter with Underline -->
-            <li>
-                <div class="filter-item categories" onclick="toggleSection('categories-section')">
-                    <span>Categories</span>
-                    <span class="toggle" id="categories-toggle">+</span>
-                </div>
-                <div id="categories-section" class="filter-content">
-                    <label><input type="checkbox"> Baby Item</label><br>
-                    <label><input type="checkbox"> Beauty Item</label><br>
-                    <label><input type="checkbox"> Home Appliances</label><br>
-                    <label><input type="checkbox">Women Clothes</label><br>
-                </div>
-            </li>
+</div>
 
-            <!-- Size Filter -->
-            <li>
-                <div class="filter-item" onclick="toggleSection('size-section')">
-                    <span>Size</span>
-                    <span class="toggle" id="size-toggle">+</span>
-                </div>
-                <div id="size-section" class="filter-content">
-                    <label><input type="checkbox"> one-size</label>
-                    <label><input type="checkbox"> S</label>
-                    <label><input type="checkbox"> M</label>
-                    <label><input type="checkbox"> L</label>
-                    <label><input type="checkbox"> XL</label>
-                    <label><input type="checkbox"> 2XL</label>
-                </div>
-            </li>
-            <!-- Color Filter -->
-            <li>
-                <div class="filter-item" onclick="toggleSection('color-section')">
-                    <span>Color</span>
-                    <span class="toggle" id="color-toggle">+</span>
-                </div>
-                <div id="color-section" class="filter-content">
-                    <div class="color-circle" style="background-color: #FF5733;"></div>
-                    <div class="color-circle" style="background-color: #000000;"></div>
-                    <div class="color-circle" style="background-color: #3498DB;"></div>
-                    <div class="color-circle" style="background-color: #F1C40F;"></div>
-                    <div class="color-circle" style="background-color: #E74C3C;"></div>
-                    <div class="color-circle" style="background-color: #9B59B6;"></div>
-                    <div class="color-circle" style="background-color: #F39C12;"></div>
-                    <div class="color-circle" style="background-color: #F7DC6F;"></div>
-                    <div class="color-circle" style="background-color: #6C3483;"></div>
-                </div>
-            </li>
-            <!-- Price Range Filter -->
-            <li>
-                <div class="filter-item" onclick="toggleSection('price-range-section')">
-                    <span>Price Range (Rs)</span>
-                    <span class="toggle" id="price-range-toggle">+</span>
-                </div>
-                <div id="price-range-section" class="filter-content price-range">
-                    <input type="range" id="price-range" min="0" max="2194" value="0" oninput="updatePriceRange()">
-                    <div class="price-range-values">
-                        <span id="price-min">Rs 0</span>
-                        <span id="price-max">Rs 2194</span>
-                    </div>
-                </div>
-            </li>
-            <!-- Rating Filter with Stars -->
-            <li>
-                <div class="filter-item" onclick="toggleSection('rating-section')">
-                    <span>Rating</span>
-                    <span class="toggle" id="rating-toggle">+</span>
-                </div>
-                <div id="rating-section" class="filter-content">
-                    <div class="star-rating">
-                        <input type="radio" id="star5" name="rating" value="5">
-                        <label for="star5">&#9733;</label>
-                        <input type="radio" id="star4" name="rating" value="4">
-                        <label for="star4">&#9733;</label>
-                        <input type="radio" id="star3" name="rating" value="3">
-                        <label for="star3">&#9733;</label>
-                        <input type="radio" id="star2" name="rating" value="2">
-                        <label for="star2">&#9733;</label>
-                        <input type="radio" id="star1" name="rating" value="1">
-                        <label for="star1">&#9733;</label>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
 
+
+
+
+<!-- cart modal-->
     @foreach ($products as $product)
     <div class="modal fade" id="cartModal_{{ $product->product_id }}" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered  modal-lg">
@@ -411,8 +330,20 @@
                                 </div>
                             @endif
 
-                            <div class="product-price mb-3 mt-3">
-                                <span class="h4" style="color:#f55b29;">Rs. {{ $product->normal_price }}</span>
+                            <div class="product-price mb-3 mt-3 d-flex align-items-center">
+                                <span class="h4" style="color:#f55b29; margin-right: 10px;">
+                                    @if($product->specialOffer && $product->specialOffer->status === 'active') 
+                                        Rs. {{ number_format($product->specialOffer->offer_price, 2) }} 
+                                        <s style="font-size: 14px; color: #989595; font-weight: 500; margin-left: 5px;">
+                                            Rs. {{ number_format($product->specialOffer->normal_price, 2) }}
+                                        </s>
+                                        <span class="discount" style="color:red; font-size: 18px; margin-left: 10px;">
+                                            {{ floor($product->specialOffer->offer_rate) }}% off 
+                                        </span>
+                                    @else
+                                        Rs. {{ number_format($product->normal_price, 2) }}
+                                    @endif
+                                </span>
                             </div>
 
                             @auth
@@ -453,6 +384,130 @@
     });
 
 </script>
+
+<script>
+function resetFilters() {
+    const checkboxes = document.querySelectorAll('.filter-content input[type="checkbox"]');
+    checkboxes.forEach(checkbox => checkbox.checked = false);
+    
+    const buttons = document.querySelectorAll('.size-button');
+    buttons.forEach(btn => btn.classList.remove('selected'));
+    
+    const priceMinInput = document.getElementById('price-min-input');
+    const priceMaxInput = document.getElementById('price-max-input');
+    priceMinInput.value = '';
+    priceMaxInput.value = '';
+
+    const colorCircles = document.querySelectorAll('.color-circle');
+    colorCircles.forEach(circle => circle.classList.remove('selected-color'));
+    
+    const priceRange = document.getElementById('price-range');
+    priceRange.innerHTML = ''; 
+
+    const categoryRadios = document.querySelectorAll('.filter-content input[type="radio"][name="category"]');
+    const subcategoryRadios = document.querySelectorAll('.filter-content input[type="radio"][name="subcategory"]');
+    const subsubcategoryRadios = document.querySelectorAll('.filter-content input[type="radio"][name="subsubcategory"]');
+
+    categoryRadios.forEach(radio => radio.checked = false);
+    subcategoryRadios.forEach(radio => radio.checked = false);
+    subsubcategoryRadios.forEach(radio => radio.checked = false);
+
+    const subcategorySections = document.querySelectorAll('.subcategory-group');
+    const subsubcategorySections = document.querySelectorAll('.subsubcategory-group');
+    
+    subcategorySections.forEach(section => {
+        section.style.display = 'none';
+    });
+    subsubcategorySections.forEach(section => {
+        section.style.display = 'none';
+    });
+
+    location.reload();
+}
+
+function selectSize(button) {
+    button.classList.toggle('selected');
+    filterProducts();
+}
+function selectColor(circle) {
+    circle.classList.toggle('selected-color');
+    filterProducts(); 
+}
+
+function toggleSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (section.style.display === "none" || section.style.display === "") {
+        section.style.display = "block";
+    } else {
+        section.style.display = "none";
+    }
+}
+
+function toggleSubSection(subsectionId, toggleId) {
+    const subsection = document.getElementById(subsectionId);
+    const toggle = document.getElementById(toggleId);
+    if (subsection.style.display === "none" || subsection.style.display === "") {
+        subsection.style.display = "block";
+        toggle.innerText = "-"; // Change toggle to minus
+    } else {
+        subsection.style.display = "none";
+        toggle.innerText = "+"; // Change toggle back to plus
+    }
+}
+
+
+
+function filterProducts() {
+    const selectedSizes = Array.from(document.querySelectorAll('.size-button.selected')).map(btn => btn.innerText);
+    const selectedColors = Array.from(document.querySelectorAll('.color-circle.selected-color')).map(circle => circle.style.backgroundColor);
+    const priceMin = document.getElementById('price-min-input').value;
+    const priceMax = document.getElementById('price-max-input').value;
+
+    fetch(`/filter-products`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ selectedSizes, selectedColors, priceMin, priceMax })
+    })
+    .then(response => response.json())
+    .then(data => {
+        updateProductDisplay(data.products);
+    });
+}
+
+function updateProductDisplay(products) {
+    const productsContainer = document.querySelector('.products .row');
+    productsContainer.innerHTML = '';
+
+    if (products.length === 0) {
+        productsContainer.innerHTML = '<div class="no-products"><p>No products found under this category.</p></div>';
+        return;
+    }
+
+    products.forEach(product => {
+        const productHTML = `
+            <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4">
+                <div class="products-item position-relative">
+                    <a href="/single_product/${product.product_id}" class="d-block text-decoration-none">
+                        <img src="/storage/${product.images[0].image_path}" alt="Product Image" class="img-fluid">
+                        <h6>${product.product_name}</h6>
+                        <div class="price">Rs.${product.normal_price}</div>
+                    </a>
+                </div>
+            </div>
+        `;
+        productsContainer.innerHTML += productHTML;
+    });
+}
+
+
+document.getElementById('price-min-input').addEventListener('input', filterProducts);
+document.getElementById('price-max-input').addEventListener('input', filterProducts);
+
+</script>
+
 <script>
  $(document).ready(function() {
     //Add to Cart click event
@@ -531,6 +586,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <script>
+
+function toggleFilter() {
+    const filterSidebar = document.querySelector('.filter-sidebar');
+    filterSidebar.classList.toggle('active');
+}
         function toggleSection(sectionId) {
             var section = document.getElementById(sectionId);
             var toggle = document.getElementById(sectionId.split('-')[0] + '-toggle');

@@ -184,14 +184,20 @@
                     <h4 class="title text-dark">{{ $product->product_name }}</h4>              
                     <div class="d-flex flex-row my-3">
                         <div class="text-warning mb-1 me-2">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <span class="ms-1">4.5</span>
+                            <span class="text-warning">
+                                @for($i = 1; $i <= 5; $i++)
+                                    @if($i <= $averageRating)
+                                        <i class="fa fa-star"></i>
+                                    @elseif($i - $averageRating < 1)
+                                        <i class="fas fa-star-half-alt"></i>
+                                    @else
+                                        <i class="fa fa-star-o"></i>
+                                    @endif
+                                @endfor
+                            </span>
+                            <span class="ms-1">{{ number_format($averageRating, 1) }}</span>
                         </div>
-                        <span class="text-primary">18 Ratings | </span>
+                        <span class="text-primary">{{ $totalReviews }} Ratings | </span>
                         <span class="text-primary">&nbsp; 25 Questions Answered</span>
                     </div>
                     <div style="margin-top: -15px;">
@@ -244,7 +250,19 @@
 
                     </div>
                     <div class="product-price mb-3 mt-3">
-                        <span class="h4" style="color:#f55b29;">Rs. {{ $product->normal_price }}</span>
+                        <span class="h4" style="color:#f55b29; display: flex; align-items: center;">
+                            @if($specialOffer)
+                                Rs. {{ number_format($specialOffer->offer_price, 2) }}
+                                <s style="font-size: 14px; color: #989595; font-weight: 500; margin-left: 10px;">
+                                    Rs. {{ number_format($specialOffer->normal_price, 2) }}
+                                </s>
+                                <div class="discount" style="color:red; font-size: 18px; margin-left: 10px;">
+                                        {{ number_format($specialOffer->offer_rate, 0) }}% off
+                                </div>
+                            @else
+                                Rs. {{ number_format($product->normal_price, 2) }}
+                            @endif
+                        </span>
                     </div>
 
                     <div class="d-flex">
@@ -361,7 +379,7 @@
                                                     @endfor
                                                 </span>
                                             </div>
-                                            <p>{{ $totalReviews }} ratings</p>
+                                            <p>{{ $totalReviews }} Ratings</p>
                                         </div>
                                         <div class="rating-bars ms-5">
                                             @foreach([5, 4, 3, 2, 1] as $star)
@@ -395,17 +413,25 @@
                                                 </div>
                                                 <div class="user-review mt-2">
                                                     <p>{{ $review->comment }}</p>
-                                                    @if($review->images)
-                                                        <div class="review-images">
+                                                    <div class="review-images mt-2 d-flex flex-wrap">
+                                                        @if($review->images->isNotEmpty())
                                                             @foreach($review->images as $image)
-                                                                <img src="{{ asset('storage/' . $image->image_path) }}" alt="Review image">
+                                                                <img src="{{ asset('storage/' . $image->media_path) }}" alt="Review image" class="review-img">
                                                             @endforeach
-                                                        </div>
-                                                    @endif
+                                                        @endif
+                                                        @if($review->videos->isNotEmpty())
+                                                            @foreach($review->videos as $video)
+                                                                <video width="100" height="75" controls style="margin-right: 5px;">
+                                                                    <source src="{{ asset('storage/' . $video->media_path) }}" type="video/mp4">
+                                                                    Your browser does not support the video tag.
+                                                                </video>
+                                                            @endforeach
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </div>
                                         @endforeach
-                                    </div>
+                                    </div>                                
                                 </div>
                             </div>
 

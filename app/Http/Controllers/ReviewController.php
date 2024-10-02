@@ -17,7 +17,9 @@ class ReviewController extends Controller
             ->where('status', 'pending')
             ->get();
 
+
         return view('admin_dashboard.manage_reviews', compact('publishedReviews', 'pendingReviews'));
+
     }
 
     public function edit($id)

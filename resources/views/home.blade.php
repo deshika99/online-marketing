@@ -186,10 +186,9 @@
                     <!-- other Links -->
                     <div class="d-flex justify-content-center align-items-center flex-grow-1 otherlinks" style="font-size:16px;">
                         <a href="{{ route('all_items') }}" class="mx-3">All Items</a>
-                        <a href="#" class="mx-3">Bundle Deals</a>
-                        <a href="#" class="mx-3">Top Brands</a>
-                        <a href="#" class="mx-3">Bestsellers</a>
+                        <a href="#" class="mx-3">Special Offers</a>
                         <a href="#" class="mx-3">Flash Sale</a>
+                        <a href="#" class="mx-3">Bestsellers</a>
                         <a href="#" class="mx-3">Super Deals</a>
                     </div>
                 </div>
@@ -342,77 +341,31 @@
 
 
 
-<!--special offers-->
+<!-- Special Offers -->
 <div class="container mt-5 mb-4 special-offers" style="width:76%;">
     <h4>Special Offers</h4>
-    <div class="row  justify-content-between">
-        <div class="col-md-2 col-sm-5 col-6">
-            <div class="special-offer-item mb-2">
-                <a href="">
-                    <img src="/assets/images/item1.png" class="card-img-top"/>
-                    <div class="card-body">
-                        <div class="wishlist"><i class="fa fa-heart"></i></div>
-                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                        <div class="price">Rs.35 699</div>
-                        <div class="discount">Extra 2% off with coins</div>
-                    </div>
-                </a>
+    <div class="row justify-content-between">
+        @foreach ($specialOffers as $offer)
+            <div class="col-md-2 col-sm-5 col-6">
+                <div class="special-offer-item mb-2">
+                    <a href="{{ route('single_product_page', ['product_id' => $offer->product_id]) }}">
+                        @if ($offer->product->images->isNotEmpty())
+                            <img src="{{ asset('storage/' . $offer->product->images->first()->image_path) }}" class="card-img-top" alt="{{ $offer->product->product_name }}"/>
+                        @else
+                            <img src="" class="card-img-top" alt="Default Image"/>
+                        @endif
+                        <div class="card-body">
+                            <h5>{{ $offer->product->product_name }}</h5>
+                            <div class="price">Rs.{{ number_format($offer->offer_price, 2) }} <s style="font-size:12px; color: #989595; font-weight:500">Rs.{{ number_format($offer->normal_price, 2) }}</s></div>
+                            <div class="discount">{{ $offer->offer_rate }}% off</div>
+                        </div>
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class="col-md-2 col-sm-5 col-6">
-            <div class="special-offer-item mb-2">
-                <a href="">
-                    <img src="/assets/images/item2.png" class="card-img-top"/>
-                    <div class="card-body">
-                        <div class="wishlist"><i class="fa fa-heart"></i></div>
-                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                        <div class="price">Rs.35 699</div>
-                        <div class="discount">Extra 2% off with coins</div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-5 col-6">
-            <div class="special-offer-item mb-2">
-                <a href="">
-                    <img src="/assets/images/item3.png" class="card-img-top"/>
-                    <div class="card-body">
-                        <div class="wishlist"><i class="fa fa-heart"></i></div>
-                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                        <div class="price">Rs.35 699</div>
-                        <div class="discount">Extra 2% off with coins</div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-5 col-6">
-            <div class="special-offer-item mb-2">
-                <a href="">
-                    <img src="/assets/images/item4.png" class="card-img-top"/>
-                    <div class="card-body">
-                        <div class="wishlist"><i class="fa fa-heart"></i></div>
-                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                        <div class="price">Rs.35 699</div>
-                        <div class="discount">Extra 2% off with coins</div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-5 col-6">
-            <div class="special-offer-item mb-2">
-                <a href="">
-                    <img src="/assets/images/item4.png" class="card-img-top"/>
-                    <div class="card-body">
-                        <div class="wishlist"><i class="fa fa-heart"></i></div>
-                        <h5>Daraz Like New Smart Watches - SAMSUNG SAMSUNG SAMSUNGSAMSUNG</h5>
-                        <div class="price">Rs.35 699</div>
-                        <div class="discount">Extra 2% off with coins</div>
-                    </div>
-                </a>
-            </div>
-        </div>
+        @endforeach
     </div>
 </div>
+
 
 
 

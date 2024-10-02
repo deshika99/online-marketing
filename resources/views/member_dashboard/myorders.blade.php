@@ -451,7 +451,7 @@ $('#confirmDeliveryBtn').on('click', function() {
             if (response.success) {
                 $('#confirmDeliveryMessage').html(`
                     <p>Delivery confirmed! Would you like to leave a review?</p>
-                    <a href="/leave-review-page" class="btn btn-primary" style="font-size: 13px">Leave a Review</a>
+                    <a href="{{ route('myreviews') }}" class="btn btn-primary" style="font-size: 13px">Leave a Review</a>
                 `);
                 $('.modal-footer').html('');
             } else {
