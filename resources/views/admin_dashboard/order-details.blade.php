@@ -51,19 +51,34 @@
             </div>
         @endif
 
-        <div class="d-flex justify-content-between align-items-center">
-            <h3 class="mb-1">Order Details</h3>
-        </div>
-        <div class="d-flex justify-content-between align-items-center">
-            <h5 class="mb-1 mt-2">Order #{{ $order->order_code }}</h5>
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <div class="me-auto"> 
+                <h3 class="mb-1">Order Details</h3>
+                <h5 class="mb-1 mt-2">Order #{{ $order->order_code }}</h5>
+                <span class="status {{ strtolower(str_replace(' ', '-', $order->status)) }} fw-bold" style="font-size: 13px;">
+                    {{ $order->status }}
+                </span>
+            </div>
+            <div style="width: 20%;">
+                <div>Update Order Status</div>
+                <div class="card-body">
+                    <form action="{{ route('update_order_status', $order->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="mb-3">
+                            <select id="orderStatus" name="status" class="form-select" required>
+                                <option value="In Progress" {{ $order->status == 'In Progress' ? 'selected' : '' }}>In Progress</option>
+                                <option value="Shipped" {{ $order->status == 'Shipped' ? 'selected' : '' }}>Shipped</option>
+                                <option value="Delivered" {{ $order->status == 'Delivered' ? 'selected' : '' }}>Delivered</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                </div>
+            </div>
         </div>
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-           <span class="status {{ strtolower(str_replace(' ', '-', $order->status)) }} fw-bold"  style="font-size: 13px;">
-                            {{ $order->status }}
-                            </span>
-        </div>
-        
+
 
         <div class="order-cards-row mt-2">
             <div class="card">
@@ -153,25 +168,7 @@
         </div>
 
 
-    <!-- Order Status Update Card -->
-        <div class="card mt-4" style="width: 50%">
-            <div class="card-title">Update Order Status</div>
-            <div class="card-body">
-                <form action="{{ route('update_order_status', $order->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="mb-3">
-                        <label for="orderStatus" class="form-label">Select Status</label>
-                        <select id="orderStatus" name="status" class="form-select" required>
-                            <option value="In Progress" {{ $order->status == 'In Progress' ? 'selected' : '' }}>In Progress</option>
-                            <option value="Shipped" {{ $order->status == 'Shipped' ? 'selected' : '' }}>Shipped</option>
-                            <option value="Delivered" {{ $order->status == 'Delivered' ? 'selected' : '' }}>Delivered</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Update Status</button>
-                </form>
-            </div>
-        </div>
+    
 
         
     </div>

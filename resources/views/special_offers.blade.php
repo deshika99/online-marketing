@@ -94,6 +94,33 @@
         </div>
     @endif
 </div>
+
+<!-- Pagination -->
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end mb-4" id="pagination">
+        @if ($products->currentPage() > 1)
+            <li class="page-item" id="prevPage">
+                <a class="page-link" href="#" aria-label="Previous" data-page="{{ $products->currentPage() - 1 }}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        @endif
+        
+        @for ($i = 1; $i <= $products->lastPage(); $i++)
+            <li class="page-item @if ($i == $products->currentPage()) active @endif">
+                <a class="page-link" href="#" data-page="{{ $i }}">{{ $i }}</a>
+            </li>
+        @endfor
+        
+        @if ($products->hasMorePages())
+            <li class="page-item" id="nextPage">
+                <a class="page-link" href="#" aria-label="Next" data-page="{{ $products->currentPage() + 1 }}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        @endif
+    </ul>
+</nav>
 </div>
 
 
@@ -217,33 +244,6 @@
     @endforeach
 </div>
 
-
-<!-- Pagination -->
-<nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center mb-4" id="pagination">
-        @if ($products->currentPage() > 1)
-            <li class="page-item" id="prevPage">
-                <a class="page-link" href="#" aria-label="Previous" data-page="{{ $products->currentPage() - 1 }}">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-        @endif
-        
-        @for ($i = 1; $i <= $products->lastPage(); $i++)
-            <li class="page-item @if ($i == $products->currentPage()) active @endif">
-                <a class="page-link" href="#" data-page="{{ $i }}">{{ $i }}</a>
-            </li>
-        @endfor
-        
-        @if ($products->hasMorePages())
-            <li class="page-item" id="nextPage">
-                <a class="page-link" href="#" aria-label="Next" data-page="{{ $products->currentPage() + 1 }}">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        @endif
-    </ul>
-</nav>
 
    
 
