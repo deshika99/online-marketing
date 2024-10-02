@@ -14,6 +14,8 @@
             @else
                 <img src="{{ asset('assets/images/default-user.png') }}" alt="Default Profile Image" class="rounded-circle" id="profileImagePreview" width="120" height="120" style="cursor: pointer;">
             @endif
+            <!-- Hidden file input for image upload -->
+            <input type="file" id="profileImageInput" name="profile_image" accept="image/*" style="display: none;">
         </div>
 
         <div class="mb-3">
@@ -52,16 +54,16 @@
     </form>
 </div>
 
-
 <script>
-
     const profileImagePreview = document.getElementById('profileImagePreview');
     const profileImageInput = document.getElementById('profileImageInput');
 
+    // Open file input when profile image is clicked
     profileImagePreview.addEventListener('click', function() {
         profileImageInput.click();
     });
 
+    // Preview the selected image
     profileImageInput.addEventListener('change', function(event) {
         const file = event.target.files[0];
         if (file) {
@@ -75,4 +77,3 @@
 </script>
 
 @endsection
-

@@ -92,4 +92,24 @@ class SpecialOffersController extends Controller
     }
 
 
+
+
+
+
+    public function showProductsWithSpecialOffers()
+    {
+        $perPage = 20;
+        $products = Products::with(['specialOffer' => function ($query) {
+            $query->where('status', 'active');
+        }, 'images'])
+        ->whereHas('specialOffer', function ($query) {
+            $query->where('status', 'active');
+        })
+        ->paginate($perPage);
+
+
+        return view('special_offers', compact('products'));
+    }
+
+
 }

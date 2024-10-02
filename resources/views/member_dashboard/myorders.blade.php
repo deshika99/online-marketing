@@ -59,7 +59,7 @@
                 <div class="order-image" style="position: relative;">
                     @php
                         $firstItem = $order->items->first();
-                        $productImage = $firstItem->product->images->first();
+                        $productImage = $firstItem && $firstItem->product ? $firstItem->product->images->first() : null;
                         $additionalCount = $order->items->count() - 1;
                     @endphp
                     @if($productImage)
@@ -71,23 +71,28 @@
                         <span class="additional-count" style="position: absolute; top: 58px; right: 20px; background: rgba(0, 0, 0, 0.3); color: white; padding: 5px; border-radius: 5px;">+{{ $additionalCount }}</span>
                     @endif
                 </div>
+
                 <div class="order-info">
                     <h6 class="order-id">Order ID: {{ $order->order_code }}</h6>
                     <h6 class="order-date">Order date: {{ $order->date }}</h6>
 
-                    <!-- Product Summary -->
                     <p class="order-summary">
                         @php
                             $itemCount = $order->items->count();
                             $itemsToShow = $order->items->take(2);
                         @endphp
                         @foreach($itemsToShow as $item)
-                            {{ $item->product->product_name }}{{ !$loop->last ? ' | ' : '' }}
+                            @if($item->product)
+                                {{ $item->product->product_name }}{{ !$loop->last ? ' | ' : '' }}
+                            @else
+                                <span class="text-muted">Product not found</span>{{ !$loop->last ? ' | ' : '' }}
+                            @endif
                         @endforeach
                         @if($itemCount > 2)
                             <strong style="font-weight: 500;">& {{ $itemCount - 2 }} more items</strong>
                         @endif
                     </p>
+
 
                     <h6 class="order-price">Rs {{ $order->total_cost }}</h6>
                 </div>
