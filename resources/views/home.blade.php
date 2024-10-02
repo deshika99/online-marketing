@@ -188,7 +188,7 @@
                         <a href="{{ route('all_items') }}" class="mx-3">All Items</a>
                         <a href="{{ route('special_offerproducts') }}" class="mx-3">Special Offers</a>
                         <a href="#" class="mx-3">Flash Sale</a>
-                        <a href="#" class="mx-3">Bestsellers</a>
+                        <a href="{{ route('best_sellers') }}" class="mx-3">Bestsellers</a>
                         <a href="#" class="mx-3">Super Deals</a>
                     </div>
                 </div>
@@ -343,7 +343,7 @@
 
 <!-- Special Offers -->
 <div class="container mt-5 mb-4 special-offers" style="width:76%;">
-    <h4>Special Offers</h4>
+    <a href="{{ route('special_offerproducts') }}" style="text-decoration: none; color:black;"><h4>Special Offers</h4></a>
     <div class="row justify-content-between">
         @foreach ($specialOffers as $offer)
             <div class="col-md-2 col-sm-5 col-6">

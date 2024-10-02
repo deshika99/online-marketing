@@ -212,7 +212,7 @@
                             @else
                                 <img src="{{ asset('storage/default-image.jpg') }}" alt="Default Image" class="img-fluid">
                             @endif
-                            <h6>{{ $product->product_name }}</h6>
+                            <h6 class="product-name">{{ \Illuminate\Support\Str::limit($product->product_name, 30, '...') }}</h6>
                             <div class="price">
                                 @if($product->specialOffer && $product->specialOffer->status === 'active')
                                     <span class="offer-price">Rs. {{ number_format($product->specialOffer->offer_price, 2) }}</span>
@@ -495,7 +495,7 @@ function selectColor(circle) {
 function filterProducts() {
     const selectedSizes = Array.from(document.querySelectorAll('.size-button.selected')).map(btn => btn.innerText);
     const selectedColors = Array.from(document.querySelectorAll('.color-circle.selected-color')).map(circle => circle.style.backgroundColor);
-    
+    const selectedRatings = Array.from(document.querySelectorAll('input[name="rating"]:checked')).map(checkbox => checkbox.value); 
     const priceMin = parseFloat(document.getElementById('price-min-input').value) || 0; 
     const priceMax = parseFloat(document.getElementById('price-max-input').value) || Number.MAX_SAFE_INTEGER;
 
@@ -517,7 +517,8 @@ function filterProducts() {
             priceMax,
             category,
             subcategory,
-            subsubcategory
+            subsubcategory,
+            selectedRatings
         })
     })
     .then(response => response.json())
@@ -526,6 +527,9 @@ function filterProducts() {
     });
 }
 
+document.querySelectorAll('input[name="rating"]').forEach(ratingCheckbox => {
+    ratingCheckbox.addEventListener('change', filterProducts); 
+});
 
 document.getElementById('price-min-input').addEventListener('input', filterProducts);
 document.getElementById('price-max-input').addEventListener('input', filterProducts);
@@ -536,7 +540,7 @@ function updateProductDisplay(products) {
     productsContainer.innerHTML = '';  
 
     if (products.length === 0) {
-        productsContainer.innerHTML = '<div class="no-products"><p>No products found under this category.</p></div>';
+        productsContainer.innerHTML = '<div class="no-products"><p>No products found.</p></div>';
         return;
     }
 

@@ -34,6 +34,74 @@
         color: white; 
     }
 
+    .offer-item {
+    text-align: center;
+    padding: 5px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    width: 110%;
+}
+
+.offer-item:hover {
+    border: 1px solid #e1e1e1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+.offer-item a {
+    text-decoration: none;
+    color: black;
+}
+
+.offer-item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    margin-bottom: 5px;
+}
+
+.offer-image-wrapper {
+    width: 100%;
+    height: 300px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.offer-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+.offer-item h6 {
+    text-align: left;
+    font-size: 15px; 
+    margin: 2px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.offer-item .price {
+    text-align: left;
+    color: orange;
+    font-size: 15px; 
+    font-weight: bold;
+}
+
+.offer .row {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
 .col-lg-3-5 {
     width: calc(100% / 4);
     max-width: calc(100% / 4);
@@ -50,7 +118,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>        
-            <li class="breadcrumb-item active" aria-current="page">Special Offer Products</li>
+            <li class="breadcrumb-item active" aria-current="page">Best Sellers</li>
         </ol>
     </nav>
 
@@ -94,7 +162,39 @@
         </div>
     @endif
 </div>
+
 </div>
+
+
+<!-- Pagination -->
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center mb-4" id="pagination">
+        @if ($products->currentPage() > 1)
+            <li class="page-item" id="prevPage">
+                <a class="page-link" href="#" aria-label="Previous" data-page="{{ $products->currentPage() - 1 }}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        @endif
+        
+        @for ($i = 1; $i <= $products->lastPage(); $i++)
+            <li class="page-item @if ($i == $products->currentPage()) active @endif">
+                <a class="page-link" href="#" data-page="{{ $i }}">{{ $i }}</a>
+            </li>
+        @endfor
+        
+        @if ($products->hasMorePages())
+            <li class="page-item" id="nextPage">
+                <a class="page-link" href="#" aria-label="Next" data-page="{{ $products->currentPage() + 1 }}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        @endif
+    </ul>
+</nav>
+
+
+
 
 
 <!-- cart modal-->
@@ -215,35 +315,9 @@
         </div>
     </div>
     @endforeach
+
 </div>
 
-
-<!-- Pagination -->
-<nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center mb-4" id="pagination">
-        @if ($products->currentPage() > 1)
-            <li class="page-item" id="prevPage">
-                <a class="page-link" href="#" aria-label="Previous" data-page="{{ $products->currentPage() - 1 }}">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-        @endif
-        
-        @for ($i = 1; $i <= $products->lastPage(); $i++)
-            <li class="page-item @if ($i == $products->currentPage()) active @endif">
-                <a class="page-link" href="#" data-page="{{ $i }}">{{ $i }}</a>
-            </li>
-        @endfor
-        
-        @if ($products->hasMorePages())
-            <li class="page-item" id="nextPage">
-                <a class="page-link" href="#" aria-label="Next" data-page="{{ $products->currentPage() + 1 }}">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        @endif
-    </ul>
-</nav>
 
    
 
@@ -260,10 +334,11 @@
     });
 
      //pagination
-    document.addEventListener('DOMContentLoaded', function () {
+     document.addEventListener('DOMContentLoaded', function () {
     const productList = document.getElementById('product-list');
     const paginationButtons = document.getElementById('pagination');
 
+    // Attach event listener for pagination links
     paginationButtons.addEventListener('click', function (event) {
         if (event.target.closest('.page-link')) {
             event.preventDefault(); // Prevent default link behavior
@@ -273,25 +348,35 @@
     });
 
     function fetchProducts(page) {
-        fetch(`/home/special_offer_products?page=${page}`)
+        fetch(`/best-sellers?page=${page}`) // Adjust URL to match your route
             .then(response => response.text())
             .then(data => {
-                productList.innerHTML = new DOMParser().parseFromString(data, 'text/html').getElementById('product-list').innerHTML;
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(data, 'text/html');
 
-                const newPagination = new DOMParser().parseFromString(data, 'text/html').getElementById('pagination');
+                // Update the product list and pagination
+                productList.innerHTML = doc.getElementById('product-list').innerHTML;
+
+                const newPagination = doc.getElementById('pagination');
                 paginationButtons.innerHTML = newPagination.innerHTML;
 
-                paginationButtons.addEventListener('click', function (event) {
-                    if (event.target.closest('.page-link')) {
-                        event.preventDefault(); 
-                        const page = event.target.closest('.page-link').getAttribute('data-page');
-                        fetchProducts(page);
-                    }
-                });
+                // Re-attach event listener to the new pagination buttons
+                reattachPaginationListener();
             })
             .catch(error => console.error('Error fetching products:', error));
     }
+
+    function reattachPaginationListener() {
+        paginationButtons.addEventListener('click', function (event) {
+            if (event.target.closest('.page-link')) {
+                event.preventDefault();
+                const page = event.target.closest('.page-link').getAttribute('data-page');
+                fetchProducts(page);
+            }
+        });
+    }
 });
+
 
 
 </script>

@@ -35,6 +35,7 @@ Route::get('/product/{product_id?}', [ProductController::class, 'show'])->name('
 Route::get('/home/all_items', [ProductController::class, 'show_all_items'])->name('all_items');
 Route::get('/home/special_offer_products', [SpecialOffersController::class, 'showProductsWithSpecialOffers'])->name('special_offerproducts');
 Route::post('/filter-products', [ProductController::class, 'filterProducts']);
+Route::get('/best-sellers', [SpecialOffersController::class, 'bestSellers'])->name('best_sellers');
 
 
 Route::view('/home/affiliate/all', 'aff_all')->name('aff_all');

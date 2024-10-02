@@ -39,7 +39,7 @@ class ProductController extends Controller
             return $product;
         });
 
-        $colors = Variation::where('type', 'color')->pluck('value');
+        $colors = Variation::where('type', 'color')->distinct()->pluck('value');
 
         if (request()->ajax()) {
             return view('partials.products', compact('products', 'colors'));
@@ -56,59 +56,83 @@ class ProductController extends Controller
 
     
 
+    public function show_all_items()
+    {
+        $perPage = 16; 
+        $query = Products::with('images', 'specialOffer');
+        $products = $query->paginate($perPage)->through(function ($product) {
+            $product->average_rating = $product->reviews()->where('status', 'published')->avg('rating');
+            $product->rating_count = $product->reviews()->where('status', 'published')->count();
+            return $product;
+        });
+
+        $colors = Variation::where('type', 'color')->distinct()->pluck('value');
+        
+        return view('all_items', compact('products', 'colors'));
+    }
+
     
 
 
     public function filterProducts(Request $request)
     {
         $query = Products::with(['images', 'specialOffer']);
-    
+
         if (!empty($request->category)) {
             $query->where('product_category', $request->category);
         }
-    
+
         if (!empty($request->subcategory)) {
             $query->where('subcategory', $request->subcategory);
         }
-    
+
         if (!empty($request->subsubcategory)) {
             $query->where('sub_subcategory', $request->subsubcategory);
         }
-    
+
         if (!empty($request->selectedSizes)) {
             $query->whereHas('variations', function ($q) use ($request) {
                 $q->whereIn('value', $request->selectedSizes)->where('type', 'size');
             });
         }
-    
+
         if (!empty($request->selectedColors)) {
             $query->whereHas('variations', function ($q) use ($request) {
                 $q->whereIn('value', $request->selectedColors)->where('type', 'color');
             });
         }
-    
+
+        if (!empty($request->selectedRatings)) {
+            $query->whereHas('reviews', function ($q) use ($request) {
+                $q->selectRaw('product_id, AVG(rating) as avg_rating')
+                ->groupBy('product_id')
+                ->havingRaw('AVG(rating) >= ?', [min($request->selectedRatings)]);
+            });
+        }
+
         if ($request->priceMin) {
             $query->where(function ($q) use ($request) {
                 $q->where('normal_price', '>=', $request->priceMin)
-                  ->orWhereHas('specialOffer', function ($q) use ($request) {
-                      $q->where('offer_price', '>=', $request->priceMin);
-                  });
+                ->orWhereHas('specialOffer', function ($q) use ($request) {
+                    $q->where('offer_price', '>=', $request->priceMin);
+                });
             });
         }
 
         if ($request->priceMax) {
             $query->where(function ($q) use ($request) {
                 $q->where('normal_price', '<=', $request->priceMax)
-                  ->orWhereHas('specialOffer', function ($q) use ($request) {
-                      $q->where('offer_price', '<=', $request->priceMax);
-                  });
+                ->orWhereHas('specialOffer', function ($q) use ($request) {
+                    $q->where('offer_price', '<=', $request->priceMax);
+                });
             });
         }
-    
+
         $products = $query->get();
-    
+
         return response()->json(['products' => $products]);
     }
+
     
     
     
@@ -153,27 +177,6 @@ class ProductController extends Controller
         return view('single_product_page', compact('product', 'relatedProducts', 'reviews', 'averageRating', 'totalReviews', 'ratingsCount', 'specialOffer'));
     }
     
-
-
-    public function show_all_items()
-    {
-        $perPage = 16; 
-        $products = Products::with('specialOffer')
-            ->withCount(['reviews as average_rating' => function ($query) {
-                $query->where('status', 'published');
-            }])
-            ->withCount(['reviews as rating_count' => function ($query) {
-                $query->where('status', 'published');
-            }])
-            ->paginate($perPage); 
-    
-        $colors = Variation::where('type', 'color')->pluck('value');
-    
-        return view('all_items', compact('products', 'colors'));
-    }
-    
-    
-
 
     
     //admin products

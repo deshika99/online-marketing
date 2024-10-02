@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Products;
+use App\Models\CustomerOrderItems;
 use App\Models\SpecialOffers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -94,11 +95,9 @@ class SpecialOffersController extends Controller
 
 
 
-
-
     public function showProductsWithSpecialOffers()
     {
-        $perPage = 20;
+        $perPage = 24;
         $products = Products::with(['specialOffer' => function ($query) {
             $query->where('status', 'active');
         }, 'images'])
@@ -112,4 +111,20 @@ class SpecialOffersController extends Controller
     }
 
 
+    public function bestSellers(Request $request)
+    {
+        // Get the most ordered products 
+        $orderedProductIds = CustomerOrderItems::select('product_id')
+            ->groupBy('product_id')
+            ->orderByRaw('count(*) desc')
+            ->pluck('product_id'); 
+    
+        $products = Products::with('images')
+            ->whereIn('product_id', $orderedProductIds)
+            ->paginate(6);
+    
+        return view('best_sellers', compact('products'));
+    }
+    
+    
 }

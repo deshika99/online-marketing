@@ -144,11 +144,13 @@
                                             <td>{{ $review->created_at->format('Y-m-d') }}</td>
                                             <td><span class="badge bg-success">{{ ucfirst($review->status) }}</span></td>
                                             <td>
-                                                <div class="action-icons">
-                                                    <a href="#" onclick="deleteReview({{ $review->id }})">
-                                                        <i class="fas fa-trash-alt delete-icon"></i>
-                                                    </a>
-                                                </div>
+                                            <form id="delete-form-{{ $review->id }}" action="{{ route('delete_user', $review->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" class="btn btn-danger btn-sm" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="confirmDelete('delete-form-{{ $review->id }}', 'Are you sure you want to delete this Review?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -251,11 +253,9 @@
 
 
 <script>
-    function deleteReview(reviewId) {
-        console.log('Delete review with ID:', reviewId);
-    }
+  
 
-    let currentReviewId = null; // Variable to hold the current review ID
+let currentReviewId = null; // Variable to hold the current review ID
 
 function approveReview(reviewId) {
     currentReviewId = reviewId; // Store the review ID
