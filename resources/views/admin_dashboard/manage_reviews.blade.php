@@ -108,7 +108,7 @@
                                         <th>Product</th>
                                         <th>Reviewer</th>
                                         <th style="width: 30%">Review</th>
-                                        <th style="width: 10%">Date</th>
+                                        <th style="width: 15%">Date</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -119,9 +119,7 @@
 
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $review->product->product_name }}</td>
                                             <td>
-
                                                 <div class="user-profile">
                                                 <img src="{{ asset('storage/' . $review->product->images->first()->image_path) }}" alt="Product Image" style="max-width: 50px;">
                                                 {{ $review->product->product_name }}</td>
@@ -152,23 +150,15 @@
                                             </td>
                                             <td>{{ $review->created_at->format('Y-m-d') }}</td>
                                             <td><span class="badge bg-success">{{ ucfirst($review->status) }}</span></td>
-                                            <td>
-
-                                            <form id="delete-form-{{ $review->id }}" action="{{ route('delete_user', $review->id) }}" method="POST" style="display:inline;">
+                                            <td>                                          
+                                            <form id="delete-form-{{ $review->id }}" action="{{ route('reviews.destroy', $review->id) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="button" class="btn btn-danger btn-sm" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="confirmDelete('delete-form-{{ $review->id }}', 'Are you sure you want to delete this Review?')">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </form>
-
-                                           <div class="action-icons">
-                                                    <a href="#" onclick="deleteReview({{ $review->id }})">
-                                                        <i class="fas fa-trash-alt delete-icon"></i>
-                                                    </a>
-                                                </div>
-
-                                            </td>
+                                        </td>                                           
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -239,22 +229,15 @@
                                                         <i class="fas fa-ellipsis-v"></i>
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $review->id }}">
-                                        <div class="dropdown">
-                                                    <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton{{ $review->id }}" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="fas fa-ellipsis-v"></i>
-
-                                                <a href="" class="btn btn-success btn-sm">Publish</a>
-                                                <form action="" method="POST" style="display:inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('')">
-                                                        <i class="fas fa-trash"></i>
-
-                                                    </button>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $review->id }}">
-                                                        <li><a class="dropdown-item" href="{{ route('reviews.edit', $review->id) }}">Edit</a></li>
-                                       <li><a class="dropdown-item" href="#" onclick="approveReview({{ $review->id }})">Published</a></li>
-                                                        <li><a class="dropdown-item text-danger" href="#" onclick="deleteReview({{ $review->id }})">Delete</a></li>
+                                                        <li><a class="dropdown-item" href="#" onclick="approveReview({{ $review->id }})">Published</a></li>
+                                                        <li <a class="dropdown-item" onclick="confirmDelete('delete-form-{{ $review->id }}', 'Are you sure you want to delete this Review?')" style="cursor: pointer;">
+                                                            <form id="delete-form-{{ $review->id }}" action="{{ route('reviews.destroy', $review->id) }}" method="POST" style="display:inline;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                Delete
+                                                            </form>
+                                                            </a>
+                                                        </li>
                                                     </ul>
                                                 </div>
                                             </td>
@@ -325,37 +308,7 @@ document.getElementById('confirmApproveBtn').addEventListener('click', function(
 
 
 </script>
-@endsection
 
-<script>
-    function deleteReview(reviewId) {
-        console.log('Delete review with ID:', reviewId);
-    }
 
-    // JavaScript function for approving reviews
-    function approveReview(reviewId) {
-        if (confirm('Are you sure you want to approve this review?')) {
-            fetch(`/admin/manage_reviews/${reviewId}/approve`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}', // Add CSRF token for security
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    status: 'published'
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    location.reload(); // Reload the page to see the updated reviews
-                } else {
-                    alert('Error approving review.');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        }
-    }
-</script>
 @endsection
 

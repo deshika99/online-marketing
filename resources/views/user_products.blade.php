@@ -69,7 +69,7 @@
         <input type="hidden" name="subsubcategory" value="{{ $subsubcategory ?? '' }}">
    
     <!-- Filter sidebar -->
-    <div class="filter-sidebar" style="width: 25%">
+    <div class="filter-sidebar" style="width: 22%">
         <div class="filter-header">
             <h3 class="filter-title">Filter</h3>
             <button class="reset-button mb-3" onclick="resetFilters()">Reset</button>
@@ -191,7 +191,7 @@
     </ul>
     </div>
     
-    <div class="products" style="width: 85%">
+    <div class="products" style="width: 88%">
     @if($products->isEmpty())
         <div class="no-products">
             <p>No products found.</p>
@@ -228,7 +228,7 @@
 
         <!-- Pagination -->
         <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center mb-4" id="pagination">
+            <ul class="pagination justify-content-end mb-4" id="pagination">
                 @if ($products->currentPage() > 1)
                     <li class="page-item" id="prevPage">
                         <a class="page-link" href="#" aria-label="Previous" data-page="{{ $products->currentPage() - 1 }}">
@@ -236,13 +236,13 @@
                         </a>
                     </li>
                 @endif
-
+                
                 @for ($i = 1; $i <= $products->lastPage(); $i++)
                     <li class="page-item @if ($i == $products->currentPage()) active @endif">
                         <a class="page-link" href="#" data-page="{{ $i }}">{{ $i }}</a>
                     </li>
                 @endfor
-
+                
                 @if ($products->hasMorePages())
                     <li class="page-item" id="nextPage">
                         <a class="page-link" href="#" aria-label="Next" data-page="{{ $products->currentPage() + 1 }}">

@@ -161,11 +161,28 @@
                             <label for="userImage">User Image</label><br>
                             <input type="file" id="userImage" name="userImage" class="form-control-file" style="width:100%">
                         </div>
+
+                        <div class="col-md-6 form-group position-relative">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Enter Password">
+                            <span class="position-absolute end-0 translate-middle-y pe-3" style="margin-top: -15px;">
+                                <i class="fas fa-eye" id="togglePassword" style="cursor: pointer;"></i>
+                            </span>
+                        </div>
+
+                        <div class="col-md-6 form-group position-relative">
+                            <label for="password_confirmation">Confirm Password</label>
+                            <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Confirm Password">
+                            <span class="position-absolute end-0 translate-middle-y pe-3" style="margin-top: -15px;">
+                                <i class="fas fa-eye" id="toggleConfirmPassword" style="cursor: pointer;"></i>
+                            </span>
+                            <small id="passwordError" class="text-danger d-none">Passwords do not match</small>
+
+                        </div>
                         <div class="form-check form-switch ms-3">
                             <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="status" {{ old('status', 'on') ? 'checked' : '' }}>
                             <label class="form-check-label" for="flexSwitchCheckChecked">Status</label>
                         </div>
-
                     </div>
                     <button type="submit" class="btn btn-success btn-create">Add</button>
                 </form>
@@ -173,6 +190,9 @@
         </div>
     </div>
 </div>
+
+
+
 
 
 <!-- User Details Modal -->
@@ -230,4 +250,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 
+<script>
+    // Toggle Password Visibility
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const password = document.getElementById('password');
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.classList.toggle('fa-eye-slash');
+    });
+
+    document.getElementById('toggleConfirmPassword').addEventListener('click', function () {
+        const confirmPassword = document.getElementById('password_confirmation');
+        const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+        confirmPassword.setAttribute('type', type);
+        this.classList.toggle('fa-eye-slash');
+    });
+
+    // Check if passwords match
+    document.getElementById('password_confirmation').addEventListener('input', function() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = this.value;
+        const passwordError = document.getElementById('passwordError');
+
+        if (password !== confirmPassword) {
+            passwordError.classList.remove('d-none');
+        } else {
+            passwordError.classList.add('d-none');
+        }
+    });
+
+
+</script>
 @endsection

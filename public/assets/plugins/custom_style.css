@@ -1,5 +1,8 @@
 body {
     background-color: #fbfbfb;
+    font-family: 'Overpass', Arial, sans-serif;
+    font-size: 15px;
+  
   }
   @media (min-width: 991.98px) {
     main {

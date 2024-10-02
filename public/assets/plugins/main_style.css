@@ -6,7 +6,6 @@ body {
 }
 
 
-
 .shopping-titles .card-body{
     background-color: #0a6dbf;
     height:65px;
@@ -703,6 +702,11 @@ a.text-reset {
 
 
 /* pagination */
+.pagination {
+    display: flex;
+    justify-content: flex-end; /* Aligns the pagination to the right */
+}
+
 .pagination .page-item .page-link {
     padding: 5 8; 
     font-size: 15px;

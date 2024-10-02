@@ -40,6 +40,8 @@ class ReviewController extends Controller
     {
         $review = Review::findOrFail($id);
         $review->delete();
-        return redirect()->route('manage_reviews')->with('success', 'Review deleted successfully.');
+
+        return redirect()->route('manage_reviews')->with('status', 'Review deleted successfully.');
     }
+
 }
