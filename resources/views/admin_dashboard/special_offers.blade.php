@@ -43,9 +43,12 @@
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $offer->product_id }}</td>
-                                    <td>{{ $offer->product->product_name }}</td>
+                                    <td>{{ $offer->product ? $offer->product->product_name : 'No Product Available' }}</td>
+
                                     <td>
-                                    <img src="{{ asset('storage/' . $offer->product->images->first()->image_path) }}" alt="{{ $offer->product->product_name }}" style="width: 50px; height: auto;">
+                                    <img src="{{ $offer->product && $offer->product->images->first() ? asset('storage/' . $offer->product->images->first()->image_path) : asset('path/to/default-image.jpg') }}" 
+                                        alt="{{ $offer->product ? $offer->product->product_name : 'No Product Available' }}" 
+                                        style="width: 50px; height: auto;">
                                     </td> 
                                     <td>{{ $offer->month }}</td>
                                     <td>{{ $offer->normal_price }}</td>

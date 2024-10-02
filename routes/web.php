@@ -33,7 +33,9 @@ Route::get('/home/products/{category?}/{subcategory?}/{subsubcategory?}', [Produ
     ->name('user_products');
 Route::get('/product/{product_id?}', [ProductController::class, 'show'])->name('single_product_page');
 Route::get('/home/all_items', [ProductController::class, 'show_all_items'])->name('all_items');
+Route::get('/home/special_offer_products', [SpecialOffersController::class, 'showProductsWithSpecialOffers'])->name('special_offerproducts');
 Route::post('/filter-products', [ProductController::class, 'filterProducts']);
+Route::get('/best-sellers', [SpecialOffersController::class, 'bestSellers'])->name('best_sellers');
 
 
 Route::view('/home/affiliate/all', 'aff_all')->name('aff_all');
@@ -206,9 +208,11 @@ Route::get('/admin/customer-details/{user_id}', [CustomerController::class, 'sho
 Route::view('/admin/manage_reviews', 'admin_dashboard.manage_reviews')->name('manage_reviews');
 
 // Reviews
-Route::get('/admin/manage_reviews', [ReviewController::class, 'index'])->name('manage_reviews'); // Update to 'index'
+
+Route::get('/admin/manage_reviews', [ReviewController::class, 'index'])->name('manage_reviews');
 Route::get('/admin/manage_reviews/{id}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
-Route::post('/admin/manage_reviews/{review}/approve', [ReviewController::class, 'approve'])->name('reviews.approve');
+Route::post('/admin/manage_reviews/{id}/approve', [ReviewController::class, 'approve'])->name('reviews.approve');
+
 Route::delete('/admin/manage_reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 
 
