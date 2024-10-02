@@ -27,6 +27,7 @@
         min-width: 100px;
     }
 
+
     .user-profile {
         display: flex;
         align-items: center;
@@ -38,6 +39,7 @@
         height: auto;
         object-fit: cover;
     }
+
 
     .reviewer-profile {
         display: flex;
@@ -112,10 +114,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+
                                     @foreach ($publishedReviews as $review)
+
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $review->product->product_name }}</td>
                                             <td>
+
                                                 <div class="user-profile">
                                                 <img src="{{ asset('storage/' . $review->product->images->first()->image_path) }}" alt="Product Image" style="max-width: 50px;">
                                                 {{ $review->product->product_name }}</td>
@@ -128,22 +134,26 @@
                                                 <img src="{{ $profileImage }}" alt="Profile Image" class="rounded-circle" width="100" height="100" style="object-fit: cover;">
                                                 <span>{{ $review->user->name }}</span>
                                             </div>
+
                                             </td>
                                             <td>
                                                 {{ $review->comment }}
                                                 <div class="star-rating">
+
                                                     @for ($i = 0; $i < 5; $i++)
                                                         @if ($i < $review->rating)
                                                             <i class="fas fa-star"></i> 
                                                         @else
                                                             <i class="far fa-star"></i>
                                                         @endif
+
                                                     @endfor
                                                 </div>
                                             </td>
                                             <td>{{ $review->created_at->format('Y-m-d') }}</td>
                                             <td><span class="badge bg-success">{{ ucfirst($review->status) }}</span></td>
                                             <td>
+
                                             <form id="delete-form-{{ $review->id }}" action="{{ route('delete_user', $review->id) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
@@ -151,6 +161,13 @@
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </form>
+
+                                           <div class="action-icons">
+                                                    <a href="#" onclick="deleteReview({{ $review->id }})">
+                                                        <i class="fas fa-trash-alt delete-icon"></i>
+                                                    </a>
+                                                </div>
+
                                             </td>
                                         </tr>
                                     @endforeach
@@ -182,7 +199,9 @@
                                     @foreach ($pendingReviews as $review)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $review->product->product_name }}</td>
                                             <td>
+
                                                 <div class="user-profile">
                                                 <img src="{{ asset('storage/' . $review->product->images->first()->image_path) }}" alt="Product Image" style="max-width: 50px;">
                                                 {{ $review->product->product_name }}</td>
@@ -195,28 +214,46 @@
                                                 <img src="{{ $profileImage }}" alt="Profile Image" class="rounded-circle" width="100" height="100" style="object-fit: cover;">
                                                 <span>{{ $review->user->name }}</span>
                                             </div>
+
                                             </td>
                                             <td>
                                                 {{ $review->comment }}
                                                 <div class="star-rating">
+
                                                     @for ($i = 0; $i < 5; $i++)
                                                         @if ($i < $review->rating)
                                                             <i class="fas fa-star"></i> 
                                                         @else
                                                             <i class="far fa-star"></i>
                                                         @endif
+
                                                     @endfor
                                                 </div>
                                             </td>
                                             <td>{{ $review->created_at->format('Y-m-d') }}</td>
                                             <td><span class="badge bg-warning">{{ ucfirst($review->status) }}</span></span></td>
                                             <td>
+
                                                 <div class="dropdown dropdown"> 
                                                     <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton{{ $review->id }}" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <i class="fas fa-ellipsis-v"></i>
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $review->id }}">
-                                                        <li><a class="dropdown-item" href="#" onclick="approveReview({{ $review->id }})">Published</a></li>
+                                        <div class="dropdown">
+                                                    <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton{{ $review->id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="fas fa-ellipsis-v"></i>
+
+                                                <a href="" class="btn btn-success btn-sm">Publish</a>
+                                                <form action="" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('')">
+                                                        <i class="fas fa-trash"></i>
+
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $review->id }}">
+                                                        <li><a class="dropdown-item" href="{{ route('reviews.edit', $review->id) }}">Edit</a></li>
+                                       <li><a class="dropdown-item" href="#" onclick="approveReview({{ $review->id }})">Published</a></li>
                                                         <li><a class="dropdown-item text-danger" href="#" onclick="deleteReview({{ $review->id }})">Delete</a></li>
                                                     </ul>
                                                 </div>
@@ -286,5 +323,39 @@ document.getElementById('confirmApproveBtn').addEventListener('click', function(
     .catch(error => console.error('Error:', error));
 });
 
+
 </script>
 @endsection
+
+<script>
+    function deleteReview(reviewId) {
+        console.log('Delete review with ID:', reviewId);
+    }
+
+    // JavaScript function for approving reviews
+    function approveReview(reviewId) {
+        if (confirm('Are you sure you want to approve this review?')) {
+            fetch(`/admin/manage_reviews/${reviewId}/approve`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}', // Add CSRF token for security
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    status: 'published'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload(); // Reload the page to see the updated reviews
+                } else {
+                    alert('Error approving review.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    }
+</script>
+@endsection
+

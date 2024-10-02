@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Review;
-use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ReviewController extends Controller
@@ -26,12 +25,13 @@ class ReviewController extends Controller
         // Logic for editing a review
     }
 
+
     public function approve($id)
     {
         $review = Review::findOrFail($id);
         $review->status = 'published';
         $review->save();
-    
+
         return response()->json(['success' => true, 'message' => 'Review approved successfully.']);
     }
 
