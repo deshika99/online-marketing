@@ -101,6 +101,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($publishedReviews as $review)
+                                    @foreach($publishedReviews as $review)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $review->product->product_name }}</td>
@@ -126,6 +127,13 @@
                                                         <i class="fas fa-trash-alt delete-icon"></i>
                                                     </a>
                                                 </div>
+                                                <form action="" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="btn btn-danger btn-sm mb-1" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="confirmDelete('')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -178,6 +186,12 @@
                                                 <div class="dropdown">
                                                     <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton{{ $review->id }}" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <i class="fas fa-ellipsis-v"></i>
+                                                <a href="" class="btn btn-success btn-sm">Publish</a>
+                                                <form action="" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('')">
+                                                        <i class="fas fa-trash"></i>
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $review->id }}">
                                                         <li><a class="dropdown-item" href="{{ route('reviews.edit', $review->id) }}">Edit</a></li>

@@ -18,6 +18,8 @@ class ReviewController extends Controller
             ->get();
 
         return view('admin_dashboard.manage_reviews', compact('publishedReviews', 'pendingReviews'));
+        $pendingCount = $pendingReviews->count();
+        return view('admin_dashboard.manage_reviews', compact('publishedReviews', 'pendingReviews', 'pendingCount'));
     }
 
     public function edit($id)

@@ -91,10 +91,17 @@ class CartController extends Controller
 
     public function showCart()
     {
-        $cart = Auth::check() ? CartItem::with('product.images')->where('user_id', Auth::id())->get() : session()->get('cart', []);
+        if (Auth::check()) {
+            $cart = CartItem::with(['product.images', 'product.specialOffer' => function($query) {
+                $query->where('status', 'active');
+            }])->where('user_id', Auth::id())->get();
+        } else {
+            $cart = session()->get('cart', []);
+        }
+    
         return view('shopping_cart', compact('cart'));
     }
-
+    
     
     
     public function checkout()

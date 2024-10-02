@@ -42,5 +42,16 @@ class Review extends Model
         return $this->hasMany(ReviewMedia::class);
     }
 
+    public function images()
+{
+    return $this->hasMany(ReviewMedia::class)->where('media_type', 'image');
+}
+
+public function videos()
+{
+    return $this->hasMany(ReviewMedia::class)->where('media_type', 'video');
+}
+
+
 }
 

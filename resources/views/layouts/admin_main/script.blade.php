@@ -40,3 +40,8 @@
          $('#example4').DataTable();
     });
 </script>
+<script>
+    $(document).ready(function() {
+         $('#example5').DataTable();
+    });
+</script>

@@ -135,7 +135,6 @@
 @endif
 
 
-
 <div class="review-container">
     <!-- Combined Title and Container -->
     <div class="review-header">
@@ -149,7 +148,6 @@
                 @if($product->images->isNotEmpty())
                     <a href="#"><img src="{{ asset('storage/' . $product->images->first()->image_path) }}" alt="Product Image" width="70" height="auto"></a>
                 @endif
-
             </div>
         </div>
 
