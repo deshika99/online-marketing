@@ -162,13 +162,9 @@
         </div>
     @endif
 </div>
-
-</div>
-
-
 <!-- Pagination -->
 <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center mb-4" id="pagination">
+    <ul class="pagination justify-content-end mb-4" id="pagination">
         @if ($products->currentPage() > 1)
             <li class="page-item" id="prevPage">
                 <a class="page-link" href="#" aria-label="Previous" data-page="{{ $products->currentPage() - 1 }}">
@@ -192,6 +188,10 @@
         @endif
     </ul>
 </nav>
+</div>
+
+
+
 
 
 
@@ -271,8 +271,8 @@
                                     @foreach($product->variations->where('type', 'Color') as $color)
                                         @if($color->quantity > 0)  
                                             <button class="btn btn-outline-secondary btn-sm color-option" 
-                                                style="background-color: {{ $color->value }}; border-color: #e8ebec; height: 17px; width: 15px;" 
-                                                data-color="{{ $color->value }}">
+                                                style="background-color: {{ $color->hex_value }}; border-color: #e8ebec; height: 17px; width: 15px;" 
+                                                data-color="{{ $color->hex_value }}">
                                             </button>
                                         @endif
                                     @endforeach

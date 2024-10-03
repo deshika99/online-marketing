@@ -33,9 +33,6 @@
                 <a class="nav-link active fw-bold" id="all-orders-tab" data-bs-toggle="tab" href="#all-orders" role="tab" aria-controls="all-orders" aria-selected="true">All Orders</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link fw-bold" id="pending-tab" data-bs-toggle="tab" href="#pending" role="tab" aria-controls="pending" aria-selected="false">Pending</a>
-            </li>
-            <li class="nav-item" role="presentation">
                 <a class="nav-link fw-bold" id="paid-tab" data-bs-toggle="tab" href="#paid" role="tab" aria-controls="paid" aria-selected="false">Paid</a>
             </li>
             <li class="nav-item" role="presentation">
@@ -67,6 +64,7 @@
                                         <th>Date</th>
                                         <th>Status</th>
                                         <th>Total Amount</th>
+                                        <th>Payment Method</th>
                                         <th style="width: 15%">Action</th>
                                     </tr>
                                 </thead>
@@ -81,6 +79,7 @@
                                                     {{ $order->status }}
                                                 </span></td>
                                             <td>{{ $order->total_cost }}</td>
+                                            <td>{{ $order->payment_method }}</td>
                                             <td class="action-buttons">
                                                 <button class="btn btn-info btn-sm" onclick="setOrderCode('{{ $order->order_code }}')"><i class="fas fa-eye"></i></button>
                                                 <form id="delete-form-{{ $order->id }}" action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display:inline;">
@@ -100,48 +99,7 @@
                 </div>
             </div>
 
-            <!-- Pending Tab -->
-            <div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="pending-tab">
-                <div class="card mt-1">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Order ID</th>
-                                        <th>Customer</th>
-                                        <th>Date</th>
-                                        <th>Total Amount</th>
-                                        <th style="width: 15%">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($pendingOrders as $order)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $order->order_code }}</td>
-                                            <td>{{ $order->customer_fname }} {{ $order->customer_lname }}</td>
-                                            <td>{{ $order->date }}</td>
-                                            <td>{{ $order->total_cost }}</td>
-                                            <td class="action-buttons">
-                                                <button class="btn btn-info btn-sm" onclick="setOrderCode('{{ $order->order_code }}')"><i class="fas fa-eye"></i></button>
-                                                <form id="delete-form-{{ $order->id }}" action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display:inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('delete-form-{{ $order->id }}', 'Do you want to delete this order?')">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
 
             <!-- In Progress Orders Tab -->
             <div class="tab-pane fade" id="inprogress" role="tabpanel" aria-labelledby="inprogress-tab">
@@ -156,6 +114,7 @@
                                         <th>Customer</th>
                                         <th>Date</th>
                                         <th>Total Amount</th>
+                                        <th>Payment Method</th>
                                         <th style="width: 15%">Action</th>
                                     </tr>
                                 </thead>
@@ -167,6 +126,7 @@
                                             <td>{{ $order->customer_fname }} {{ $order->customer_lname }}</td>
                                             <td>{{ $order->date }}</td>
                                             <td>{{ $order->total_cost }}</td>
+                                            <td>{{ $order->payment_method }}</td>
                                             <td class="action-buttons">
                                                 <button class="btn btn-info btn-sm" onclick="setOrderCode('{{ $order->order_code }}')"><i class="fas fa-eye"></i></button>
                                                 <form id="delete-form-{{ $order->id }}" action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display:inline;">
@@ -199,6 +159,7 @@
                                         <th>Customer</th>
                                         <th>Date</th>
                                         <th>Total Amount</th>
+                                        <th>Payment Method</th>
                                         <th style="width: 15%">Action</th>
                                     </tr>
                                 </thead>
@@ -210,6 +171,7 @@
                                             <td>{{ $order->customer_fname }} {{ $order->customer_lname }}</td>
                                             <td>{{ $order->date }}</td>
                                             <td>{{ $order->total_cost }}</td>
+                                            <td>{{ $order->payment_method }}</td>
                                             <td class="action-buttons">
                                                 <button class="btn btn-info btn-sm" onclick="setOrderCode('{{ $order->order_code }}')"><i class="fas fa-eye"></i></button>
                                                 <form id="delete-form-{{ $order->id }}" action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display:inline;">
@@ -243,6 +205,7 @@
                                         <th>Customer</th>
                                         <th>Date</th>
                                         <th>Total Amount</th>
+                                        <th>Payment Method</th>
                                         <th style="width: 15%">Action</th>
                                     </tr>
                                 </thead>
@@ -254,6 +217,7 @@
                                             <td>{{ $order->customer_fname }} {{ $order->customer_lname }}</td>
                                             <td>{{ $order->date }}</td>
                                             <td>{{ $order->total_cost }}</td>
+                                            <td>{{ $order->payment_method }}</td>
                                             <td class="action-buttons">
                                                 <button class="btn btn-info btn-sm" onclick="setOrderCode('{{ $order->order_code }}')"><i class="fas fa-eye"></i></button>
                                                 <form id="delete-form-{{ $order->id }}" action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display:inline;">
@@ -287,6 +251,7 @@
                                         <th>Customer</th>
                                         <th>Date</th>
                                         <th>Total Amount</th>
+                                        <th>Payment Method</th>
                                         <th style="width: 15%">Action</th>
                                     </tr>
                                 </thead>
@@ -298,6 +263,7 @@
                                             <td>{{ $order->customer_fname }} {{ $order->customer_lname }}</td>
                                             <td>{{ $order->date }}</td>
                                             <td>{{ $order->total_cost }}</td>
+                                            <td>{{ $order->payment_method }}</td>
                                             <td class="action-buttons">
                                                 <button class="btn btn-info btn-sm" onclick="setOrderCode('{{ $order->order_code }}')"><i class="fas fa-eye"></i></button>
                                                 <form id="delete-form-{{ $order->id }}" action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display:inline;">
@@ -330,6 +296,7 @@
                                         <th>Customer</th>
                                         <th>Date</th>
                                         <th>Total Amount</th>
+                                        <th>Payment Method</th>
                                         <th style="width: 15%">Action</th>
                                     </tr>
                                 </thead>
@@ -341,6 +308,7 @@
                                             <td>{{ $order->customer_fname }} {{ $order->customer_lname }}</td>
                                             <td>{{ $order->date }}</td>
                                             <td>{{ $order->total_cost }}</td>
+                                            <td>{{ $order->payment_method }}</td>
                                             <td class="action-buttons">
                                                 <button class="btn btn-info btn-sm" onclick="setOrderCode('{{ $order->order_code }}')"><i class="fas fa-eye"></i></button>
                                                 <form id="delete-form-{{ $order->id }}" action="{{ route('orders.destroy', $order->id) }}" method="POST" style="display:inline;">

@@ -39,15 +39,19 @@
                                         <input type="checkbox" class="form-check-input me-3">
                                         <img src="{{ asset('storage/' . $item->product->images->first()->image_path) }}" class="cart-image me-3"/>
                                         <div>
-                                            <a href="{{ route('single_product_page', ['product_id' => $item->product_id]) }}" class="nav-link" style="margin-bottom: 0.5rem;">{{ $item->product->product_name }}</a>
-                                            <div class="d-flex flex-wrap mt-2">
-                                                @if($item->size)
-                                                    <p class="text-muted me-3 mb-0">Size: <strong>{{ $item->size }}</strong></p>
-                                                @endif
-                                                @if($item->color)
-                                                    <p class="text-muted mb-0">Color:  <strong>{{ $item->color }}</strong></p>
-                                                @endif
-                                            </div>
+                                        <a href="{{ route('single_product_page', ['product_id' => $item->product_id]) }}" class="nav-link mb-0" style="flex: 1;">{{ $item->product->product_name }}</a>
+                                        <div class="d-flex align-items-center">
+                                            @if($item->size)
+                                                <p class="text-muted me-3 mb-0">Size: <strong>{{ $item->size }}</strong></p>
+                                            @endif
+                                            @if($item->color)
+                                                <p class="text-muted mb-0 d-flex align-items-center">
+                                                    Color: 
+                                                    <span style="display: inline-block; background-color: {{ $item->color }}; border: 1px solid #e8ebec; height: 15px; width: 15px; border-radius: 50%; margin-left: 0.5rem;" 
+                                                        title="{{ $item->color }}"></span>
+                                                </p>
+                                            @endif
+                                        </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 d-flex flex-column align-items-start">
