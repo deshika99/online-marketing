@@ -105,10 +105,10 @@
 </style>
 
 <!-- Dashboard Header -->
-<h4 class="py-2 px-2">Dashboard</h4>
+
 <div class="dashboard-header">
     @if(isset($user))
-        <img src="{{ $user->profile_image_url }}" alt="Profile Picture" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-right: 20px;">
+        <img src="{{ $user->profile_image_url }}" alt="Profile Picture" style="width: 80px; height: auto; border-radius: 50%; object-fit: cover; margin-right: 20px;">
         <span style="font-size: 22px; font-weight: bold;">{{ $user->name }}</span>
     @else
         <p>No user details available.</p>
