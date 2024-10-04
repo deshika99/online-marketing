@@ -46,7 +46,7 @@ class UserDashboardController extends Controller
     
 
 
-    public function orderDetails($order_code)
+    public function orderDetails($order_code){}
 
 
     
@@ -120,7 +120,7 @@ class UserDashboardController extends Controller
 
 
 
-    public function updatePassword(Request $request) 
+    public function updatePassword(Request $request) {}
 
 
 
