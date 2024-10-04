@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\SpecialOffers;
 
 
 class HomeController extends Controller
@@ -21,9 +22,19 @@ class HomeController extends Controller
   
     public function index()
     {
+        $specialOffers = SpecialOffers::with(['product.images'])
+            ->where('status', 'active')
+            ->take(5) // Limit the results to 5
+            ->get();
+
         $categories = Category::with('subcategories.subSubcategories')->get();
-        return view('home', ['categories' => $categories]);
+
+        return view('home', [
+            'categories' => $categories,
+            'specialOffers' => $specialOffers
+        ]);
     }
+
     
 
     

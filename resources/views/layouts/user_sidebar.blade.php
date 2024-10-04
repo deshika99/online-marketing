@@ -3,6 +3,7 @@
 @section('content')
 <link rel="stylesheet" href="/assets/plugins/userdashboard.css">
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
 <style>
     .nav-link.active {
         border-left: 3px solid blue; 
@@ -46,14 +47,17 @@
                         <a class="nav-link {{ request()->routeIs('myreviews') ? 'active' : '' }}" href="{{ route('myreviews') }}">My Reviews</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('points') ? 'active' : '' }}" href="{{ route('points') }}">Points</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('addresses') ? 'active' : '' }}" href="{{ route('addresses') }}">Address Book</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('change-password') ? 'active' : '' }}" href="{{ route('change-password') }}">Password</a>
                     </li>
+
+                     <!-- new "Returns" button  -->
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('returns') ? 'active' : '' }}" href="{{ route('returns') }}">Returns</a>
+                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link text-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
                     </li>

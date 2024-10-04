@@ -11,18 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('variations', function (Blueprint $table) {
+        Schema::create('special_offers', function (Blueprint $table) {
             $table->id();
             $table->string('product_id');
-            $table->string('order_code');
-            $table->string('type')->nullable(); 
-            $table->string('value')->nullable(); 
-            $table->integer('quantity')->nullable();
+            $table->decimal('normal_price', 8, 2);
+            $table->decimal('offer_rate', 5, 2);
+            $table->decimal('offer_price', 8, 2);
+            $table->string('month');
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
-        
-            $table->foreign('product_id')->references('product_id')->on('products')->onDelete('cascade');
         });
-        
     }
 
     /**
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('variations');
+        Schema::dropIfExists('special_offers');
     }
 };

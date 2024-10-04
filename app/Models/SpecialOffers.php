@@ -5,24 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Variation extends Model
+class SpecialOffers extends Model
 {
     use HasFactory;
+    protected $table = 'special_offers';
 
     protected $fillable = [
         'product_id',
-        'type',
-        'value',
-        'quantity',
+        'normal_price',
+        'offer_rate',
+        'offer_price',
+        'month',
+        'status',
     ];
 
     public function product()
     {
         return $this->belongsTo(Products::class, 'product_id', 'product_id');
-    }
-
-    public function images()
-    {
-        return $this->hasMany(VariationImage::class, 'variation_id', 'id');
     }
 }

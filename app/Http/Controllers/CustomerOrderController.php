@@ -5,6 +5,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\Models\CustomerOrder;
 use App\Models\Products;
+use App\Models\Variation;
 use App\Models\CustomerOrderItems;
 use App\Models\CartItem;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class CustomerOrderController extends Controller
     public function store(Request $request)
     {
         DB::beginTransaction();
-    
+
         try {
             $request->validate([
                 'first_name' => 'required|string|max:255',
@@ -29,28 +30,28 @@ class CustomerOrderController extends Controller
                 'address' => 'required|string|max:255',
                 'city' => 'required|string|max:255',
                 'postal_code' => 'required|string|max:10',
-                'company_name' => 'nullable|string|max:255', 
-                'apartment' => 'nullable|string|max:255', 
+                'company_name' => 'nullable|string|max:255',
+                'apartment' => 'nullable|string|max:255',
             ]);
-    
+
             $cart = Auth::check() ? CartItem::where('user_id', Auth::id())->with('product')->get() : collect(session('cart', []));
-    
-            $cartArray = $cart->map(function($item) {
+
+            $cartArray = $cart->map(function ($item) {
                 return [
                     'product_id' => $item->product_id,
-                    'price' => $item->product->normal_price, 
+                    'price' => $item->product->normal_price,
                     'quantity' => $item->quantity,
                     'size' => $item->size,
                     'color' => $item->color,
                 ];
             })->toArray();
-    
+
             $subtotal = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cartArray));
             $shipping = 250;
             $total = $subtotal + $shipping;
-    
+
             $orderCode = 'ORD-' . substr((string) Str::uuid(), 0, 8);
-    
+
             $orderData = [
                 'order_code' => $orderCode,
                 'customer_fname' => $request->input('first_name'),
@@ -62,50 +63,84 @@ class CustomerOrderController extends Controller
                 'apartment' => $request->input('apartment'),
                 'city' => $request->input('city'),
                 'postal_code' => $request->input('postal_code'),
-                'date' => Carbon::now()->format('Y-m-d'), 
+                'date' => Carbon::now()->format('Y-m-d'),
                 'total_cost' => $total,
-                'discount' => 0, 
+                'discount' => 0,
                 'vat' => 0,
-                'user_id' => Auth::id(), 
+                'user_id' => Auth::id(),
                 'status' => 'Pending',
             ];
-    
+
+
             $order = CustomerOrder::create($orderData);
-    
+
+           
             foreach ($cartArray as $item) {
                 CustomerOrderItems::create([
                     'order_code' => $orderCode,
-                    'product_id' => $item['product_id'], 
-                    'date' => Carbon::now()->format('Y-m-d'), 
-                    'cost' => $item['price'], 
-                    'quantity' => $item['quantity'], 
-                    'size' => $item['size'], 
+                    'product_id' => $item['product_id'],
+                    'date' => Carbon::now()->format('Y-m-d'),
+                    'cost' => $item['price'],
+                    'quantity' => $item['quantity'],
+                    'size' => $item['size'],
                     'color' => $item['color'],
                 ]);
 
-                 // Reduce the quantity in the Products table
+                // Reduce the quantity in the Products table
                 $product = Products::where('product_id', $item['product_id'])->first();
                 if ($product) {
                     $product->quantity -= $item['quantity'];
                     $product->save();
                 }
+
+                // Reduce the quantity in the Variations table based on size and color
+                $sizeVariation = Variation::where('product_id', $item['product_id'])
+                    ->where('type', 'size') 
+                    ->where('value', $item['size']) 
+                    ->first();
+
+                $colorVariation = Variation::where('product_id', $item['product_id'])
+                    ->where('type', 'color') 
+                    ->where('value', $item['color']) 
+                    ->first();
+
+                if ($sizeVariation) {
+                    if ($sizeVariation->quantity >= $item['quantity']) {
+                        $sizeVariation->quantity -= $item['quantity'];
+                        $sizeVariation->save();
+                    } else {
+                        \Log::warning("Insufficient stock for product ID {$item['product_id']} with size {$item['size']}.");
+                    }
+                } else {
+                    \Log::warning("Size variation not found for product ID {$item['product_id']} with size {$item['size']}.");
+                }
+
+                if ($colorVariation) {
+                    if ($colorVariation->quantity >= $item['quantity']) {
+                        $colorVariation->quantity -= $item['quantity'];
+                        $colorVariation->save();
+                    } else {
+                        \Log::warning("Insufficient stock for product ID {$item['product_id']} with color {$item['color']}.");
+                    }
+                } else {
+                    \Log::warning("Color variation not found for product ID {$item['product_id']} with color {$item['color']}.");
+                }
             }
-    
+
+
+            // Clear the cart
             if (Auth::check()) {
                 CartItem::where('user_id', Auth::id())->delete();
             } else {
                 session()->forget('cart');
             }
-    
-            DB::commit();
+
+            DB::commit(); 
             return redirect()->route('payment')->with('success', 'Order placed successfully!');
         } catch (\Exception $e) {
-            DB::rollBack();
+            DB::rollBack(); 
             \Log::error('Order placement failed: ' . $e->getMessage());
             return redirect()->back()->with('error', 'An error occurred while placing the order. Please try again.');
         }
     }
-    
-
-    
 }
