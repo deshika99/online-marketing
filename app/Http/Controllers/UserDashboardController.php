@@ -258,6 +258,16 @@ class UserDashboardController extends Controller
         }
     }
     
-    
-    
+    //dashboard 
+
+    public function index()
+{
+    if (Auth::check()) {
+        $user = Auth::user();
+        return view('member_dashboard.dashboard', compact('user'));
+    } else {
+        return redirect()->route('login');
+    }
+}
+
 }
