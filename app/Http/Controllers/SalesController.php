@@ -38,7 +38,7 @@ class SalesController extends Controller
             'products.*.sale_price' => 'required|numeric',
         ]);
 
-        // Loop through the products and create a sale for each
+    
         foreach ($data['products'] as $product) {
             Sale::create([
                 'product_id' => $product['product_id'],

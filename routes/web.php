@@ -179,6 +179,7 @@ Route::delete('admin/delete-sale/{id}', [SalesController::class, 'destroy'])->na
 
 
 
+
 Route::get('/admin/products', [ProductController::class, 'showProducts'])->name('products');
 Route::get('/subcategories/{categoryId}', [ProductController::class, 'getSubcategories']);
 Route::get('/sub-subcategories/{subcategoryId}', [ProductController::class, 'getSubSubcategories']);
