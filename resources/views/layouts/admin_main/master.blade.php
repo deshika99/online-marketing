@@ -25,7 +25,7 @@
       @include('layouts.admin_main.sidebar')
       {{-- main content --}}
         @yield('content')
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/color-name/1.1.4/color-name.min.js"></script>
         <script>
         document.addEventListener('DOMContentLoaded', function() {
             @if (session('status'))

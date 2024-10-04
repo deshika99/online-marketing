@@ -46,7 +46,7 @@
 .custom-dropdown .dropdown-toggle {
     background-color: transparent;
     color: black;
-    border: 1px solid black;
+    border: none;
     border-radius: 8px;
     height: 30px;
     padding: 5px 10px;
@@ -54,8 +54,10 @@
     display: flex;
     align-items: center;
     width: 100%;
+    font-size:16px;
     box-sizing: border-box; 
     cursor: pointer; 
+    font-weight:500;
 }
 
 .category-icon {
@@ -150,11 +152,11 @@
 
        <!-- Navbar Divider -->
         <div class="navbar-divider w-100 p-0 mb-1">
-                <div class="container d-flex justify-content-center align-items-center" style="width: 75%;">
+                <div class="container d-flex justify-content-center align-items-center" style="width: 65%;">
                     <div class="category-select-wrapper1 d-flex justify-content-center align-items-center">
                         <div class="custom-dropdown w-100 ms-4">
                             <div class="dropdown-toggle" id="dropdownMenuButton" aria-expanded="false">
-                                <i class="fas fa-bars me-3"></i> All Categories
+                                <i class="fas fa-bars me-2"></i> All Categories
                             </div>
                             <div class="dropdown-menu">
                                 @foreach ($categories as $category)

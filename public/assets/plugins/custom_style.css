@@ -36,7 +36,7 @@ body {
       display: inline-flex; 
       align-items: center;  
       justify-content: center;
-      width: 100px; 
+      width: auto; 
       padding: 6px 11px; 
       border-radius: 15px;
       font-size: 12px; 
@@ -57,10 +57,10 @@ body {
       color: #dc3545;
   }
   
-  .status.pending {
-      background-color: #fff3cd; 
-      color: #856404;
-  }
+  .status.confirmed {
+    background-color: #fff3cd; 
+    color: #856404;
+}
 
   .status.paid {
     background-color: #bad4f1; 

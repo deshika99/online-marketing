@@ -17,6 +17,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NavbarController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\ReviewController;
 
@@ -42,7 +43,7 @@ Route::get('/best-sellers', [SpecialOffersController::class, 'bestSellers'])->na
 
 Route::view('/home/affiliate/all', 'aff_all')->name('aff_all');
 Route::view('/home/affiliate/single', 'aff_single')->name('aff_single');
-Route::view('/cart/payment', 'payment')->name('payment');
+
 
 
 //member dashboard
@@ -110,6 +111,15 @@ Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.c
 
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/remove/{index}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
+Route::get('/payment/{order_code}', [PaymentController::class, 'payment'])->name('payment');
+
+Route::post('/order/confirm-cod/{order_code}', [PaymentController::class, 'confirmCod'])->name('order.confirm.cod');
+
+Route::get('/order/order_received/{order_code}', [PaymentController::class, 'getOrderDetails'])->name('order.thankyou');
+
+
+
 Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('order.store');
 

@@ -13,7 +13,9 @@ class Variation extends Model
         'product_id',
         'type',
         'value',
-        'quantity',
+        'hex_value',
+        'quantity'
+
     ];
 
     public function product()

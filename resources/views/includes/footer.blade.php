@@ -1,6 +1,6 @@
 
     <div class="footer-container" style="margin-top:100px;">
-            <footer class="text-center text-lg-start text-white" style="background-color: #05467c; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
+            <footer class="text-center text-lg-start text-white" style="background: linear-gradient(90deg, #05467c, #0b71d4); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
                 <div class="container p-4 pb-0">
                     <section class="">
                         <div class="row">
