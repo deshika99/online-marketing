@@ -17,6 +17,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NavbarController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SalesController;
 
 use Illuminate\Http\Request;     //contact form
 
@@ -164,6 +165,19 @@ Route::get('/admin/add_offers', [SpecialOffersController::class, 'createOffer'])
 Route::post('/admin/store_offers', [SpecialOffersController::class, 'storeOffer'])->name('store_offers');
 Route::get('/admin/special_offers', [SpecialOffersController::class, 'showOffers'])->name('special_offers');
 Route::delete('/admin/special_offers/delete/{id}', [SpecialOffersController::class, 'destroy'])->name('delete_offer');
+
+// Flash Sales
+
+Route::get('/admin/add_sales', [SalesController::class, 'createsales'])->name('add_sales');
+Route::post('/admin/store_sales', [SalesController::class, 'storeSales'])->name('store_sales');
+Route::get('/admin/flash_sales', [SalesController::class, 'showSales'])->name('flash_sales');
+Route::post('/sales/store', [SalesController::class, 'storeSale'])->name('store_sales');
+Route::get('/admin/edit_sales/{id}', [SalesController::class, 'edit'])->name('edit_sales');
+Route::delete('/admin/destroy_sales/{id}', [SalesController::class, 'destroy'])->name('destroy_sales');
+Route::post('/admin/update-sale/{id}', [SalesController::class, 'update'])->name('update_sale');
+Route::delete('admin/delete-sale/{id}', [SalesController::class, 'destroy'])->name('delete_sale');
+
+
 
 Route::get('/admin/products', [ProductController::class, 'showProducts'])->name('products');
 Route::get('/subcategories/{categoryId}', [ProductController::class, 'getSubcategories']);
