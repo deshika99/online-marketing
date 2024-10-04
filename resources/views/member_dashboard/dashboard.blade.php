@@ -106,9 +106,11 @@
 
 <!-- Dashboard Header -->
 
+
 <div class="dashboard-header">
     @if(isset($user))
         <img src="{{ $user->profile_image_url }}" alt="Profile Picture" style="width: 80px; height: auto; border-radius: 50%; object-fit: cover; margin-right: 20px;">
+
         <span style="font-size: 22px; font-weight: bold;">{{ $user->name }}</span>
     @else
         <p>No user details available.</p>

@@ -8,6 +8,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SpecialOffersController;
 use App\Http\Controllers\AffiliateProductController;
 use App\Http\Controllers\AffiliateCustomerController;
+use App\Http\Controllers\AffiliateTrackingController;
+use App\Http\Controllers\AffiliateReportController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\CategoryController;
@@ -166,7 +168,13 @@ Route::post('/affiliate/dashboard/payment/bank_acc', [PaymentController::class, 
 Route::view('/affiliate/dashboard/payment/commission_rules', 'affiliate_dashboard.commission_rules')->name('commission_rules');
 
 Route::view('/affiliate/dashboard/account/mywebsites_page', 'affiliate_dashboard.mywebsites_page')->name('mywebsites_page');
-Route::view('/affiliate/dashboard/account/tracking_id', 'affiliate_dashboard.tracking_id')->name('tracking_id');
+Route::get('/affiliate/dashboard/account/tracking_id', [AffiliateTrackingController::class, 'index'])->name('tracking_id');
+Route::post('/affiliate/dashboard/store/tracking_id', [AffiliateTrackingController::class, 'store'])->name('tracking_id_store');
+Route::put('/raffletickets/{id}/setDefault', [AffiliateTrackingController::class, 'setDefault'])->name('raffletickets.setDefault');
+Route::delete('/raffletickets/{id}', [AffiliateTrackingController::class, 'destroy'])->name('raffletickets.destroy');
+
+Route::get('/raffletickets/{id}/report', [AffiliateReportController::class, 'report'])->name('raffletickets.report');
+
 
 
 //admin dashboard
