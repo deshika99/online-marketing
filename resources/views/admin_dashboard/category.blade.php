@@ -108,12 +108,12 @@
                 <form id="categoryForm" method="POST" action="{{ route('category_add') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
-                        <label for="parentCategory" class="form-label text-black">Category Name</label>
-                        <input type="text" class="form-control" id="parentCategory" name="parent_category" placeholder="Enter category name">
+                        <label for="parentCategory" class="form-label text-black">Category Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="parentCategory" name="parent_category" placeholder="Enter category name" required>
                     </div>
                     <div class="mb-3">
-                        <label for="categoryImage" class="form-label text-black">Category Image</label>
-                        <input type="file" class="form-control" id="categoryImage" name="image">
+                        <label for="categoryImage" class="form-label text-black">Category Image <span class="text-danger">*</span></label>
+                        <input type="file" class="form-control" id="categoryImage" name="image" required>
                     </div>
                     <div class="mb-3">
                         <label for="subcategories" class="form-label text-black">Subcategories</label>

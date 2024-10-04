@@ -114,10 +114,6 @@
 
         width: 15%;
         padding: 10px;
-
-        width: 100%;
-        padding: 15px;
-
         background: linear-gradient(to right, hsl(226, 93%, 27%), hsl(226, 91%, 58%));
         border: none;
         border-radius: 5px;
@@ -138,11 +134,6 @@
     </script>
 @endif
 
-    .review-submit:hover {
-        background: linear-gradient(to right,hsl(226, 93%, 27%), hsl(226, 91%, 58%));
-    }
-</style>
-
 
 <div class="review-container">
     <!-- Combined Title and Container -->
@@ -157,21 +148,27 @@
                 @if($product->images->isNotEmpty())
                     <a href="#"><img src="{{ asset('storage/' . $product->images->first()->image_path) }}" alt="Product Image" width="70" height="auto"></a>
                 @endif
-
-                <a href="#"><img src="\assets\images\d (1).png" alt="Product Image" width="70" height="auto"></a>
-
             </div>
         </div>
 
         <div class="col-md-3 d-flex flex-column justify-content-center" style="font-size: 13px;">
-
             <span style="font-weight: 600;">{{ $product->product_name }}</span>
-            <div>
-                <span class="me-2">Color: <span style="font-weight: 600;">{{ $color }}</span></span> | 
-                <span class="me-2 ms-2">Size: <span style="font-weight: 600;">{{ $size }}</span></span> |
+            <div class="d-flex align-items-center">
+                @if($color)
+                    <span class="d-flex align-items-center me-2">
+                        <strong>Color:</strong>
+                        <span style="display: inline-block; background-color: {{ $color }}; border: 1px solid #e8ebec; height: 15px; width: 15px; border-radius: 50%; margin-left: 0.5rem;" 
+                            title="{{ $color }}"></span>
+                    </span> | 
+                @endif
+
+                @if($size)
+                    <span class="me-2">Size: <span style="font-weight: 600;">{{ $size }}</span></span> |
+                @endif 
+
                 <span class="ms-2">Qty: <span style="font-weight: 600;">{{ $quantity }}</span></span>
             </div>
-            <h6 class="mt-2" style="font-size: 13px;font-weight: bold;">Rs {{ $cost }}</h6>  
+            <h6 class="mt-2" style="font-size: 13px; font-weight: bold;">Rs {{ $cost }}</h6>  
         </div>
     </div>
 

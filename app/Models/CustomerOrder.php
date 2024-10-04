@@ -27,8 +27,9 @@ class CustomerOrder extends Model
         'date',
         'total_cost',
         'status',
+        'payment_method',
+        'payment_status',
         'discount',
-        'vat',
     ];
 
 

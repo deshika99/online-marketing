@@ -113,7 +113,7 @@
                         <div class="icon-container" style="border: 2px dotted #dc3545;">
                             <i class="fa fa-star" style="color: #dc3545; font-size: 28px;"></i>
                         </div>
-                        <h4 class="fw-bold mt-2">5</h4> 
+                        <h4 class="fw-bold mt-2">{{ $totalReviews }}</h4>
                         <div class="card-name">TOTAL REVIEWS</div>
                     </div>
                 </div>

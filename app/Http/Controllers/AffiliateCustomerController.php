@@ -30,77 +30,66 @@ class AffiliateCustomerController extends Controller
 
     public function register(Request $request)
     {
+        //dd($request);
+        // Validate the form data
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'address' => 'nullable|string|max:255',
+            'district' => 'nullable|string|max:255',
+            'dob_day' => 'required|integer|min:1|max:31',
+            'dob_month' => 'required|integer|min:1|max:12',
+            'dob_year' => 'required|integer',
+            'gender' => 'nullable|string|max:255',
+            'NIC' => 'required|string|max:255',
+            'phone_num' => 'required|string|max:20',
+            'email' => 'required|email|unique:aff_customers,email|max:255',
+            'password' => 'required|string|min:8|confirmed',
+            'promotion_method' => 'nullable|array',
+            'instagram_url' => 'nullable|url',
+            'facebook_url' => 'nullable|url',
+            'tiktok_url' => 'nullable|url',
+            'youtube_url' => 'nullable|url',
+            'content_website_url' => 'nullable|url',
+            'content_whatsapp_url' => 'nullable|url',
+            'bank_name' => 'nullable|string|max:255',
+            'branch' => 'nullable|string|max:255',
+            'account_name' => 'nullable|string|max:255',
+            'account_number' => 'nullable|string|max:255',
+        ]);
+        //dd($request);
+        // Combine the Date of Birth fields into a single date
+        $dob = $validatedData['dob_year'] . '-' . str_pad($validatedData['dob_month'], 2, '0', STR_PAD_LEFT) . '-' . str_pad($validatedData['dob_day'], 2, '0', STR_PAD_LEFT);
+
+        // Save the data in the aff_customers table
+        $customer = new Aff_Customer;
+        $customer->name = $validatedData['name'];
+        $customer->address = $validatedData['address'];
+        $customer->district = $validatedData['district'];
+        $customer->DOB = $dob;
+        $customer->gender = $validatedData['gender'];
+        $customer->NIC = $validatedData['NIC'];
+        $customer->contactno = $validatedData['phone_num'];
+        $customer->email = $validatedData['email'];
+        $customer->password = Hash::make($validatedData['password']); // Hash the password before storing
+        $customer->promotion_method = json_encode($validatedData['promotion_method']); // Store as JSON
+        $customer->instagram_url = $validatedData['instagram_url'];
+        $customer->facebook_url = $validatedData['facebook_url'];
+        $customer->tiktok_url = $validatedData['tiktok_url'];
+        $customer->youtube_url = $validatedData['youtube_url'];
+        $customer->content_website_url = $validatedData['content_website_url'];
+        $customer->content_whatsapp_url = $validatedData['content_whatsapp_url'];
+        $customer->bank_name = $validatedData['bank_name'];
+        $customer->branch = $validatedData['branch'];
+        $customer->account_name = $validatedData['account_name'];
+        $customer->account_number = $validatedData['account_number'];
+        $customer->status = 'pending';
+
+        // Save the customer to the database
+        $customer->save();
+
+        // Redirect to a success page with a session message
         
-        try {
-            // Merge the day, month, and year for the date of birth
-            $request->merge([
-                'dob_day' => (int) $request->input('dob_day'),
-                'dob_month' => (int) $request->input('dob_month'),
-                'dob_year' => (int) $request->input('dob_year'),
-            ]);
-
-            // Validate the input data
-            $validatedData = $request->validate([
-                'name' => 'required|string|max:255',
-                'address' => 'required|string|max:255',
-                'district' => 'required|string|max:255',
-                'dob_day' => 'required|integer|between:1,31',
-                'dob_month' => 'required|integer|between:1,12',
-                'dob_year' => 'required|integer|digits:4',
-                'gender' => 'required|in:male,female,other',
-                'NIC' => 'required|string|max:20|unique:aff_customers,NIC',
-                'phone_num' => 'required|string|max:20|regex:/^[0-9]{10}$/',
-                'email' => 'required|email|max:255|unique:aff_customers,email',
-                'password' => 'required|string|min:8|confirmed',
-                'promotion_method' => 'nullable|array',
-                'instagram_url' => 'nullable|url|max:255',
-                'facebook_url' => 'nullable|url|max:255',
-                'tiktok_url' => 'nullable|url|max:255',
-                'youtube_url' => 'nullable|url|max:255',
-                'content_website_url' => 'nullable|url|max:255',
-                'content_whatsapp_url' => 'nullable|url|max:255',
-                'bank_name' => 'nullable|string|max:255',
-                'branch' => 'nullable|string|max:255',
-                'account_name' => 'nullable|string|max:255',
-                'account_number' => 'nullable|string|max:255',
-            ]);
-            //dd($request);
-            // Create a date of birth string
-            $dob = $validatedData['dob_year'] . '-' . str_pad($validatedData['dob_month'], 2, '0', STR_PAD_LEFT) . '-' . str_pad($validatedData['dob_day'], 2, '0', STR_PAD_LEFT);
-
-            // Create the aff_customer record
-            $aff_Customer = Aff_Customer::create([
-                'name' => $validatedData['name'],
-                'address' => $validatedData['address'],
-                'district' => $validatedData['district'],
-                'DOB' => $dob,
-                'gender' => $validatedData['gender'],
-                'NIC' => $validatedData['NIC'],
-                'contactno' => $validatedData['phone_num'],
-                'email' => $validatedData['email'],
-                'password' => Hash::make($validatedData['password']),
-                'status' => 'pending',
-                'promotion_method' => json_encode($validatedData['promotion_method']), // Store as JSON
-                'instagram_url' => $validatedData['instagram_url'],
-                'facebook_url' => $validatedData['facebook_url'],
-                'tiktok_url' => $validatedData['tiktok_url'],
-                'youtube_url' => $validatedData['youtube_url'],
-                'content_website_url' => $validatedData['content_website_url'],
-                'content_whatsapp_url' => $validatedData['content_whatsapp_url'],
-                'bank_name' => $validatedData['bank_name'],
-                'branch' => $validatedData['branch'],
-                'account_name' => $validatedData['account_name'],
-                'account_number' => $validatedData['account_number'],
-            ]);
-
-            return redirect()->route('register_form')->with('status', 'Successfully registered!');
-        } catch (\Exception $e) {
-            \Log::error('Error creating aff Customer:', [
-                'message' => $e->getMessage(),
-            ]);
-
-            return redirect()->back()->withErrors(['error' => 'Failed to register. Please try again.']);
-        }
+        return redirect()->route('aff_home')->with('status', 'Affiliate account created successfully!');
     }
 
     

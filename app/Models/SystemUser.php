@@ -11,6 +11,6 @@ class SystemUser extends Model
     protected $table = 'system_users';
 
     protected $fillable = [
-        'name', 'email', 'contact', 'role', 'image_path', 'status',
+        'name', 'email', 'contact', 'password', 'role', 'image_path', 'status',
     ];
 }

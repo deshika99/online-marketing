@@ -143,16 +143,15 @@
                         <p class="mb-2">Rs. {{ $cart->sum(fn($item) => $item->product->normal_price * $item->quantity) }}</p>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <p class="mb-2">Shipping:</p>
-                        <p class="mb-2">Rs. 250</p>
+                        <p class="mb-2">Delivery Fee:</p>
+                        <p class="mb-2">Rs. 300</p>
                     </div>
                     <hr />
                     <div class="d-flex justify-content-between">
                         <h5 class="mb-2">Total:</h5>
-                        <h5 class="mb-2 fw-bold">Rs. {{ $cart->sum(fn($item) => $item->product->normal_price * $item->quantity) + 250 }}</h5>
+                        <h5 class="mb-2 fw-bold">Rs. {{ $cart->sum(fn($item) => $item->product->normal_price * $item->quantity) + 300 }}</h5>
                     </div>
-                    <button type="button" class="btn w-100" data-bs-toggle="modal" data-bs-target="#confirmModal" 
-                    style="background-color:#4A2FF4; color:white;">Place Order</button>
+                    <button type="submit" class="btn w-100" style="background-color:#4A2FF4; color:white;">Proceed to Pay</button>
                 </div>
             </div>
         </div>
@@ -167,7 +166,7 @@
   @endif
 </div>
 
-<!-- Confirmation Modal -->
+<!-- Confirmation Modal 
 <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -183,7 +182,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

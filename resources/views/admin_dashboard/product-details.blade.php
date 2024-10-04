@@ -69,35 +69,37 @@
                             </div>
                         </div>
                     @endif
-
                     @if($product->variations->where('type', 'Size')->isNotEmpty())
-                    <div class="row mb-2">
-                        <div class="col-12"><strong class="me-2">Sizes:</strong>
-                            @php
-                                $sizes = $product->variations->where('type', 'Size'); 
-                            @endphp
-                            @foreach($sizes as $size)
-                                <span>{{ $size['value'] }} </span>
-                                @if (!$loop->last)
-                                    <span>, </span>
-                                @endif
-                            @endforeach
+                        <div class="row mb-2">
+                            <div class="col-12 d-flex">
+                                <strong class="me-2">Sizes:</strong>
+                                @php
+                                    $sizes = $product->variations->where('type', 'Size');
+                                @endphp
+                                <ul style="list-style-type: none; padding-left: 0; margin: 0;">
+                                    @foreach($sizes as $size)
+                                        <li class="d-inline-block me-3">{{ $size['value'] }} - {{ $size['quantity'] }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
                         </div>
-                    </div>
                     @endif
 
                     @if($product->variations->where('type', 'Color')->isNotEmpty())
-                    <div class="row mb-2">
-                        <div class="col-12 d-flex align-items-center"><strong>Colors:</strong>
-                            @php
-                                $colors = $product->variations->where('type', 'Color');
-                            @endphp
-                            @foreach($colors as $index => $color)
-                                <span class="ms-3">{{ $color['value'] }}</span> 
-                                <span style="background-color: {{ $color['value'] }}; width: 20px; height: 20px; border: 1px solid #e8ebec; display: inline-block; border-radius: 50%; margin-left: 5px;"></span>
-                            @endforeach
+                        <div class="row mb-2">
+                            <div class="col-12 d-flex">
+                                <strong class="me-2">Colors:</strong>
+                                <ul style="list-style-type: none; padding-left: 0; margin: 0;">
+                                    @foreach($product->variations->where('type', 'Color') as $color)
+                                        <li class="d-inline-block me-3" style="vertical-align: middle;">
+                                            <span style="display: inline-block; background-color: {{ $color->hex_value }}; border: 1px solid #e8ebec; height: 20px; width: 20px;" 
+                                            title="{{ $color->hex_value }}"></span> 
+                                            <span style="position: relative; top: -2px;" class="ms-1"> - {{ $color['quantity'] }}</span>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
                         </div>
-                    </div>
                     @endif
 
                     @if($product->variations->where('type', 'Material')->isNotEmpty())
@@ -123,5 +125,6 @@
     </div>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/color-name-list@4.11.0/dist/colornames.min.js"></script>
 
 @endsection

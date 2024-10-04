@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Products;
 use App\Models\ProductImage;
+use App\Models\RaffleTicket;
 use Illuminate\Http\Request;
 
 class AffiliateProductController extends Controller
@@ -14,6 +15,7 @@ class AffiliateProductController extends Controller
     {
         $categoryName = $request->get('category', 'all');
         $query = Products::where('is_affiliate', 1);
+        $userTrackingIds = RaffleTicket::where('user_id', auth()->id())->get();
 
         if ($categoryName != 'all') {
             $query->where('product_category', $categoryName);
@@ -31,7 +33,7 @@ class AffiliateProductController extends Controller
         $highCom = $highComQuery->get();
         $categories = Category::all(); 
 
-        return view('affiliate_dashboard.ad_center', compact('hotDeals', 'highCom', 'categories'));
+        return view('affiliate_dashboard.ad_center', compact('hotDeals', 'highCom', 'categories','userTrackingIds'));
     }
 
 
