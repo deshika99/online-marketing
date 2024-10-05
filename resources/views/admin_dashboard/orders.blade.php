@@ -75,7 +75,7 @@
                                             <td>{{ $order->order_code }}</td>
                                             <td>{{ $order->customer_fname }} {{ $order->customer_lname }}</td>
                                             <td>{{ $order->date }}</td>
-                                            <td><span class="status {{ strtolower(str_replace(' ', '-', $order->status)) }} fw-bold">
+                                            <td><span class="status {{ strtolower(str_replace(' ', '-', $order->status)) }}">
                                                     {{ $order->status }}
                                                 </span></td>
                                             <td>{{ $order->total_cost }}</td>

@@ -65,7 +65,7 @@
                                                 <option value="{{ $product->id }}" data-price="{{ $product->normal_price }}">
                                                     
                                                     <img src="{{ asset('storage/'.$product->image) }}" class="product-image" alt="{{ $product->product_name }}">
-                                                    {{ $product->id }} - {{ $product->product_name }}
+                                                    {{ $product->product_id }} - {{ $product->product_name }}
                                                 </option>
                                             @endforeach
                                         </select>

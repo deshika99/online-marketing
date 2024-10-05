@@ -115,9 +115,6 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($publishedReviews as $review)
-                                    @foreach($publishedReviews as $review)
-
-                                    @foreach ($publishedReviews as $review)
 
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
@@ -191,9 +188,7 @@
                                     @foreach ($pendingReviews as $review)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $review->product->product_name }}</td>
                                             <td>
-
                                                 <div class="user-profile">
                                                 <img src="{{ asset('storage/' . $review->product->images->first()->image_path) }}" alt="Product Image" style="max-width: 50px;">
                                                 {{ $review->product->product_name }}</td>
@@ -225,9 +220,7 @@
                                             <td>{{ $review->created_at->format('Y-m-d') }}</td>
                                             <td><span class="badge bg-warning">{{ ucfirst($review->status) }}</span></span></td>
                                             <td>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton{{ $review->id }}" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="fas fa-ellipsis-v"></i>
+                                        
 
                                                 <div class="dropdown dropdown"> 
                                                     <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton{{ $review->id }}" data-bs-toggle="dropdown" aria-expanded="false">
