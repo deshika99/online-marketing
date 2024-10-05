@@ -114,6 +114,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($publishedReviews as $review)
+                                    @foreach($publishedReviews as $review)
 
                                     @foreach ($publishedReviews as $review)
 
@@ -223,6 +225,9 @@
                                             <td>{{ $review->created_at->format('Y-m-d') }}</td>
                                             <td><span class="badge bg-warning">{{ ucfirst($review->status) }}</span></span></td>
                                             <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton{{ $review->id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="fas fa-ellipsis-v"></i>
 
                                                 <div class="dropdown dropdown"> 
                                                     <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton{{ $review->id }}" data-bs-toggle="dropdown" aria-expanded="false">
