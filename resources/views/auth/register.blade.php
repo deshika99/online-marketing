@@ -125,11 +125,6 @@
                                 @enderror
                             </div>
                         </div>
-
-                        
-                        
-
-
                         <p>
                             I hereby confirm that all the above information is true and agree if the institution does not  
                             approve the registration of the account due to the inclusion of false information.

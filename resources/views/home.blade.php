@@ -132,10 +132,8 @@
                             <span style="font-size: 20px; font-weight: bold;">{{ Auth::user()->name[0] }}</span>
                           @endif
                         </div>
-        
                             <span class="ms-2" style="font-weight: 500;">{{ Auth::user()->name }}</span>
                          </a>
-    
                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ route('dashboard') }}">
                           {{ __('My Profile') }}
