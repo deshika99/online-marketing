@@ -46,11 +46,6 @@ class UserDashboardController extends Controller
     
 
 
-    public function orderDetails($order_code){}
-
-
-    
-
     public function updateProfile(Request $request)
     {
         // Validate the request inputs
@@ -89,11 +84,6 @@ class UserDashboardController extends Controller
     
         return redirect()->back()->with('status', 'Profile updated successfully!');
     }
-
-
-
-
-    public function updatePassword(Request $request) {}
 
 
 

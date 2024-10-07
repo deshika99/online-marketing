@@ -75,7 +75,7 @@ class CustomerOrderController extends Controller
             'discount' => 0,
             'vat' => 0,
             'user_id' => Auth::id(),
-            'status' => 'Pending',
+            'status' => 'Confirmed',
         ];
 
         $order = CustomerOrder::create($orderData);
