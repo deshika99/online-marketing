@@ -18,7 +18,9 @@
                                 <p><a href="{{ route('about') }}" class="text-white">About Us</a></p>
                                 <p><a href="{{ route('contac') }}" class="text-white">Contact Us</a></p>
                                 <p><a href="{{ route('helpcenter') }}" class="text-white">Help Center</a></p>
-                                <p><a>Inquaries</a></p>
+
+                                <p><a>Inquiries</a></p>
+
                                 <p><a href="{{ route('aff_home') }}" target="_blank" class="text-white">Affiliate program</a></p>
                             </div>
                             

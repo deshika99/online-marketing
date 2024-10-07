@@ -15,7 +15,7 @@
 <script src="/assets//plugins/numscroller/numscroller-1.0.js"></script>
 <script src="https://unpkg.com/feather-icons@4.28.0/dist/feather.min.js"></script>
 
-
+<script src="/assets/plugins/jQuery/jquery-3.5.1.min.js"></script>
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script src="https://unpkg.com/feather-icons@4.28.0/dist/feather.min.js"></script>
