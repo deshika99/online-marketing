@@ -66,7 +66,8 @@
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $sale->product->product_id }}</td>
                                         <td>{{ $sale->product->product_name }}</td>
-                                        <td><img src="{{ $sale->product->image_url }}" alt="{{ $sale->product->product_name }}" width="50"></td>
+                                        <td>
+                                           <img src="{{ $sale->product->image_url }}" alt="{{ $sale->product->product_name }}" width="50"></td>
                                         <td>{{ \Carbon\Carbon::parse($sale->end_date)->format('Y-m-d H:i') }}</td>
                                         <td>{{ number_format($sale->normal_price, 2) }}</td>
                                         <td>{{ $sale->sale_rate }}</td>

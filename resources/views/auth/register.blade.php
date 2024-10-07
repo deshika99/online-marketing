@@ -148,14 +148,15 @@
                         <div class="row mb-5">
                             <label for="branch" class="col-md-4 col-form-label text-md-start">Branch</label>
                             <div class="col-md-7">
-                                <select id="branch" class="form-control" name="branch">
-                                    <option value="" disabled selected></option>
-                                    <option value="Branch 1">Branch 1</option>
-                                    <option value="Branch 2">Branch 2</option>
-                                    <option value="Branch 3">Branch 3</option>
-                                </select>
+                               <input id="branch" type="text" class="form-control @error('branch') is-invalid @enderror" name="branch" value="{{ old('branch') }}" required autocomplete="branch">
+                                 @error('branch')
+                                  <span class="invalid-feedback" role="alert">
+                                  <strong>{{ $message }}</strong>
+                                  </span>
+                                 @enderror
                             </div>
                         </div>
+
 
                         <p>
                             I hereby confirm that all the above information is true and agree if the institution does not  
