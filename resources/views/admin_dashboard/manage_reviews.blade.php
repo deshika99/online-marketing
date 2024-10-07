@@ -114,6 +114,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($publishedReviews as $review)
+                                    @foreach($publishedReviews as $review)
 
                                     @foreach ($publishedReviews as $review)
 
@@ -150,6 +152,24 @@
                                             </td>
                                             <td>{{ $review->created_at->format('Y-m-d') }}</td>
                                             <td><span class="badge bg-success">{{ ucfirst($review->status) }}</span></td>
+
+                                            <td>
+                                                <div class="action-icons">
+                                           <div class="action-icons">
+                                                    <a href="#" onclick="deleteReview({{ $review->id }})">
+                                                        <i class="fas fa-trash-alt delete-icon"></i>
+                                                    </a>
+                                                </div>
+                                                <form action="" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="btn btn-danger btn-sm mb-1" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="confirmDelete('')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+
+                                            </td>
+
                                             <td>                                          
                                             <form id="delete-form-{{ $review->id }}" action="{{ route('reviews.destroy', $review->id) }}" method="POST" style="display:inline;">
                                                 @csrf
@@ -159,6 +179,7 @@
                                                 </button>
                                             </form>
                                         </td>                                           
+
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -223,6 +244,9 @@
                                             <td>{{ $review->created_at->format('Y-m-d') }}</td>
                                             <td><span class="badge bg-warning">{{ ucfirst($review->status) }}</span></span></td>
                                             <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton{{ $review->id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="fas fa-ellipsis-v"></i>
 
                                                 <div class="dropdown dropdown"> 
                                                     <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton{{ $review->id }}" data-bs-toggle="dropdown" aria-expanded="false">
