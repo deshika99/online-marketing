@@ -11,7 +11,9 @@ class SalesController extends Controller
     // Show the form to create sales
     public function createSales()
     {
+
         $products = Products::select('product_id', 'product_name', 'normal_price')->get(); // Ensure you're selecting the correct column names
+
         return view('admin_dashboard.add_sales', compact('products'));
     }
 
@@ -19,7 +21,14 @@ class SalesController extends Controller
     public function showSales()
     {
         // Retrieve sales with the associated product information
+
         $sales = Sale::with(['product.images'])->get(); 
+
+        $sales = Sale::with(['product' => function($query) {
+            $query->select('id', 'product_name', 'normal_price');
+        }])->get();
+
+
         return view('admin_dashboard.flash_sales', compact('sales'));
     }
     

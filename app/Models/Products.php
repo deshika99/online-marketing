@@ -60,6 +60,12 @@ class Products extends Model
         return $this->hasOne(SpecialOffers::class, 'product_id', 'product_id')->where('status', 'active');
     }
     
+
+    public function Sale()
+    {
+        return $this->hasOne(Sale::class, 'product_id', 'product_id')->where('status', 'active');
+    }
+
     public function reviews()
     {
         return $this->hasMany(Review::class, 'product_id', 'product_id');
@@ -69,6 +75,7 @@ class Products extends Model
     {
         return $this->hasOne(Sale::class, 'product_id', 'product_id')->where('status', 'active');
     }
+
 
 
 }
