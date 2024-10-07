@@ -96,7 +96,7 @@ class RegisterController extends Controller
                 'role' => 'customer',
             ]);
     
-            return redirect('/register')->with('status', 'Successfully registered!');
+            return redirect('/')->with('status', 'Successfully registered!');
         } catch (\Exception $e) {
             \Log::error('Error creating user:', [
                 'message' => $e->getMessage(),
@@ -105,8 +105,8 @@ class RegisterController extends Controller
             return back()->withErrors(['message' => 'An error occurred during registration.'])->withInput();
         }
     }
+      
     
-
 
 }
     
