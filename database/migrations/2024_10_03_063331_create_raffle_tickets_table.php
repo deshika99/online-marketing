@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps(); // Laravel's created_at and updated_at fields
 
             // Foreign key constraints
-            $table->foreign('user_id')->references('id')->on('aff_customer')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('aff_customers')->onDelete('cascade');
         });
     }
 
