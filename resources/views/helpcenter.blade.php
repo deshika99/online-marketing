@@ -135,7 +135,7 @@ body{margin-top:0px;}
         <div class="container">
             <div class="row gy-4 justify-content-center">
                 <div class="col-sm-6 col-md-6 col-lg-4">
-                    <div class="card">
+                    <div class="card h-100 d-flex">
                         <div class="card-body d-flex">
                             <div class="icon-lg bg-primary rounded-3 text-white"><i class="fa fa-question-circle"></i></div>
                             <div class="ps-3 col">
@@ -146,7 +146,7 @@ body{margin-top:0px;}
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-4">
-                    <div class="card">
+                    <div class="card h-100 d-flex">
                         <div class="card-body d-flex">
                             <div class="icon-lg bg-primary rounded-3 text-white"><i class="fa fa-id-badge"></i></div>
                             <div class="ps-3 col">
@@ -157,7 +157,7 @@ body{margin-top:0px;}
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-4">
-                    <div class="card">
+                    <div class="card h-100 d-flex">
                         <div class="card-body d-flex">
                             <div class="icon-lg bg-primary rounded-3 text-white"><i class="fa fa-user"></i></div>
                             <div class="ps-3 col">
@@ -168,7 +168,7 @@ body{margin-top:0px;}
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-4">
-                    <div class="card">
+                    <div class="card h-100 d-flex">
                         <div class="card-body d-flex">
                             <div class="icon-lg bg-primary rounded-3 text-white"><i class="fa fa-trophy"></i></div>
                             <div class="ps-3 col">
@@ -179,7 +179,7 @@ body{margin-top:0px;}
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-4">
-                    <div class="card">
+                    <div class="card h-100 d-flex">
                         <div class="card-body d-flex">
                             <div class="icon-lg bg-primary rounded-3 text-white"><i class="fa fa-book"></i></div>
                             <div class="ps-3 col">
@@ -190,9 +190,9 @@ body{margin-top:0px;}
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-4">
-                    <div class="card">
+                    <div class="card h-100 d-flex">
                         <div class="card-body d-flex">
-                            <div class="icon-lg bg-primary rounded-3 text-white"><i class="fa fa-check"></i></div>
+                            <div class="icon-lg bg-primary rounded-3 text-white"><i class="fa fa-credit-card"></i></div>
                             <div class="ps-3 col">
                                 <h5 class="h6 mb-2"><a class="stretched-link text-reset" href="#">Payment methods</a></h5>
                                 <p class="m-0">You can conveniently use one of the various payment plans available through Visa and MasterCard to purchase products from OMC (Online Marketing Complex). Additionally, you have the option to easily make payments after receiving the product in your hands.</P>
