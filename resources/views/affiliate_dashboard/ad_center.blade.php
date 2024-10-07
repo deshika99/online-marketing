@@ -129,8 +129,9 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
+                                                <!-- Product Images -->
                                                 @if($product->images->count() > 0)
-                                                    <div class="d-flex">
+                                                    <div class="d-flex mb-3">
                                                         <div class="me-3">
                                                             <p>Pictures:</p>
                                                         </div>
@@ -146,15 +147,53 @@
                                                 @else
                                                     <p>No images available for this product.</p>
                                                 @endif
+
                                                 <button type="button" class="btn btn-secondary btn-sm" id="downloadAllBtn">Download All</button>
                                                 <button type="button" class="btn btn-secondary btn-sm" id="downloadSelectedBtn" disabled>Download Selected</button>
+
+                                                <!-- Tracking ID Selection -->
+                                                <div class="mb-3 mt-5">
+                                                    <label for="trackingIdSelect-{{ $product->product_id }}" class="form-label">Tracking ID:</label>
+                                                    <div class="d-flex align-items-center">
+                                                        <!-- Dropdown with default tracking ID -->
+                                                        <select class="form-select me-2" id="trackingIdSelect-{{ $product->product_id }}">
+                                                            @foreach($userTrackingIds as $trackingId)
+                                                                <option value="{{ $trackingId->id }}" {{ $trackingId->default ? 'selected' : '' }}>
+                                                                    {{ $trackingId->token }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        <!-- Link to edit tracking ID page -->
+                                                        <a href="{{ route('tracking_id') }}" class="btn btn-secondary btn-sm" target="_blank">Edit Tracking IDs</a>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Promo Materials Section -->
+                                                <div class="mb-3">
+                                                    <h5>Promo Materials</h5>
+                                                    <p>Copy and share the promo materials below:</p>
+
+                                                    <!-- Promo Material Template -->
+                                                    <textarea id="promoMaterial-{{ $product->product_id }}" class="form-control" rows="5" readonly>
+                                                        Top On Sale Product Recommendations!
+                                                        [World Premiere] {{ $product->product_name }}
+                                                        Original price: LKR {{ number_format($product->original_price, 2) }}
+                                                        Now price: LKR {{ number_format($product->discounted_price, 2) }}
+                                                        Click&Buy: {{ $product->promo_link }}
+                                                    </textarea>
+
+                                                    <!-- Copy Button -->
+                                                    <button type="button" class="btn btn-primary mt-2" onclick="copyPromoMaterial('{{ $product->product_id }}')">Copy Promo Material</button>
+                                                </div>
                                             </div>
+
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                             @endforeach
                         </div>
                     </div>
@@ -422,6 +461,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 </script>
 
+<script>
+    function copyPromoMaterial(productId) {
+        // Get the promo material textarea
+        var promoMaterialTextarea = document.getElementById('promoMaterial-' + productId);
+
+        // Select the text inside the textarea
+        promoMaterialTextarea.select();
+        promoMaterialTextarea.setSelectionRange(0, 99999); // For mobile devices
+
+        // Copy the text to the clipboard
+        document.execCommand('copy');
+
+        // Optionally, show an alert or notification
+        alert('Promo material copied to clipboard!');
+    }
+</script>
 
 
 

@@ -1,7 +1,7 @@
 <style>
     .navbar-divider {
     height: 40px;
-    background-color: #05467c;
+    background: linear-gradient(90deg, #05467c, #1e90ff);
     padding: 10px;
     display: flex;
     align-items: center;
@@ -181,11 +181,11 @@
 
            <!-- Navbar Divider -->
         <div class="navbar-divider w-100 p-0">
-                <div class="container d-flex justify-content-center align-items-center" style="width: 60%;">
+                <div class="container d-flex justify-content-center align-items-center" style="width: 50%;">
                     <div class="category-select-wrapper1 d-flex justify-content-center align-items-center">
                         <div class="custom-dropdown w-100 ms-4">
                             <div class="dropdown-toggle" id="dropdownMenuButton" aria-expanded="false">
-                                <i class="fas fa-bars me-3"></i> All Categories
+                                <i class="fas fa-bars me-2"></i> All Categories
                             </div>
                             <div class="dropdown-menu">
                                 @foreach ($categories as $category)
@@ -217,9 +217,9 @@
                     <!-- other Links -->
                     <div class="d-flex justify-content-center align-items-center flex-grow-1 otherlinks">
                         <a href="{{ route('all_items') }}" class="mx-3">All Items</a>
-                        <a href="#" class="mx-3">Special Offers</a>
+                        <a href="{{ route('special_offerproducts') }}" class="mx-3">Special Offers</a>
                         <a href="#" class="mx-3">Flash Sale</a>
-                        <a href="#" class="mx-3">Bestsellers</a>
+                        <a href="{{ route('best_sellers') }}" class="mx-3">Bestsellers</a>
                         <a href="#" class="mx-3">Super Deals</a>
                     </div>
                 </div>

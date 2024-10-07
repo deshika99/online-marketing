@@ -215,29 +215,35 @@
                     </div>
                     <div class="product-variations mt-3">
                        
-                        @if($product->variations->where('type', 'Size')->isNotEmpty())
-                            <div class="mb-3">
-                                <span>Size: </span>
-                                @foreach($product->variations->where('type', 'Size') as $size)
-                                    <button class="btn btn-outline-secondary btn-sm me-1 ms-1 size-option"  style="height:28px;" >{{ $size->value }}</button>
-                                @endforeach
-                            </div>
-                        @endif
+                    @if($product->variations->where('type', 'Size')->isNotEmpty())
+                        <div class="mb-3">
+                            <span>Size: </span>
+                            @foreach($product->variations->where('type', 'Size') as $size)
+                                @if($size->quantity > 0) 
+                                    <button class="btn btn-outline-secondary btn-sm me-1 ms-1 size-option" style="height:28px;">
+                                        {{ $size->value }}
+                                    </button>
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
 
-                        @if($product->variations->where('type', 'Color')->isNotEmpty())
-                            <div class="mb-2">
-                                <span>Color: </span>
-                                <span id="selected-color-name" class="fw-bold"></span>
-                                <br> 
-                                @foreach($product->variations->where('type', 'Color') as $color)
+                    @if($product->variations->where('type', 'Color')->isNotEmpty())
+                        <div class="mb-2">
+                            <span>Color: </span>
+                            <span id="selected-color-name" class="fw-bold"></span>
+                            <br>
+                            @foreach($product->variations->where('type', 'Color') as $color)
+                                @if($color->quantity > 0)  
                                     <button class="btn btn-outline-secondary btn-sm mt-2 me-1 color-option" 
-                                        style="background-color: {{ $color->value }}; border-color: #e8ebec; height: 20px; width: 20px; " 
-                                        data-color="{{ $color->value }}" 
+                                        style="background-color: {{ $color->hex_value }}; border-color: #e8ebec; height: 20px; width: 20px;" 
+                                        data-color="{{ $color->hex_value }}" 
                                         data-color-name="{{ $color->value }}">
                                     </button>
-                                @endforeach
-                            </div>
-                        @endif
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
 
                         @if($product->variations->where('type', 'Material')->isNotEmpty())
                             <div class="mb-3 mt-3 d-flex align-items-center"> 
@@ -398,7 +404,7 @@
                                         @foreach($reviews as $review)
                                             <div class="review-item">
                                                 <div class="user-info">
-                                                    <img src="{{ $review->is_anonymous ? asset('assets/images/default-user.png') : asset('storage/' . Auth::user()->profile_image) }}" alt="User image" class="user-image">
+                                                    <img src="{{ $review->is_anonymous ? asset('assets/images/default-user.png') : asset('storage/' . $review->user->profile_image) }}" alt="User image" class="user-image">
                                                     <div class="user-details mt-3">
                                                         <h6>{{ $review->is_anonymous ? 'Anonymous' : $review->user->name }}</h6>
                                                     </div>
@@ -406,7 +412,13 @@
                                                         <span class="me-1">{{ $review->rating }}.0</span>
                                                         <span class="rating text-warning">
                                                             @for($i = 1; $i <= 5; $i++)
-                                                                <i class="fas fa-star{{ $i <= $review->rating ? '' : '-o' }}"></i>
+                                                                @if($i <= $averageRating)
+                                                                    <i class="fa fa-star"></i>
+                                                                @elseif($i - $averageRating < 1)
+                                                                    <i class="fas fa-star-half-alt"></i>
+                                                                @else
+                                                                    <i class="fa fa-star-o"></i>
+                                                                @endif
                                                             @endfor
                                                         </span>
                                                     </div>
@@ -468,7 +480,9 @@
                                 <img src="{{ asset('storage/default-image.jpg') }}" alt="Default Image" class="img-fluid">
                             @endif
                             <h6>{{ $relatedProduct->product_name }}</h6>
-                            <div class="price">Rs.{{ number_format($relatedProduct->normal_price) }}</div>
+                            <div class="price">
+                                Rs.{{ number_format($relatedProduct->offer_price ?? $relatedProduct->normal_price) }}
+                            </div>
                         </a>
                     </div>
                 </div>
@@ -476,6 +490,8 @@
         </div>
     </div>
 @endif
+
+
 
 </div>
 
