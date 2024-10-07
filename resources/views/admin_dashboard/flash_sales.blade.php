@@ -74,12 +74,7 @@
                                         <td>{{ $sale->product->product_name }}</td>
 
                                         <td>
-                                        <img src="{{ $sale->product && $sale->product->images->first() ? asset('storage/' . $sale->product->images->first()->image_path) : asset('path/to/default-image.jpg') }}" 
-                                            alt="{{ $sale->product ? $sale->product->product_name : 'No Product Available' }}" 
-                                            style="width: 50px; height: auto;">
-                                        </td> 
-
-                                        <td><img src="{{ $sale->product->image_url }}" alt="{{ $sale->product->product_name }}" width="50"></td>
+                                           <img src="{{ $sale->product->image_url }}" alt="{{ $sale->product->product_name }}" width="50"></td>
 
                                         <td>{{ \Carbon\Carbon::parse($sale->end_date)->format('Y-m-d H:i') }}</td>
                                         <td>{{ number_format($sale->normal_price, 2) }}</td>
