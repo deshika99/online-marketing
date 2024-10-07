@@ -20,6 +20,7 @@ class Products extends Model
         'subcategory',
         'sub_subcategory',
         'quantity',
+        'tags',
         'normal_price',
         'is_affiliate',
         'affiliate_price',
@@ -59,10 +60,18 @@ class Products extends Model
         return $this->hasOne(SpecialOffers::class, 'product_id', 'product_id')->where('status', 'active');
     }
     
+
     public function Sale()
     {
         return $this->hasOne(Sale::class, 'product_id', 'product_id')->where('status', 'active');
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'product_id', 'product_id');
+    }
+
+
 
 
 }

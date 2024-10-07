@@ -140,7 +140,7 @@ body{margin-top:0px;}
                             <div class="icon-lg bg-primary rounded-3 text-white"><i class="fa fa-question-circle"></i></div>
                             <div class="ps-3 col">
                                 <h5 class="h6 mb-2"><a class="stretched-link text-reset" href="#">Buying and Item Support</a></h5>
-                                <p class="m-0">After seller send out your package, you will receive the goods in the promised delivery time.</p>
+                                <p class="m-0">To purchase products from OMC (Online Marketing Complex), you must first submit an application to create a user account. After setting up an account, you will be able to take advantage of various benefits when purchasing products.</p>
                             </div>
                         </div>
                     </div>
@@ -151,7 +151,7 @@ body{margin-top:0px;}
                             <div class="icon-lg bg-primary rounded-3 text-white"><i class="fa fa-id-badge"></i></div>
                             <div class="ps-3 col">
                                 <h5 class="h6 mb-2"><a class="stretched-link text-reset" href="#">Licensing</a></h5>
-                                <p class="m-0">After seller send out your package, you will receive the goods in the promised delivery time.</p>
+                                <p class="m-0">When purchasing products from OMC, you will be provided with valuable resources under specific licensing agreements. This ensures adequate legal protection regarding the products, allowing you to have specific and defined usage rights.</p>
                             </div>
                         </div>
                     </div>
@@ -162,7 +162,7 @@ body{margin-top:0px;}
                             <div class="icon-lg bg-primary rounded-3 text-white"><i class="fa fa-user"></i></div>
                             <div class="ps-3 col">
                                 <h5 class="h6 mb-2"><a class="stretched-link text-reset" href="#">Your Account</a></h5>
-                                <p class="m-0">After seller send out your package, you will receive the goods in the promised delivery time.</p>
+                                <p class="m-0">To confirm that you have an OMC (Online Marketing Complex) account, simply log in using your username and password credentials. This account allows you to efficiently purchase products and avail yourself of various specific benefits and exclusive offers.</p>
                             </div>
                         </div>
                     </div>
@@ -173,7 +173,7 @@ body{margin-top:0px;}
                             <div class="icon-lg bg-primary rounded-3 text-white"><i class="fa fa-trophy"></i></div>
                             <div class="ps-3 col">
                                 <h5 class="h6 mb-2"><a class="stretched-link text-reset" href="#">Copyright and Trademarks</a></h5>
-                                <p class="m-0">After seller send out your package, you will receive the goods in the promised delivery time.</p>
+                                <p class="m-0">The products provided by OMC come with legal protections to safeguard associated intellectual property rights and information. You can securely protect your rights related to the products and services. </p>
                             </div>
                         </div>
                     </div>
@@ -184,7 +184,7 @@ body{margin-top:0px;}
                             <div class="icon-lg bg-primary rounded-3 text-white"><i class="fa fa-book"></i></div>
                             <div class="ps-3 col">
                                 <h5 class="h6 mb-2"><a class="stretched-link text-reset" href="#">Tax &amp; Compliance</a></h5>
-                                <p class="m-0">After seller send out your package, you will receive the goods in the promised delivery time. </p>
+                                <p class="m-0"> When purchasing products from Online Marketing Complex, you must ensure that you make the correct tax payments in accordance with the laws and regulations of your state. OMC is also ready to provide support regarding tax-related matters.</p>
                             </div>
                         </div>
                     </div>
@@ -194,9 +194,8 @@ body{margin-top:0px;}
                         <div class="card-body d-flex">
                             <div class="icon-lg bg-primary rounded-3 text-white"><i class="fa fa-check"></i></div>
                             <div class="ps-3 col">
-                                <h5 class="h6 mb-2"><a class="stretched-link text-reset" href="#">Licensing</a></h5>
-                                <p class="m-0">After seller send out your package, you will receive the goods in the promised delivery time.</p>
-                            </div>
+                                <h5 class="h6 mb-2"><a class="stretched-link text-reset" href="#">Payment methods</a></h5>
+                                <p class="m-0">You can conveniently use one of the various payment plans available through Visa and MasterCard to purchase products from OMC (Online Marketing Complex). Additionally, you have the option to easily make payments after receiving the product in your hands.</P>
                         </div>
                     </div>
                 </div>
@@ -241,12 +240,39 @@ body{margin-top:0px;}
                                 </div>
                             </div>
                         </div>
-                        <div class="card border-0 wow fadeInUp" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
+
+                        <div class="card border-0 wow fadeInUp" data-wow-delay="0.4s">
                             <div class="card-header" id="headingThree">
-                                <h6 class="mb-0 collapsed" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                                    How do I track my package?<span class="lni-chevron-up"></span></h6>
+                                <h6 class="mb-0 collapsed" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    How to purchase products?<span class="lni-chevron-up"></span>
+                                </h6>
                             </div>
                             <div class="collapse" id="collapseThree" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                                <div class="card-body">
+                                    <p>You can buy products by creating and registering a user account within OMC. By registering, you can obtain many benefits.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card border-0 wow fadeInUp" data-wow-delay="0.5s">
+                            <div class="card-header" id="headingFour">
+                                <h6 class="mb-0 collapsed" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    How to earn additional income?<span class="lni-chevron-up"></span>
+                                </h6>
+                            </div>
+                            <div class="collapse" id="collapseFour" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                                <div class="card-body">
+                                    <p>Through OMC, you can earn additional income by registering for our affiliate program. Full details can be found on our affiliate page.</p>
+                                </div>
+                            </div>
+                        </div>
+                         
+                      <div class="card border-0 wow fadeInUp" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
+                            <div class="card-header" id="headingLast">
+                                <h6 class="mb-0 collapsed" data-bs-toggle="collapse" data-bs-target="#collapseLast" aria-expanded="true" aria-controls="collapseLast">
+                                    How do I track my package?<span class="lni-chevron-up"></span></h6>
+                            </div>
+                            <div class="collapse" id="collapseLast" aria-labelledby="headingLast" data-bs-parent="#faqAccordion">
                                 <div class="card-body">
                                     <p>Visit "My Orders"-Find the order-Click “Track Order” /"Click here to view more".
                                     You can also visit Cainiao and 17track for more tracking information.
@@ -254,7 +280,7 @@ body{margin-top:0px;}
                                 </div>
                             </div>
                         </div>
-                    </div>
+                   </div>
 
                     <div class="support-button text-center d-flex align-items-center justify-content-center mt-4 wow fadeInUp" data-wow-delay="0.5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
                         <i class="lni-emoji-sad"></i>

@@ -23,14 +23,12 @@
     color: #495057; 
 }
 
-
 </style>
 
 <h4 class="py-2 px-2">My Orders</h4>
 <div class="d-flex justify-content-between align-items-center mt-4">
     <div class="button-tabs">
         <button class="tab-button mb-1 active" data-target="all-orders">All Orders</button>
-        <button class="tab-button mb-1" data-target="to-pay-orders">To Pay</button>
         <button class="tab-button mb-1" data-target="in-progress-orders">In Progress</button>
         <button class="tab-button" data-target="shipped-orders">Shipped</button>
         <button class="tab-button" data-target="delivered-orders">Delivered</button>
@@ -59,7 +57,7 @@
                 <div class="order-image" style="position: relative;">
                     @php
                         $firstItem = $order->items->first();
-                        $productImage = $firstItem->product->images->first();
+                        $productImage = $firstItem && $firstItem->product ? $firstItem->product->images->first() : null;
                         $additionalCount = $order->items->count() - 1;
                     @endphp
                     @if($productImage)
@@ -71,18 +69,22 @@
                         <span class="additional-count" style="position: absolute; top: 58px; right: 20px; background: rgba(0, 0, 0, 0.3); color: white; padding: 5px; border-radius: 5px;">+{{ $additionalCount }}</span>
                     @endif
                 </div>
+
                 <div class="order-info">
                     <h6 class="order-id">Order ID: {{ $order->order_code }}</h6>
                     <h6 class="order-date">Order date: {{ $order->date }}</h6>
 
-                    <!-- Product Summary -->
                     <p class="order-summary">
                         @php
                             $itemCount = $order->items->count();
                             $itemsToShow = $order->items->take(2);
                         @endphp
                         @foreach($itemsToShow as $item)
-                            {{ $item->product->product_name }}{{ !$loop->last ? ' | ' : '' }}
+                            @if($item->product)
+                                {{ $item->product->product_name }}{{ !$loop->last ? ' | ' : '' }}
+                            @else
+                                <span class="text-muted">Product not found</span>{{ !$loop->last ? ' | ' : '' }}
+                            @endif
                         @endforeach
                         @if($itemCount > 2)
                             <strong style="font-weight: 500;">& {{ $itemCount - 2 }} more items</strong>
@@ -93,84 +95,51 @@
                 </div>
                 <!-- Action Buttons -->
                 <div style="text-align: right; margin-top: 5px;">
-                        @if($order->status === 'Pending')
-                            <a href="{{ route('payment', ['order_code' => $order->order_code]) }}" class="btn btn-primary btn-pay">Pay</a>
-                            <br>
-                            <a href="#" class="btn-cancel mt-1" onclick="openCancelModal('{{ $order->order_code }}')">Cancel</a>
-                        @elseif($order->status === 'In Progress')
+                    @if($order->status === 'Confirmed')
                         <a href="#" class="btn-cancel mt-1" onclick="openCancelModal('{{ $order->order_code }}')">Cancel</a>
-                        @elseif($order->status === 'Paid')
+                    @elseif($order->status === 'In Progress')
                         <a href="#" class="btn-cancel mt-1" onclick="openCancelModal('{{ $order->order_code }}')">Cancel</a>
-                        @elseif($order->status === 'Shipped')
-                            <a href="javascript:void(0);" class="btn-confirm" onclick="openConfirmDeliveryModal('{{ $order->order_code }}')">Confirm Delivery</a>
-                            <br>
-                            <a href="#" class="btn-cancel mt-1" onclick="openCancelModal('{{ $order->order_code }}')">Cancel</a>
-                        @endif
-                    </div>
+                    @elseif($order->status === 'Paid')
+                        <a href="#" class="btn-cancel mt-1" onclick="openCancelModal('{{ $order->order_code }}')">Cancel</a>
+                    @elseif($order->status === 'Shipped')
+                        <a href="javascript:void(0);" class="btn-confirm" onclick="openConfirmDeliveryModal('{{ $order->order_code }}')">Confirm Delivery</a>
+                        <br>
+                        <a href="#" class="btn-cancel mt-1" onclick="openCancelModal('{{ $order->order_code }}')">Cancel</a>
+                    @endif
+                </div>
             </div>
         </div>
     @endforeach
+
+
+    <!-- Pagination -->
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center mb-4" id="pagination">
+        @if ($orders->currentPage() > 1)
+            <li class="page-item" id="prevPage">
+                <a class="page-link" href="#" aria-label="Previous" data-page="{{ $orders->currentPage() - 1 }}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        @endif
+
+        @for ($i = 1; $i <= $orders->lastPage(); $i++)
+            <li class="page-item @if ($i == $orders->currentPage()) active @endif">
+                <a class="page-link" href="#" data-page="{{ $i }}">{{ $i }}</a>
+            </li>
+        @endfor
+
+        @if ($orders->hasMorePages())
+            <li class="page-item" id="nextPage">
+                <a class="page-link" href="#" aria-label="Next" data-page="{{ $orders->currentPage() + 1 }}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        @endif
+    </ul>
+</nav>
+
 </div>
-
-
-<!-- To Pay Orders Tab -->
-<div id="to-pay-orders" class="tab-content">
-    @foreach($pendingOrders as $order)
-        <div class="order-card">
-            <div class="order-card-header">
-                <span class="status {{ strtolower(str_replace(' ', '-', $order->status)) }}">
-                    {{ $order->status }}
-                </span>
-                <a href="{{ route('myorder-details', ['order_code' => $order->order_code]) }}" class="order-details-link">Order Details ></a>
-            </div>
-            <div class="order-card-body">
-                <div class="order-image" style="position: relative;">
-                    @php
-                        $firstItem = $order->items->first();
-                        $productImage = $firstItem->product->images->first();
-                        $additionalCount = $order->items->count() - 1;
-                    @endphp
-                    @if($productImage)
-                        <img src="{{ asset('storage/' . $productImage->image_path) }}" alt="Product Image" width="50">
-                    @else
-                        <p>No image available</p>
-                    @endif
-                    @if($additionalCount > 0)
-                        <span class="additional-count" style="position: absolute; top: 58px; right: 20px; background: rgba(0, 0, 0, 0.3); color: white; padding: 5px; border-radius: 5px;">+{{ $additionalCount }}</span>
-                    @endif
-                </div>
-                <div class="order-info">
-                    <h6 class="order-id">Order ID: {{ $order->order_code }}</h6>
-                    <h6 class="order-date">Order date: {{ $order->date }}</h6>
-
-                    <!-- Product Summary -->
-                    <p class="order-summary">
-                        @php
-                            $itemCount = $order->items->count();
-                            $itemsToShow = $order->items->take(2);
-                        @endphp
-                        @foreach($itemsToShow as $item)
-                            {{ $item->product->product_name }}{{ !$loop->last ? ' | ' : '' }}
-                        @endforeach
-                        @if($itemCount > 2)
-                            <strong style="font-weight: 500;">& {{ $itemCount - 2 }} more items</strong>
-                        @endif
-                    </p>
-
-                    <h6 class="order-price">Rs {{ $order->total_cost }}</h6>
-                </div>
-                <div style="text-align: right; margin-top: 10px;">
-                    <a href="{{ route('payment', ['order_code' => $order->order_code]) }}" class="btn btn-primary btn-pay">Pay</a>
-                    <br>
-                    <a href="#" class="btn-cancel mt-1" onclick="openCancelModal('{{ $order->order_code }}')">Cancel</a>
-                </div>
-            </div>
-          
-        </div>
-    @endforeach
-</div>
-
-
 
 
 
@@ -465,6 +434,49 @@ $('#confirmDeliveryBtn').on('click', function() {
 });
 
 
+document.addEventListener('DOMContentLoaded', function () {
+    const orderList = document.getElementById('all-orders');
+    const paginationButtons = document.getElementById('pagination');
+
+    // Attach event listener for pagination links
+    paginationButtons.addEventListener('click', function (event) {
+        if (event.target.closest('.page-link')) {
+            event.preventDefault(); // Prevent default link behavior
+            const page = event.target.closest('.page-link').getAttribute('data-page');
+            fetchOrders(page);
+        }
+    });
+
+    function fetchOrders(page) {
+    fetch(`/my-orders?page=${page}`) // Ensure this matches your defined route
+        .then(response => response.text())
+        .then(data => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(data, 'text/html');
+
+            // Update the order list and pagination
+            orderList.innerHTML = doc.getElementById('all-orders').innerHTML;
+
+            const newPagination = doc.getElementById('pagination');
+            paginationButtons.innerHTML = newPagination.innerHTML;
+
+            // Re-attach event listener to the new pagination buttons
+            reattachPaginationListener();
+        })
+        .catch(error => console.error('Error fetching orders:', error));
+}
+
+
+    function reattachPaginationListener() {
+        paginationButtons.addEventListener('click', function (event) {
+            if (event.target.closest('.page-link')) {
+                event.preventDefault();
+                const page = event.target.closest('.page-link').getAttribute('data-page');
+                fetchOrders(page);
+            }
+        });
+    }
+});
 
 
 </script>

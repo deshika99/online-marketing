@@ -15,7 +15,7 @@ class OrderController extends Controller
         $deliveredOrders = CustomerOrder::where('status', 'Delivered')->get();
         $cancelledOrders = CustomerOrder::where('status', 'Cancelled')->get();
         $shippedOrders = CustomerOrder::where('status', 'Shipped')->get();
-        $pendingOrders = CustomerOrder::where('status', 'Pending')->get();
+        $pendingOrders = CustomerOrder::where('status', 'Confirmed')->get();
         $paidOrders = CustomerOrder::where('status', 'Paid')->get();
     
         return view('admin_dashboard.orders', compact(

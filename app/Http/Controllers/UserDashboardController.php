@@ -21,29 +21,32 @@ class UserDashboardController extends Controller
     {
         $orders = CustomerOrder::with(['items.product'])
             ->where('user_id', auth()->id())
-            ->orderBy('created_at', 'desc') 
-            ->get();
-    
-        $pendingOrders = $orders->where('status', 'Pending');
-        $confirmedOrders = $orders->where('status', 'Confirmed');
+            ->orderBy('created_at', 'desc')
+            ->paginate(12); 
+
+        $pendingOrders = $orders->where('status', 'Confirmed');
         $inProgressOrders = $orders->filter(function ($order) {
             return $order->status === 'In Progress' || $order->status === 'Paid';
         });
         $shippedOrders = $orders->where('status', 'Shipped');
         $deliveredOrders = $orders->where('status', 'Delivered');
         $cancelledOrders = $orders->where('status', 'Cancelled');
-    
+
         return view('member_dashboard.myorders', compact(
             'orders',
             'pendingOrders',
-            'confirmedOrders',
             'inProgressOrders',
             'shippedOrders',
             'deliveredOrders',
             'cancelledOrders'
         ));
     }
+
+
     
+
+
+    public function orderDetails($order_code){}
 
 
     
@@ -61,13 +64,6 @@ class UserDashboardController extends Controller
         ]);
     
         $user = auth()->user();
-
-        
-        // Handle file upload for profile image
-
-
-        
-
 
         
         // Handle file upload for profile image
@@ -93,6 +89,11 @@ class UserDashboardController extends Controller
     
         return redirect()->back()->with('status', 'Profile updated successfully!');
     }
+
+
+
+
+    public function updatePassword(Request $request) {}
 
 
 
@@ -265,10 +266,16 @@ class UserDashboardController extends Controller
         }
     }
     
-    
-    
+    //dashboard 
+
+    public function index()
+{
+    if (Auth::check()) {
+        $user = Auth::user();
+        return view('member_dashboard.dashboard', compact('user'));
+    } else {
+        return redirect()->route('login');
+    }
 }
-   
 
-
-
+}

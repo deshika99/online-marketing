@@ -51,19 +51,34 @@
             </div>
         @endif
 
-        <div class="d-flex justify-content-between align-items-center">
-            <h3 class="mb-1">Order Details</h3>
-        </div>
-        <div class="d-flex justify-content-between align-items-center">
-            <h5 class="mb-1 mt-2">Order #{{ $order->order_code }}</h5>
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <div class="me-auto"> 
+                <h3 class="mb-1">Order Details</h3>
+                <h5 class="mb-1 mt-2">Order #{{ $order->order_code }}</h5>
+                <span class="status {{ strtolower(str_replace(' ', '-', $order->status)) }} fw-bold" style="font-size: 13px;">
+                    {{ $order->status }}
+                </span>
+            </div>
+            <div style="width: 20%;">
+                <div>Update Order Status</div>
+                <div class="card-body">
+                    <form action="{{ route('update_order_status', $order->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="mb-3">
+                            <select id="orderStatus" name="status" class="form-select" required>
+                                <option value="In Progress" {{ $order->status == 'In Progress' ? 'selected' : '' }}>In Progress</option>
+                                <option value="Shipped" {{ $order->status == 'Shipped' ? 'selected' : '' }}>Shipped</option>
+                                <option value="Delivered" {{ $order->status == 'Delivered' ? 'selected' : '' }}>Delivered</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary p-2">Update</button>
+                    </form>
+                </div>
+            </div>
         </div>
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-           <span class="status {{ strtolower(str_replace(' ', '-', $order->status)) }} fw-bold"  style="font-size: 13px;">
-                            {{ $order->status }}
-                            </span>
-        </div>
-        
+
 
         <div class="order-cards-row mt-2">
             <div class="card">
@@ -88,7 +103,6 @@
                 <div class="card-title">Billing Details</div>
                 <div class="card-body p-0">
                     <p class="mb-0">Payment Method: {{ $order->payment_method }}</p>
-                    <p class="mb-0">Invoice Number: {{ $order->invoice_number }}</p>
                     <p class="mb-0">Amount Charged: Rs {{ number_format($order->total_cost, 2) }}</p>
                     <p class="mb-0">Payment Status: {{ $order->payment_status }}</p>
                 </div>
@@ -144,8 +158,8 @@
             <div class="card summary-card" style="height: 250px;">
                 <div class="card-title">Order Summary</div>
                 <div class="card-body">
-                    <p>Subtotal: Rs {{ number_format($order->total_cost - 250, 2) }}</p>
-                    <p>Delivery Charge: Rs 250.00</p>
+                    <p>Subtotal: Rs {{ number_format($order->total_cost - 300, 2) }}</p>
+                    <p>Delivery Charge: Rs 300.00</p>
                     <hr>
                     <p><strong>Total: Rs {{ number_format($order->total_cost, 2) }}</strong></p>
                 </div>
@@ -153,25 +167,7 @@
         </div>
 
 
-    <!-- Order Status Update Card -->
-        <div class="card mt-4" style="width: 50%">
-            <div class="card-title">Update Order Status</div>
-            <div class="card-body">
-                <form action="{{ route('update_order_status', $order->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="mb-3">
-                        <label for="orderStatus" class="form-label">Select Status</label>
-                        <select id="orderStatus" name="status" class="form-select" required>
-                            <option value="In Progress" {{ $order->status == 'In Progress' ? 'selected' : '' }}>In Progress</option>
-                            <option value="Shipped" {{ $order->status == 'Shipped' ? 'selected' : '' }}>Shipped</option>
-                            <option value="Delivered" {{ $order->status == 'Delivered' ? 'selected' : '' }}>Delivered</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Update Status</button>
-                </form>
-            </div>
-        </div>
+    
 
         
     </div>
