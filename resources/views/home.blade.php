@@ -122,30 +122,33 @@
                                 @endif
                             </a>
                         @endif
-                    @else
-                    <div class="dropdown me-3"> 
-                                        <a id="navbarDropdown" class="text-reset dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        <div class="icon-circle">
-                                          @if(Auth::user()->profile_image)
-                                            <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" style="width: 33px; height: 33px; border-radius: 50%; object-fit: cover;" class="profile_image">
-
-                                          @else
-                                             {{ Auth::user()->name[0] }}
-                                          @endif
-                                        </div>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('dashboard') }}">
-                                {{ __('My Profile') }}
-                            </a>
-                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
+                        @else
+                        <div class="dropdown me-3">  
+                         <a id="navbarDropdown" class="text-reset dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                          <div class="icon-circle">
+                          @if(Auth::user()->profile_image)
+                            <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" style="width: 33px; height: 33px; border-radius: 50%; object-fit: cover;" class="profile_image">
+                          @else
+                            <span style="font-size: 20px; font-weight: bold;">{{ Auth::user()->name[0] }}</span>
+                          @endif
                         </div>
+                            <span class="ms-2" style="font-weight: 500;">{{ Auth::user()->name }}</span>
+                         </a>
+                       <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('dashboard') }}">
+                          {{ __('My Profile') }}
+                        </a>
+                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                          {{ __('Logout') }}
+                        </a>
+                      <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                       @csrf
+                       </form>
+                     </div>
                     </div>
-                    @endguest
+
+                   @endguest
+
                 </div>
             </div>
         </div>
