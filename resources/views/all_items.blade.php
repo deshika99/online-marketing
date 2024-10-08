@@ -49,7 +49,7 @@
     <div class="filter-button" onclick="toggleFilter()">Filter</div>
     <div class="container products-container">
     <!-- Filter sidebar -->
-    <div class="filter-sidebar"  style="width: 25%">
+    <div class="filter-sidebar"  style="width: 22%">
         <div class="filter-header">
             <h3 class="filter-title">Filter</h3>
             <button class="reset-button mb-3" onclick="resetFilters()">Reset</button>
@@ -210,7 +210,7 @@
             </ul>
         </div>
 
-        <div class="products" style="width: 85%">
+        <div class="products" style="width: 88%">
         @if($products->isEmpty())
             <div class="no-products">
                 <p>No products found.</p>
@@ -232,7 +232,7 @@
                                 @else
                                     <img src="{{ asset('storage/default-image.jpg') }}" alt="Default Image" class="img-fluid">
                                 @endif
-                                <h6>{{ $product->product_name }}</h6>
+                                <h6 class="product-name">{{ \Illuminate\Support\Str::limit($product->product_name, 30, '...') }}</h6>
                                 <div class="price">
                                     @if($product->specialOffer && $product->specialOffer->status === 'active')
                                         <span class="offer-price">Rs. {{ number_format($product->specialOffer->offer_price, 2) }}</span>
@@ -248,33 +248,32 @@
             @endif
         </div>
 </div>
-
 <!-- Pagination -->
 <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center mb-4" id="pagination">
-                @if ($products->currentPage() > 1)
-                    <li class="page-item" id="prevPage">
-                        <a class="page-link" href="#" aria-label="Previous" data-page="{{ $products->currentPage() - 1 }}">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                @endif
-                
-                @for ($i = 1; $i <= $products->lastPage(); $i++)
-                    <li class="page-item @if ($i == $products->currentPage()) active @endif">
-                        <a class="page-link" href="#" data-page="{{ $i }}">{{ $i }}</a>
-                    </li>
-                @endfor
-                
-                @if ($products->hasMorePages())
-                    <li class="page-item" id="nextPage">
-                        <a class="page-link" href="#" aria-label="Next" data-page="{{ $products->currentPage() + 1 }}">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                @endif
-            </ul>
-        </nav>
+    <ul class="pagination justify-content-end mb-4" id="pagination">
+        @if ($products->currentPage() > 1)
+            <li class="page-item" id="prevPage">
+                <a class="page-link" href="#" aria-label="Previous" data-page="{{ $products->currentPage() - 1 }}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        @endif
+        
+        @for ($i = 1; $i <= $products->lastPage(); $i++)
+            <li class="page-item @if ($i == $products->currentPage()) active @endif">
+                <a class="page-link" href="#" data-page="{{ $i }}">{{ $i }}</a>
+            </li>
+        @endfor
+        
+        @if ($products->hasMorePages())
+            <li class="page-item" id="nextPage">
+                <a class="page-link" href="#" aria-label="Next" data-page="{{ $products->currentPage() + 1 }}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        @endif
+    </ul>
+</nav>
 
 
 <!-- cart modal-->
@@ -307,14 +306,14 @@
                             <p>{!! $product->product_description !!}</p>
                             <div class="d-flex flex-row my-3">
                                 <div class="text-warning mb-1 me-2">
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        @if ($product->average_rating >= $i)
-                                            <i class="fa fa-star"></i>
-                                        @elseif ($product->average_rating >= $i - 0.5)
-                                            <i class="fas fa-star-half-alt"></i>
-                                        @else
-                                            <i class="fa fa-star-o"></i> 
-                                        @endif
+                                    @for($i = 0; $i < floor($product->average_rating); $i++)
+                                        <i class="fa fa-star"></i>
+                                    @endfor
+                                    @if($product->average_rating - floor($product->average_rating) >= 0.5)
+                                        <i class="fas fa-star-half-alt"></i>
+                                    @endif
+                                    @for($i = 0; $i < (5 - ceil($product->average_rating)); $i++)
+                                        <i class="fa fa-star-o"></i>
                                     @endfor
                                     <span class="ms-1">{{ number_format($product->average_rating, 1) }}</span>
                                 </div>
@@ -355,8 +354,8 @@
                                     @foreach($product->variations->where('type', 'Color') as $color)
                                         @if($color->quantity > 0)  
                                             <button class="btn btn-outline-secondary btn-sm color-option" 
-                                                style="background-color: {{ $color->value }}; border-color: #e8ebec; height: 17px; width: 15px;" 
-                                                data-color="{{ $color->value }}">
+                                                style="background-color: {{ $color->hex_value }}; border-color: #e8ebec; height: 17px; width: 15px;" 
+                                                data-color="{{ $color->hex_value }}">
                                             </button>
                                         @endif
                                     @endforeach
@@ -519,6 +518,7 @@ function toggleSubSection(subsectionId, toggleId) {
 function filterProducts() {
     const selectedSizes = Array.from(document.querySelectorAll('.size-button.selected')).map(btn => btn.innerText);
     const selectedColors = Array.from(document.querySelectorAll('.color-circle.selected-color')).map(circle => circle.style.backgroundColor);
+    const selectedRatings = Array.from(document.querySelectorAll('input[name="rating"]:checked')).map(checkbox => checkbox.value); 
     const priceMin = document.getElementById('price-min-input').value;
     const priceMax = document.getElementById('price-max-input').value;
 
@@ -528,7 +528,7 @@ function filterProducts() {
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         },
-        body: JSON.stringify({ selectedSizes, selectedColors, priceMin, priceMax })
+        body: JSON.stringify({ selectedSizes, selectedColors, priceMin, priceMax, selectedRatings }) 
     })
     .then(response => response.json())
     .then(data => {
@@ -536,12 +536,17 @@ function filterProducts() {
     });
 }
 
+document.querySelectorAll('input[name="rating"]').forEach(ratingCheckbox => {
+    ratingCheckbox.addEventListener('change', filterProducts); 
+});
+
+
 function updateProductDisplay(products) {
     const productsContainer = document.querySelector('.products .row');
     productsContainer.innerHTML = '';  
 
     if (products.length === 0) {
-        productsContainer.innerHTML = '<div class="no-products"><p>No products found under this category.</p></div>';
+        productsContainer.innerHTML = '<div class="no-products"><p>No products found under.</p></div>';
         return;
     }
 
@@ -643,13 +648,13 @@ $(document).ready(function() {
         }
     });
 
-    // Handle size option selection
+
     $('.size-option').on('click', function() {
         $('.size-option').removeClass('active');
         $(this).addClass('active');
     });
 
-    // Handle color option selection
+
     $('.color-option').on('click', function() {
         $('.color-option').removeClass('active');
         $(this).addClass('active');
@@ -657,13 +662,12 @@ $(document).ready(function() {
         $(this).addClass('selected-color');
     });
 
-    // Handle clicks on cart buttons
     $('.btn-cart').on('click', function(event) {
-        event.stopPropagation(); // Prevent the click event from bubbling up
-        event.preventDefault(); // Prevent the default anchor action
+        event.stopPropagation(); 
+        event.preventDefault(); 
     });
 
-    // Thumbnail image click event to change main image
+  
     document.querySelectorAll('.thumbnail-image').forEach(function(thumbnail) {
         thumbnail.addEventListener('click', function() {
             const newImage = this.getAttribute('data-image');

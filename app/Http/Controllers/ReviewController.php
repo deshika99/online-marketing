@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Review;
-use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ReviewController extends Controller
@@ -18,6 +17,12 @@ class ReviewController extends Controller
             ->where('status', 'pending')
             ->get();
 
+
+        return view('admin_dashboard.manage_reviews', compact('publishedReviews', 'pendingReviews'));
+        $pendingCount = $pendingReviews->count();
+        return view('admin_dashboard.manage_reviews', compact('publishedReviews', 'pendingReviews', 'pendingCount'));
+
+
         return view('admin_dashboard.manage_reviews', compact('publishedReviews', 'pendingReviews'));
     }
 
@@ -26,19 +31,23 @@ class ReviewController extends Controller
         // Logic for editing a review
     }
 
+
     public function approve($id)
     {
         $review = Review::findOrFail($id);
         $review->status = 'published';
         $review->save();
-    
+
         return response()->json(['success' => true, 'message' => 'Review approved successfully.']);
     }
+
 
     public function destroy($id)
     {
         $review = Review::findOrFail($id);
         $review->delete();
-        return redirect()->route('manage_reviews')->with('success', 'Review deleted successfully.');
+
+        return redirect()->route('manage_reviews')->with('status', 'Review deleted successfully.');
     }
+
 }

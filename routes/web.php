@@ -8,6 +8,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SpecialOffersController;
 use App\Http\Controllers\AffiliateProductController;
 use App\Http\Controllers\AffiliateCustomerController;
+use App\Http\Controllers\AffiliateTrackingController;
+use App\Http\Controllers\AffiliateReportController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\CategoryController;
@@ -15,8 +17,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NavbarController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SalesController;
 
 use Illuminate\Http\Request;     //contact form
 
@@ -35,11 +39,12 @@ Route::get('/product/{product_id?}', [ProductController::class, 'show'])->name('
 Route::get('/home/all_items', [ProductController::class, 'show_all_items'])->name('all_items');
 Route::get('/home/special_offer_products', [SpecialOffersController::class, 'showProductsWithSpecialOffers'])->name('special_offerproducts');
 Route::post('/filter-products', [ProductController::class, 'filterProducts']);
+Route::get('/best-sellers', [SpecialOffersController::class, 'bestSellers'])->name('best_sellers');
 
 
 Route::view('/home/affiliate/all', 'aff_all')->name('aff_all');
 Route::view('/home/affiliate/single', 'aff_single')->name('aff_single');
-Route::view('/cart/payment', 'payment')->name('payment');
+
 
 
 //member dashboard
@@ -107,6 +112,15 @@ Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.c
 
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/remove/{index}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
+Route::get('/payment/{order_code}', [PaymentController::class, 'payment'])->name('payment');
+
+Route::post('/order/confirm-cod/{order_code}', [PaymentController::class, 'confirmCod'])->name('order.confirm.cod');
+
+Route::get('/order/order_received/{order_code}', [PaymentController::class, 'getOrderDetails'])->name('order.thankyou');
+
+
+
 Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('order.store');
 
@@ -155,7 +169,13 @@ Route::post('/affiliate/dashboard/payment/bank_acc', [PaymentController::class, 
 Route::view('/affiliate/dashboard/payment/commission_rules', 'affiliate_dashboard.commission_rules')->name('commission_rules');
 
 Route::view('/affiliate/dashboard/account/mywebsites_page', 'affiliate_dashboard.mywebsites_page')->name('mywebsites_page');
-Route::view('/affiliate/dashboard/account/tracking_id', 'affiliate_dashboard.tracking_id')->name('tracking_id');
+Route::get('/affiliate/dashboard/account/tracking_id', [AffiliateTrackingController::class, 'index'])->name('tracking_id');
+Route::post('/affiliate/dashboard/store/tracking_id', [AffiliateTrackingController::class, 'store'])->name('tracking_id_store');
+Route::put('/raffletickets/{id}/setDefault', [AffiliateTrackingController::class, 'setDefault'])->name('raffletickets.setDefault');
+Route::delete('/raffletickets/{id}', [AffiliateTrackingController::class, 'destroy'])->name('raffletickets.destroy');
+
+Route::get('/raffletickets/{id}/report', [AffiliateReportController::class, 'report'])->name('raffletickets.report');
+
 
 
 //admin dashboard
@@ -168,6 +188,20 @@ Route::get('/admin/add_offers', [SpecialOffersController::class, 'createOffer'])
 Route::post('/admin/store_offers', [SpecialOffersController::class, 'storeOffer'])->name('store_offers');
 Route::get('/admin/special_offers', [SpecialOffersController::class, 'showOffers'])->name('special_offers');
 Route::delete('/admin/special_offers/delete/{id}', [SpecialOffersController::class, 'destroy'])->name('delete_offer');
+
+// Flash Sales
+
+Route::get('/admin/add_sales', [SalesController::class, 'createsales'])->name('add_sales');
+Route::post('/admin/store_sales', [SalesController::class, 'storeSales'])->name('store_sales');
+Route::get('/admin/flash_sales', [SalesController::class, 'showSales'])->name('flash_sales');
+Route::post('/sales/store', [SalesController::class, 'storeSale'])->name('store_sales');
+Route::get('/admin/edit_sales/{id}', [SalesController::class, 'edit'])->name('edit_sales');
+Route::delete('/admin/destroy_sales/{id}', [SalesController::class, 'destroy'])->name('destroy_sales');
+Route::post('/admin/update-sale/{id}', [SalesController::class, 'update'])->name('update_sale');
+Route::delete('admin/delete-sale/{id}', [SalesController::class, 'destroy'])->name('delete_sale');
+
+
+
 
 Route::get('/admin/products', [ProductController::class, 'showProducts'])->name('products');
 Route::get('/subcategories/{categoryId}', [ProductController::class, 'getSubcategories']);
@@ -210,9 +244,11 @@ Route::get('/admin/customer-details/{user_id}', [CustomerController::class, 'sho
 Route::view('/admin/manage_reviews', 'admin_dashboard.manage_reviews')->name('manage_reviews');
 
 // Reviews
+
 Route::get('/admin/manage_reviews', [ReviewController::class, 'index'])->name('manage_reviews');
 Route::get('/admin/manage_reviews/{id}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
 Route::post('/admin/manage_reviews/{id}/approve', [ReviewController::class, 'approve'])->name('reviews.approve');
+
 Route::delete('/admin/manage_reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 
 

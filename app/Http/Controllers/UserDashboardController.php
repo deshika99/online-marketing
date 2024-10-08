@@ -21,32 +21,30 @@ class UserDashboardController extends Controller
     {
         $orders = CustomerOrder::with(['items.product'])
             ->where('user_id', auth()->id())
-            ->orderBy('created_at', 'desc') 
-            ->get();
-    
-        $pendingOrders = $orders->where('status', 'Pending');
-        $confirmedOrders = $orders->where('status', 'Confirmed');
+            ->orderBy('created_at', 'desc')
+            ->paginate(12); 
+
+        $pendingOrders = $orders->where('status', 'Confirmed');
         $inProgressOrders = $orders->filter(function ($order) {
             return $order->status === 'In Progress' || $order->status === 'Paid';
         });
         $shippedOrders = $orders->where('status', 'Shipped');
         $deliveredOrders = $orders->where('status', 'Delivered');
         $cancelledOrders = $orders->where('status', 'Cancelled');
-    
+
         return view('member_dashboard.myorders', compact(
             'orders',
             'pendingOrders',
-            'confirmedOrders',
             'inProgressOrders',
             'shippedOrders',
             'deliveredOrders',
             'cancelledOrders'
         ));
     }
-    
 
 
     
+
 
     public function updateProfile(Request $request)
     {

@@ -21,19 +21,33 @@
         font-weight: bold;
     }
 
-    .chart-container {
-        padding: 20px;
-        background: #fff;
-        border-radius: 5px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin-bottom: 30px;
-    }
 
     .chart-title {
         font-size: 18px;
         font-weight: bold;
         margin-bottom: 20px;
     }
+
+    .chart-item {
+    display: flex;
+    flex-direction: column;
+    }
+
+    .chart-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background: #fff;
+        border-radius: 5px;
+        padding: 20px;
+    }
+
+    .product-names {
+    font-weight: 500;
+    }
+ 
 </style>
 
 <main style="margin-top: 50px">
@@ -114,37 +128,48 @@
                 </div>
             </div>
 
-            <div class="row mt-4">
-                <!-- Line Chart Container -->
-                <div class="col-md-7">
-                    <div class="chart-container">
-                        <div class="chart-title">Product Sales</div>
-                        <div id="productSalesChart"></div>
-                    </div>
-                </div>
-
-                <!-- Pie Chart Container -->
-                <div class="col-md-5">
-                    <div class="chart-container">
-                        <div class="chart-title">Top 5 Products</div>
-                        <div id="topProductsChart"></div>
-                    </div>
-                </div>
-
-            <!-- Line Chart Container -->
-            <div class="row items-align-baseline">
-                <div class="col-md-12 mb-4">
-                    <div class="card shadow">
-                        <div class="card-body">
-                            <div class="total-revenue">
-                                <span id="totalThisWeek">This Week Total Revenue: </span><br>
-                                <span id="totalLastWeek">Last Week Total Revenue: </span>
-                            </div>
-                            <div id="lineChart1"></div>
+            <div class="container">
+                <div class="row mt-4 justify-content-between">
+                    <!-- Line Chart Container -->
+                    <div class="col-md-8 mb-4 chart-item">
+                        <div class="chart-container">
+                            <div class="chart-title">Product Sales</div>
+                            <div id="productSalesChart"></div>
                         </div>
-                    </div> 
+                    </div>
+
+                    <!-- Pie Chart Container -->
+                    <div class="col-md-4 mb-4 chart-item">
+                        <div class="chart-container">
+                            <div class="chart-title">Top 5 Products</div>
+                            <div id="topProductsChart"></div>
+                            <div id="productNames" class="product-names"></div> 
+                        </div>
+                    </div>
+
+                    <!-- Bar Chart Container -->
+                    <div class="col-md-8 mb-4 chart-item">
+                        <div class="chart-container">
+                            <div class="chart-title">Sales in the Last 12 Months</div>
+                            <div id="salesBarChart"></div>
+                        </div>
+                    </div>
+
+                    <!-- Optional: Line Chart Container -->
+                    <div class="col-md-12 mb-4 chart-item">
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <div class="total-revenue">
+                                    <span id="totalThisWeek">This Week Total Revenue: </span><br>
+                                    <span id="totalLastWeek">Last Week Total Revenue: </span>
+                                </div>
+                                <div id="lineChart1"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </section>
     </div>
 </main>
@@ -213,28 +238,23 @@
         });
 
 
-
-// Top 5 Products Donut Chart
-document.addEventListener('DOMContentLoaded', function () {
+    // Top Product Line Chart
+    document.addEventListener('DOMContentLoaded', function () {
     var options = {
-        series: [10, 20, 30, 25, 15],
+        series: @json($topProducts->pluck('count')),
         chart: {
-            type: 'donut',  
-            height: 250,  
+            type: 'donut',
+            height: 250,
         },
-        labels: ['Product A', 'Product B', 'Product C', 'Product D', 'Product E'],  
+        labels: @json($topProducts->pluck('name')),
         colors: ['#FF6384', '#36A2EB', '#FFCE56', '#4ec26b', '#d9d748'],
         legend: {
-            position: 'right',  
-            offsetY: 0,
-            labels: {
-                colors: ['black']  
-            }
+            show: false, 
         },
         plotOptions: {
             pie: {
                 donut: {
-                    size: '65%'  
+                    size: '65%'
                 }
             }
         },
@@ -252,11 +272,77 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     var chart = new ApexCharts(document.querySelector("#topProductsChart"), options);
-    chart.render();
+    chart.render().then(() => {
+        var productNamesContainer = document.getElementById('productNames');
+        var productNames = @json($topProducts->pluck('name'));
+        var productColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4ec26b', '#d9d748']; 
+
+        productNames.forEach(function(name, index) {
+            var nameElement = document.createElement('div');
+            nameElement.style.display = 'flex';
+            nameElement.style.alignItems = 'center';
+
+            var colorSquare = document.createElement('div');
+            colorSquare.style.width = '15px'; 
+            colorSquare.style.height = '15px'; 
+            colorSquare.style.backgroundColor = productColors[index]; 
+            colorSquare.style.marginRight = '5px'; 
+
+            var textNode = document.createTextNode(name);
+            nameElement.appendChild(colorSquare); 
+            nameElement.appendChild(textNode); 
+
+            productNamesContainer.appendChild(nameElement);
+        });
+    });
 });
 
 
    
+// Sales bar Chart
+document.addEventListener('DOMContentLoaded', function () {
+    var options = {
+        chart: {
+            type: 'bar',
+            height: 400
+        },
+        series: [{
+            name: 'Sales (Rs.)',
+            data: [1200, 1500, 1800, 1100, 900, 1400, 1600, 1300, 2000, 1700, 1900, 2100] 
+        }],
+        xaxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        title: {
+            align: 'center',
+            style: {
+                fontSize: '20px',
+                color: '#333'
+            }
+        },
+        colors: ['#00E396'],
+        dataLabels: {
+            enabled: false
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '55%',
+                endingShape: 'rounded'
+            }
+        },
+        grid: {
+            borderColor: '#e7e7e7',
+            row: {
+                colors: ['#f3f3f3', 'transparent'], 
+                opacity: 0.5
+            }
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#salesBarChart"), options);
+    chart.render();
+    });
 
 
  // Line Chart 

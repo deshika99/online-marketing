@@ -34,79 +34,14 @@
         color: white; 
     }
 
-    .offer-item {
-    text-align: center;
-    padding: 5px; 
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    box-sizing: border-box;
-    margin-bottom: 15px;
-    width: 110%;
-}
-
-.offer-item:hover {
-    border: 1px solid #e1e1e1;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-}
-
-.offer-item a {
-    text-decoration: none;
-    color: black;
-}
-
-.offer-item img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    margin-bottom: 5px;
-}
-
-.offer-image-wrapper {
-    width: 100%;
-    height: 300px; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
-
-.offer-image-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; 
-}
-
-.offer-item h6 {
-    text-align: left;
-    font-size: 15px; 
-    margin: 2px 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
-
-.offer-item .price {
-    text-align: left;
-    color: orange;
-    font-size: 15px; 
-    font-weight: bold;
-}
-
-.offer .row {
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-}
-
 .col-lg-3-5 {
     width: calc(100% / 4);
     max-width: calc(100% / 4);
 }
 
+.product-name {
+    line-height: 1.2em; 
+}
 
 </style>
 
@@ -119,54 +54,50 @@
         </ol>
     </nav>
 
-    <div class="offer mx-auto" style="width: 90%;">
-        @if($products->isEmpty())
-            <div class="no-products">
-                <p>No products found.</p>
-            </div>
-        @else
-            <div class="row mt-3" id="product-list">
-                @foreach ($products as $product)
-                    <div class="col-6 col-sm-4 col-md-3 col-lg-2-4 mb-3">
-                        <div class="offer-item position-relative">
-                            <a href="{{ route('single_product_page', ['product_id' => $product->product_id]) }}" class="d-block text-decoration-none">
-                                @if($product->images->isNotEmpty())
-                                    <div class="offer-image-wrapper position-relative">
-                                        <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" alt="Product Image" class="img-fluid">
-                                        <button type="button" class="btn btn-cart position-absolute bottom-0 end-0 me-2 mb-2" data-bs-toggle="modal" data-bs-target="#cartModal_{{ $product->product_id }}">
-                                            <i class="bi bi-cart-plus"></i>
-                                        </button>
-                                    </div>
-                                @else
-                                    <img src="{{ asset('storage/default-image.jpg') }}" alt="Default Image" class="img-fluid">
-                                @endif
-                                <h6>{{ $product->product_name }}</h6>
-                                <div class="price">
-                                    @if($product->specialOffer && $product->specialOffer->status === 'active')
-                                        <span class="offer-price">Rs. {{ number_format($product->specialOffer->offer_price, 2) }}</span><br>
-                                        <s style="font-size: 14px; color: #989595; font-weight:500">Rs. {{ number_format($product->normal_price, 2) }}</s>
-                                        <span style="color:red; font-size: 14px; margin-left: 5px; font-weight:500">
-                                            {{ floor($product->specialOffer->offer_rate) }}% off
-                                        </span>
-                                    @else
-                                        Rs. {{ number_format($product->normal_price, 2) }}
-                                    @endif
+    <div class="offer mx-auto" style="width: 100%;">
+    @if($products->isEmpty())
+        <div class="no-products">
+            <p>No products found.</p>
+        </div>
+    @else
+        <div class="row mt-3" id="product-list">
+            @foreach ($products as $product)
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3">
+                    <div class="offer-item position-relative">
+                        <a href="{{ route('single_product_page', ['product_id' => $product->product_id]) }}" class="d-block text-decoration-none">
+                            @if($product->images->isNotEmpty())
+                                <div class="offer-image-wrapper position-relative">
+                                    <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" alt="Product Image" class="img-fluid">
+                                    <button type="button" class="btn btn-cart position-absolute bottom-0 end-0 me-2 mb-2" data-bs-toggle="modal" data-bs-target="#cartModal_{{ $product->product_id }}">
+                                        <i class="bi bi-cart-plus"></i>
+                                    </button>
                                 </div>
-                            </a>
-                        </div>
+                            @else
+                                <img src="{{ asset('storage/default-image.jpg') }}" alt="Default Image" class="img-fluid">
+                            @endif
+                            <h6 class="product-name">{{ \Illuminate\Support\Str::limit($product->product_name, 25, '...') }}</h6>
+                            <div class="price">
+                                @if($product->specialOffer && $product->specialOffer->status === 'active')
+                                    <span class="offer-price">Rs. {{ number_format($product->specialOffer->offer_price, 2) }}</span><br>
+                                    <s style="font-size: 14px; color: #989595; font-weight:500">Rs. {{ number_format($product->normal_price, 2) }}</s>
+                                    <span style="color:red; font-size: 14px; margin-left: 5px; font-weight:500">
+                                        {{ floor($product->specialOffer->offer_rate) }}% off
+                                    </span>
+                                @else
+                                    Rs. {{ number_format($product->normal_price, 2) }}
+                                @endif
+                            </div>
+                        </a>
                     </div>
-                @endforeach
-            </div>
-
-           
-
-        @endif
-    </div>
+                </div>
+            @endforeach
+        </div>
+    @endif
 </div>
 
 <!-- Pagination -->
 <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center mb-4" id="pagination">
+    <ul class="pagination justify-content-end mb-4" id="pagination">
         @if ($products->currentPage() > 1)
             <li class="page-item" id="prevPage">
                 <a class="page-link" href="#" aria-label="Previous" data-page="{{ $products->currentPage() - 1 }}">
@@ -190,11 +121,11 @@
         @endif
     </ul>
 </nav>
-
+</div>
 
 
 <!-- cart modal-->
-    @foreach ($products as $product)
+@foreach ($products as $product)
     <div class="modal fade" id="cartModal_{{ $product->product_id }}" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered  modal-lg">
             <div class="modal-content" style="border-radius: 0;">
@@ -252,7 +183,11 @@
                                 <div class="mb-2">
                                     <span>Size: </span>
                                     @foreach($product->variations->where('type', 'Size') as $size)
-                                        <button class="btn btn-outline-secondary btn-sm me-1 size-option" style="height:28px;" data-size="{{ $size->value }}">{{ $size->value }}</button>
+                                        @if($size->quantity > 0)  
+                                            <button class="btn btn-outline-secondary btn-sm me-1 size-option" style="height:28px;" data-size="{{ $size->value }}">
+                                                {{ $size->value }}
+                                            </button>
+                                        @endif
                                     @endforeach
                                 </div>
                             @endif
@@ -261,9 +196,12 @@
                                 <div class="mb-2">
                                     <span>Color: </span>
                                     @foreach($product->variations->where('type', 'Color') as $color)
-                                        <button class="btn btn-outline-secondary btn-sm color-option" 
-                                            style="background-color: {{ $color->value }}; border-color: #e8ebec; height: 17px; width: 15px;" 
-                                            data-color="{{ $color->value }}"></button>
+                                        @if($color->quantity > 0)  
+                                            <button class="btn btn-outline-secondary btn-sm color-option" 
+                                                style="background-color: {{ $color->hex_value }}; border-color: #e8ebec; height: 17px; width: 15px;" 
+                                                data-color="{{ $color->hex_value }}">
+                                            </button>
+                                        @endif
                                     @endforeach
                                 </div>
                             @endif
@@ -304,8 +242,8 @@
         </div>
     </div>
     @endforeach
-
 </div>
+
 
    
 
