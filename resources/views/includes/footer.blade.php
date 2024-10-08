@@ -7,8 +7,12 @@
                             <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3 contact-us-column">
                                 <h6 class="text-uppercase mb-4 font-weight-bold">Contact Us</h6>
                                 <p><i class="fas fa-home mr-3"></i> No 425/2, Parakum Place, Kaduruwela, Polannaruwa.</p>
-                                <p><i class="fas fa-envelope mr-3"></i> omarketingcomplex@gmail.com</p>
-                                <p><i class="fas fa-phone mr-3"></i> 077 833 7143</p>
+                                <p><i class="fas fa-envelope mr-3"></i> 
+                                    <a href="mailto:omarketingcomplex@gmail.com" style="color:white; text-decoration:none;">omarketingcomplex@gmail.com</a>
+                                </p>
+                                <p><i class="fas fa-phone mr-3"></i> 
+                                    <a href="tel:+94778337143" style="color:white; text-decoration:none;">077 833 7143</a>
+                                </p>
                             </div>
                             
                             <hr class="w-100 clearfix d-md-none" />
