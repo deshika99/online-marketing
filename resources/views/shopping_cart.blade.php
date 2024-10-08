@@ -55,18 +55,28 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-3 d-flex flex-column align-items-start">
-                                        <div class="d-flex flex-column align-items-start">
-                                            @if($item->product->specialOffer && $item->product->specialOffer->status === 'active')
-                                                <p class="text-orange h6 mt-3">
-                                                    Rs. <span class="item-price">{{ number_format($item->product->specialOffer->offer_price, 2) }}</span>
-                                                </p>
-                                            @else
-                                                <p class="text-orange h6 mt-4">
-                                                    Rs. <span class="item-price">{{ number_format($item->product->normal_price, 2) }}</span>
-                                                </p>
-                                            @endif
-                                        </div>
+                                    <div class="d-flex flex-column align-items-start">
+                                        @php
+                                            $salePrice = $item->product->sale ? $item->product->sale->sale_price : null;
+                                            $specialOfferPrice = $item->product->specialOffer ? $item->product->specialOffer->offer_price : null;
+                                            $normalPrice = $item->product->normal_price;
+                                        @endphp
+
+                                        @if($salePrice)
+                                            <p class="text-orange h6 mt-3">
+                                                Rs. <span class="item-price">{{ number_format($salePrice, 2) }}</span>
+                                            </p>
+                                        @elseif($specialOfferPrice)
+                                            <p class="text-orange h6 mt-3">
+                                                Rs. <span class="item-price">{{ number_format($specialOfferPrice, 2) }}</span>
+                                            </p>
+                                        @else
+                                            <p class="text-orange h6 mt-4">
+                                                Rs. <span class="item-price">{{ number_format($normalPrice, 2) }}</span>
+                                            </p>
+                                        @endif
                                     </div>
+                                </div>
 
                                     <div class="col-lg-2 d-flex align-items-center justify-content-end">
                                         <div class="input-group quantity-input">

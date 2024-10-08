@@ -1,6 +1,10 @@
 @extends('layouts.admin_main.master') 
 
 @section('content')
+<!-- Include Bootstrap CSS in your <head> section -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
+
+
 
 <style>
     .action-buttons {
@@ -114,74 +118,47 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     @foreach ($publishedReviews as $review)
-                                    @foreach($publishedReviews as $review)
-
-
-                                    @foreach ($publishedReviews as $review)
-
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>
                                                 <div class="user-profile">
-                                                <img src="{{ asset('storage/' . $review->product->images->first()->image_path) }}" alt="Product Image" style="max-width: 50px;">
-                                                {{ $review->product->product_name }}</td>
+                                                    <img src="{{ asset('storage/' . $review->product->images->first()->image_path) }}" alt="Product Image" style="max-width: 50px;">
+                                                    {{ $review->product->product_name }}
                                                 </div>
+                                            </td>
                                             <td>
-                                            <div class="reviewer-profile">
-                                                @php
-                                                    $profileImage = $review->user->profile_image ? asset('storage/' . $review->user->profile_image) : asset('assets/images/default-user.png');
-                                                @endphp
-                                                <img src="{{ $profileImage }}" alt="Profile Image" class="rounded-circle" width="100" height="100" style="object-fit: cover;">
-                                                <span>{{ $review->user->name }}</span>
-                                            </div>
-
+                                                <div class="reviewer-profile">
+                                                    @php
+                                                        $profileImage = $review->user->profile_image ? asset('storage/' . $review->user->profile_image) : asset('assets/images/default-user.png');
+                                                    @endphp
+                                                    <img src="{{ $profileImage }}" alt="Profile Image" class="rounded-circle" width="100" height="100" style="object-fit: cover;">
+                                                    <span>{{ $review->user->name }}</span>
+                                                </div>
                                             </td>
                                             <td>
                                                 {{ $review->comment }}
                                                 <div class="star-rating">
-
                                                     @for ($i = 0; $i < 5; $i++)
                                                         @if ($i < $review->rating)
                                                             <i class="fas fa-star"></i> 
                                                         @else
                                                             <i class="far fa-star"></i>
                                                         @endif
-
                                                     @endfor
                                                 </div>
                                             </td>
                                             <td>{{ $review->created_at->format('Y-m-d') }}</td>
                                             <td><span class="badge bg-success">{{ ucfirst($review->status) }}</span></td>
-
                                             <td>
-                                                <div class="action-icons">
-                                           <div class="action-icons">
-                                                    <a href="#" onclick="deleteReview({{ $review->id }})">
-                                                        <i class="fas fa-trash-alt delete-icon"></i>
-                                                    </a>
-                                                </div>
-                                                <form action="" method="POST" style="display:inline;">
+                                                <form id="delete-form-{{ $review->id }}" action="{{ route('reviews.destroy', $review->id) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="button" class="btn btn-danger btn-sm mb-1" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="confirmDelete('')">
+                                                    <button type="button" class="btn btn-danger btn-sm" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="confirmDelete('delete-form-{{ $review->id }}', 'Are you sure you want to delete this Review?')">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
-
                                             </td>
-
-                                            <td>                                          
-                                            <form id="delete-form-{{ $review->id }}" action="{{ route('reviews.destroy', $review->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="button" class="btn btn-danger btn-sm" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="confirmDelete('delete-form-{{ $review->id }}', 'Are you sure you want to delete this Review?')">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        </td>                                           
-
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -214,55 +191,46 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>
                                                 <div class="user-profile">
-                                                <img src="{{ asset('storage/' . $review->product->images->first()->image_path) }}" alt="Product Image" style="max-width: 50px;">
-                                                {{ $review->product->product_name }}</td>
+                                                    <img src="{{ asset('storage/' . $review->product->images->first()->image_path) }}" alt="Product Image" style="max-width: 50px;">
+                                                    {{ $review->product->product_name }}
                                                 </div>
+                                            </td>
                                             <td>
-                                            <div class="reviewer-profile">
-                                                @php
-                                                    $profileImage = $review->user->profile_image ? asset('storage/' . $review->user->profile_image) : asset('assets/images/default-user.png');
-                                                @endphp
-                                                <img src="{{ $profileImage }}" alt="Profile Image" class="rounded-circle" width="100" height="100" style="object-fit: cover;">
-                                                <span>{{ $review->user->name }}</span>
-                                            </div>
-
+                                                <div class="reviewer-profile">
+                                                    @php
+                                                        $profileImage = $review->user->profile_image ? asset('storage/' . $review->user->profile_image) : asset('assets/images/default-user.png');
+                                                    @endphp
+                                                    <img src="{{ $profileImage }}" alt="Profile Image" class="rounded-circle" width="100" height="100" style="object-fit: cover;">
+                                                    <span>{{ $review->user->name }}</span>
+                                                </div>
                                             </td>
                                             <td>
                                                 {{ $review->comment }}
                                                 <div class="star-rating">
-
                                                     @for ($i = 0; $i < 5; $i++)
                                                         @if ($i < $review->rating)
                                                             <i class="fas fa-star"></i> 
                                                         @else
                                                             <i class="far fa-star"></i>
                                                         @endif
-
                                                     @endfor
                                                 </div>
                                             </td>
                                             <td>{{ $review->created_at->format('Y-m-d') }}</td>
-                                            <td><span class="badge bg-warning">{{ ucfirst($review->status) }}</span></span></td>
+                                            <td><span class="badge bg-warning">{{ ucfirst($review->status) }}</span></td>
                                             <td>
-
-                                                <div class="dropdown">
-                                                    <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton{{ $review->id }}" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="fas fa-ellipsis-v"></i>
-
-
-                                                <div class="dropdown dropdown"> 
+                                                <div class="dropdown"> 
                                                     <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton{{ $review->id }}" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <i class="fas fa-ellipsis-v"></i>
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $review->id }}">
-                                                        <li><a class="dropdown-item" href="#" onclick="approveReview({{ $review->id }})">Published</a></li>
-                                                        <li <a class="dropdown-item" onclick="confirmDelete('delete-form-{{ $review->id }}', 'Are you sure you want to delete this Review?')" style="cursor: pointer;">
+                                                        <li><a class="dropdown-item" href="#" onclick="approveReview({{ $review->id }})">Publish</a></li>
+                                                        <li>
                                                             <form id="delete-form-{{ $review->id }}" action="{{ route('reviews.destroy', $review->id) }}" method="POST" style="display:inline;">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                                Delete
+                                                                <a class="dropdown-item" style="cursor: pointer;" onclick="confirmDelete('delete-form-{{ $review->id }}', 'Are you sure you want to delete this Review?')">Delete</a>
                                                             </form>
-                                                            </a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -278,6 +246,9 @@
         </div>
     </div>
 </main>
+
+
+
 <!-- Approve Review Confirmation Modal -->
 <div class="modal fade" id="approveReviewModal" tabindex="-1" aria-labelledby="approveReviewModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -291,7 +262,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="confirmApproveBtn">Approve</button>
+                <button type="button" class="btn btn-primary" id="confirmApproveBtn">Confirm</button>
             </div>
         </div>
     </div>
@@ -299,39 +270,37 @@
 
 
 <script>
-  
+    let csrfToken = '{{ csrf_token() }}'; 
+    let currentReviewId = null;
 
-let currentReviewId = null; // Variable to hold the current review ID
-
-function approveReview(reviewId) {
-    currentReviewId = reviewId; // Store the review ID
+    function approveReview(reviewId) {
+    currentReviewId = reviewId; 
     // Show the modal
     $('#approveReviewModal').modal('show');
-}
 
-// Event listener for the confirm button
-document.getElementById('confirmApproveBtn').addEventListener('click', function() {
-    fetch(`/admin/manage_reviews/${currentReviewId}/approve`, {
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}', // Ensure this is rendered properly
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            status: 'published'
+    // Set up the event listener for the confirm button
+    document.getElementById('confirmApproveBtn').onclick = function() {
+        fetch(`/admin/manage_reviews/${currentReviewId}/approve`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}', 
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                status: 'published'
+            })
         })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            location.reload(); // Reload the page to see the updated reviews
-        } else {
-            alert('Error approving review: ' + data.message);
-        }
-    })
-    .catch(error => console.error('Error:', error));
-});
-
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload(); 
+            } else {
+                alert('Error approving review: ' + data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    };
+}
 
 </script>
 

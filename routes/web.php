@@ -179,7 +179,31 @@ Route::get('/raffletickets/{id}/report', [AffiliateReportController::class, 'rep
 
 
 //admin dashboard
-Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.index');
+use App\Http\Controllers\AdminProfileController;
+use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Middleware\AdminAuth;
+
+
+Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin.login.post');
+
+Route::middleware([App\Http\Middleware\AdminAuth::class])->group(function () {
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.index');
+    // other routes
+});
+
+
+Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
+
+
+// Route to display the admin profile
+Route::get('/admin/profile', [AdminProfileController::class, 'showProfile'])->name('admin.profile');
+
+// Route to handle profile updates
+Route::post('/admin/profile/update', [AdminProfileController::class, 'updateProfile'])->name('admin.profile.update');
+
+// Route to handle password updates
+Route::post('/admin/profile/password', [AdminProfileController::class, 'updatePassword'])->name('admin.profile.password.update');
 
 
 Route::get('/admin/edit_offers/{id}', [SpecialOffersController::class, 'edit'])->name('edit_offers');
@@ -189,7 +213,6 @@ Route::post('/admin/store_offers', [SpecialOffersController::class, 'storeOffer'
 Route::get('/admin/special_offers', [SpecialOffersController::class, 'showOffers'])->name('special_offers');
 Route::delete('/admin/special_offers/delete/{id}', [SpecialOffersController::class, 'destroy'])->name('delete_offer');
 
-// Flash Sales
 
 Route::get('/admin/add_sales', [SalesController::class, 'createsales'])->name('add_sales');
 Route::post('/admin/store_sales', [SalesController::class, 'storeSales'])->name('store_sales');
@@ -200,7 +223,7 @@ Route::delete('/admin/destroy_sales/{id}', [SalesController::class, 'destroy'])-
 Route::post('/admin/update-sale/{id}', [SalesController::class, 'update'])->name('update_sale');
 Route::delete('admin/delete-sale/{id}', [SalesController::class, 'destroy'])->name('delete_sale');
 
-
+Route::get('/home/flash_sales', [SalesController::class, 'saleProducts'])->name('sale_products');
 
 
 Route::get('/admin/products', [ProductController::class, 'showProducts'])->name('products');
@@ -243,11 +266,10 @@ Route::get('/admin/customers', [CustomerController::class, 'show_customers'])->n
 Route::get('/admin/customer-details/{user_id}', [CustomerController::class, 'showCustomerDetails'])->name('customer-details');
 Route::view('/admin/manage_reviews', 'admin_dashboard.manage_reviews')->name('manage_reviews');
 
-// Reviews
-
 Route::get('/admin/manage_reviews', [ReviewController::class, 'index'])->name('manage_reviews');
 Route::get('/admin/manage_reviews/{id}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
 Route::post('/admin/manage_reviews/{id}/approve', [ReviewController::class, 'approve'])->name('reviews.approve');
+
 
 Route::delete('/admin/manage_reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 

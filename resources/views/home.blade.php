@@ -86,13 +86,13 @@
                     <img src="/assets/images/brand_name.png" height="30" width="320" alt="brand"/>
                 </a>
             </div>
-            <div class="col-md-5 mt-4">
+            <div class="col-md-4 mt-4">
                 <form class="d-flex input-group w-auto my-auto mb-md-0">
                     <input autocomplete="off" type="search" class="form-control rounded" placeholder="Search" />
                     <span class="input-group-text border-0 d-none d-lg-flex"><i class="fas fa-search"></i></span>
                 </form>
             </div>
-            <div class="col-md-3 p-3 d-flex justify-content-center justify-content-md-end align-items-center">
+            <div class="col-md-4 p-3 d-flex justify-content-center justify-content-md-end align-items-center">
                 <div class="d-flex align-items-center">
                     <div class="dropdown me-3">
                         <a class="text-reset dropdown-toggle1" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -192,7 +192,7 @@
                     <div class="d-flex justify-content-center align-items-center flex-grow-1 otherlinks" style="font-size:16px;">
                         <a href="{{ route('all_items') }}" class="mx-3">All Items</a>
                         <a href="{{ route('special_offerproducts') }}" class="mx-3">Special Offers</a>
-                        <a href="#" class="mx-3">Flash Sale</a>
+                        <a href="{{ route('sale_products') }}" class="mx-3">Flash Sale</a>
                         <a href="{{ route('best_sellers') }}" class="mx-3">Bestsellers</a>
                         <a href="#" class="mx-3">Super Deals</a>
                     </div>

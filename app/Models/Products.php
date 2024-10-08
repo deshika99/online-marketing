@@ -71,11 +71,6 @@ class Products extends Model
         return $this->hasMany(Review::class, 'product_id', 'product_id');
     }
 
-    public function Sale()
-    {
-        return $this->hasOne(Sale::class, 'product_id', 'product_id')->where('status', 'active');
-    }
-
 
 
 }

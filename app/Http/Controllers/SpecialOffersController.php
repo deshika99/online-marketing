@@ -4,17 +4,28 @@ namespace App\Http\Controllers;
 use App\Models\Products;
 use App\Models\CustomerOrderItems;
 use App\Models\SpecialOffers;
+use App\Models\Sale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 
 class SpecialOffersController extends Controller
 {
+
+    // Show the form to create offers
     public function createOffer()
     {
-        $products = Products::select('product_id', 'product_name', 'normal_price')->get();
+        $activeSales = Sale::where('status', 'active')->pluck('product_id')->toArray();
+        $specialOffers = SpecialOffers::where('status', 'active')->pluck('product_id')->toArray();
+
+        $excludedProductIds = array_merge($activeSales, $specialOffers);
+        $products = Products::select('product_id', 'product_name', 'normal_price')
+                            ->whereNotIn('product_id', $excludedProductIds)
+                            ->get();
+
         return view('admin_dashboard.add_offers', compact('products'));
     }
+
 
 
 
@@ -104,11 +115,17 @@ class SpecialOffersController extends Controller
         ->whereHas('specialOffer', function ($query) {
             $query->where('status', 'active');
         })
-        ->paginate($perPage);
-
-
+        ->paginate($perPage)
+        ->through(function ($product) {
+            // Calculate average rating and rating count
+            $product->average_rating = $product->reviews()->where('status', 'published')->avg('rating');
+            $product->rating_count = $product->reviews()->where('status', 'published')->count();
+            return $product;
+        });
+    
         return view('special_offers', compact('products'));
     }
+    
 
 
     public function bestSellers(Request $request)
