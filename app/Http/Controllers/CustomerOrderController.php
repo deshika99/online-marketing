@@ -17,7 +17,6 @@ class CustomerOrderController extends Controller
 {
     
 
-
    
     public function store(Request $request)
     {
@@ -34,12 +33,18 @@ class CustomerOrderController extends Controller
             'apartment' => 'nullable|string|max:255',
         ]);
 
+
+        // Retrieve cart items
+        $cart = Auth::check() ? CartItem::where('user_id', Auth::id())->with('product')->get() : collect(session('cart', []));
+        
+
         $cart = Auth::check() ? CartItem::where('user_id', Auth::id())->with('product')->get() : collect(session('cart', []));
         
         // Check if cart is empty
         if ($cart->isEmpty()) {
             return redirect()->back()->with('error', 'Your cart is empty. Add some items to proceed.');
         }
+
 
         $cartArray = $cart->map(function ($item) {
             return [
@@ -52,10 +57,13 @@ class CustomerOrderController extends Controller
         })->toArray();
 
         $subtotal = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cartArray));
-        $shipping = 300;
+
+        $shipping = 250; // Example shipping cost
+
         $total = $subtotal + $shipping;
 
         $orderCode = 'ORD-' . substr((string) Str::uuid(), 0, 8);
+
 
         $orderData = [
             'order_code' => $orderCode,
@@ -73,10 +81,13 @@ class CustomerOrderController extends Controller
             'discount' => 0,
             'vat' => 0,
             'user_id' => Auth::id(),
-            'status' => 'Confirmed',
+
+            'status' => 'Pending',
+
         ];
 
         $order = CustomerOrder::create($orderData);
+
 
         foreach ($cartArray as $item) {
             CustomerOrderItems::create([
@@ -89,32 +100,25 @@ class CustomerOrderController extends Controller
                 'color' => $item['color'],
             ]);
 
-            // Reduce product quantity in Products and Variations table
+
             $product = Products::where('product_id', $item['product_id'])->first();
             if ($product) {
                 $product->quantity -= $item['quantity'];
                 $product->save();
             }
 
-            // Handle size variation
-            $sizeVariation = Variation::where('product_id', $item['product_id'])
-                ->where('type', 'size')
-                ->where('value', $item['size'])
-                ->first();
 
-            if ($sizeVariation && $sizeVariation->quantity >= $item['quantity']) {
-                $sizeVariation->quantity -= $item['quantity'];
+            // Update variations (size and color)
+            $sizeVariation = Variation::where('product_id', $item['product_id'])->where('type', 'size')->where('value', $item['size'])->first();
+            $colorVariation = Variation::where('product_id', $item['product_id'])->where('type', 'color')->where('value', $item['color'])->first();
+
+            if ($sizeVariation) {
+                $sizeVariation->quantity = max(0, $sizeVariation->quantity - $item['quantity']);
+
                 $sizeVariation->save();
             }
-
-            // Handle color variation
-            $colorVariation = Variation::where('product_id', $item['product_id'])
-                ->where('type', 'color')
-                ->where('value', $item['color'])
-                ->first();
-
-            if ($colorVariation && $colorVariation->quantity >= $item['quantity']) {
-                $colorVariation->quantity -= $item['quantity'];
+            if ($colorVariation) {
+                $colorVariation->quantity = max(0, $colorVariation->quantity - $item['quantity']);
                 $colorVariation->save();
             }
         }
@@ -123,8 +127,5 @@ class CustomerOrderController extends Controller
         return redirect()->route('payment', ['order_code' => $orderCode]);
  
     }
-
-
-  
 
 }

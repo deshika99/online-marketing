@@ -149,10 +149,13 @@
                                             <td>{{ $review->created_at->format('Y-m-d') }}</td>
                                             <td><span class="badge bg-success">{{ ucfirst($review->status) }}</span></td>
                                             <td>
+
                                                 <form id="delete-form-{{ $review->id }}" action="{{ route('reviews.destroy', $review->id) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="button" class="btn btn-danger btn-sm" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="confirmDelete('delete-form-{{ $review->id }}', 'Are you sure you want to delete this Review?')">
+
+        
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
@@ -217,17 +220,21 @@
                                             <td>{{ $review->created_at->format('Y-m-d') }}</td>
                                             <td><span class="badge bg-warning">{{ ucfirst($review->status) }}</span></td>
                                             <td>
+
                                                 <div class="dropdown"> 
+
                                                     <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton{{ $review->id }}" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <i class="fas fa-ellipsis-v"></i>
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $review->id }}">
                                                         <li><a class="dropdown-item" href="#" onclick="approveReview({{ $review->id }})">Publish</a></li>
                                                         <li>
+
                                                             <form id="delete-form-{{ $review->id }}" action="{{ route('reviews.destroy', $review->id) }}" method="POST" style="display:inline;">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <a class="dropdown-item" style="cursor: pointer;" onclick="confirmDelete('delete-form-{{ $review->id }}', 'Are you sure you want to delete this Review?')">Delete</a>
+
                                                             </form>
                                                         </li>
                                                     </ul>
@@ -245,6 +252,7 @@
 
     </div>
 </main>
+
 
 
 
@@ -300,6 +308,19 @@
         .catch(error => console.error('Error:', error));
     };
 }
+
+
+<script>
+    function deleteReview(id) {
+        if (confirm('Are you sure you want to delete this Review?')) {
+            document.getElementById('delete-form-' + id).submit();
+        }
+    }
+
+    function approveReview(id) {
+        // handle the approval logic here
+    }
+
 
     function confirmDelete(formId, message) {
         if (confirm(message)) {
