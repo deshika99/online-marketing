@@ -20,7 +20,11 @@ use App\Http\Controllers\NavbarController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\ReviewController;
+
+use App\Http\Controllers\AffiliateLinkController;
+
 use App\Http\Controllers\SalesController;
+
 
 use Illuminate\Http\Request;     //contact form
 
@@ -65,6 +69,12 @@ Route::get('home/My-Account/My-Reviews', [UserDashboardController::class, 'myRev
 Route::get('home/My-Account/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
 
 
+
+Route::get('home/My-Account/addresses', [UserDashboardController::class, 'showAddresses'])->name('addresses');
+Route::post('home/My-Account/addresses/update', [UserDashboardController::class, 'updateAddress'])->name('updateAddress');
+Route::post('home/My-Account/addresses/delete', [UserDashboardController::class, 'deleteAddress'])->name('deleteAddress');
+Route::post('home/My-Account/addresses/store', [UserDashboardController::class, 'storeAddress'])->name('storeAddress');
+
 //write-reviews
 
 Route::get('/member-dashboard/write-reviews', [UserDashboardController::class, 'writeReview'])->name('write.reviews');
@@ -80,6 +90,8 @@ Route::get('home/My-Account/change-password', function () {
 Route::get('home/My-Account/addresses', function () { 
     return view('member_dashboard.addresses');
 })->name('addresses');
+
+
 
 //new return button
 Route::get('home/My-Account/returns', function () { 
@@ -124,6 +136,8 @@ Route::get('/order/order_received/{order_code}', [PaymentController::class, 'get
 Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('order.store');
 
+
+
 Route::get('/dashboard/profile/edit', [UserDashboardController::class, 'editProfile'])->name('user.editProfile');
 Route::put('/dashboard/profile/update', [UserDashboardController::class, 'updateProfile'])->name('user.updateProfile');
 
@@ -158,7 +172,12 @@ Route::view('/affiliate/dashboard/reports/transaction_product_report', 'affiliat
 Route::view('/affiliate/dashboard/payment/withdrawals', 'affiliate_dashboard.withdrawals')->name('withdrawals');
 Route::view('/affiliate/dashboard/payment/account_balance', 'affiliate_dashboard.account_balance')->name('account_balance');
 
-Route::view('/affiliate/dashboard/tool', 'affiliate_dashboard.tool')->name('tool');
+
+Route::get('/affiliate-tool', [AffiliateLinkController::class, 'showAffiliateForm'])->name('affiliate.tool');
+Route::post('/affiliate/tool/create/affiliate_link', [AffiliateLinkController::class, 'generateNewLink'])->name('genarate_tracking_Link');
+Route::get('/track/{tracking_id}', [AffiliateLinkController::class, 'trackClick'])->name('affiliate.track');
+Route::post('/track-referral/{tracking_id}', [AffiliateLinkController::class, 'trackReferral'])->name('affiliate.trackReferral');
+
 
 Route::view('/affiliate/dashboard/payment/withdrawals', 'affiliate_dashboard.withdrawals')->name('withdrawals');
 Route::view('/affiliate/dashboard/payment/account_balance', 'affiliate_dashboard.account_balance')->name('account_balance');
@@ -179,7 +198,31 @@ Route::get('/raffletickets/{id}/report', [AffiliateReportController::class, 'rep
 
 
 //admin dashboard
-Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.index');
+use App\Http\Controllers\AdminProfileController;
+use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Middleware\AdminAuth;
+
+
+Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin.login.post');
+
+Route::middleware([App\Http\Middleware\AdminAuth::class])->group(function () {
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.index');
+    // other routes
+});
+
+
+Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
+
+
+// Route to display the admin profile
+Route::get('/admin/profile', [AdminProfileController::class, 'showProfile'])->name('admin.profile');
+
+// Route to handle profile updates
+Route::post('/admin/profile/update', [AdminProfileController::class, 'updateProfile'])->name('admin.profile.update');
+
+// Route to handle password updates
+Route::post('/admin/profile/password', [AdminProfileController::class, 'updatePassword'])->name('admin.profile.password.update');
 
 
 Route::get('/admin/edit_offers/{id}', [SpecialOffersController::class, 'edit'])->name('edit_offers');
@@ -189,7 +232,6 @@ Route::post('/admin/store_offers', [SpecialOffersController::class, 'storeOffer'
 Route::get('/admin/special_offers', [SpecialOffersController::class, 'showOffers'])->name('special_offers');
 Route::delete('/admin/special_offers/delete/{id}', [SpecialOffersController::class, 'destroy'])->name('delete_offer');
 
-// Flash Sales
 
 Route::get('/admin/add_sales', [SalesController::class, 'createsales'])->name('add_sales');
 Route::post('/admin/store_sales', [SalesController::class, 'storeSales'])->name('store_sales');
@@ -200,7 +242,7 @@ Route::delete('/admin/destroy_sales/{id}', [SalesController::class, 'destroy'])-
 Route::post('/admin/update-sale/{id}', [SalesController::class, 'update'])->name('update_sale');
 Route::delete('admin/delete-sale/{id}', [SalesController::class, 'destroy'])->name('delete_sale');
 
-
+Route::get('/home/flash_sales', [SalesController::class, 'saleProducts'])->name('sale_products');
 
 
 Route::get('/admin/products', [ProductController::class, 'showProducts'])->name('products');
@@ -243,11 +285,10 @@ Route::get('/admin/customers', [CustomerController::class, 'show_customers'])->n
 Route::get('/admin/customer-details/{user_id}', [CustomerController::class, 'showCustomerDetails'])->name('customer-details');
 Route::view('/admin/manage_reviews', 'admin_dashboard.manage_reviews')->name('manage_reviews');
 
-// Reviews
-
 Route::get('/admin/manage_reviews', [ReviewController::class, 'index'])->name('manage_reviews');
 Route::get('/admin/manage_reviews/{id}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
 Route::post('/admin/manage_reviews/{id}/approve', [ReviewController::class, 'approve'])->name('reviews.approve');
+
 
 Route::delete('/admin/manage_reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 

@@ -218,7 +218,7 @@
                     <div class="d-flex justify-content-center align-items-center flex-grow-1 otherlinks">
                         <a href="{{ route('all_items') }}" class="mx-3">All Items</a>
                         <a href="{{ route('special_offerproducts') }}" class="mx-3">Special Offers</a>
-                        <a href="#" class="mx-3">Flash Sale</a>
+                        <a href="{{ route('sale_products') }}" class="mx-3">Flash Sale</a>
                         <a href="{{ route('best_sellers') }}" class="mx-3">Bestsellers</a>
                         <a href="#" class="mx-3">Super Deals</a>
                     </div>

@@ -1,10 +1,9 @@
-
 @extends('layouts.admin_main.master')
 
 @section('content')
 
 <style>
-   .btn-create {
+    .btn-create {
         font-size: 0.8rem;
     }
 
@@ -31,18 +30,19 @@
             </div>
         @endif
         <div class="d-flex justify-content-between align-items-center">
-            <h4 class="py-2 mb-0 ms-4">Create Sales</h4>
+            <h4 class="py-2 mb-0 ms-4">Edit Sales</h4>
         </div>
 
         <div class="card-container px-4">
             <div class="card py-2 px-4">
                 <div class="card-body">
-                    <form action="{{ route('store_sales') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('update_sale', $sale->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        @method('POST') <!-- Ensure to include this for the update route -->
                         <div class="row mb-4">
                             <div class="form-group col-4">
                                 <label for="end_date">Flash Sale End Date and Time *</label>
-                                <input type="datetime-local" id="end_date" name="end_date" required>
+                                <input type="datetime-local" id="end_date" name="end_date" value="{{ \Carbon\Carbon::parse($sale->end_date)->format('Y-m-d\TH:i') }}" required>
                             </div>
                         </div>
 
@@ -57,26 +57,35 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                    <select name="products[0][product_id]" class="form-control product-select" required>
-        <option value="">Select a product</option>
-        @foreach ($products as $product)
-            <option value="{{ $product->product_id }}" data-price="{{ $product->normal_price }}">
-                <img src="{{ asset('storage/'.$product->image) }}" class="product-image" alt="{{ $product->product_name }}">
-                {{ $product->product_id }} - {{ $product->product_name }}
-            </option>
-        @endforeach
-    </select>
-                                    </td>
-                                    <td><input type="text" name="products[0][normal_price]" class="form-control product-price" required readonly></td>
-                                    <td><input type="text" name="products[0][sale_rate]" class="form-control sale-rate" required></td>
-                                    <td><input type="text" name="products[0][sale_price]" class="form-control sale-price" required readonly></td>
-                                    <td><button type="button" class="btn btn-danger remove-row">Delete</button></td>
-                                </tr>
-                            </tbody>
+                            <tr>
+                            <td>
+                            <select name="products[0][product_id]" class="form-control product-select" required>
+                                <option value="">Select a product</option>
+                                @foreach ($products as $product)
+                                    <option value="{{ $product->product_id }}" data-price="{{ $product->normal_price }}" {{ $product->product_id == $sale->product->product_id ? 'selected' : '' }}>
+                                        {{ $product->product_id }} - {{ $product->product_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </td>
+
+                                <td>
+                                    <input type="text" name="products[0][normal_price]" class="form-control product-price" value="{{ $sale->normal_price }}" required readonly>
+                                </td>
+                                <td>
+                                <input type="text" name="products[0][sale_rate]" class="form-control sale-rate" value="{{ $sale->sale_rate }}" required>
+                                </td>
+                                <td>
+                                    <input type="text" name="products[0][sale_price]" class="form-control sale-price" value="{{ $sale->sale_price }}" required readonly>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger remove-row">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+
                         </table>
-                        
+
                         <button type="button" class="btn btn-primary" id="add-row">Add New Product</button>
                         <button type="submit" class="btn btn-success">Submit</button>
                     </form>
@@ -88,7 +97,8 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    let rowIndex = 1;
+    // If the sale has a product, set rowIndex to 1, else 0
+    let rowIndex = {{ $sale->product ? 1 : 0 }}; 
 
     document.getElementById('add-row').addEventListener('click', function() {
         const table = document.getElementById('products-table').getElementsByTagName('tbody')[0];
@@ -135,11 +145,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.getElementById('products-table').addEventListener('input', function(e) {
-        if (e.target.classList.contains('sale-rate')) {
-            const row = e.target.closest('tr');
-            updateSalePrice(row);
-        }
-    });
+    if (e.target.classList.contains('sale-rate')) {
+        const row = e.target.closest('tr');
+        updateSalePrice(row); // Function to recalculate the sale price
+    }
+});
+
 
     function updateSalePrice(row) {
         const normalPrice = parseFloat(row.querySelector('.product-price').value) || 0;

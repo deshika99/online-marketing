@@ -125,40 +125,6 @@
                                 @enderror
                             </div>
                         </div>
-
-                        <h5>Bank Details:</h5>
-                        <div class="row mb-3 mt-3">
-                            <label for="acc_no" class="col-md-4 col-form-label text-md-start">Account Number</label>
-                            <div class="col-md-7">
-                                <input id="acc_no" type="text" class="form-control" name="acc_no">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="bank_name" class="col-md-4 col-form-label text-md-start">Bank</label>
-                            <div class="col-md-7">
-                                <select id="bank_name" class="form-control" name="bank_name">
-                                    <option value="" disabled selected></option>
-                                    <option value="Bank 1">BOC</option>
-                                    <option value="Bank 2">People's Bank</option>
-                                    <option value="Bank 3">Commercial</option>
-                                    <option value="Bank 3">HNB</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="row mb-5">
-                            <label for="branch" class="col-md-4 col-form-label text-md-start">Branch</label>
-                            <div class="col-md-7">
-                               <input id="branch" type="text" class="form-control @error('branch') is-invalid @enderror" name="branch" value="{{ old('branch') }}" required autocomplete="branch">
-                                 @error('branch')
-                                  <span class="invalid-feedback" role="alert">
-                                  <strong>{{ $message }}</strong>
-                                  </span>
-                                 @enderror
-                            </div>
-                        </div>
-
-
                         <p>
                             I hereby confirm that all the above information is true and agree if the institution does not  
                             approve the registration of the account due to the inclusion of false information.

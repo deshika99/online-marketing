@@ -1,4 +1,6 @@
-@extends('layouts.user_sidebar')
+
+
+@extends('layouts.user_sidebar') 
 
 @section('dashboard-content')
 
@@ -138,61 +140,67 @@
     <div class="popup-content">
         <span class="close-popup" onclick="closePopup()">&times;</span>
         <h2>Add Address</h2>
-        <form>
-            <div class="form-container">
-                <div class="icon-input">
-                    <i class="fas fa-user"></i>
-                    <input type="text" placeholder="First name">
-                </div>
-                <div class="icon-input">
-                    <i class="fas fa-user"></i>
-                    <input type="text" placeholder="Last name">
-                </div>
-                <div class="icon-input">
-                    <i class="fas fa-phone"></i>
-                    <input type="text" placeholder="Phone">
-                </div>
-                <div class="icon-input">
-                    <i class="fas fa-envelope"></i>
-                    <input type="text" placeholder="Email">
-                </div>
-                <div class="icon-input">
-                    <i class="fas fa-building"></i>
-                    <input type="text" placeholder="Company Name (Optional)">
-                </div>
-                <div class="icon-input">
-                    <i class="fas fa-home"></i>
-                    <input type="text" placeholder="Street Address">
-                </div>
-                <div class="icon-input">
-                    <i class="fas fa-home"></i>
-                    <input type="text" placeholder="Apartment, Suite, unit etc. (Optional)">
-                </div>
-                <div class="icon-input">
-                    <i class="fas fa-city"></i>
-                    <input type="text" placeholder="City">
-                </div>
-                <div class="icon-input">
-                    <i class="fas fa-mail-bulk"></i>
-                    <input type="text" placeholder="Postal code">
-                </div>
-            </div>
-            <!-- Form action buttons -->
-            <div class="form-buttons">
+        <form action="{{ route('storeAddress') }}" method="POST">
+    @csrf
+    
+    <div class="form-container">
+        <div class="icon-input">
+            <i class="fas fa-user"></i>
+            <input type="text" name="first_name" placeholder="First name" value="{{ old('full_name', auth()->user()->name) }}" required>
+        </div>
+        <div class="icon-input">
+            <i class="fas fa-phone"></i>
+            <input type="text" name="phone" placeholder="Phone" value="{{ old('phone_num', auth()->user()->phone_num) }}" required>
+        </div>
+        <div class="icon-input">
+            <i class="fas fa-envelope"></i>
+            <input type="email" name="email" placeholder="Email" value="{{ old('email', auth()->user()->email) }}" required>
+        </div>
+        <div class="icon-input">
+            <i class="fas fa-home"></i>
+            <input type="text" name="address" placeholder="Street Address" value="{{ old('address', auth()->user()->address) }}" required>
+        </div>
+        <div class="icon-input">
+            <i class="fas fa-home"></i>
+            <input type="text" name="apartment" placeholder="Apartment, Suite, Unit (Optional)" >
+        </div>
+        <div class="icon-input">
+            <i class="fas fa-city"></i>
+            <input type="text" name="city" placeholder="City"  required>
+        </div>
+        <div class="icon-input">
+            <i class="fas fa-mail-bulk"></i>
+            <input type="text" name="postal_code" placeholder="Postal code"  required>
+        </div>
+    </div>
+    <!-- Form action buttons -->
+    <div class="form-buttons">
                 <button type="button" class="edit-btn" onclick="editForm()">
                     <i class="fas fa-edit"></i> Edit
                 </button>
-                <button type="button" class="delete-btn" onclick="deleteForm()">
-                    <i class="fas fa-trash-alt"></i> Delete
-                </button>
+                <form action="{{ route('deleteAddress') }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="delete-btn">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                </form>
                 <button type="submit" class="save-btn">
-                    <i class="fas fa-check"></i> Confirm
+                    <i class="fas fa-check"></i> Save
                 </button>
             </div>
-        </form>
+            <!-- Display success message -->
+    
+
+        
+
     </div>
 </div>
 
+@if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 <script>
     function openPopup() {
         document.getElementById("popup").style.display = "flex";
@@ -214,4 +222,4 @@
     }
 </script>
 
-@endsection
+@endsection                                             

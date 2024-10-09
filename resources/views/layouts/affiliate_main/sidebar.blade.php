@@ -70,7 +70,7 @@
                 </div>
             </div>
 
-            <a href="{{ route('tool') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('tool') ? 'active' : '' }}" data-mdb-ripple-init aria-label="Go to Tools">
+            <a href="{{ route('affiliate.tool') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('affiliate.tool') ? 'active' : '' }}" data-mdb-ripple-init aria-label="Go to Tools">
                 <span>Tools</span>
             </a>
 
