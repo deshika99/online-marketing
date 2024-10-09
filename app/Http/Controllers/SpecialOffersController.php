@@ -121,7 +121,7 @@ class SpecialOffersController extends Controller
     
         $products = Products::with('images')
             ->whereIn('product_id', $orderedProductIds)
-            ->paginate(6);
+            ->paginate(18);
     
         return view('best_sellers', compact('products'));
     }

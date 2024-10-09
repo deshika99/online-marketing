@@ -147,7 +147,7 @@
                                 </div>
                                 
                                 <div class="form-group">
-                                    <label for="productImages">Product Images</label>
+                                    <label for="productImages">Product Images <span class="text-danger">*</span></label>
                                     <div id="dropZone" class="drop-zone">
                                         <p><i class="fas fa-images me-2"></i>Drag and drop images here or click to select</p>
                                         <input type="file" id="productImages" name="productImages[]" accept="image/*" multiple style="display: none;">
@@ -242,7 +242,7 @@
                                                         <input type="text" class="form-control variation-input" name="variation[0][value]" placeholder="Variation">
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <input type="number" class="form-control" name="variation[0][quantity]" placeholder="Quantity">
+                                                        <input type="number" class="form-control" name="variation[0][quantity]" placeholder="Quantity" min="0" value="0">
                                                     </div>
                                                     <div class="col-md-1">
                                                         <button type="button" class="btn remove-btn" onclick="removeVariationRow(this)">X</button>
@@ -255,6 +255,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col-md-12 text-end">
                                 <button type="submit" class="btn btn-success btn-create mt-4">Add Product</button>
@@ -468,6 +469,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 <script>
+
     let variationIndex = 1;
 
     // Handle dynamic addition of variation rows
@@ -500,10 +502,27 @@ document.addEventListener('DOMContentLoaded', function () {
         variationIndex++;
     });
 
+
+    function handleVariationChange(selectElement) {
+        const row = selectElement.closest('.variation-row');
+        const inputContainer = row.querySelector('.variation-input-container');
+        const inputElement = inputContainer.querySelector('.variation-input');
+
+        if (selectElement.value === 'Color') {
+            inputElement.type = 'color';
+            inputElement.value = '#000000'; 
+        } else {
+            inputElement.type = 'text';
+            inputElement.value = '';
+        }
+    }
+
     function removeVariationRow(button) {
         const row = button.closest('.variation-row');
         row.remove();
     }
+
+
 </script>
 
 

@@ -62,6 +62,9 @@
                 <a href="{{ route('special_offers') }}" class="list-group-item list-group-item-action ms-4" style="height: 35px; width:180px;">
                     Special Offers
                 </a>
+                <a href="{{ route('flash_sales') }}" class="list-group-item list-group-item-action ms-4" style="height: 35px; width:180px;">
+                    Flash Sales
+                </a>
             </div>
 
             <a href="{{ route('orders') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('orders') ? 'active' : '' }}" data-mdb-ripple-init>

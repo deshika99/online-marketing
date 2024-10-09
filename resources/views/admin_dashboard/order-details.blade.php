@@ -72,7 +72,7 @@
                                 <option value="Delivered" {{ $order->status == 'Delivered' ? 'selected' : '' }}>Delivered</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-primary p-2">Update</button>
                     </form>
                 </div>
             </div>
@@ -103,7 +103,6 @@
                 <div class="card-title">Billing Details</div>
                 <div class="card-body p-0">
                     <p class="mb-0">Payment Method: {{ $order->payment_method }}</p>
-                    <p class="mb-0">Invoice Number: {{ $order->invoice_number }}</p>
                     <p class="mb-0">Amount Charged: Rs {{ number_format($order->total_cost, 2) }}</p>
                     <p class="mb-0">Payment Status: {{ $order->payment_status }}</p>
                 </div>
@@ -159,8 +158,8 @@
             <div class="card summary-card" style="height: 250px;">
                 <div class="card-title">Order Summary</div>
                 <div class="card-body">
-                    <p>Subtotal: Rs {{ number_format($order->total_cost - 250, 2) }}</p>
-                    <p>Delivery Charge: Rs 250.00</p>
+                    <p>Subtotal: Rs {{ number_format($order->total_cost - 300, 2) }}</p>
+                    <p>Delivery Charge: Rs 300.00</p>
                     <hr>
                     <p><strong>Total: Rs {{ number_format($order->total_cost, 2) }}</strong></p>
                 </div>

@@ -11,6 +11,7 @@
 
     <!-- Fonts CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100;0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"/>
     
@@ -25,7 +26,7 @@
       @include('layouts.admin_main.sidebar')
       {{-- main content --}}
         @yield('content')
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/color-name/1.1.4/color-name.min.js"></script>
         <script>
         document.addEventListener('DOMContentLoaded', function() {
             @if (session('status'))

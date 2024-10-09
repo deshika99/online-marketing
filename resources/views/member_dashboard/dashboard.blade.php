@@ -105,10 +105,12 @@
 </style>
 
 <!-- Dashboard Header -->
-<h4 class="py-2 px-2">Dashboard</h4>
+
+
 <div class="dashboard-header">
     @if(isset($user))
-        <img src="{{ $user->profile_image_url }}" alt="Profile Picture" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-right: 20px;">
+        <img src="{{ $user->profile_image_url }}" alt="Profile Picture" style="width: 80px; height: auto; border-radius: 50%; object-fit: cover; margin-right: 20px;">
+
         <span style="font-size: 22px; font-weight: bold;">{{ $user->name }}</span>
     @else
         <p>No user details available.</p>
@@ -139,6 +141,7 @@
     </div>
 </div>
 
+<!--
 <div class="faq-section">
     <h2 style="text-align:center; margin-bottom: 20px;">FAQs</h2>
     <div class="faq-item">
@@ -159,31 +162,7 @@
             <p>Your level will be displayed on your profile page.</p>
         </div>
     </div>
-    <div class="faq-item">
-        <button class="faq-question">How do I level-up?</button>
-        <div class="faq-answer">
-            <p>You can level up by making more purchases and engaging with the platform.</p>
-        </div>
-    </div>
-    <div class="faq-item">
-        <button class="faq-question">What if I have more than one OMC account?</button>
-        <div class="faq-answer">
-            <p>Each account must be managed separately, and they cannot be merged.</p>
-        </div>
-    </div>
-    <div class="faq-item">
-        <button class="faq-question">What is my registration site?</button>
-        <div class="faq-answer">
-            <p>Your registration site is where you initially signed up for the service.</p>
-        </div>
-    </div>
-    <div class="faq-item">
-        <button class="faq-question">How can I track the status of my service orders?</button>
-        <div class="faq-answer">
-            <p>You can track the status of all your service orders through the member dashboard. From the dashboard, you’ll see real-time updates on your orders, including service progress, payment status, and expected completion dates.</p>
-        </div>
-    </div>
-</div>
+</div>-->
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

@@ -17,9 +17,14 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NavbarController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\ReviewController;
+
 use App\Http\Controllers\AffiliateLinkController;
+
+use App\Http\Controllers\SalesController;
+
 
 use Illuminate\Http\Request;     //contact form
 
@@ -43,7 +48,7 @@ Route::get('/best-sellers', [SpecialOffersController::class, 'bestSellers'])->na
 
 Route::view('/home/affiliate/all', 'aff_all')->name('aff_all');
 Route::view('/home/affiliate/single', 'aff_single')->name('aff_single');
-Route::view('/cart/payment', 'payment')->name('payment');
+
 
 
 //member dashboard
@@ -64,6 +69,12 @@ Route::get('home/My-Account/My-Reviews', [UserDashboardController::class, 'myRev
 Route::get('home/My-Account/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
 
 
+
+Route::get('home/My-Account/addresses', [UserDashboardController::class, 'showAddresses'])->name('addresses');
+Route::post('home/My-Account/addresses/update', [UserDashboardController::class, 'updateAddress'])->name('updateAddress');
+Route::post('home/My-Account/addresses/delete', [UserDashboardController::class, 'deleteAddress'])->name('deleteAddress');
+Route::post('home/My-Account/addresses/store', [UserDashboardController::class, 'storeAddress'])->name('storeAddress');
+
 //write-reviews
 
 Route::get('/member-dashboard/write-reviews', [UserDashboardController::class, 'writeReview'])->name('write.reviews');
@@ -79,6 +90,8 @@ Route::get('home/My-Account/change-password', function () {
 Route::get('home/My-Account/addresses', function () { 
     return view('member_dashboard.addresses');
 })->name('addresses');
+
+
 
 //new return button
 Route::get('home/My-Account/returns', function () { 
@@ -111,6 +124,15 @@ Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.c
 
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/remove/{index}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
+Route::get('/payment/{order_code}', [PaymentController::class, 'payment'])->name('payment');
+
+Route::post('/order/confirm-cod/{order_code}', [PaymentController::class, 'confirmCod'])->name('order.confirm.cod');
+
+Route::get('/order/order_received/{order_code}', [PaymentController::class, 'getOrderDetails'])->name('order.thankyou');
+
+
+
 Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('order.store');
 
@@ -185,6 +207,20 @@ Route::get('/admin/add_offers', [SpecialOffersController::class, 'createOffer'])
 Route::post('/admin/store_offers', [SpecialOffersController::class, 'storeOffer'])->name('store_offers');
 Route::get('/admin/special_offers', [SpecialOffersController::class, 'showOffers'])->name('special_offers');
 Route::delete('/admin/special_offers/delete/{id}', [SpecialOffersController::class, 'destroy'])->name('delete_offer');
+
+// Flash Sales
+
+Route::get('/admin/add_sales', [SalesController::class, 'createsales'])->name('add_sales');
+Route::post('/admin/store_sales', [SalesController::class, 'storeSales'])->name('store_sales');
+Route::get('/admin/flash_sales', [SalesController::class, 'showSales'])->name('flash_sales');
+Route::post('/sales/store', [SalesController::class, 'storeSale'])->name('store_sales');
+Route::get('/admin/edit_sales/{id}', [SalesController::class, 'edit'])->name('edit_sales');
+Route::delete('/admin/destroy_sales/{id}', [SalesController::class, 'destroy'])->name('destroy_sales');
+Route::post('/admin/update-sale/{id}', [SalesController::class, 'update'])->name('update_sale');
+Route::delete('admin/delete-sale/{id}', [SalesController::class, 'destroy'])->name('delete_sale');
+
+
+
 
 Route::get('/admin/products', [ProductController::class, 'showProducts'])->name('products');
 Route::get('/subcategories/{categoryId}', [ProductController::class, 'getSubcategories']);

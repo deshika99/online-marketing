@@ -354,8 +354,8 @@
                                     @foreach($product->variations->where('type', 'Color') as $color)
                                         @if($color->quantity > 0)  
                                             <button class="btn btn-outline-secondary btn-sm color-option" 
-                                                style="background-color: {{ $color->value }}; border-color: #e8ebec; height: 17px; width: 15px;" 
-                                                data-color="{{ $color->value }}">
+                                                style="background-color: {{ $color->hex_value }}; border-color: #e8ebec; height: 17px; width: 15px;" 
+                                                data-color="{{ $color->hex_value }}">
                                             </button>
                                         @endif
                                     @endforeach
