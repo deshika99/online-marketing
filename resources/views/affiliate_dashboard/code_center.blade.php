@@ -1,14 +1,11 @@
 @extends('layouts.affiliate_main.master')
 
 @section('content')
+
 <style>
-   
-
-    .table thead{
-        background-color: #f9f9f9; 
+    .table thead {
+        background-color: #f9f9f9;
     }
-
-  
 </style>  
 
 <main style="margin-top: 58px">
@@ -18,32 +15,46 @@
         <div class="card">
             <div class="card-body">
                 <div class="tab-pane fade show active" role="tabpanel">
-                    <div class="row align-items-center mb-3">
-                        <div class="col-md-1 mb-2">
-                            <label for="status" class="form-label">Status</label>
-                        </div>
-                        <div class="col-md-2 mb-3">
-                            <select id="status" class="form-select" style="font-size: 0.8rem;">
-                                <option selected>Select Status</option>
-                                <option value="1">All</option>
-                            </select>
-                        </div>
-                    </div>
-
                     <div class="container mt-4 mb-4">
                         <div class="table-responsive">
-                            <table class="table table-hover text-nowrap table-striped">
+                            <table class="table table-bordered">
                                 <thead>
-                                <tr>
-                                    <th scope="col">Activity Name</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Option</th>
-                                </tr>
+                                    <tr>
+                                        <th>Product Image</th>
+                                        <th>Product Name</th>
+                                        <th>Tracking ID</th>
+                                        <th>Affiliate Link</th>
+                                        <th>Actions</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr>  
-                                </tr>
+                                    @foreach($data as $item)
+                                        <tr>
+                                            <!-- Display Product Image -->
+                                            <td>
+                                                @if($item['product_image'])
+                                                    <img src="{{ asset('storage/' . $item['product_image']) }}" alt="Product Image" width="100">
+                                                @else
+                                                    <span>No Image</span>
+                                                @endif
+                                            </td>
+
+                                            <!-- Display Product Name -->
+                                            <td>{{ $item['product_name'] }}</td>
+
+                                            <!-- Display Tracking ID -->
+                                            <td>{{ $item['tracking_id'] }}</td>
+
+                                            <!-- Display Affiliate Link -->
+                                            <td>{{ $item['affiliate_link'] }}</td>
+
+                                            <!-- Actions: Copy & View Report -->
+                                            <td>
+                                                <!-- Copy Button -->
+                                                <button class="btn btn-primary copy-btn" data-link="{{ $item['affiliate_link'] }}" onclick="copyToClipboard('{{ $item['affiliate_link'] }}')">Copy Link</button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -53,27 +64,43 @@
 
             <!-- Card Footer -->
             <div class="card-footer d-flex justify-content-between align-items-center">
-                <span>Total: 0</span>
+                <!-- Items per page selection -->
                 <div class="d-flex align-items-center">
                     <label for="items-per-page" class="form-label me-2 mb-0">Items per page:</label>
                     <select id="items-per-page" class="form-select items-per-page" style="font-size: 0.8rem; width: auto;">
-                        <option value="2">10</option>
+                        <option value="10">10</option>
                         <option value="20">20</option>
                         <option value="30">30</option>
                     </select>
                 </div>
+
                 <!-- Pagination controls -->
                 <nav aria-label="Page navigation">
                     <ul class="pagination mb-0">
-                        <li class="page-item disabled"><a class="page-link" href="#"><i class="fa-solid fa-arrow-left"></i></a></li>
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#"><i class="fa-solid fa-arrow-left"></i></a>
+                        </li>
                         <li class="page-item"><a class="page-link" href="#">1</a></li>
                         <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-arrow-right"></i></a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#"><i class="fa-solid fa-arrow-right"></i></a>
+                        </li>
                     </ul>
                 </nav>
             </div>
         </div>
     </div>
 </main>
+
+<!-- Copy to Clipboard Functionality -->
+<script>
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(function() {
+            alert('Link copied to clipboard!');
+        }, function(err) {
+            alert('Could not copy text: ', err);
+        });
+    }
+</script>
 
 @endsection

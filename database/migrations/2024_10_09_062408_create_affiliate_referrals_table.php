@@ -16,7 +16,6 @@ return new class extends Migration
 
             // Foreign key to users table (affiliate)
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             // Foreign key to raffle tickets table (tracking ID)
             $table->unsignedBigInteger('raffle_ticket_id');
