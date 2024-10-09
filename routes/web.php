@@ -65,6 +65,12 @@ Route::get('home/My-Account/My-Reviews', [UserDashboardController::class, 'myRev
 Route::get('home/My-Account/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
 
 
+
+Route::get('home/My-Account/addresses', [UserDashboardController::class, 'showAddresses'])->name('addresses');
+Route::post('home/My-Account/addresses/update', [UserDashboardController::class, 'updateAddress'])->name('updateAddress');
+Route::post('home/My-Account/addresses/delete', [UserDashboardController::class, 'deleteAddress'])->name('deleteAddress');
+Route::post('home/My-Account/addresses/store', [UserDashboardController::class, 'storeAddress'])->name('storeAddress');
+
 //write-reviews
 
 Route::get('/member-dashboard/write-reviews', [UserDashboardController::class, 'writeReview'])->name('write.reviews');
@@ -80,6 +86,8 @@ Route::get('home/My-Account/change-password', function () {
 Route::get('home/My-Account/addresses', function () { 
     return view('member_dashboard.addresses');
 })->name('addresses');
+
+
 
 //new return button
 Route::get('home/My-Account/returns', function () { 
