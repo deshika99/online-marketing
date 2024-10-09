@@ -67,7 +67,74 @@
     vertical-align: middle; 
 }
 
+/* flash sale page */
+.sale-item {
+    text-align: center;
+    padding: 5px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    width: 110%; 
+}
 
+.sale .row {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.sale-item:hover {
+    border: 1px solid #e1e1e1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+.sale-item a {
+    text-decoration: none;
+    color: black;
+}
+
+.sale-item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    margin-bottom: 5px;
+}
+
+.sale-image-wrapper {
+    width: 100%;
+    height: 280px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.sale-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+.sale-item h6 {
+    text-align: left;
+    font-size: 15px; 
+    margin: 2px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.sale-item .price {
+    text-align: left;
+    color: orange;
+    font-size: 15px; 
+    font-weight: bold;
+}
 </style>
 
 @if (session('status'))
@@ -86,13 +153,13 @@
                     <img src="/assets/images/brand_name.png" height="30" width="320" alt="brand"/>
                 </a>
             </div>
-            <div class="col-md-5 mt-4">
+            <div class="col-md-4 mt-4">
                 <form class="d-flex input-group w-auto my-auto mb-md-0">
                     <input autocomplete="off" type="search" class="form-control rounded" placeholder="Search" />
                     <span class="input-group-text border-0 d-none d-lg-flex"><i class="fas fa-search"></i></span>
                 </form>
             </div>
-            <div class="col-md-3 p-3 d-flex justify-content-center justify-content-md-end align-items-center">
+            <div class="col-md-4 p-3 d-flex justify-content-center justify-content-md-end align-items-center">
                 <div class="d-flex align-items-center">
                     <div class="dropdown me-3">
                         <a class="text-reset dropdown-toggle1" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -192,7 +259,7 @@
                     <div class="d-flex justify-content-center align-items-center flex-grow-1 otherlinks" style="font-size:16px;">
                         <a href="{{ route('all_items') }}" class="mx-3">All Items</a>
                         <a href="{{ route('special_offerproducts') }}" class="mx-3">Special Offers</a>
-                        <a href="#" class="mx-3">Flash Sale</a>
+                        <a href="{{ route('sale_products') }}" class="mx-3">Flash Sale</a>
                         <a href="{{ route('best_sellers') }}" class="mx-3">Bestsellers</a>
                         <a href="#" class="mx-3">Super Deals</a>
                     </div>
@@ -373,42 +440,39 @@
 
 
 
-
-<!--Flash Sale-->
+<!--Flash Sale Section-->
 <div class="container mt-5 flash-sale" style="width:76%; background: linear-gradient(to top, #f0f0f0, #ffffff);">
     <h4><i class="fas fa-bolt" style="color: #FFD43B;"></i> Flash Sale</h4>
-    <div class="row">
-        <div class="col-md-2 col-sm-5 col-6 flash-sale-item">
-            <img src="/assets/images/sale2.png" alt="Product 1">
-            <h6>Brand new Bluetooth Earbuds </h6>
-            <div class="price">Rs.1000</div>
+    <div class="row mt-3" id="product-list">
+            @foreach ($flashSales as $sale)
+                    <div class="col-6 col-sm-4 col-md-2 col-lg- mb-3">
+                        <div class="sale-item position-relative">
+                            <a href="{{ route('single_product_page', ['product_id' => $sale->product->product_id]) }}" class="d-block text-decoration-none">
+                                <div class="sale-image-wrapper position-relative">
+                                    @if ($sale->product->images->isNotEmpty())
+                                        <img src="{{ asset('storage/' . $sale->product->images->first()->image_path) }}" alt="Product Image" class="img-fluid">
+                                    @else
+                                        <img src="{{ asset('storage/default-image.jpg') }}" alt="Default Image" class="img-fluid">
+                                    @endif
+
+                                    <!-- Flash Sale Icon -->
+                                    <div class="flash-sale-icon position-absolute top-0 start-0 m-0 my-1">
+                                        <span style="background-color: #FFD43B; color: black; padding: 5px; border-radius:none">
+                                            <i class="fas fa-bolt"></i> {{ floor($sale->sale_rate) }}% 
+                                        </span>
+                                    </div>
+                                </div>
+                                <h6 class="product-name">{{ \Illuminate\Support\Str::limit($sale->product->product_name, 20, '...') }}</h6>
+                                <div class="price">
+                                    <span class="offer-price">Rs. {{ number_format($sale->sale_price, 2) }}</span><br>
+                                    <s style="font-size: 14px; color: #989595; font-weight:500">Rs. {{ number_format($sale->normal_price, 2) }}</s>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+            @endforeach
         </div>
-        <div class="col-md-2 col-sm-5 col-6 flash-sale-item">
-            <img src="/assets/images/schl1.jpg" alt="Product 2">
-            <h6>2.4G Wireless Mouse With USB Bluetooth Mouse Silent Computer Mice</h6>
-            <div class="price">Rs.950</div>
-        </div>
-        <div class="col-md-2 col-sm-5 col-6 flash-sale-item">
-            <img src="/assets/images/sale2.png" alt="Product 3">
-            <h6>Buy Cow & Gate Step Up (1 - 3 Years) 350G</h6>
-            <div class="price">Rs.1840</div>
-        </div>
-        <div class="col-md-2 col-sm-5 col-6 flash-sale-item">
-            <img src="/assets/images/sale5.jpg" alt="Product 4">
-            <h6>Microfiber Car Washing Sponge Towel Cloth Cleaning </h6>
-            <div class="price">Rs.230</div>
-        </div>
-        <div class="col-md-2 col-sm-5 col-6 flash-sale-item">
-            <img src="/assets/images/schl3.jpg" alt="Product 4">
-            <h6>Buy Office 365 lifetime 5 Devices Online Activation for windows</h6>
-            <div class="price">Rs.530</div>
-        </div>
-        <div class="col-md-2 col-sm-5 col-6 flash-sale-item">
-            <img src="/assets/images/schl1.jpg" alt="Product 4">
-            <h6>Buy Office 365 lifetime 5 Devices Online Activation for windows</h6>
-            <div class="price">Rs.530</div>
-        </div>
-    </div>
 </div>
 
 
@@ -459,6 +523,35 @@
 
 </script>
 
+<script>
+    // Countdown Timer Script
+    document.addEventListener('DOMContentLoaded', function() {
+        @foreach($flashSales as $sale)
+            let countdownDate{{ $sale->product->product_id }} = new Date("{{ \Carbon\Carbon::parse($sale->end_date)->format('M d, Y H:i:s') }}").getTime();
+
+            let countdownFunction{{ $sale->product->product_id }} = setInterval(function() {
+                let now = new Date().getTime();
+                let distance = countdownDate{{ $sale->product->product_id }} - now;
+
+                // Time calculations for days, hours, minutes, and seconds
+                let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Display the result
+                document.getElementById("countdown-{{ $sale->product->product_id }}").innerHTML = days + "d " + hours + "h " +
+                    minutes + "m " + seconds + "s ";
+
+                // If the countdown is over, clear the timer and display 'Expired'
+                if (distance < 0) {
+                    clearInterval(countdownFunction{{ $sale->product->product_id }});
+                    document.getElementById("countdown-{{ $sale->product->product_id }}").innerHTML = "Expired";
+                }
+            }, 1000);
+        @endforeach
+    });
+</script>
 
 
 @endsection

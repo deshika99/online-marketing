@@ -4,91 +4,128 @@ namespace App\Http\Controllers;
 
 use App\Models\Products;
 use App\Models\Sale;
+use App\Models\SpecialOffers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class SalesController extends Controller
 {
-    // Show the form to create sales
+
+    
+   // Show the form to create sales
     public function createSales()
     {
 
-        $products = Products::select('product_id', 'product_name', 'normal_price')->get(); // Ensure you're selecting the correct column names
+        $activeSales = Sale::where('status', 'active')->pluck('product_id')->toArray();
+        $specialOffers = SpecialOffers::where('status', 'active')->pluck('product_id')->toArray();
+        $excludedProductIds = array_merge($activeSales, $specialOffers);
+        $products = Products::select('product_id', 'product_name', 'normal_price') 
+                            ->whereNotIn('product_id', $excludedProductIds)
+                            ->get();
 
         return view('admin_dashboard.add_sales', compact('products'));
     }
 
-    // Show the list of flash sales
+
+ 
+
     public function showSales()
     {
-        // Retrieve sales with the associated product information
-
         $sales = Sale::with(['product.images'])->get(); 
-
-        $sales = Sale::with(['product' => function($query) {
-            $query->select('id', 'product_name', 'normal_price');
-        }])->get();
-
-
         return view('admin_dashboard.flash_sales', compact('sales'));
     }
-    
-    // Store new sale
+
+
+
     public function storeSale(Request $request)
     {
-        $data = $request->validate([
-            'end_date' => 'required|date',
-            'products' => 'required|array',
-            'products.*.product_id' => 'required|exists:products,id',
-            'products.*.normal_price' => 'required|numeric',
-            'products.*.sale_rate' => 'required|numeric|min:0|max:100',
-            'products.*.sale_price' => 'required|numeric',
-        ]);
-
+        Log::info('Request data: ', $request->all());
     
-        foreach ($data['products'] as $product) {
-            Sale::create([
-                'product_id' => $product['product_id'],
-                'normal_price' => $product['normal_price'],
-                'sale_rate' => $product['sale_rate'],
-                'sale_price' => $product['sale_price'],
-                'end_date' => $data['end_date'],
-                'status' => 'active',
+        try {
+            // Validate incoming request
+            $data = $request->validate([
+                'end_date' => 'required|date',
+                'products' => 'required|array',
+                'products.*.product_id' => 'required|exists:products,product_id',
+                'products.*.normal_price' => 'required|numeric',
+                'products.*.sale_rate' => 'required|numeric|min:0|max:100',
+                'products.*.sale_price' => 'required|numeric',
             ]);
+    
+            // Create sale for each product
+            foreach ($data['products'] as $product) {
+                Sale::create([
+                    'product_id' => $product['product_id'],
+                    'normal_price' => $product['normal_price'],
+                    'sale_rate' => $product['sale_rate'],
+                    'sale_price' => $product['sale_price'],
+                    'end_date' => $data['end_date'],
+                    'status' => 'active',
+                ]);
+            }
+    
+            return redirect()->route('flash_sales')->with('status', 'Flash sales added successfully!');
+        } catch (\Exception $e) {
+            Log::error('Error while storing sale: ' . $e->getMessage(), [
+                'exception' => $e,
+            ]);
+    
+            return redirect()->back()->withErrors('Failed to store flash sales. Please try again.');
         }
-
-        return redirect()->route('flash_sales')->with('status', 'Flash sales added successfully!');
     }
+    
+    
 
-    // Edit a sale
+
+
+
     public function edit($id)
     {
-        $sale = Sale::with('product')->findOrFail($id);
-        return view('admin_dashboard.edit_sales', compact('sale'));
+        $sale = Sale::with('product')->findOrFail($id); 
+        $products = Products::select('product_id', 'product_name', 'normal_price')->get(); 
+    
+        return view('admin_dashboard.edit_sales', compact('sale', 'products'));
     }
+    
 
-    // Update a sale
+
+
+
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'end_date' => 'required|date',
-            'sale_rate' => 'required|numeric|min:0|max:100',
-            'status' => 'required|in:Active,Inactive',
-        ]);
+        DB::transaction(function () use ($request, $id) {
+            $validatedData = $request->validate([
+                'end_date' => 'required|date',
+                'products.*.product_id' => 'required|string',
+                'products.*.normal_price' => 'required|numeric',
+                'products.*.sale_rate' => 'required|numeric|min:0|max:100',
+            ]);
+    
+            $sale = Sale::findOrFail($id);
+            $sale->end_date = $validatedData['end_date'];
+    
+            // Save the new sale rate
+            $productData = $validatedData['products'][0]; 
+            $sale->sale_rate = $productData['sale_rate'];
+            $sale->save();
+    
 
-        $sale = Sale::findOrFail($id);
-        $sale->end_date = $validatedData['end_date'];
-        $sale->sale_rate = $validatedData['sale_rate'];
-        $sale->status = $validatedData['status'];
-
-        // Recalculate sale price based on normal price and sale rate
-        $normalPrice = $sale->normal_price;
-        $salePrice = $normalPrice - ($normalPrice * ($sale->sale_rate / 100));
-        $sale->sale_price = $salePrice;
-
-        $sale->save();
-
+            $sale->product()->updateOrCreate(
+                ['product_id' => $productData['product_id']],
+                [
+                    'normal_price' => $productData['normal_price'],
+                    'sale_rate' => $productData['sale_rate'],
+                    'sale_price' => $productData['normal_price'] - ($productData['normal_price'] * ($productData['sale_rate'] / 100)),
+                ]
+            );
+        });
+    
         return redirect()->route('flash_sales')->with('status', 'Sale updated successfully.');
     }
+    
+    
+
 
     // Delete a sale
     public function destroy($id)
@@ -98,4 +135,32 @@ class SalesController extends Controller
 
         return redirect()->route('flash_sales')->with('status', 'Sale deleted successfully.');
     }
+
+
+    public function saleProducts(Request $request)
+    {
+        $perPage = 24; 
+    
+        // Fetch sales with products and their reviews
+        $sales = Sale::with(['product.images'])
+            ->where('status', 'active')
+            ->paginate($perPage)
+            ->through(function ($sale) {
+                $sale->average_rating = $sale->product->reviews()
+                    ->where('status', 'published')
+                    ->avg('rating');
+                $sale->rating_count = $sale->product->reviews()
+                    ->where('status', 'published')
+                    ->count();
+                return $sale;
+            });
+    
+        if ($request->ajax()) {
+            return view('partials.sale_products', compact('sales'));
+        }
+    
+        return view('flash_sale', compact('sales'));
+    }
+    
+
 }

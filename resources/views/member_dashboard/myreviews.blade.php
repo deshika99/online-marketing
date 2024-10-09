@@ -112,7 +112,6 @@
                                 <span class="ms-2">Qty: <span style="font-weight: 600;">N/A</span></span>
                             @endif
                         </div>
-=
                         <h6 class="mt-2" style="font-size: 13px; font-weight: bold;">Rs {{ $review->orderItem->cost }}</h6>  
                     </div>
 

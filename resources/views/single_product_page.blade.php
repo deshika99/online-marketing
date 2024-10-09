@@ -257,13 +257,21 @@
                     </div>
                     <div class="product-price mb-3 mt-3">
                         <span class="h4" style="color:#f55b29; display: flex; align-items: center;">
-                            @if($specialOffer)
+                            @if($sale)
+                                Rs. {{ number_format($sale->sale_price, 2) }}
+                                <s style="font-size: 14px; color: #989595; font-weight: 500; margin-left: 10px;">
+                                    Rs. {{ number_format($sale->normal_price, 2) }}
+                                </s>
+                                <div class="discount" style="color:red; font-size: 18px; margin-left: 10px;">
+                                    {{ number_format($sale->sale_rate, 0) }}% off
+                                </div>
+                            @elseif($specialOffer)
                                 Rs. {{ number_format($specialOffer->offer_price, 2) }}
                                 <s style="font-size: 14px; color: #989595; font-weight: 500; margin-left: 10px;">
                                     Rs. {{ number_format($specialOffer->normal_price, 2) }}
                                 </s>
                                 <div class="discount" style="color:red; font-size: 18px; margin-left: 10px;">
-                                        {{ number_format($specialOffer->offer_rate, 0) }}% off
+                                    {{ number_format($specialOffer->offer_rate, 0) }}% off
                                 </div>
                             @else
                                 Rs. {{ number_format($product->normal_price, 2) }}
@@ -303,9 +311,10 @@
                             <li class="nav-item d-flex" role="presentation">
                                 <a class="nav-link d-flex align-items-center justify-content-center w-100 active" id="ex1-tab-description" data-bs-toggle="pill" href="#ex1-pills-description" role="tab" aria-controls="ex1-pills-1" aria-selected="true">Description</a>
                             </li>
+                            <!-- 
                             <li class="nav-item d-flex" role="presentation">
                                 <a class="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-specification" data-bs-toggle="pill" href="#ex1-pills-specification" role="tab" aria-controls="ex1-pills-2" aria-selected="false">Specification</a>
-                            </li>
+                            </li> -->
                             <li class="nav-item d-flex" role="presentation">
                                 <a class="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-review" data-bs-toggle="pill" href="#ex1-pills-review" role="tab" aria-controls="ex1-pills-3" aria-selected="false">Reviews</a>
                             </li>
@@ -313,10 +322,10 @@
                                 <a class="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-QA" data-bs-toggle="pill" href="#ex1-pills-QA" role="tab" aria-controls="ex1-pills-4" aria-selected="false"> Q & A</a>
                             </li>
                         </ul>
-                        <!-- Pills navs -->
 
                         <!-- Pills content -->
                         <div class="tab-content" id="ex1-content">
+
                             <div class="tab-pane fade p-4" id="ex1-pills-specification" role="tabpanel" aria-labelledby="ex1-tab-specification">
                                 <p>
                                     With supporting text below as a natural lead-in to additional content. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
