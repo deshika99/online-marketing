@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 use App\Models\Aff_Customer;
-use App\Models\Affiliate_Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -13,14 +12,14 @@ class AffiliateCustomerController extends Controller
 {
     public function showAffCustomers()
     {
-        $aff_customer =  Affiliate_Customer::all();
+        $aff_customer =  Aff_Customer::all();
         return view('admin_dashboard.aff_customers', compact('aff_customer'));
     }
     
     
     public function updateStatus(Request $request, $id)
     {
-        $aff_customer = Affiliate_Customer::findOrFail($id);
+        $aff_customer = Aff_Customer::findOrFail($id);
         $aff_customer->status = $request->input('status');
         $aff_customer->save();
     
@@ -43,7 +42,7 @@ class AffiliateCustomerController extends Controller
             'gender' => 'nullable|string|max:255',
             'NIC' => 'required|string|max:255',
             'phone_num' => 'required|string|max:20',
-            'email' => 'required|email|unique:affiliate_customers,email|max:255',
+            'email' => 'required|max:255',
             'password' => 'required|string|min:8|confirmed',
             'promotion_method' => 'nullable|array',
             'instagram_url' => 'nullable|url',
@@ -62,7 +61,7 @@ class AffiliateCustomerController extends Controller
         $dob = $validatedData['dob_year'] . '-' . str_pad($validatedData['dob_month'], 2, '0', STR_PAD_LEFT) . '-' . str_pad($validatedData['dob_day'], 2, '0', STR_PAD_LEFT);
 
         // Save the data in the aff_customers table
-        $customer = new Affiliate_Customer;
+        $customer = new Aff_Customer;
         $customer->name = $validatedData['name'];
         $customer->address = $validatedData['address'];
         $customer->district = $validatedData['district'];
@@ -99,42 +98,27 @@ class AffiliateCustomerController extends Controller
     
     public function login(Request $request)
     {
-        // Validate the incoming request data
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:6',
-        ]);
-
-        // Attempt to find the customer by email
-        $customer = Affiliate_Customer::where('email', $request->email)->first();
-
+        $customer = Aff_Customer::where('email', $request->email)->first();
+    
         if ($customer) {
-            // Check the customer's status
             if ($customer->status === 'pending') {
-                return redirect()->route('aff_home')->with('status', 'pending');
+                return redirect()->route('aff_home')->with('status1', 'pending');
             } elseif ($customer->status === 'rejected') {
-                return redirect()->route('aff_home')->with('status', 'rejected');
+                return redirect()->route('aff_home')->with('status1', 'rejected');
             } elseif ($customer->status === 'approved') {
-                // Use Hash::check() to compare the plain password with the hashed password
                 if (Hash::check($request->password, $customer->password)) {
-                    // Store customer information in the session
                     Session::put('customer_id', $customer->id);
                     Session::put('customer_name', $customer->name);
-
-                    // Redirect to the dashboard or index route
+                    
                     return redirect()->route('index', ['affiliate_id' => $customer->id]);
                 } else {
-                    // Password mismatch, return an error
                     return redirect()->route('aff_home')->withErrors(['password' => 'Invalid credentials.']);
                 }
             }
         } else {
-            // Customer not found, return an error
             return redirect()->route('aff_home')->withErrors(['email' => 'Email not found.']);
         }
     }
-
-
     
     
     
@@ -142,7 +126,7 @@ class AffiliateCustomerController extends Controller
     public function index()
     {
         $affiliateId = Session::get('customer_id');
-        $affiliateName = $affiliateId ? Affiliate_Customer::find($affiliateId)->name : 'Guest';
+        $affiliateName = $affiliateId ? Aff_Customer::find($affiliateId)->name : 'Guest';
     
         return view('affiliate_dashboard.index', compact('affiliateName', 'affiliateId'));
     }

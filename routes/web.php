@@ -19,6 +19,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NavbarController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\AffiliateLinkController;
 
 use Illuminate\Http\Request;     //contact form
 
@@ -113,6 +114,8 @@ Route::delete('/cart/remove/{index}', [CartController::class, 'removeFromCart'])
 Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('order.store');
 
+
+
 Route::get('/dashboard/profile/edit', [UserDashboardController::class, 'editProfile'])->name('user.editProfile');
 Route::put('/dashboard/profile/update', [UserDashboardController::class, 'updateProfile'])->name('user.updateProfile');
 
@@ -147,7 +150,12 @@ Route::view('/affiliate/dashboard/reports/transaction_product_report', 'affiliat
 Route::view('/affiliate/dashboard/payment/withdrawals', 'affiliate_dashboard.withdrawals')->name('withdrawals');
 Route::view('/affiliate/dashboard/payment/account_balance', 'affiliate_dashboard.account_balance')->name('account_balance');
 
-Route::view('/affiliate/dashboard/tool', 'affiliate_dashboard.tool')->name('tool');
+
+Route::get('/affiliate-tool', [AffiliateLinkController::class, 'showAffiliateForm'])->name('affiliate.tool');
+Route::post('/affiliate/tool/create/affiliate_link', [AffiliateLinkController::class, 'generateNewLink'])->name('genarate_tracking_Link');
+Route::get('/track/{tracking_id}', [AffiliateLinkController::class, 'trackClick'])->name('affiliate.track');
+Route::post('/track-referral/{tracking_id}', [AffiliateLinkController::class, 'trackReferral'])->name('affiliate.trackReferral');
+
 
 Route::view('/affiliate/dashboard/payment/withdrawals', 'affiliate_dashboard.withdrawals')->name('withdrawals');
 Route::view('/affiliate/dashboard/payment/account_balance', 'affiliate_dashboard.account_balance')->name('account_balance');
