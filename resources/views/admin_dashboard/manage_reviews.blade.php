@@ -1,4 +1,4 @@
-@extends('layouts.admin_main.master') 
+@extends('layouts.admin_main.master')
 
 @section('content')
 <!-- Include Bootstrap CSS in your <head> section -->
@@ -31,7 +31,6 @@
         min-width: 100px;
     }
 
-
     .user-profile {
         display: flex;
         align-items: center;
@@ -43,7 +42,6 @@
         height: auto;
         object-fit: cover;
     }
-
 
     .reviewer-profile {
         display: flex;
@@ -78,7 +76,7 @@
 </style>
 
 <main style="margin-top: 58px">
-    <div class="container pt-4 px-4"> 
+    <div class="container pt-4 px-4">
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -96,7 +94,7 @@
                 <a class="nav-link fw-bold" id="pending-tab" data-bs-toggle="tab" href="#pending" role="tab" aria-controls="pending" aria-selected="false">
                     Pending <span class="badge bg-danger">{{ $pendingReviews->count() }}</span>
                 </a>
-            </li> 
+            </li>
         </ul>
 
         <div class="tab-content" id="myTabContent">
@@ -141,7 +139,7 @@
                                                 <div class="star-rating">
                                                     @for ($i = 0; $i < 5; $i++)
                                                         @if ($i < $review->rating)
-                                                            <i class="fas fa-star"></i> 
+                                                            <i class="fas fa-star"></i>
                                                         @else
                                                             <i class="far fa-star"></i>
                                                         @endif
@@ -209,7 +207,7 @@
                                                 <div class="star-rating">
                                                     @for ($i = 0; $i < 5; $i++)
                                                         @if ($i < $review->rating)
-                                                            <i class="fas fa-star"></i> 
+                                                            <i class="fas fa-star"></i>
                                                         @else
                                                             <i class="far fa-star"></i>
                                                         @endif
@@ -244,6 +242,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </main>
 
@@ -302,8 +301,11 @@
     };
 }
 
+    function confirmDelete(formId, message) {
+        if (confirm(message)) {
+            document.getElementById(formId).submit();
+        }
+    }
 </script>
 
-
 @endsection
-
