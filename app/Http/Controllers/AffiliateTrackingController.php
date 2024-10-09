@@ -9,12 +9,17 @@ class AffiliateTrackingController extends Controller
 {
     public function index()
     {
-        $raffletickets = RaffleTicket::all();
+        $userId = auth()->id();
+    
+        // Fetch only the raffle tickets that belong to the logged-in user
+        $raffletickets = RaffleTicket::where('user_id', $userId)->get();
         return view('affiliate_dashboard.tracking_id',compact('raffletickets') );
     }
 
     public function store(Request $request)
     {
+
+        dd(auth()->user());
         // Define custom messages
         $messages = [
             'tracking_id.required' => 'The tracking ID is required.',
@@ -31,13 +36,15 @@ class AffiliateTrackingController extends Controller
 
         // Create and save the raffle ticket
         $raffleTicket = RaffleTicket::create([
-            'user_id' => auth()->id(), // Assuming user authentication
+            'user_id' => auth()->user(),
             'token' => $request->tracking_id,
             'status' => 'Pending', // Set a default status
         ]);
 
-        return redirect()->back()->with('success', 'Tracking ID created successfully.');
+        return redirect()->route('tracking_id')->with('success', 'Tracking ID created successfully.');
+
     }
+    
 
 
     public function setDefault($id)
