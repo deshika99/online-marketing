@@ -39,7 +39,6 @@ class AdminProfileController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     
-        try {
             $admin->name = $request->name;
             $admin->email = $request->email;
             $admin->contact = $request->contact;
@@ -51,10 +50,6 @@ class AdminProfileController extends Controller
     
             $admin->save(); 
             return redirect()->route('admin.profile')->with('status', 'Profile updated successfully.');
-        } catch (\Exception $e) {
-            \Log::error('Profile update failed: ' . $e->getMessage());
-            return back()->withErrors(['error' => 'Profile update failed.']);
-        }
     }
     
 
@@ -74,21 +69,15 @@ class AdminProfileController extends Controller
         }
     
         if (!Hash::check($request->current_password, $admin->password)) {
-            \Log::warning('Password check failed. Current password: ' . $request->current_password);
             return back()->withErrors(['current_password' => 'Current password is incorrect.']);
         }
     
-        try {
             $newHashedPassword = Hash::make($request->new_password);
     
             $admin->password = $newHashedPassword;
             $admin->save();
     
             return redirect()->route('admin.profile')->with('status', 'Password updated successfully.');
-        } catch (\Exception $e) {
-            \Log::error('Password update failed: ' . $e->getMessage());
-            return back()->withErrors(['error' => 'Password update failed.']);
-        }
     }
     
     

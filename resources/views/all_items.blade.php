@@ -120,7 +120,7 @@
                     </div>
                     <div id="color-section" class="filter-content">
                         @foreach($colors as $color)
-                            <div class="color-circle" style="background-color: {{ $color }};" onclick="selectColor(this)"></div>
+                            <div class="color-circle" style="background-color: {{ $color->hex_value }};" onclick="selectColor(this)" title="{{ $color->value }}"></div>
                         @endforeach
                     </div>
                 </li>
@@ -517,10 +517,14 @@ function toggleSubSection(subsectionId, toggleId) {
 
 function filterProducts() {
     const selectedSizes = Array.from(document.querySelectorAll('.size-button.selected')).map(btn => btn.innerText);
+
     const selectedColors = Array.from(document.querySelectorAll('.color-circle.selected-color')).map(circle => circle.style.backgroundColor);
+    const hexColors = selectedColors.map(color => rgbToHex(color));
+
     const selectedRatings = Array.from(document.querySelectorAll('input[name="rating"]:checked')).map(checkbox => checkbox.value); 
     const priceMin = document.getElementById('price-min-input').value;
     const priceMax = document.getElementById('price-max-input').value;
+
 
     fetch(`/filter-products`, {
         method: 'POST',
@@ -528,7 +532,7 @@ function filterProducts() {
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         },
-        body: JSON.stringify({ selectedSizes, selectedColors, priceMin, priceMax, selectedRatings }) 
+        body: JSON.stringify({ selectedSizes, selectedColors: hexColors, priceMin, priceMax, selectedRatings }) 
     })
     .then(response => response.json())
     .then(data => {
@@ -536,6 +540,11 @@ function filterProducts() {
     });
 }
 
+// Helper function to convert RGB to Hex
+function rgbToHex(rgb) {
+    const rgbArray = rgb.match(/\d+/g);
+    return `#${((1 << 24) + (parseInt(rgbArray[0]) << 16) + (parseInt(rgbArray[1]) << 8) + parseInt(rgbArray[2])).toString(16).slice(1)}`;
+}
 document.querySelectorAll('input[name="rating"]').forEach(ratingCheckbox => {
     ratingCheckbox.addEventListener('change', filterProducts); 
 });

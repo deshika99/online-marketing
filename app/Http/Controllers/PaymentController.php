@@ -41,8 +41,7 @@ class PaymentController extends Controller
         if (!$order) {
             return redirect()->back()->with('error', 'Order not found.');
         }
-    
-        try {
+
             if (Auth::check()) {
                 $order->update([
                     'payment_method' => 'COD',
@@ -61,14 +60,10 @@ class PaymentController extends Controller
 
             return redirect()->route('order.thankyou', ['order_code' => $order_code])
                 ->with('success', 'Order confirmed successfully with Cash on Delivery.');
-    
-        } catch (\Exception $e) {
-            \Log::error('COD order confirmation failed: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'An error occurred while confirming the order. Please try again.');
-        }
     }
 
 
+    
     public function getOrderDetails($order_code)
     {
 

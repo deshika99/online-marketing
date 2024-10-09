@@ -55,10 +55,15 @@ class AdminDashboardController extends Controller
                     'count' => $item->total_count,
                 ];
             });
-    
+
+          
         return view('admin_dashboard.index', compact('orderCount', 'customerCount', 'productCount', 'totalCostToday', 'topProducts', 'salesIn12Months'));
     }
     
+
+
+    
+
 
 }
 

@@ -14,6 +14,7 @@ class AffiliateCustomerController extends Controller
     public function showAffCustomers()
     {
         $aff_customer =  Affiliate_Customer::all();
+        
         return view('admin_dashboard.aff_customers', compact('aff_customer'));
     }
     

@@ -17,10 +17,10 @@ class CustomerOrderController extends Controller
 {
    
     public function store(Request $request)
-{
-    //dd($request);
 
-    try {
+    {
+
+
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -110,6 +110,13 @@ class CustomerOrderController extends Controller
                 $sizeVariation->save();
             }
 
+
+
+        return redirect()->route('payment', ['order_code' => $orderCode]);
+ 
+    }
+
+
             // Handle color variation
             $colorVariation = Variation::where('product_id', $item['product_id'])
                 ->where('type', 'color')
@@ -130,4 +137,5 @@ class CustomerOrderController extends Controller
         return redirect()->back()->with('error', 'An error occurred while placing the order. Please try again.');
     }
 }
+
 }
