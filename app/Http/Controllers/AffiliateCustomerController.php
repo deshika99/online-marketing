@@ -123,8 +123,7 @@ class AffiliateCustomerController extends Controller
                     // Store customer information in the session
                     Session::put('customer_id', $customer->id);
                     Session::put('customer_name', $customer->name);
-
-                    // Redirect to the dashboard or index route
+                    
                     return redirect()->route('index', ['affiliate_id' => $customer->id]);
                 } else {
                     // Password mismatch, return an error

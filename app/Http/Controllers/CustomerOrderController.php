@@ -15,11 +15,11 @@ use Carbon\Carbon;
 
 class CustomerOrderController extends Controller
 {
-    
-
    
     public function store(Request $request)
+
     {
+
 
         $request->validate([
             'first_name' => 'required|string|max:255',
@@ -33,18 +33,12 @@ class CustomerOrderController extends Controller
             'apartment' => 'nullable|string|max:255',
         ]);
 
-
-        // Retrieve cart items
         $cart = Auth::check() ? CartItem::where('user_id', Auth::id())->with('product')->get() : collect(session('cart', []));
+        //dd($cart);
         
-
-        $cart = Auth::check() ? CartItem::where('user_id', Auth::id())->with('product')->get() : collect(session('cart', []));
-        
-        // Check if cart is empty
         if ($cart->isEmpty()) {
             return redirect()->back()->with('error', 'Your cart is empty. Add some items to proceed.');
         }
-
 
         $cartArray = $cart->map(function ($item) {
             return [
@@ -56,14 +50,13 @@ class CustomerOrderController extends Controller
             ];
         })->toArray();
 
+        
+
         $subtotal = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cartArray));
-
-        $shipping = 250; // Example shipping cost
-
+        $shipping = 300;
         $total = $subtotal + $shipping;
 
         $orderCode = 'ORD-' . substr((string) Str::uuid(), 0, 8);
-
 
         $orderData = [
             'order_code' => $orderCode,
@@ -79,17 +72,16 @@ class CustomerOrderController extends Controller
             'date' => Carbon::now()->format('Y-m-d'),
             'total_cost' => $total,
             'discount' => 0,
-            'vat' => 0,
             'user_id' => Auth::id(),
-
-            'status' => 'Pending',
-
+            'status' => 'Confirmed',
         ];
 
+        
+
         $order = CustomerOrder::create($orderData);
-
-
+        
         foreach ($cartArray as $item) {
+            
             CustomerOrderItems::create([
                 'order_code' => $orderCode,
                 'product_id' => $item['product_id'],
@@ -99,33 +91,51 @@ class CustomerOrderController extends Controller
                 'size' => $item['size'],
                 'color' => $item['color'],
             ]);
-
-
+            
+            // Reduce product quantity in Products and Variations table
             $product = Products::where('product_id', $item['product_id'])->first();
             if ($product) {
                 $product->quantity -= $item['quantity'];
                 $product->save();
             }
 
+            // Handle size variation
+            $sizeVariation = Variation::where('product_id', $item['product_id'])
+                ->where('type', 'size')
+                ->where('value', $item['size'])
+                ->first();
 
-            // Update variations (size and color)
-            $sizeVariation = Variation::where('product_id', $item['product_id'])->where('type', 'size')->where('value', $item['size'])->first();
-            $colorVariation = Variation::where('product_id', $item['product_id'])->where('type', 'color')->where('value', $item['color'])->first();
-
-            if ($sizeVariation) {
-                $sizeVariation->quantity = max(0, $sizeVariation->quantity - $item['quantity']);
-
+            if ($sizeVariation && $sizeVariation->quantity >= $item['quantity']) {
+                $sizeVariation->quantity -= $item['quantity'];
                 $sizeVariation->save();
             }
-            if ($colorVariation) {
-                $colorVariation->quantity = max(0, $colorVariation->quantity - $item['quantity']);
-                $colorVariation->save();
-            }
-        }
+
 
 
         return redirect()->route('payment', ['order_code' => $orderCode]);
  
     }
+
+
+            // Handle color variation
+            $colorVariation = Variation::where('product_id', $item['product_id'])
+                ->where('type', 'color')
+                ->where('value', $item['color'])
+                ->first();
+
+            if ($colorVariation && $colorVariation->quantity >= $item['quantity']) {
+                $colorVariation->quantity -= $item['quantity'];
+                $colorVariation->save();
+            }
+        }
+
+       
+        return redirect()->route('payment', ['order_code' => $orderCode]);
+    } catch (\Exception $e) {
+         
+        \Log::error('Order placement failed: ' . $e->getMessage());
+        return redirect()->back()->with('error', 'An error occurred while placing the order. Please try again.');
+    }
+}
 
 }
