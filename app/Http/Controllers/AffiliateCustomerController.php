@@ -42,7 +42,7 @@ class AffiliateCustomerController extends Controller
             'gender' => 'nullable|string|max:255',
             'NIC' => 'required|string|max:255',
             'phone_num' => 'required|string|max:20',
-            'email' => 'required|email|unique:aff_customers,email|max:255',
+            'email' => 'required|max:255',
             'password' => 'required|string|min:8|confirmed',
             'promotion_method' => 'nullable|array',
             'instagram_url' => 'nullable|url',
