@@ -14,8 +14,7 @@ class CustomerOrderItems extends Model
 
     protected $fillable = [
         'order_code',
-        'item',
-        'product_id',
+        'product_id',   // Correct field name
         'quantity',
         'size',
         'color',
