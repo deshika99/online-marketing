@@ -25,12 +25,7 @@
         
 
         <ul class="navbar-nav ms-auto d-flex align-items-center flex-row">
-          <a href="#" class="text-muted">
-              <div>
-              Help Center
-            </div>
-          </a>
-          <span class="me-2 ms-2">|</span>
+         
 
           <li class="nav-item dropdown me-4">
             <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#" id="notificationsDropdown"
@@ -39,7 +34,7 @@
               <span class="badge rounded-pill badge-notification bg-danger">1</span>
             </a>
           </li>
-
+          <span class="me-2">|</span>
           <li class="nav-item dropdown me-2 d-flex align-items-center">
             <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
               id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -50,7 +45,6 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
               <li><a class="dropdown-item" href="#">My profile</a></li>
-              <li><a class="dropdown-item" href="#">Account Settings</a></li>
               <li><a class="dropdown-item" href="#">Logout</a></li>
             </ul>
           </li>

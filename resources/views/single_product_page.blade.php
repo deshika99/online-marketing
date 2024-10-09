@@ -236,8 +236,8 @@
                             @foreach($product->variations->where('type', 'Color') as $color)
                                 @if($color->quantity > 0)  
                                     <button class="btn btn-outline-secondary btn-sm mt-2 me-1 color-option" 
-                                        style="background-color: {{ $color->value }}; border-color: #e8ebec; height: 20px; width: 20px;" 
-                                        data-color="{{ $color->value }}" 
+                                        style="background-color: {{ $color->hex_value }}; border-color: #e8ebec; height: 20px; width: 20px;" 
+                                        data-color="{{ $color->hex_value }}" 
                                         data-color-name="{{ $color->value }}">
                                     </button>
                                 @endif
@@ -404,7 +404,7 @@
                                         @foreach($reviews as $review)
                                             <div class="review-item">
                                                 <div class="user-info">
-                                                    <img src="{{ $review->is_anonymous ? asset('assets/images/default-user.png') : asset('storage/' . Auth::user()->profile_image) }}" alt="User image" class="user-image">
+                                                    <img src="{{ $review->is_anonymous ? asset('assets/images/default-user.png') : asset('storage/' . $review->user->profile_image) }}" alt="User image" class="user-image">
                                                     <div class="user-details mt-3">
                                                         <h6>{{ $review->is_anonymous ? 'Anonymous' : $review->user->name }}</h6>
                                                     </div>

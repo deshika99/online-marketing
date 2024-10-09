@@ -89,14 +89,12 @@
                         <div class="row mb-2">
                             <div class="col-12 d-flex">
                                 <strong class="me-2">Colors:</strong>
-                                @php
-                                    $colors = $product->variations->where('type', 'Color');
-                                @endphp
                                 <ul style="list-style-type: none; padding-left: 0; margin: 0;">
-                                    @foreach($colors as $color)
-                                        <li class="d-inline-block me-3">
-                                            <span>{{ $color['value'] }} - {{ $color['quantity'] }}</span>
-                                        
+                                    @foreach($product->variations->where('type', 'Color') as $color)
+                                        <li class="d-inline-block me-3" style="vertical-align: middle;">
+                                            <span style="display: inline-block; background-color: {{ $color->hex_value }}; border: 1px solid #e8ebec; height: 20px; width: 20px;" 
+                                            title="{{ $color->hex_value }}"></span> 
+                                            <span style="position: relative; top: -2px;" class="ms-1"> - {{ $color['quantity'] }}</span>
                                         </li>
                                     @endforeach
                                 </ul>
@@ -127,5 +125,6 @@
     </div>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/color-name-list@4.11.0/dist/colornames.min.js"></script>
 
 @endsection

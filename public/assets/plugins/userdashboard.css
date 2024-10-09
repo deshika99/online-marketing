@@ -92,7 +92,7 @@ body {
     display: inline-flex; 
     align-items: center;  
     justify-content: center;
-    width: 100px; 
+    width: auto; 
     padding: 6px 11px; 
     border-radius: 15px;
     font-size: 12px; 
@@ -118,17 +118,18 @@ body {
     color: #dc3545;
 }
 
-.status.pending {
+.status.confirmed {
     background-color: #fff3cd; 
     color: #856404;
 }
+
 
 .status.shipped {
     background-color: #e2e3e5;
     color: #6c757d;
 }
 
-.btn-pay, .btn-cancel, .btn-confirm, .btn-remove, .btn-review {
+.btn-pay, .btn-confirm, .btn-remove, .btn-review {
     color: white; 
     padding: 5px 10px;
     border: none;
@@ -145,8 +146,17 @@ body {
 }
 
 .btn-cancel {
-    background-color: #bb5151; 
+    color: black; 
+    padding: 5px 10px;
+    border: 1px solid black;
+    border-radius: 5px; 
+    text-decoration: none; 
+    width: 150px;
+    display: inline-block;
+    text-align: center;
+    font-size: 13px;
 }
+
 .btn-confirm {
     background-color: #28a745; 
 }
@@ -286,4 +296,28 @@ body {
 
 #progressbar-2 li.active:after {
     background: #40cd06;
+}
+
+
+
+/* pagination */
+.pagination {
+    display: flex;
+    justify-content: flex-end; /* Aligns the pagination to the right */
+}
+
+.pagination .page-item .page-link {
+    padding: 5 8; 
+    font-size: 15px;
+    border-radius: 0; 
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #007bff; 
+    color: white; 
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: #0056b3; 
+    color: white; 
 }

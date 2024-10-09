@@ -13,7 +13,7 @@ use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-
+use GuzzleHttp\Client;
 
 
 class ProductController extends Controller
@@ -301,34 +301,78 @@ class ProductController extends Controller
                     ]);
                 }
             }
-    
             // Handle variations
             $existingVariationIds = $product->variations->pluck('id')->toArray();
             $submittedVariationIds = array_column($request->input('variation', []), 'id'); 
-    
+
+            $client = new Client(); 
+
             foreach ($request->input('variation', []) as $variation) {
-                if (isset($variation['id']) && in_array($variation['id'], $existingVariationIds)) {
-                    $existingVariation = Variation::find($variation['id']);
-                    if ($existingVariation) {
-                        $existingVariation->update([
-                            'type' => $variation['type'],
-                            'value' => $variation['value'],
-                            'quantity' => $variation['quantity'],
-                        ]);
+                if ($variation['type'] === 'Color') {
+                    $hexValue = $variation['value'];
+                    $colorName = 'Unknown Color';
+
+                    try {
+                        $response = $client->get('https://www.thecolorapi.com/id?hex=' . ltrim($hexValue, '#'));
+                        $data = json_decode($response->getBody(), true);
+                        $colorName = $data['name']['value'] ?? 'Unknown Color'; 
+                    } catch (\Exception $e) {
+                        Log::error('Color API Error', ['error' => $e->getMessage()]);
+                    }
+
+                    // Check for existing variation and update
+                    if (isset($variation['id']) && in_array($variation['id'], $existingVariationIds)) {
+                        $existingVariation = Variation::find($variation['id']);
+                        if ($existingVariation) {
+                            $existingVariation->update([
+                                'type' => $variation['type'],
+                                'value' => $colorName, 
+                                'hex_value' => $hexValue, 
+                                'quantity' => $variation['quantity'],
+                            ]);
+                        }
+                    } else {
+                        if (isset($variation['quantity']) && $variation['quantity'] > 0) {
+                            Variation::create([
+                                'product_id' => $product->product_id,
+                                'type' => $variation['type'],
+                                'value' => $colorName, 
+                                'hex_value' => $hexValue,
+                                'quantity' => $variation['quantity'],
+                            ]);
+                        }
                     }
                 } else {
-                    Variation::create([
-                        'product_id' => $product->product_id,
-                        'type' => $variation['type'],
-                        'value' => $variation['value'],
-                        'quantity' => $variation['quantity'], 
-                    ]);
+                    // Handle non-color variations
+                    if (isset($variation['id']) && in_array($variation['id'], $existingVariationIds)) {
+                        $existingVariation = Variation::find($variation['id']);
+                        if ($existingVariation) {
+                            $existingVariation->update([
+                                'type' => $variation['type'],
+                                'value' => $variation['value'], 
+                                'hex_value' => null, 
+                                'quantity' => $variation['quantity'],
+                            ]);
+                        }
+                    } else {
+                        // Create a new variation for non-colors
+                        if (isset($variation['quantity']) && $variation['quantity'] > 0) {
+                            Variation::create([
+                                'product_id' => $product->product_id,
+                                'type' => $variation['type'],
+                                'value' => $variation['value'], 
+                                'hex_value' => null, 
+                                'quantity' => $variation['quantity'],
+                            ]);
+                        }
+                    }
                 }
-            }        
-    
+            }
+
+
             $variationsToDelete = array_diff($existingVariationIds, $submittedVariationIds);
             Variation::whereIn('id', $variationsToDelete)->delete();
-    
+
             return redirect()->route('products')->with('status', 'Product updated successfully!');
         } catch (\Exception $e) {
             Log::error('Product update failed for ID ' . $id . ': ' . $e->getMessage());
@@ -401,16 +445,42 @@ class ProductController extends Controller
             }
         }
     
-        $variations = $request->input('variation', []);
-        foreach ($variations as $index => $variation) {
-            if (isset($variation['quantity']) && $variation['quantity'] > 0) { 
+    $variations = $request->input('variation', []);
+    $client = new Client(); 
+
+    foreach ($variations as $variation) {
+        if ($variation['type'] === 'Color') {
+            $hexValue = $variation['value'];
+
+            try {
+                $response = $client->get('https://www.thecolorapi.com/id?hex=' . ltrim($hexValue, '#'));
+                $data = json_decode($response->getBody(), true);
+                $colorName = $data['name']['value'] ?? 'Unknown Color'; 
+            } catch (\Exception $e) {
+                Log::error('Color API Error', ['error' => $e->getMessage()]);
+                $colorName = 'Unknown Color';
+            }
+
+            if (isset($variation['quantity']) && $variation['quantity'] > 0) {
                 Variation::create([
                     'product_id' => $product->product_id,
                     'type' => $variation['type'],
-                    'value' => $variation['value'],
-                    'quantity' => $variation['quantity'], 
+                    'value' => $colorName, 
+                    'hex_value' => $hexValue, 
+                    'quantity' => $variation['quantity'],
                 ]);
             }
+        } else {
+            if (isset($variation['quantity']) && $variation['quantity'] > 0) {
+                Variation::create([
+                    'product_id' => $product->product_id,
+                    'type' => $variation['type'],
+                    'value' => $variation['value'], 
+                    'hex_value' => null, 
+                    'quantity' => $variation['quantity'],
+                ]);
+            }
+        }
         }
     
         return redirect()->route('products')->with('status', 'Product added successfully!');

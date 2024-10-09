@@ -8,6 +8,7 @@ use App\Models\CustomerOrderItems;
 use App\Models\Review;
 use App\Models\ReviewMedia;
 use App\Models\Products;
+use App\Models\Address;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
@@ -21,38 +22,30 @@ class UserDashboardController extends Controller
     {
         $orders = CustomerOrder::with(['items.product'])
             ->where('user_id', auth()->id())
-            ->orderBy('created_at', 'desc') 
-            ->get();
-    
-        $pendingOrders = $orders->where('status', 'Pending');
-        $confirmedOrders = $orders->where('status', 'Confirmed');
+            ->orderBy('created_at', 'desc')
+            ->paginate(12); 
+
+        $pendingOrders = $orders->where('status', 'Confirmed');
         $inProgressOrders = $orders->filter(function ($order) {
             return $order->status === 'In Progress' || $order->status === 'Paid';
         });
         $shippedOrders = $orders->where('status', 'Shipped');
         $deliveredOrders = $orders->where('status', 'Delivered');
         $cancelledOrders = $orders->where('status', 'Cancelled');
-    
+
         return view('member_dashboard.myorders', compact(
             'orders',
             'pendingOrders',
-            'confirmedOrders',
             'inProgressOrders',
             'shippedOrders',
             'deliveredOrders',
             'cancelledOrders'
         ));
     }
-    
 
 
     
 
-
-    public function orderDetails($order_code){}
-
-
-    
 
     public function updateProfile(Request $request)
     {
@@ -92,11 +85,6 @@ class UserDashboardController extends Controller
     
         return redirect()->back()->with('status', 'Profile updated successfully!');
     }
-
-
-
-
-    public function updatePassword(Request $request) {}
 
 
 
@@ -281,4 +269,112 @@ class UserDashboardController extends Controller
     }
 }
 
+// In UserDashboardController.php
+
+public function showAddresses()
+{
+    // Get the currently logged-in user
+    $user = Auth::user();
+
+    // Pass the user details to the addresses view
+    return view('member_dashboard.addresses', compact('user'));
 }
+
+
+public function updateAddress(Request $request)
+{
+    // Get the currently logged-in user
+    $user = Auth::user();
+
+    // Validate the request data
+    $validatedData = $request->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'phone' => 'required|string|max:15',
+        'email' => 'required|string|email|max:255',
+        'address' => 'required|string|max:255',
+        'apartment' => 'nullable|string|max:255',
+        'city' => 'required|string|max:255',
+        'postal_code' => 'required|string|max:10',
+    ]);
+
+    // Debugging: Check if data is received
+    \Log::info('User Input:', $validatedData);
+    
+    // Update the user's details with the form input
+    $user->first_name = $request->input('first_name');
+    $user->last_name = $request->input('last_name');
+    $user->phone = $request->input('phone');
+    $user->email = $request->input('email');
+    $user->address = $request->input('address');
+    $user->apartment = $request->input('apartment');
+    $user->city = $request->input('city');
+    $user->postal_code = $request->input('postal_code');
+
+    // Save the updated details to the database
+    if ($user->save()) {
+        return redirect()->route('addresses')->with('success', 'Address updated successfully!');
+    } else {
+        return redirect()->route('addresses')->with('error', 'Failed to update address.');
+    }
+}
+
+
+    
+
+public function storeAddress(Request $request)
+{
+    // Validate the request data
+    $validatedData = $request->validate([
+        'first_name' => 'required|string|max:255',
+        'phone' => 'required|string|max:15',
+        'email' => 'required|string|email|max:255',
+        'address' => 'required|string|max:255',
+        'apartment' => 'nullable|string|max:255',
+        'city' => 'required|string|max:255',
+        'postal_code' => 'required|string|max:10',
+    ]);
+
+    // Get the currently logged-in user
+    $user = Auth::user();
+
+    // Create a new address entry
+    $address = new Address();
+    $address->user_id = $user->id; // Set the user ID from the logged-in user
+    $address->full_name = $validatedData['first_name']; // Adjusted to save the full name
+    $address->phone_num = $validatedData['phone'];
+    $address->email = $validatedData['email'];
+    $address->address = $validatedData['address'];
+    $address->apartment = $validatedData['apartment'];
+    $address->city = $validatedData['city'];
+    $address->postal_code = $validatedData['postal_code'];
+
+    // Save the address to the database
+    $address->save();
+
+    // Redirect back to the addresses page with a success message
+    return redirect()->route('addresses')->with('success', 'Save is Successful');
+}
+
+public function deleteAddress(Request $request)
+{
+    // Delete logic (if applicable)
+    // Flash delete success message
+    return redirect()->route('addresses')->with('success', 'Address deleted successfully');
+}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
