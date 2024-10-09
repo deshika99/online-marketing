@@ -109,7 +109,6 @@ class AffiliateCustomerController extends Controller
                 if (Hash::check($request->password, $customer->password)) {
                     Session::put('customer_id', $customer->id);
                     Session::put('customer_name', $customer->name);
-                    
                     return redirect()->route('index', ['affiliate_id' => $customer->id]);
                 } else {
                     return redirect()->route('aff_home')->withErrors(['password' => 'Invalid credentials.']);
