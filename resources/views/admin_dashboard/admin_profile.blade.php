@@ -5,7 +5,6 @@
 
 
 
-
 <main style="margin-top: 20px">
     <div class="container p-5">
         @if (session('success'))
@@ -71,6 +70,22 @@
 
                     <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
                         <div class="mt-4">
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            @if (session('status'))
+                                <div class="alert alert-success">
+                                    {{ session('status') }}
+                                </div>
+                            @endif
+
                             <form action="{{ route('admin.profile.password.update') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
@@ -95,6 +110,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="form-group">
                                     <label for="new_password_confirmation">Confirm New Password</label>
                                     <div class="input-group">
@@ -105,14 +121,13 @@
                                             </span>
                                         </div>
                                     </div>
+                                    <small id="passwordError" class="text-danger d-none">Passwords do not match</small>
                                 </div>
+
                                 <button type="submit" class="btn btn-primary mt-3">Update Password</button>
                             </form>
                         </div>
                     </div>
-
-
-
                 </div>
                 </div>
             </div>
@@ -152,6 +167,21 @@
             iconElement.classList.add('fa-eye');
         }
     }
+
+// Check if passwords match
+document.getElementById('new_password_confirmation').addEventListener('input', function() {
+    const password = document.getElementById('new_password').value;
+    const confirmPassword = this.value;
+    const passwordError = document.getElementById('passwordError');
+
+    if (password !== confirmPassword) {
+        passwordError.classList.remove('d-none');
+    } else {
+        passwordError.classList.add('d-none');
+    }
+});
+
+
 
 </script>
 @endsection

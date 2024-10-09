@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SystemUser;
+use Illuminate\Support\Facades\Hash;
+
 
 class AdminProfileController extends Controller
 {
@@ -60,29 +62,34 @@ class AdminProfileController extends Controller
 
     public function updatePassword(Request $request)
     {
-
+        $admin = SystemUser::where('email', session('email'))->first();
+    
         $request->validate([
             'current_password' => 'required',
             'new_password' => 'required|min:6|confirmed',
         ]);
-    
-        $admin = SystemUser::where('email', session('email'))->first();
     
         if (!$admin) {
             return redirect()->route('admin.login')->withErrors(['error' => 'Admin not found.']);
         }
     
         if (!Hash::check($request->current_password, $admin->password)) {
+            \Log::warning('Password check failed. Current password: ' . $request->current_password);
             return back()->withErrors(['current_password' => 'Current password is incorrect.']);
         }
+    
         try {
-            $admin->password = Hash::make($request->new_password);
-            $admin->save(); 
+            $newHashedPassword = Hash::make($request->new_password);
+    
+            $admin->password = $newHashedPassword;
+            $admin->save();
+    
             return redirect()->route('admin.profile')->with('status', 'Password updated successfully.');
         } catch (\Exception $e) {
             \Log::error('Password update failed: ' . $e->getMessage());
             return back()->withErrors(['error' => 'Password update failed.']);
         }
     }
+    
     
 }
