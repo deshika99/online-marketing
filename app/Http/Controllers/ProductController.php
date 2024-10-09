@@ -6,6 +6,7 @@ use App\Models\ProductImage;
 use App\Models\Category;
 use App\Models\SpecialOffers;
 use App\Models\Review;
+use App\Models\Sale;
 use App\Models\Variation;
 use App\Models\VariationImage;
 use App\Models\SubSubcategory;
@@ -146,6 +147,10 @@ class ProductController extends Controller
         $specialOffer = SpecialOffers::where('product_id', $product_id)
         ->where('status', 'active') 
         ->first();
+
+        $sale = Sale::where('product_id', $product_id)
+        ->where('status', 'active') 
+        ->first();
         
         $relatedProducts = Products::where('product_category', $product->product_category)
             ->where('product_id', '!=', $product->product_id)
@@ -174,7 +179,7 @@ class ProductController extends Controller
             '1' => Review::where('product_id', $product_id)->where('rating', 1)->count(),
         ];
     
-        return view('single_product_page', compact('product', 'relatedProducts', 'reviews', 'averageRating', 'totalReviews', 'ratingsCount', 'specialOffer'));
+        return view('single_product_page', compact('product', 'relatedProducts', 'reviews', 'averageRating', 'totalReviews', 'ratingsCount', 'specialOffer', 'sale'));
     }
     
 
