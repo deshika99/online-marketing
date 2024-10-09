@@ -172,7 +172,9 @@ Route::view('/affiliate/dashboard/payment/account_balance', 'affiliate_dashboard
 
 Route::get('/affiliate-tool', [AffiliateLinkController::class, 'showAffiliateForm'])->name('affiliate.tool');
 Route::post('/affiliate/tool/create/affiliate_link', [AffiliateLinkController::class, 'generateNewLink'])->name('genarate_tracking_Link');
-Route::get('/track/{tracking_id}', [AffiliateLinkController::class, 'trackClick'])->name('affiliate.track');
+Route::get('/track/{tracking_id}/{product_id}', [AffiliateLinkController::class, 'trackClick'])->name('affiliate.track');
+
+
 Route::post('/track-referral/{tracking_id}', [AffiliateLinkController::class, 'trackReferral'])->name('affiliate.trackReferral');
 Route::get('/affiliate/dashboard/code_center', [AffiliateLinkController::class, 'codeCenter'])->name('code_center');
 
