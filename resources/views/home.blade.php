@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+<!-- Include Toastr CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+
+
 
 <style>
  .card-title {
@@ -137,10 +141,15 @@
 }
 </style>
 
+
 @if (session('status'))
-    <div class="alert alert-success">
-        {{ session('status') }}
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            toastr.success("{{ session('status') }}", 'Success', {
+                positionClass: 'toast-top-right'
+            });
+        });
+    </script>
 @endif
 <nav class="navbar navbar-expand-lg navbar-light fixed-top p-0 m-0">
     <div class="container mb-3"  style="display: flex; flex-direction: column;">
@@ -523,35 +532,10 @@
 
 </script>
 
-<script>
-    // Countdown Timer Script
-    document.addEventListener('DOMContentLoaded', function() {
-        @foreach($flashSales as $sale)
-            let countdownDate{{ $sale->product->product_id }} = new Date("{{ \Carbon\Carbon::parse($sale->end_date)->format('M d, Y H:i:s') }}").getTime();
-
-            let countdownFunction{{ $sale->product->product_id }} = setInterval(function() {
-                let now = new Date().getTime();
-                let distance = countdownDate{{ $sale->product->product_id }} - now;
-
-                // Time calculations for days, hours, minutes, and seconds
-                let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                // Display the result
-                document.getElementById("countdown-{{ $sale->product->product_id }}").innerHTML = days + "d " + hours + "h " +
-                    minutes + "m " + seconds + "s ";
-
-                // If the countdown is over, clear the timer and display 'Expired'
-                if (distance < 0) {
-                    clearInterval(countdownFunction{{ $sale->product->product_id }});
-                    document.getElementById("countdown-{{ $sale->product->product_id }}").innerHTML = "Expired";
-                }
-            }, 1000);
-        @endforeach
-    });
-</script>
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- Include Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 @endsection

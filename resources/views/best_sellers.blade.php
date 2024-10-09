@@ -136,6 +136,18 @@
                             @if($product->images->isNotEmpty())
                                 <div class="offer-image-wrapper position-relative">
                                     <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" alt="Product Image" class="img-fluid">
+                                    
+                                    <!-- Flash Sale or Offer Rate Display -->
+                                    @if($product->specialOffer && $product->specialOffer->status === 'active')
+                                        <div class="rate-badge position-absolute top-0 end-0 m-0" style="background-color: #FFD43B; color: black; padding: 5px; border-radius: 5px; font-weight: bold;">
+                                            {{ floor($product->specialOffer->offer_rate) }}%
+                                        </div>
+                                    @elseif($product->sale && $product->sale->status === 'active')
+                                        <div class="rate-badge position-absolute top-0 end-0 m-0" style="background-color: #FFD43B; color: black; padding: 5px; border-radius: 5px; font-weight: bold;">
+                                            {{ floor($product->sale->sale_rate) }}%
+                                        </div>
+                                    @endif
+
                                     <button type="button" class="btn btn-cart position-absolute bottom-0 end-0 me-2 mb-2" data-bs-toggle="modal" data-bs-target="#cartModal_{{ $product->product_id }}">
                                         <i class="bi bi-cart-plus"></i>
                                     </button>
@@ -146,11 +158,11 @@
                             <h6 class="product-name">{{ \Illuminate\Support\Str::limit($product->product_name, 25, '...') }}</h6>
                             <div class="price">
                                 @if($product->specialOffer && $product->specialOffer->status === 'active')
-                                    <span class="offer-price">Rs. {{ number_format($product->specialOffer->offer_price, 2) }}</span><br>
+                                    <span class="offer-price">Rs. {{ number_format($product->specialOffer->offer_price, 2) }}</span>
                                     <s style="font-size: 14px; color: #989595; font-weight:500">Rs. {{ number_format($product->normal_price, 2) }}</s>
-                                    <span style="color:red; font-size: 14px; margin-left: 5px; font-weight:500">
-                                        {{ floor($product->specialOffer->offer_rate) }}% off
-                                    </span>
+                                @elseif($product->sale && $product->sale->status === 'active')
+                                    <span class="offer-price">Rs. {{ number_format($product->sale->sale_price, 2) }}</span>
+                                    <s style="font-size: 14px; color: #989595; font-weight:500">Rs. {{ number_format($product->normal_price, 2) }}</s>
                                 @else
                                     Rs. {{ number_format($product->normal_price, 2) }}
                                 @endif
@@ -162,6 +174,7 @@
         </div>
     @endif
 </div>
+
 <!-- Pagination -->
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-end mb-4" id="pagination">

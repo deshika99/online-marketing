@@ -31,6 +31,7 @@ class HomeController extends Controller
         $flashSales = Sale::with(['product.images'])
             ->where('status', 'active')
             ->where('end_date', '>=', now()) 
+            ->take(6)
             ->get();
 
         $categories = Category::with('subcategories.subSubcategories')->get();

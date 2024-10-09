@@ -20,10 +20,8 @@ class CustomerOrderController extends Controller
 
    
     public function store(Request $request)
-{
-    DB::beginTransaction();
+    {
 
-    try {
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -121,14 +119,10 @@ class CustomerOrderController extends Controller
             }
         }
 
-        DB::commit(); 
+
         return redirect()->route('payment', ['order_code' => $orderCode]);
-    } catch (\Exception $e) {
-        DB::rollBack(); 
-        \Log::error('Order placement failed: ' . $e->getMessage());
-        return redirect()->back()->with('error', 'An error occurred while placing the order. Please try again.');
+ 
     }
-}
 
 
   

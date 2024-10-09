@@ -30,7 +30,6 @@ class UserController extends Controller
     
     public function store(Request $request)
     {
-        try {
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255',  
                 'email' => 'required|email|unique:system_users,email',
@@ -56,13 +55,6 @@ class UserController extends Controller
             $user = SystemUser::create($validatedData);
     
             return redirect()->back()->with('status', 'User added successfully.');
-        } catch (Exception $e) {
-            Log::error('Error creating systemuser: ' . $e->getMessage(), [
-                'request_data' => $request->all(),
-                'stack_trace' => $e->getTraceAsString(),
-            ]);
-            return redirect()->back()->withErrors('An error occurred while creating the user.');
-        }
     }
     
 

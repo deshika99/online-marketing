@@ -40,10 +40,7 @@ class SalesController extends Controller
 
     public function storeSale(Request $request)
     {
-        Log::info('Request data: ', $request->all());
     
-        try {
-            // Validate incoming request
             $data = $request->validate([
                 'end_date' => 'required|date',
                 'products' => 'required|array',
@@ -66,13 +63,6 @@ class SalesController extends Controller
             }
     
             return redirect()->route('flash_sales')->with('status', 'Flash sales added successfully!');
-        } catch (\Exception $e) {
-            Log::error('Error while storing sale: ' . $e->getMessage(), [
-                'exception' => $e,
-            ]);
-    
-            return redirect()->back()->withErrors('Failed to store flash sales. Please try again.');
-        }
     }
     
     
@@ -94,35 +84,33 @@ class SalesController extends Controller
 
     public function update(Request $request, $id)
     {
-        DB::transaction(function () use ($request, $id) {
-            $validatedData = $request->validate([
-                'end_date' => 'required|date',
-                'products.*.product_id' => 'required|string',
-                'products.*.normal_price' => 'required|numeric',
-                'products.*.sale_rate' => 'required|numeric|min:0|max:100',
-            ]);
+        $validatedData = $request->validate([
+            'end_date' => 'required|date',
+            'products.*.product_id' => 'required|string',
+            'products.*.normal_price' => 'required|numeric',
+            'products.*.sale_rate' => 'required|numeric|min:0|max:100',
+        ]);
     
-            $sale = Sale::findOrFail($id);
-            $sale->end_date = $validatedData['end_date'];
+        $sale = Sale::findOrFail($id);
+        $sale->end_date = $validatedData['end_date'];
     
-            // Save the new sale rate
-            $productData = $validatedData['products'][0]; 
-            $sale->sale_rate = $productData['sale_rate'];
-            $sale->save();
+        // Save the new sale rate
+        $productData = $validatedData['products'][0];
+        $sale->sale_rate = $productData['sale_rate'];
+        $sale->save();
     
-
-            $sale->product()->updateOrCreate(
-                ['product_id' => $productData['product_id']],
-                [
-                    'normal_price' => $productData['normal_price'],
-                    'sale_rate' => $productData['sale_rate'],
-                    'sale_price' => $productData['normal_price'] - ($productData['normal_price'] * ($productData['sale_rate'] / 100)),
-                ]
-            );
-        });
+        $sale->product()->updateOrCreate(
+            ['product_id' => $productData['product_id']],
+            [
+                'normal_price' => $productData['normal_price'],
+                'sale_rate' => $productData['sale_rate'],
+                'sale_price' => $productData['normal_price'] - ($productData['normal_price'] * ($productData['sale_rate'] / 100)),
+            ]
+        );
     
         return redirect()->route('flash_sales')->with('status', 'Sale updated successfully.');
     }
+    
     
     
 

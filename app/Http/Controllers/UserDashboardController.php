@@ -203,7 +203,6 @@ class UserDashboardController extends Controller
     public function storeReview(Request $request)
     {
     
-        try {
             $request->validate([
                 'product_id' => 'required',
                 'order_code' => 'required|string', 
@@ -252,9 +251,6 @@ class UserDashboardController extends Controller
             }
     
             return redirect()->route('myreviews')->with('status', 'Review submitted successfully');
-        } catch (\Exception $e) {
-            return back()->with('error', 'An error occurred while submitting your review. Please try again.');
-        }
     }
     
     //dashboard 
@@ -269,14 +265,12 @@ class UserDashboardController extends Controller
     }
 }
 
-// In UserDashboardController.php
+
 
 public function showAddresses()
 {
     // Get the currently logged-in user
     $user = Auth::user();
-
-    // Pass the user details to the addresses view
     return view('member_dashboard.addresses', compact('user'));
 }
 
@@ -298,8 +292,6 @@ public function updateAddress(Request $request)
         'postal_code' => 'required|string|max:10',
     ]);
 
-    // Debugging: Check if data is received
-    \Log::info('User Input:', $validatedData);
     
     // Update the user's details with the form input
     $user->first_name = $request->input('first_name');
@@ -358,8 +350,6 @@ public function storeAddress(Request $request)
 
 public function deleteAddress(Request $request)
 {
-    // Delete logic (if applicable)
-    // Flash delete success message
     return redirect()->route('addresses')->with('success', 'Address deleted successfully');
 }
 
