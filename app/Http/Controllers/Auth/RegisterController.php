@@ -81,7 +81,6 @@ class RegisterController extends Controller
         ]);
         $this->validator($request->all())->validate();
     
-        try {
             $user = User::create([
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
@@ -97,13 +96,6 @@ class RegisterController extends Controller
             ]);
     
             return redirect('/')->with('status', 'Successfully registered!');
-        } catch (\Exception $e) {
-            \Log::error('Error creating user:', [
-                'message' => $e->getMessage(),
-            ]);
-    
-            return back()->withErrors(['message' => 'An error occurred during registration.'])->withInput();
-        }
     }
       
     
