@@ -76,7 +76,7 @@
             <ul class="navbar-nav ms-auto d-flex align-items-center flex-row">
                 <li class="nav-item dropdown me-4">
                     <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#" id="notificationsDropdown"
-                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-bell"></i>
                         @if($notifications['totalNotifications'] > 0)
                             <span class="badge rounded-pill badge-notification bg-danger">{{ $notifications['totalNotifications'] }}</span>
@@ -86,39 +86,39 @@
                         <li>
                             <div class="dropdown-header d-flex justify-content-between align-items-center">
                                 <h6 class="mt-3">Notifications</h6>
-                                
                             </div>
                         </li>
                         <li><hr class="dropdown-divider"></li>
 
-                        @foreach($notifications['newOrders'] as $order)
-                            <li class="notification-item d-flex justify-content-between align-items-center" data-order-id="{{ $order->id }}">
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <i class="fas fa-shopping-cart me-4" style="font-size: 18px;"></i>
-                                    <div>
-                                        <strong>New Order</strong><br>
-                                        <small>Order #{{ $order->order_code }} placed on {{ $order->created_at->format('Y-m-d') }}</small>
-                                    </div>
-                                </a>
-                                <i class="fas fa-times close-icon" data-order-id="{{ $order->id }}" style="color: red;"></i>
-                            </li>
-                          
-                        @endforeach
-
-                        @foreach($notifications['newRegistrations'] as $user)
-                            <li class="notification-item d-flex justify-content-between align-items-center" data-user-id="{{ $user->id }}">
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <i class="fas fa-user-plus me-4" style="font-size: 18px;"></i>
-                                    <div>
-                                        <strong>New Customer Registration</strong><br>
-                                        <small>{{ $user->name }} registered on {{ $user->created_at->format('Y-m-d') }}</small>
-                                    </div>
-                                </a>
-                                <i class="fas fa-times close-icon" data-user-id="{{ $user->id }}" style="color: red;"></i>
-                            </li>
+                        {{-- Loop through sortedNotifications --}}
+                        @foreach($notifications['sortedNotifications'] as $notification)
+                            @if($notification instanceof App\Models\CustomerOrder) 
+                                <li class="notification-item d-flex justify-content-between align-items-center" data-order-id="{{ $notification->id }}">
+                                    <a class="dropdown-item d-flex align-items-center" href="#">
+                                        <i class="fas fa-shopping-cart me-4" style="font-size: 18px;"></i>
+                                        <div>
+                                            <strong>New Order</strong><br>
+                                            <small>Order #{{ $notification->order_code }} placed on {{ $notification->created_at->format('Y-m-d') }}</small>
+                                        </div>
+                                    </a>
+                                    <i class="fas fa-times close-icon" data-order-id="{{ $notification->id }}" style="color: red;"></i>
+                                </li>
+                            @elseif($notification instanceof App\Models\User) 
+                                <li class="notification-item d-flex justify-content-between align-items-center" data-user-id="{{ $notification->id }}">
+                                    <a class="dropdown-item d-flex align-items-center" href="#">
+                                        <i class="fas fa-user-plus me-4" style="font-size: 18px;"></i>
+                                        <div>
+                                            <strong>New Customer Registration</strong><br>
+                                            <small>{{ $notification->name }} registered on {{ $notification->created_at->format('Y-m-d') }}</small>
+                                        </div>
+                                    </a>
+                                    <i class="fas fa-times close-icon" data-user-id="{{ $notification->id }}" style="color: red;"></i>
+                                </li>
+                            @endif
                         @endforeach
                     </ul>
                 </li>
+
 
                 <span class="me-2">|</span>
                 <li class="nav-item dropdown me-2 d-flex align-items-center">
@@ -126,7 +126,7 @@
                         id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <div class="icon-circle">
                           @if(session('image_path'))
-                              <img src="{{ asset(session('image_path')) }}" alt="Admin Image" class="rounded-circle" height="35" width="35">
+                          <img src="{{ asset('storage/user_images/' . session('image_path')) }}" alt="Admin Image" class="rounded-circle" height="35" width="35">
                           @else
                               <i class="fas fa-user-alt"></i>
                           @endif
@@ -194,7 +194,7 @@
                     
                     // Hide the badge if count is zero
                     if (currentCount - 1 === 0) {
-                        notificationCountBadge.style.display = 'none'; // Hide the badge if there are no notifications
+                        notificationCountBadge.style.display = 'none'; 
                     }
                 }
             });

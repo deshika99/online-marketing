@@ -21,11 +21,10 @@ class AdminProfileController extends Controller
         return view('admin_dashboard.admin_profile', compact('admin'));
     }
     
-
+    
 
     public function updateProfile(Request $request)
     {
-
         $admin = SystemUser::where('email', session('email'))->first();
     
         if (!$admin) {
@@ -39,18 +38,24 @@ class AdminProfileController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     
-            $admin->name = $request->name;
-            $admin->email = $request->email;
-            $admin->contact = $request->contact;
+        $admin->name = $request->name;
+        $admin->email = $request->email;
+        $admin->contact = $request->contact;
     
-            if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('user_images', 'public');
-                $admin->image_path = $imagePath; 
-            }
+        if ($request->hasFile('image')) {
+            $fileName = $request->file('image')->getClientOriginalName();
+            $request->file('image')->storeAs('user_images', $fileName, 'public');
+            $admin->image_path = $fileName; 
+        }
     
-            $admin->save(); 
-            return redirect()->route('admin.profile')->with('status', 'Profile updated successfully.');
+        $admin->save(); 
+    
+        session(['name' => $admin->name]);
+        session(['image_path' => $admin->image_path]);
+    
+        return redirect()->route('admin.profile')->with('status', 'Profile updated successfully.');
     }
+    
     
 
 

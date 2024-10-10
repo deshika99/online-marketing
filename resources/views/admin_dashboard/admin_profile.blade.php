@@ -42,7 +42,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group text-center">
                                             <div>
-                                                <img id="profileImage" src="{{ asset(session('image_path')) }}" alt="Profile Image" class="img-fluid mb-2" style="max-height: 150px; max-width: 150px; border-radius: 50%; cursor: pointer;" onclick="document.getElementById('image').click();">
+                                                <img id="profileImage" src="{{ asset('storage/user_images/' . session('image_path')) }}" alt="Profile Image" class="img-fluid mb-2" style="max-height: 150px; max-width: 150px; border-radius: 50%; cursor: pointer;" onclick="document.getElementById('image').click();">
                                             </div>
                                             <input type="file" class="form-control mt-2" id="image" name="image" style="display: none;" accept="image/*" onchange="displayImage(event)">
                                         </div>

@@ -101,11 +101,18 @@
                                 @enderror
                             </div>
                         </div>
+                        
                         <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-start">{{ __('Password') }}</label>
-                            <div class="col-md-7 position-relative">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-                                <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password position-absolute" style="top: 15px; right: 20px; cursor: pointer;"></span>
+                            <label for="new_password" class="col-md-4 col-form-label text-md-start">{{ __('Password') }}</label>
+                            <div class="col-md-7">
+                                <div class="input-group">
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="new_password" name="password" required>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" onclick="togglePasswordVisibility('new_password', this)">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -113,18 +120,27 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="row mb-5">
+
+                        <div class="row mb-3">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-start">{{ __('Confirm Password') }}</label>
-                            <div class="col-md-7 position-relative">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                                <span toggle="#password-confirm" class="fa fa-fw fa-eye field-icon toggle-password position-absolute" style="top: 15px; right: 20px; cursor: pointer;"></span>
+                            <div class="col-md-7">
+                                <div class="input-group">
+                                    <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password-confirm" name="password_confirmation" required>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" onclick="togglePasswordVisibility('password-confirm', this)">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
                                 @error('password_confirmation')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                                <small id="passwordError" class="text-danger d-none">Passwords do not match</small>
                             </div>
                         </div>
+
                         <p>
                             I hereby confirm that all the above information is true and agree if the institution does not  
                             approve the registration of the account due to the inclusion of false information.
@@ -144,29 +160,36 @@
 </div>
 
 
+
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.toggle-password').forEach(item => {
-            item.addEventListener('click', function() {
-                const inputSelector = this.getAttribute('toggle');
-                const input = document.querySelector(inputSelector);
-                
-                if (input) {
-                    if (input.type === 'password') {
-                        input.type = 'text';
-                        this.classList.remove('fa-eye');
-                        this.classList.add('fa-eye-slash');
-                    } else {
-                        input.type = 'password';
-                        this.classList.remove('fa-eye-slash');
-                        this.classList.add('fa-eye');
-                    }
-                } else {
-                    console.error(`Input field with selector ${inputSelector} not found.`);
-                }
-            });
-        });
+    // Toggle password visibility function
+    function togglePasswordVisibility(inputId, icon) {
+        const input = document.getElementById(inputId);
+        const iconElement = icon.querySelector('i');
+        
+        // Toggle the input type
+        if (input.type === "password") {
+            input.type = "text";
+            iconElement.classList.remove('fa-eye');
+            iconElement.classList.add('fa-eye-slash');
+        } else {
+            input.type = "password";
+            iconElement.classList.remove('fa-eye-slash');
+            iconElement.classList.add('fa-eye');
+        }
+    }
+
+    // Check if passwords match
+    document.getElementById('password-confirm').addEventListener('input', function() {
+        const password = document.getElementById('new_password').value;
+        const confirmPassword = this.value;
+        const passwordError = document.getElementById('passwordError');
+
+        if (password !== confirmPassword) {
+            passwordError.classList.remove('d-none');
+        } else {
+            passwordError.classList.add('d-none');
+        }
     });
 </script>
-
 @endsection
