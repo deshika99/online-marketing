@@ -36,13 +36,13 @@
 <nav id="sidebarMenu" class="collapse navbar-collapse d-lg-block sidebar collapse bg-white">
     <div class="position-sticky">
         <div class="list-group list-group-flush mx-2 mt-4">
-            <a href="{{ route('index') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('index') ? 'active' : '' }}" data-mdb-ripple-init aria-current="true" aria-label="Go to Home">
+            <a href="<?php echo e(route('index')); ?>" class="list-group-item list-group-item-action py-2 <?php echo e(request()->routeIs('index') ? 'active' : ''); ?>" data-mdb-ripple-init aria-current="true" aria-label="Go to Home">
                 <span>Home</span>
             </a>
-            <a href="{{ route('ad_center') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('ad_center') ? 'active' : '' }}" data-mdb-ripple-init aria-label="Go to Ad Center">
+            <a href="<?php echo e(route('ad_center')); ?>" class="list-group-item list-group-item-action py-2 <?php echo e(request()->routeIs('ad_center') ? 'active' : ''); ?>" data-mdb-ripple-init aria-label="Go to Ad Center">
                 <span>Ad Center</span>
             </a>
-            <a href="{{ route('code_center') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('code_center') ? 'active' : '' }}" data-mdb-ripple-init aria-label="Go to Code Center">
+            <a href="<?php echo e(route('code_center')); ?>" class="list-group-item list-group-item-action py-2 <?php echo e(request()->routeIs('code_center') ? 'active' : ''); ?>" data-mdb-ripple-init aria-label="Go to Code Center">
                 <span>Code Center</span>
             </a>
             
@@ -53,22 +53,22 @@
                     <i class="fas fa-chevron-down float-end mt-2" style="font-size:10px;"></i> 
                 </a>
                 <div class="collapse ms-3" id="reportsSubmenu">
-                    <a href="{{ route('traffic_report') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
+                    <a href="<?php echo e(route('traffic_report')); ?>" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
                         Traffic Report 
                     </a>
-                    <a href="{{ route('income_report') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
+                    <a href="<?php echo e(route('income_report')); ?>" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
                         Income Report 
                     </a>
-                    <a href="{{ route('order_tracking') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
+                    <a href="<?php echo e(route('order_tracking')); ?>" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
                         Live Order Tracking
                     </a>
-                    <a href="{{ route('transaction_product_report') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
+                    <a href="<?php echo e(route('transaction_product_report')); ?>" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
                         Transaction Product Report
                     </a>
                 </div>
             </div>
 
-            <a href="{{ route('affiliate.tool') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('affiliate.tool') ? 'active' : '' }}" data-mdb-ripple-init aria-label="Go to Tools">
+            <a href="<?php echo e(route('affiliate.tool')); ?>" class="list-group-item list-group-item-action py-2 <?php echo e(request()->routeIs('affiliate.tool') ? 'active' : ''); ?>" data-mdb-ripple-init aria-label="Go to Tools">
                 <span>Tools</span>
             </a>
 
@@ -78,16 +78,16 @@
                     <i class="fas fa-chevron-down float-end mt-2" style="font-size:10px;"></i> 
                 </a>
                 <div class="collapse ms-3" id="paymentSubmenu">
-                    <a href="{{ route('withdrawals') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
+                    <a href="<?php echo e(route('withdrawals')); ?>" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
                       Withdrawals
                     </a>
-                    <a href="{{ route('account_balance') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
+                    <a href="<?php echo e(route('account_balance')); ?>" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
                         Account Balance
                     </a>
-                    <a href="{{ route('payment_info') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
+                    <a href="<?php echo e(route('payment_info')); ?>" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
                         Payment Information
                     </a>
-                    <a href="{{ route('commission_rules') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
+                    <a href="<?php echo e(route('commission_rules')); ?>" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
                         Commission Rules
                     </a>
                 </div>
@@ -99,10 +99,10 @@
                     <i class="fas fa-chevron-down float-end mt-2" style="font-size:10px;"></i> 
                 </a>
                 <div class="collapse ms-3" id="accountSubmenu">
-                    <a href="{{ route('mywebsites_page') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
+                    <a href="<?php echo e(route('mywebsites_page')); ?>" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
                       My Websites
                     </a>
-                    <a href="{{ route('tracking_id') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
+                    <a href="<?php echo e(route('tracking_id')); ?>" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
                         Tracking ID
                     </a>
                 </div>
@@ -110,3 +110,4 @@
         </div>
     </div>
 </nav>
+<?php /**PATH D:\e support project\resources\views/layouts/affiliate_main/sidebar.blade.php ENDPATH**/ ?>

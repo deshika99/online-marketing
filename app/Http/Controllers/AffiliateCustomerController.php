@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use App\Models\RaffleTicket;
 use App\Models\Products;
+use App\Models\AffiliateReferral;
 
 
 
@@ -174,9 +175,32 @@ class AffiliateCustomerController extends Controller
     {
         $affiliateId = Session::get('customer_id');
         $affiliateName = $affiliateId ? Affiliate_Customer::find($affiliateId)->name : 'Guest';
-    
-        return view('affiliate_dashboard.index', compact('affiliateName', 'affiliateId'));
+
+        // Get all referral records for the current affiliate
+        $referrals = AffiliateReferral::where('user_id', $affiliateId)->get();
+
+        // Calculate total referrals and total views
+        $totalReferrals = $referrals->sum('referral_count');
+        $totalViews = $referrals->sum('views_count');
+
+        // Total Unpaid Earnings is always 0
+        $totalUnpaidEarnings = 0;
+
+        // Calculate total paid earnings
+        $totalPaidEarnings = $referrals->sum(function ($referral) {
+            return $referral->referral_count * $referral->affiliate_commission;
+        });
+
+        return view('affiliate_dashboard.index', compact(
+            'affiliateName', 
+            'affiliateId', 
+            'totalReferrals', 
+            'totalViews', 
+            'totalUnpaidEarnings', 
+            'totalPaidEarnings'
+        ));
     }
+
     
 
     public function logout(Request $request)
