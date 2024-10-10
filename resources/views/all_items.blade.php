@@ -320,10 +320,6 @@
                                 <span class="text-primary">{{ $product->rating_count }} Ratings | </span>
                                 <span class="text-primary">&nbsp; 25 Questions Answered</span>
                             </div>
-                            <div style="margin-top: -15px;">
-                                <span class="text-muted">Brand: </span>
-                                <span class="text-primary">No Brand | More Wearable technology from No Brand</span>
-                            </div>
                             <hr />
                             
                             <div class="product-availability mt-3 mb-1">

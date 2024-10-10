@@ -32,10 +32,20 @@ class SalesController extends Controller
 
     public function showSales()
     {
+        $this->updateExpiredSales();
         $sales = Sale::with(['product.images'])->get(); 
         return view('admin_dashboard.flash_sales', compact('sales'));
     }
+    
 
+    protected function updateExpiredSales()
+    {
+        $now = now();
+
+        Sale::where('end_date', '<=', $now)
+            ->update(['status' => 'inactive']);
+    }
+    
 
 
     public function storeSale(Request $request)

@@ -205,16 +205,16 @@
                           @if(Auth::user()->profile_image)
                             <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" style="width: 33px; height: 33px; border-radius: 50%; object-fit: cover;" class="profile_image">
                           @else
-                            <span style="font-size: 20px; font-weight: bold;">{{ Auth::user()->name[0] }}</span>
+                            <span style="font-size: 17px;">{{ Auth::user()->name[0] }}</span>
                           @endif
                         </div>
-                            <span class="ms-2" style="font-weight: 500;">{{ Auth::user()->name }}</span>
+                            <span class="ms-2">{{ Auth::user()->name }}</span>
                          </a>
                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('dashboard') }}">
+                        <a class="dropdown-item" href="{{ route('dashboard') }}" style="font-size: 15px;">
                           {{ __('My Profile') }}
                         </a>
-                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="font-size: 15px;">
                           {{ __('Logout') }}
                         </a>
                       <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

@@ -88,16 +88,16 @@
                                             <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;" class="profile_image">
 
                                           @else
-                                             {{ Auth::user()->name[0] }}
+                                          <span style="font-size: 17px;">{{ Auth::user()->name[0] }}</span>
                                           @endif
                                         </div>
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                        <a class="dropdown-item" href="{{ route('dashboard') }}" style="font-size: 15px;">
                                             {{ __('My Profile') }}
                                         </a>
 
                                         <!-- Logout link -->
-                                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="font-size: 15px;">
                                             {{ __('Logout') }}
                                         </a>
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
