@@ -21,6 +21,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SalesController;
+use App\Http\Controllers\InquiryController;
 
 use Illuminate\Http\Request;     //contact form
 
@@ -44,6 +45,10 @@ Route::get('/best-sellers', [SpecialOffersController::class, 'bestSellers'])->na
 
 Route::view('/home/affiliate/all', 'aff_all')->name('aff_all');
 Route::view('/home/affiliate/single', 'aff_single')->name('aff_single');
+
+Route::post('/inquiry', [InquiryController::class, 'store'])->name('inquiry.store');//inquiry 
+Route::get('/admin/customer_inquiries', [InquiryController::class, 'showCustomerInquiries'])->name('customer_inquiries');
+
 
 
 
@@ -224,7 +229,7 @@ Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('de
 Route::get('/admin/users/{id}', [UserController::class, 'getUserDetails']);
 Route::post('/admin/users', [UserController::class, 'store'])->name('admin_users.store');
 
-Route::view('/admin/customer_inquiries', 'admin_dashboard.customer_inquiries')->name('customer_inquiries');
+
 
 Route::get('/admin/category', [CategoryController::class, 'showCategories'])->name('category');
 Route::post('/admin/category/add', [CategoryController::class, 'store'])->name('category_add');
@@ -273,6 +278,13 @@ Route::post('/contact-submit', function (Request $request) {
     
     return back()->with('success', 'Thank you for contacting us!');
 })->name('contact.submit');
+
+//customer-inquiry
+//about 
+Route::get('/customer-inquiry', function () {
+    return view('customer-inquiry');
+})->name('customer-inquiry');
+
 
 
 
