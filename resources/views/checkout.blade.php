@@ -36,93 +36,95 @@
       <div class="row checkout-summary-container">
         
         <!-- Checkout -->
-        <div class="col-md-8 mb-4">
-          <div class="card shadow-0 border checkout-card">
-            @csrf
-            <div class="p-4">
-              <h5 class="card-title mb-3" style="color:red">Billing Details</h5>
-              <div class="row">
-                <div class="col-6 mb-3">
-                  <p class="mb-0">First name</p>
-                  <div class="form-outline">
-                    <input type="text" name="first_name" id="firstName" placeholder="" class="form-control" required/>
-                    <span class="error-message" id="firstNameError"></span>
+          <div class="col-md-8 mb-4">
+              <div class="card shadow-0 border checkout-card">
+                  @csrf
+                  <div class="p-4">
+                      <h5 class="card-title mb-3" style="color:red">Billing Details</h5>
+                      <div class="row">
+                          <div class="col-12 mb-3">
+                              <p class="mb-0">Full name</p>
+                              <div class="form-outline">
+                                  <input type="text" name="first_name" id="firstName" placeholder="" class="form-control" 
+                                        value="{{ old('first_name', $defaultAddress->full_name ?? $user->name) }}" required />
+                                  <span class="error-message" id="firstNameError"></span>
+                              </div>
+                          </div>
+                          <div class="col-6 mb-3">
+                              <p class="mb-0">Phone</p>
+                              <div class="form-outline">
+                                  <input type="tel" name="phone" id="phone" class="form-control" 
+                                        value="{{ old('phone', $defaultAddress->phone_num ?? $user->phone_num) }}" required />
+                                  <span class="error-message" id="phoneError"></span>
+                              </div>
+                          </div>
+                          <div class="col-6 mb-3">
+                              <p class="mb-0">Email</p>
+                              <div class="form-outline">
+                                  <input type="email" name="email" id="billingEmail" placeholder="" class="form-control" 
+                                        value="{{ old('email', $defaultAddress->email ?? $user->email) }}" required />
+                                  <span class="error-message" id="billingEmailError"></span>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-sm-12 mb-3">
+                              <p class="mb-0">Company Name (Optional)</p>
+                              <div class="form-outline">
+                                  <input type="text" name="company_name" id="companyName" placeholder="" class="form-control" 
+                                        value="{{ old('company_name', $defaultAddress->company_name ?? '') }}" />
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-sm-12 mb-3">
+                          <p class="mb-0">Street Address</p>
+                          <div class="form-outline">
+                              <input type="text" name="address" id="address" placeholder="" class="form-control" 
+                                    value="{{ old('address', $defaultAddress->address ?? '') }}" required />
+                              <span class="error-message" id="addressError"></span>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-sm-12 mb-3">
+                              <p class="mb-0">Apartment, Suite, unit etc.(Optional)</p>
+                              <div class="form-outline">
+                                  <input type="text" name="apartment" id="apartment" placeholder="" class="form-control" 
+                                        value="{{ old('apartment', $defaultAddress->apartment ?? '') }}" />
+                              </div>
+                          </div>
+                          <div class="col-sm-6 mb-3">
+                              <p class="mb-0">City</p>
+                              <div class="form-outline">
+                                  <input type="text" name="city" id="city" placeholder="" class="form-control" 
+                                        value="{{ old('city', $defaultAddress->city ?? '') }}" required />
+                                  <span class="error-message" id="cityError"></span>
+                              </div>
+                          </div>
+                          <div class="col-sm-6 mb-3">
+                              <p class="mb-0">Postal code</p>
+                              <div class="form-outline">
+                                  <input type="text" name="postal_code" id="postalCode" class="form-control" 
+                                        value="{{ old('postal_code', $defaultAddress->postal_code ?? '') }}" required />
+                                  <span class="error-message" id="postalCodeError"></span>
+                              </div>
+                          </div>
+                      </div>
+                      <hr class="my-4" />
+                      <h5 class="card-title mb-3" style="color:red">Shipping Details</h5>
+                      <div class="form-check mb-3">
+                          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" />
+                          <label class="form-check-label" for="flexCheckDefault1">Ship to a different address ?</label>
+                      </div>
+                      <div class="mb-3">
+                          <p class="mb-0">Order notes (optional)</p>
+                          <div class="form-outline">
+                              <textarea class="form-control" name="order_notes" id="textAreaExample1" rows="2"></textarea>
+                          </div>
+                      </div>
                   </div>
-                </div>
-                <div class="col-6">
-                  <p class="mb-0">Last name</p>
-                  <div class="form-outline">
-                    <input type="text" name="last_name" id="lastName" placeholder="" class="form-control" required/>
-                    <span class="error-message" id="lastNameError"></span>
-                  </div>
-                </div>
-                <div class="col-6 mb-3">
-                  <p class="mb-0">Phone</p>
-                  <div class="form-outline">
-                    <input type="tel" name="phone" id="phone" class="form-control" required />
-                    <span class="error-message" id="phoneError"></span>
-                  </div>
-                </div>
-                <div class="col-6 mb-3">
-                  <p class="mb-0">Email</p>
-                  <div class="form-outline">
-                    <input type="email" name="email" id="billingEmail" placeholder="" class="form-control" required/>
-                    <span class="error-message" id="billingEmailError"></span>
-                  </div>
-                </div>
               </div>
-              <div class="row">
-                <div class="col-sm-12 mb-3">
-                  <p class="mb-0">Company Name (Optional)</p>
-                  <div class="form-outline">
-                    <input type="text" name="company_name" id="companyName" placeholder="" class="form-control" />
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-12 mb-3">
-                <p class="mb-0">Street Address</p>
-                <div class="form-outline">
-                  <input type="text" name="address" id="address" placeholder="" class="form-control" required/>
-                  <span class="error-message" id="addressError"></span>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-12 mb-3">
-                  <p class="mb-0">Apartment, Suite, unit etc.(Optional)</p>
-                  <div class="form-outline">
-                    <input type="text" name="apartment" id="apartment" placeholder="" class="form-control" />
-                  </div>
-                </div>
-                <div class="col-sm-6 mb-3">
-                  <p class="mb-0">City</p>
-                  <div class="form-outline">
-                    <input type="text" name="city" id="city" placeholder="" class="form-control" required/>
-                    <span class="error-message" id="cityError"></span>
-                  </div>
-                </div>
-                <div class="col-sm-6 col-6 mb-3">
-                  <p class="mb-0">Postal code</p>
-                  <div class="form-outline">
-                    <input type="text" name="postal_code" id="postalCode" class="form-control" required/>
-                    <span class="error-message" id="postalCodeError"></span>
-                  </div>
-                </div>
-              </div>
-              <hr class="my-4" />
-              <h5 class="card-title mb-3" style="color:red">Shipping Details</h5>
-              <div class="form-check mb-3">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" />
-                <label class="form-check-label" for="flexCheckDefault1">Ship to a different address ?</label>
-              </div>
-              <div class="mb-3">
-                <p class="mb-0">Order notes (optional)</p>
-                <div class="form-outline">
-                  <textarea class="form-control" name="order_notes" id="textAreaExample1" rows="2"></textarea>
-                </div>
-              </div>
-            </div>
           </div>
-        </div>
+
 
          <!-- Summary -->
          <div class="col-md-4">

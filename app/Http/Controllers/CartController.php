@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CartItem;
+use App\Models\Address;
 use App\Models\Products;
 use Illuminate\Support\Facades\Auth;
 
@@ -109,6 +110,9 @@ class CartController extends Controller
     
     public function checkout()
     {
+        $user = auth()->user();
+        $defaultAddress = Address::where('user_id', $user->id)->where('default', 1)->first();
+
         if (Auth::check()) {
             $cart = CartItem::with('product')->where('user_id', Auth::id())->get();
         } else {
@@ -120,7 +124,7 @@ class CartController extends Controller
             });
         }
     
-        return view('checkout', compact('cart'));
+        return view('checkout', compact('cart','defaultAddress'));
     }
     
 

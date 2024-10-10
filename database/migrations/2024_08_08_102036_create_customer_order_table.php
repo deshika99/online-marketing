@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('order_code')->index();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('customer_fname');
-            $table->string('customer_lname');
             $table->string('phone');
             $table->string('email');
             $table->string('company_name')->nullable();

@@ -96,23 +96,39 @@
                     <div class="col-md-3 d-flex flex-column align-items-start border-end" style="border-right: 1px solid #eaeaea; font-size: 13px;">
                         <span style="font-weight: 600;">{{ $review->product->product_name }}</span>
                         <div class="d-flex align-items-center">
-                            @if ($review->orderItem)
+                        @if ($review->orderItem)
+                            @if ($review->orderItem->color)
                                 <span class="d-flex align-items-center me-2">
                                     Color: 
                                     <span style="display: inline-block; background-color: {{ $review->orderItem->color }}; border: 1px solid #e8ebec; height: 15px; width: 15px; border-radius: 50%; margin-left: 0.5rem;" 
                                         title="{{ $review->orderItem->color }}"></span>
-                                </span> | 
-
-                                <span class="me-2">Size: <span style="font-weight: 600;">{{ $review->orderItem->size }}</span></span> |
-
-                                <span class="ms-2">Qty: <span style="font-weight: 600;">{{ $review->orderItem->quantity }}</span></span>
-                            @else
-                                <span class="me-2">Color: <span style="font-weight: 600;">N/A</span></span> | 
-                                <span class="me-2">Size: <span style="font-weight: 600;">N/A</span></span> |
-                                <span class="ms-2">Qty: <span style="font-weight: 600;">N/A</span></span>
+                                </span>
                             @endif
+
+                            @if ($review->orderItem->size)
+                                <span class="me-2">Size: <span style="font-weight: 600;">{{ $review->orderItem->size }}</span></span>
+                            @endif
+
+                            @if ($review->orderItem->quantity)
+                                <span class="ms-2">Qty: <span style="font-weight: 600;">{{ $review->orderItem->quantity }}</span></span>
+                            @endif
+
+                            @if (!$review->orderItem->color && !$review->orderItem->size && !$review->orderItem->quantity)
+                                <span class="me-2">Details not available</span>
+                            @endif
+                        @else
+                            <span class="me-2">Color: <span style="font-weight: 600;">N/A</span></span> | 
+                            <span class="me-2">Size: <span style="font-weight: 600;">N/A</span></span> |
+                            <span class="ms-2">Qty: <span style="font-weight: 600;">N/A</span></span>
+                        @endif
+
                         </div>
-                        <h6 class="mt-2" style="font-size: 13px; font-weight: bold;">Rs {{ $review->orderItem->cost }}</h6>  
+                        @if ($review->orderItem)
+                            <h6 class="mt-2" style="font-size: 13px; font-weight: bold;">Rs {{ $review->orderItem->cost }}</h6>
+                        @else
+                            <h6 class="mt-2" style="font-size: 13px; font-weight: bold;">N/A</h6>
+                        @endif
+
                     </div>
 
                     <div class="col-md-6 d-flex flex-column align-items-start border-end" style="border-right: 1px solid #eaeaea;">

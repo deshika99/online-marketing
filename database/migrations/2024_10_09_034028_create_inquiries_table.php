@@ -13,16 +13,17 @@ return new class extends Migration
 {
     Schema::create('inquiries', function (Blueprint $table) {
         $table->id();
-        $table->unsignedBigInteger('user_id'); //  foreign key for the user id
+        $table->unsignedBigInteger('user_id'); 
         $table->string('order_id');
         $table->string('email');
         $table->string('phone');
         $table->string('subject');
         $table->text('message');
-        $table->text('reply')->nullable(); // Add the 'reply' column here, which can be null
+        $table->text('reply')->nullable(); 
+        $table->enum('status', ['Not replied', 'Replied'])->default('Not replied'); 
         $table->timestamps();
 
-        // adding the User ID Foreign Key Constraint 
+ 
         $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
     });
 }

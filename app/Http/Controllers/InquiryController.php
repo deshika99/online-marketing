@@ -34,13 +34,34 @@ class InquiryController extends Controller
             'message' => $request->message,
         ]);
 
-        return redirect()->back()->with('success', 'Your inquiry has been submitted successfully.');
+        return redirect()->back()->with('status', 'Your inquiry has been submitted successfully.');
     }
-    public function showCustomerInquiries() {
-       $inquiries = Inquiry::all(); 
-       
-       return view('admin_dashboard.customer_inquiries', compact('inquiries'));
+
+
+
+   public function showCustomerInquiries() 
+   {
+    $inquiries = Inquiry::with('user')->get(); 
+    return view('admin_dashboard.customer_inquiries', compact('inquiries'));
     }
-    
+
+
+
+
+    public function submitResponse(Request $request, $id)
+    {
+        $request->validate([
+            'response' => 'required|string|max:1000', 
+        ]);
+
+        $inquiry = Inquiry::findOrFail($id);
+        $inquiry->reply = $request->response; 
+        $inquiry->status = 'replied'; 
+        $inquiry->save();
+
+        return redirect()->route('customer_inquiries')->with('status', 'Response submitted successfully.');
+    }
+
+
 
 }
