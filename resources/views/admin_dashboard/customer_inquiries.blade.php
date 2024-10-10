@@ -33,21 +33,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Jane Doe</td>
-                            <td>12345</td>
-                            <th>2024-08-31</th>
-                            <td>Refund Request</td>
-                            <td>In Progress</td>
-                            <td>
-                                <a href="#" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#inquiryDetailsModal"> 
-                                    <i class="fas fa-file"></i></a>
-                                <a href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                                <a href="#" class="btn btn-success btn-sm">Resolve</a>
-                            </td>
-                        </tr>
+                        @foreach($inquiries as $inquiry)
+                            <tr>
+                                <td>{{ $inquiry->id }}</td> <!-- Inquiry ID -->
+                                <td>{{ $inquiry->customer_name }}</td> <!-- Customer Name (you may need to update based on your DB) -->
+                                <td>{{ $inquiry->order_id }}</td> <!-- Order ID -->
+                                <td>{{ $inquiry->created_at->format('Y-m-d') }}</td> <!-- Inquiry Date -->
+                                <td>{{ $inquiry->subject }}</td> <!-- Inquiry Type/Subject -->
+                                <td>{{ $inquiry->status }}</td> <!-- Status -->
+                                <td>
+                                    <a href="#" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#inquiryDetailsModal{{ $inquiry->id }}"> 
+                                        <i class="fas fa-file"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                                    <a href="#" class="btn btn-success btn-sm">Resolve</a>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
+                    
                 </table>
             </div>
             </div>
@@ -59,7 +63,7 @@
 </main>
 
 
-<div class="modal fade" id="inquiryDetailsModal" tabindex="-1" aria-labelledby="inquiryDetailsModalLabel" aria-hidden="true">
+<div class="modal fade" id="inquiryDetailsModal{{ $inquiry->id }}" tabindex="-1" aria-labelledby="inquiryDetailsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content p-2">
             <div class="modal-header">
@@ -67,11 +71,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p><strong>Customer:</strong> Jane Doe</p>
-                <p><strong>Order ID:</strong> 12345</p>
-                <p><strong>Inquiry Type:</strong> Refund Request</p>
-                <p><strong>Status:</strong> In Progress</p>
-                <p><strong>Message:</strong> I would like to request a refund for my recent order.</p>
+                <p><strong>Customer:</strong> {{ $inquiry->customer_name }}</p>
+                <p><strong>Order ID:</strong> {{ $inquiry->order_id }}</p>
+                <p><strong>Inquiry Type:</strong> {{ $inquiry->subject }}</p>
+                <p><strong>Status:</strong> {{ $inquiry->status }}</p>
+                <p><strong>Message:</strong> {{ $inquiry->message }}</p>
                 <form>
                     <div class="mb-3">
                         <label for="responseMessage" class="form-label">Response</label>
@@ -83,6 +87,7 @@
         </div>
     </div>
 </div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const dateFilter = document.getElementById('dateFilter');

@@ -72,5 +72,6 @@ class Products extends Model
     }
 
 
-
+    
 }
+
