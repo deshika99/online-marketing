@@ -26,4 +26,17 @@ class AffiliateLink extends Model
     {
         return $this->belongsTo(RaffleTicket::class, 'raffle_ticket_id');
     }
+
+    // Define the relationship with the AffiliateProduct model
+    public function affiliateProducts()
+    {
+        return $this->hasMany(AffiliateProduct::class);
+    }
+
+    public function product()
+    {
+        return $this->hasOneThrough(Products::class, AffiliateProduct::class, 'affiliate_link_id', 'id', 'id', 'product_id');
+    }
+
 }
+                                        

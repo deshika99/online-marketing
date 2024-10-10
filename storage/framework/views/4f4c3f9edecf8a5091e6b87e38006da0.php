@@ -1,6 +1,4 @@
-@extends('layouts.affiliate_main.master')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <main style="margin-top: 58px">
     <div class="container pt-4 px-4"> 
@@ -37,16 +35,17 @@
                 <div class="tab-content" id="myTabContent0">
                     <!-- Hot Deals -->
                     <div class="tab-pane fade show active" id="hot_deals" role="tabpanel" aria-labelledby="home-tab0">
-                        <form id="hotDealsForm" method="GET" action="{{ route('ad_center') }}">
+                        <form id="hotDealsForm" method="GET" action="<?php echo e(route('ad_center')); ?>">
                             <div class="row">
                                 <div class="col-md-2 mb-3">
                                     <select id="categoriesHotDeals" name="category" class="form-select" style="font-size: 0.8rem;">
-                                        <option value="all" {{ request('category') == 'all' ? 'selected' : '' }}>All Categories</option>
-                                        @foreach($categories as $category)
-                                            <option value="{{ $category->parent_category }}" {{ request('category') == $category->parent_category ? 'selected' : '' }}>
-                                                {{ $category->parent_category }}
+                                        <option value="all" <?php echo e(request('category') == 'all' ? 'selected' : ''); ?>>All Categories</option>
+                                        <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($category->parent_category); ?>" <?php echo e(request('category') == $category->parent_category ? 'selected' : ''); ?>>
+                                                <?php echo e($category->parent_category); ?>
+
                                             </option>
-                                        @endforeach
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
                                 </div>
                                 <div class="col-md-2 mb-3">
@@ -92,70 +91,70 @@
                         </form>
                         <div class="container mt-4 mb-4">
                             <div class="row">
-                            @foreach($hotDeals as $product)
+                            <?php $__currentLoopData = $hotDeals; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="col-md-3">
                                     <div class="deal-items">
-                                        <input type="checkbox" class="select-item-checkbox" data-product-id="{{ $product->product_id }}" style="position: absolute; left: 12px;">
+                                        <input type="checkbox" class="select-item-checkbox" data-product-id="<?php echo e($product->product_id); ?>" style="position: absolute; left: 12px;">
                                         <a href="#">
-                                            @if($product->images->isNotEmpty())
-                                                <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" alt="{{ $product->product_name }}" class="img-fluid">
-                                            @else
-                                                <img src="{{ asset('storage/default-image.png') }}" alt="Default Image" class="img-fluid">
-                                            @endif
-                                            <p>{{ $product->product_name }}</p>
-                                            <p class="description">{{ $product->product_description }}</p>
-                                            <div class="price mb-2">Rs.{{ $product->total_price }}</div>
-                                            @php
+                                            <?php if($product->images->isNotEmpty()): ?>
+                                                <img src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" alt="<?php echo e($product->product_name); ?>" class="img-fluid">
+                                            <?php else: ?>
+                                                <img src="<?php echo e(asset('storage/default-image.png')); ?>" alt="Default Image" class="img-fluid">
+                                            <?php endif; ?>
+                                            <p><?php echo e($product->product_name); ?></p>
+                                            <p class="description"><?php echo e($product->product_description); ?></p>
+                                            <div class="price mb-2">Rs.<?php echo e($product->total_price); ?></div>
+                                            <?php
                                                 $commissionPrice = $product->total_price - $product->affiliate_price;
-                                            @endphp
+                                            ?>
                                             <div class="commission mb-2">
-                                                Est. Commission Rs. {{ $commissionPrice }} | {{ $product->commission_percentage }}%
+                                                Est. Commission Rs. <?php echo e($commissionPrice); ?> | <?php echo e($product->commission_percentage); ?>%
                                             </div>
                                             <a href="#" 
                                             class="btn btn-primary btn_promote mb-4" 
                                             data-bs-toggle="modal" 
-                                            data-bs-target="#promoteModal-{{ $product->product_id }}">
+                                            data-bs-target="#promoteModal-<?php echo e($product->product_id); ?>">
                                             Promote Now
                                             </a>
                                         </a>
                                     </div>
                                 </div>
                                 <!-- Promote Modal -->
-                                <div class="modal fade" id="promoteModal-{{ $product->product_id }}" tabindex="-1" aria-labelledby="promoteModalLabel-{{ $product->product_id }}" aria-hidden="true">
+                                <div class="modal fade" id="promoteModal-<?php echo e($product->product_id); ?>" tabindex="-1" aria-labelledby="promoteModalLabel-<?php echo e($product->product_id); ?>" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="promoteModalLabel-{{ $product->product_id }}">Promo Items for {{ $product->product_name }}</h5>
+                                                <h5 class="modal-title" id="promoteModalLabel-<?php echo e($product->product_id); ?>">Promo Items for <?php echo e($product->product_name); ?></h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
                                                 <!-- Product Images -->
-                                                @if($product->images->count() > 0)
+                                                <?php if($product->images->count() > 0): ?>
                                                     <div class="d-flex mb-3">
                                                         <div class="me-3">
                                                             <p>Pictures:</p>
                                                         </div>
-                                                        <div id="productImagesContainer-{{ $product->product_id }}" class="d-flex flex-wrap">
-                                                            @foreach($product->images as $image)
+                                                        <div id="productImagesContainer-<?php echo e($product->product_id); ?>" class="d-flex flex-wrap">
+                                                            <?php $__currentLoopData = $product->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <div class="image-wrapper position-relative mb-2 me-2">
-                                                                    <img src="{{ asset('storage/' . $image->image_path) }}" alt="Product Image" class="img-fluid" width="100px" data-image-id="{{ $image->id }}" style="cursor: pointer;">
+                                                                    <img src="<?php echo e(asset('storage/' . $image->image_path)); ?>" alt="Product Image" class="img-fluid" width="100px" data-image-id="<?php echo e($image->id); ?>" style="cursor: pointer;">
                                                                     <input type="checkbox" class="position-absolute top-0 start-0 m-2 image-checkbox" style="z-index: 1; display: none;">
                                                                 </div>
-                                                            @endforeach
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                         </div>
                                                     </div>
-                                                @else
+                                                <?php else: ?>
                                                     <p>No images available for this product.</p>
-                                                @endif
+                                                <?php endif; ?>
 
                                                 <button type="button" class="btn btn-secondary btn-sm" id="downloadAllBtn">Download All</button>
                                                 <button type="button" class="btn btn-secondary btn-sm" id="downloadSelectedBtn" disabled>Download Selected</button>
 
                                                 <!-- Default Tracking ID Display -->
                                                 <div class="mb-3 mt-4">
-                                                    <label for="trackingIdDisplay-{{ $product->product_id }}" class="form-label">Tracking ID:</label>
-                                                    <p id="trackingIdDisplay-{{ $product->product_id }}">
-                                                        {{ $defaultTrackingId->token }} <!-- This assumes the default tracking ID is passed from the controller -->
+                                                    <label for="trackingIdDisplay-<?php echo e($product->product_id); ?>" class="form-label">Tracking ID:</label>
+                                                    <p id="trackingIdDisplay-<?php echo e($product->product_id); ?>">
+                                                        <?php echo e($defaultTrackingId->token); ?> <!-- This assumes the default tracking ID is passed from the controller -->
                                                     </p>
                                                 </div>
 
@@ -165,21 +164,25 @@
                                                     <p>Copy and share the promo materials below:</p>
 
                                                     <!-- Check if promo_material exists in the session -->
-                                                    @if(session('promo_material_' . $product->product_id))
-                                                        <textarea id="promoMaterial-{{ $product->product_id }}" class="form-control" rows="5" readonly>
-                                                            {{ session('promo_material_' . $product->product_id) }}
+                                                    <?php if(session('promo_material_' . $product->product_id)): ?>
+                                                        <textarea id="promoMaterial-<?php echo e($product->product_id); ?>" class="form-control" rows="5" readonly>
+                                                            <?php echo e(session('promo_material_' . $product->product_id)); ?>
+
                                                         </textarea>
-                                                    @else
-                                                        <textarea id="promoMaterial-{{ $product->product_id }}" class="form-control" rows="5" readonly>
+                                                    <?php else: ?>
+                                                        <textarea id="promoMaterial-<?php echo e($product->product_id); ?>" class="form-control" rows="5" readonly>
                                                             
-                                                            Product: {{ $product->product_name }}
-                                                            Description: {{ $product->product_description }}
-                                                            Original price: LKR {{ number_format($product->total_price, 2) }}
+                                                            Product: <?php echo e($product->product_name); ?>
+
+                                                            Description: <?php echo e($product->product_description); ?>
+
+                                                            Original price: LKR <?php echo e(number_format($product->total_price, 2)); ?>
+
                                                         </textarea>
-                                                    @endif
+                                                    <?php endif; ?>
 
                                                     <!-- Copy Button -->
-                                                    <button type="button" class="btn btn-primary mt-2" onclick="copyPromoMaterial('{{ $product->product_id }}')">Copy Promo Material</button>
+                                                    <button type="button" class="btn btn-primary mt-2" onclick="copyPromoMaterial('<?php echo e($product->product_id); ?>')">Copy Promo Material</button>
                                                 </div>
                                             </div>
 
@@ -191,23 +194,24 @@
                                 </div>
 
 
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
                     </div>
                 </div>
 
                     <!-- Higher Commission -->
                     <div class="tab-pane fade" id="commision" role="tabpanel" aria-labelledby="commision-tab0">
-                        <form id="highComForm" method="GET" action="{{ route('ad_center') }}#commision">
+                        <form id="highComForm" method="GET" action="<?php echo e(route('ad_center')); ?>#commision">
                             <div class="row">
                                 <div class="col-md-2 mb-3">
                                     <select id="categoriesHighCom" name="category" class="form-select" style="font-size: 0.8rem;">
-                                        <option value="all" {{ request('category') == 'all' ? 'selected' : '' }}>All Categories</option>
-                                        @foreach($categories as $category)
-                                            <option value="{{ $category->parent_category }}" {{ request('category') == $category->parent_category ? 'selected' : '' }}>
-                                                {{ $category->parent_category }}
+                                        <option value="all" <?php echo e(request('category') == 'all' ? 'selected' : ''); ?>>All Categories</option>
+                                        <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($category->parent_category); ?>" <?php echo e(request('category') == $category->parent_category ? 'selected' : ''); ?>>
+                                                <?php echo e($category->parent_category); ?>
+
                                             </option>
-                                        @endforeach
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
                                 </div>
 
@@ -252,30 +256,30 @@
                             </div>
                         </form>
                         <div class="row">
-                                @foreach($highCom as $product)
+                                <?php $__currentLoopData = $highCom; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <div class="col-md-3">
                                         <div class="deal-items">
-                                            <input type="checkbox" class="select-item-checkbox" data-product-id="{{ $product->id }}" style="position: absolute; left: 12px;">
+                                            <input type="checkbox" class="select-item-checkbox" data-product-id="<?php echo e($product->id); ?>" style="position: absolute; left: 12px;">
                                             <a href="#">
-                                                @if($product->images->isNotEmpty())
-                                                    <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" alt="{{ $product->product_name }}" class="img-fluid">
-                                                @else
-                                                    <img src="{{ asset('storage/default-image.png') }}" alt="Default Image" class="img-fluid">
-                                                @endif
-                                                <p>{{ $product->product_name }}</p>
-                                                <p class="description">{{ $product->product_description }}</p>
-                                                <div class="price mb-2">Rs.{{ $product->total_price }}</div>
-                                                @php
+                                                <?php if($product->images->isNotEmpty()): ?>
+                                                    <img src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" alt="<?php echo e($product->product_name); ?>" class="img-fluid">
+                                                <?php else: ?>
+                                                    <img src="<?php echo e(asset('storage/default-image.png')); ?>" alt="Default Image" class="img-fluid">
+                                                <?php endif; ?>
+                                                <p><?php echo e($product->product_name); ?></p>
+                                                <p class="description"><?php echo e($product->product_description); ?></p>
+                                                <div class="price mb-2">Rs.<?php echo e($product->total_price); ?></div>
+                                                <?php
                                                     $commissionPrice = $product->total_price - $product->affiliate_price;
-                                                @endphp
+                                                ?>
                                                 <div class="commission mb-2">
-                                                    Est. Commission Rs. {{ $commissionPrice }} | {{ $product->commission_percentage }}%
+                                                    Est. Commission Rs. <?php echo e($commissionPrice); ?> | <?php echo e($product->commission_percentage); ?>%
                                                 </div>
                                                 <a href="#" class="btn btn-primary btn_promote mb-4">Promote Now</a>
                                             </a>
                                         </div>
                                     </div>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
                     </div>
@@ -491,4 +495,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.affiliate_main.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\e support project\resources\views/affiliate_dashboard/ad_center.blade.php ENDPATH**/ ?>

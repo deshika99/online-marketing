@@ -158,10 +158,13 @@ Route::post('/home/affiliate/login', [AffiliateCustomerController::class, 'login
 Route::get('/affiliate/dashboard', [AffiliateCustomerController::class, 'index'])->name('index');
 Route::post('/affiliate/logout', [AffiliateCustomerController::class, 'logout'])->name('aff_logout');
 Route::get('/affiliate/dashboard/ad_center', [AffiliateProductController::class, 'showAdCenter'])->name('ad_center');
+Route::post('/affiliate/promo/maritial/genaratr', [AffiliateCustomerController::class, 'promomatirials'])->name('promo_matirials');
 Route::get('/affiliate/dashboard/ad_center/{product_id}/promote-modal', [AffiliateProductController::class, 'showPromoteModal'])->name('products.promoteModal');
 Route::get('/affiliate/dashboard/ad_center/download-images', [AffiliateProductController::class, 'downloadImages'])->name('products.downloadImages');
 Route::get('/affiliate/dashboard/ad_center/{id}/promote-modal', [AffiliateProductController::class, 'showPromoteModal'])->name('products.promoteModal');
 Route::get('/affiliate/dashboard/ad_center/download-images', [AffiliateProductController::class, 'downloadImages'])->name('products.downloadImages');
+
+Route::post('/generate-promo', [AffiliateProductController::class, 'generatePromo'])->name('generate.promo');
 
 
 
