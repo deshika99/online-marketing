@@ -23,9 +23,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between p-md-1">
                             <div class="d-flex flex-row">
-                                <div class="align-self-center">
-                                    <i class="fas fa-pencil-alt text-info fa-3x me-4"></i>
-                                </div>
+                                
                                 <div>
                                     <h5 style="font-weight: bold;">Dashboard</h5>
                                 </div>
@@ -35,11 +33,10 @@
                             <table class="table table-hover text-nowrap table-striped">
                                 <thead>
                                 <tr>
-                                    <th scope="col">Account Number</th>
-                                    <th scope="col">Withdrawal Amount</th>
-                                    <th scope="col">Processing Fee</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Remark</th>
+                                    <th scope="col">Total Referels</th>
+                                    <th scope="col">Total Views</th>
+                                    <th scope="col">Total Unpaid Earnings</th>
+                                    <th scope="col">Total Paid Earnings</th>
                                 </tr>
                                 </thead>
                                 <tbody>

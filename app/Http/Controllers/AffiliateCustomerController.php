@@ -6,6 +6,8 @@ use App\Models\Affiliate_Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use App\Models\RaffleTicket;
+use App\Models\Products;
 
 
 
@@ -135,6 +137,33 @@ class AffiliateCustomerController extends Controller
             return redirect()->route('aff_home')->withErrors(['email' => 'Email not found.']);
         }
     }
+
+    public function generatePromo(Request $request)
+    {
+        $trackingId = $request->input('tracking_id');
+        $productId = $request->input('product_id');
+
+        // Construct the product URL
+        $productUrl = url("/product/$productId");
+
+        // Construct the affiliate URL
+        $affiliateUrl = url("/track/$trackingId/$productId?redirect=" . urlencode($productUrl));
+
+        // Create the promo material message with the affiliate link
+        $promoMaterial = "
+            Top On Sale Product Recommendations!\n
+            Product: Product Name\n
+            Original price: LKR 1000\n
+            Affiliate Link: $affiliateUrl
+        ";
+
+        // Store the promo material in the session (with the product ID)
+        session()->flash('promo_material_' . $productId, $promoMaterial);
+
+        // Redirect back to the view, so the modal gets updated with the new promo material
+        return back();
+    }
+
 
 
     
