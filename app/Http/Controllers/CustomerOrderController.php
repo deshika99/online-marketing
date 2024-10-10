@@ -46,7 +46,6 @@ class CustomerOrderController extends Controller
 
         $request->validate([
             'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'email' => 'required|email|max:255',
             'address' => 'required|string|max:255',
@@ -82,7 +81,6 @@ class CustomerOrderController extends Controller
         $orderData = [
             'order_code' => $orderCode,
             'customer_fname' => $request->input('first_name'),
-            'customer_lname' => $request->input('last_name'),
             'phone' => $request->input('phone'),
             'email' => $request->input('email'),
             'company_name' => $request->input('company_name'),
@@ -132,6 +130,7 @@ class CustomerOrderController extends Controller
                 $sizeVariation->save();
             }
 
+
             // Handle color variation
             $colorVariation = Variation::where('product_id', $item['product_id'])
                 ->where('type', 'color')
@@ -147,11 +146,12 @@ class CustomerOrderController extends Controller
         
 
 
+
         return redirect()->route('payment', ['order_code' => $orderCode]);
  
     }
 
+}
 
-  
 
 }

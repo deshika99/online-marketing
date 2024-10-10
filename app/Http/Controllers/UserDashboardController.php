@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CustomerOrder;
 use App\Models\CustomerOrderItems;
+use App\Models\Inquiry;
 use App\Models\Review;
 use App\Models\ReviewMedia;
 use App\Models\Products;
@@ -253,7 +254,7 @@ class UserDashboardController extends Controller
             return redirect()->route('myreviews')->with('status', 'Review submitted successfully');
     }
     
-    //dashboard 
+
 
     public function index()
 {
@@ -267,91 +268,129 @@ class UserDashboardController extends Controller
 
 
 
-public function showAddresses()
-{
-    // Get the currently logged-in user
-    $user = Auth::user();
-    return view('member_dashboard.addresses', compact('user'));
-}
 
+    public function updateAddress(Request $request)
+    {
 
-public function updateAddress(Request $request)
-{
-    // Get the currently logged-in user
-    $user = Auth::user();
+        $request->merge([
+            'default' => $request->has('default') ? true : false,
+        ]);
 
-    // Validate the request data
-    $validatedData = $request->validate([
-        'first_name' => 'required|string|max:255',
-        'last_name' => 'required|string|max:255',
-        'phone' => 'required|string|max:15',
-        'email' => 'required|string|email|max:255',
-        'address' => 'required|string|max:255',
-        'apartment' => 'nullable|string|max:255',
-        'city' => 'required|string|max:255',
-        'postal_code' => 'required|string|max:10',
-    ]);
+        // Validate the input
+        $validatedData = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
+            'email' => 'required|string|email|max:255',
+            'address' => 'required|string|max:255',
+            'apartment' => 'nullable|string|max:255',
+            'city' => 'required|string|max:255',
+            'postal_code' => 'required|string|max:10',
+            'default' => 'boolean', // Now properly handling the boolean
+            'address_id' => 'required|exists:addresses,id',
+        ]);
 
-    
-    // Update the user's details with the form input
-    $user->first_name = $request->input('first_name');
-    $user->last_name = $request->input('last_name');
-    $user->phone = $request->input('phone');
-    $user->email = $request->input('email');
-    $user->address = $request->input('address');
-    $user->apartment = $request->input('apartment');
-    $user->city = $request->input('city');
-    $user->postal_code = $request->input('postal_code');
+            $address = Address::findOrFail($validatedData['address_id']);
 
-    // Save the updated details to the database
-    if ($user->save()) {
-        return redirect()->route('addresses')->with('success', 'Address updated successfully!');
-    } else {
-        return redirect()->route('addresses')->with('error', 'Failed to update address.');
+            if ($validatedData['default']) {
+                Address::where('user_id', $address->user_id)
+                    ->where('id', '!=', $address->id)
+                    ->update(['default' => 0]);
+
+                $address->default = 1;
+            } else {
+                $address->default = 0;
+            }
+
+            $address->full_name = $validatedData['first_name'];
+            $address->phone_num = $validatedData['phone'];
+            $address->email = $validatedData['email'];
+            $address->address = $validatedData['address'];
+            $address->apartment = $validatedData['apartment'];
+            $address->city = $validatedData['city'];
+            $address->postal_code = $validatedData['postal_code'];
+
+            if ($address->save()) {
+            } else {
+            }
+
+        return redirect()->route('addresses')->with('status', 'Address updated successfully!');
     }
-}
+
 
 
     
 
-public function storeAddress(Request $request)
-{
-    // Validate the request data
-    $validatedData = $request->validate([
-        'first_name' => 'required|string|max:255',
-        'phone' => 'required|string|max:15',
-        'email' => 'required|string|email|max:255',
-        'address' => 'required|string|max:255',
-        'apartment' => 'nullable|string|max:255',
-        'city' => 'required|string|max:255',
-        'postal_code' => 'required|string|max:10',
-    ]);
 
-    // Get the currently logged-in user
-    $user = Auth::user();
 
-    // Create a new address entry
-    $address = new Address();
-    $address->user_id = $user->id; // Set the user ID from the logged-in user
-    $address->full_name = $validatedData['first_name']; // Adjusted to save the full name
-    $address->phone_num = $validatedData['phone'];
-    $address->email = $validatedData['email'];
-    $address->address = $validatedData['address'];
-    $address->apartment = $validatedData['apartment'];
-    $address->city = $validatedData['city'];
-    $address->postal_code = $validatedData['postal_code'];
+    public function storeAddress(Request $request)
+    {
+        // Validate the request data
+        $validatedData = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
+            'email' => 'required|string|email|max:255',
+            'address' => 'required|string|max:255',
+            'apartment' => 'nullable|string|max:255',
+            'city' => 'required|string|max:255',
+            'postal_code' => 'required|string|max:10',
+            'default' => 'nullable|in:on,off', 
+        ]);
 
-    // Save the address to the database
-    $address->save();
+        $user = Auth::user();
 
-    // Redirect back to the addresses page with a success message
-    return redirect()->route('addresses')->with('success', 'Save is Successful');
-}
+        if (isset($validatedData['default']) && $validatedData['default'] === 'on') {
+            Address::where('user_id', $user->id)
+                ->where('default', true)
+                ->update(['default' => false]);
+        }
 
-public function deleteAddress(Request $request)
-{
-    return redirect()->route('addresses')->with('success', 'Address deleted successfully');
-}
+        $address = new Address();
+        $address->user_id = $user->id;
+        $address->full_name = $validatedData['first_name'];
+        $address->phone_num = $validatedData['phone'];
+        $address->email = $validatedData['email'];
+        $address->address = $validatedData['address'];
+        $address->apartment = $validatedData['apartment'];
+        $address->city = $validatedData['city'];
+        $address->postal_code = $validatedData['postal_code'];
+        $address->default = isset($validatedData['default']) && $validatedData['default'] === 'on'; 
+
+        $address->save();
+
+        return redirect()->route('addresses')->with('status', 'Save is Successful');
+    }
+
+
+    public function showAddresses()
+    {     
+
+        $user = Auth::user();
+        $addresses = Address::where('user_id', $user->id)->get();
+        return view('member_dashboard.addresses', compact('addresses'));
+    }
+    
+
+    public function destroy($id)
+    {
+        $address = Address::findOrFail($id);
+        $address->delete();
+        return redirect()->route('addresses')->with('status', 'Address deleted successfully!');
+    }
+
+
+
+
+    public function showInquiries()
+    {
+        // Get inquiries for the authenticated user
+        $inquiries = Inquiry::where('user_id', Auth::id())
+                            ->orderBy('updated_at', 'desc') 
+                            ->get();
+
+        return view('member_dashboard.myinquiries', compact('inquiries'));
+    }
+
+
 
 
 }

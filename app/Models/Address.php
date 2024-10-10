@@ -19,5 +19,6 @@ class Address extends Model
         'apartment',
         'city',
         'postal_code',
+        'default'
     ];
 }
