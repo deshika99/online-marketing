@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
+    
         Schema::create('affiliate_links', function (Blueprint $table) {
             $table->id(); // Primary key
             
             // Foreign key to users table (who generated the link)
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             // Foreign key to raffle_tickets table (tracking ID)
             $table->unsignedBigInteger('raffle_ticket_id');

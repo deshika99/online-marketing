@@ -18,7 +18,7 @@ class AffiliateLink extends Model
     // Relationship to the User model
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Aff_Customer::class);
     }
 
     // Relationship to the RaffleTicket model
