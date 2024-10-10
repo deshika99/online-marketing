@@ -15,15 +15,12 @@ use Carbon\Carbon;
 
 class CustomerOrderController extends Controller
 {
-    
-
-
    
     public function store(Request $request)
-{
-    DB::beginTransaction();
 
-    try {
+    {
+
+
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -37,8 +34,8 @@ class CustomerOrderController extends Controller
         ]);
 
         $cart = Auth::check() ? CartItem::where('user_id', Auth::id())->with('product')->get() : collect(session('cart', []));
+        //dd($cart);
         
-        // Check if cart is empty
         if ($cart->isEmpty()) {
             return redirect()->back()->with('error', 'Your cart is empty. Add some items to proceed.');
         }
@@ -52,6 +49,8 @@ class CustomerOrderController extends Controller
                 'color' => $item->color,
             ];
         })->toArray();
+
+        
 
         $subtotal = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cartArray));
         $shipping = 300;
@@ -73,14 +72,16 @@ class CustomerOrderController extends Controller
             'date' => Carbon::now()->format('Y-m-d'),
             'total_cost' => $total,
             'discount' => 0,
-            'vat' => 0,
             'user_id' => Auth::id(),
             'status' => 'Confirmed',
         ];
 
-        $order = CustomerOrder::create($orderData);
+        
 
+        $order = CustomerOrder::create($orderData);
+        
         foreach ($cartArray as $item) {
+            
             CustomerOrderItems::create([
                 'order_code' => $orderCode,
                 'product_id' => $item['product_id'],
@@ -90,7 +91,7 @@ class CustomerOrderController extends Controller
                 'size' => $item['size'],
                 'color' => $item['color'],
             ]);
-
+            
             // Reduce product quantity in Products and Variations table
             $product = Products::where('product_id', $item['product_id'])->first();
             if ($product) {
@@ -109,6 +110,13 @@ class CustomerOrderController extends Controller
                 $sizeVariation->save();
             }
 
+
+
+        return redirect()->route('payment', ['order_code' => $orderCode]);
+ 
+    }
+
+
             // Handle color variation
             $colorVariation = Variation::where('product_id', $item['product_id'])
                 ->where('type', 'color')
@@ -121,16 +129,13 @@ class CustomerOrderController extends Controller
             }
         }
 
-        DB::commit(); 
+       
         return redirect()->route('payment', ['order_code' => $orderCode]);
     } catch (\Exception $e) {
-        DB::rollBack(); 
+         
         \Log::error('Order placement failed: ' . $e->getMessage());
         return redirect()->back()->with('error', 'An error occurred while placing the order. Please try again.');
     }
 }
-
-
-  
 
 }

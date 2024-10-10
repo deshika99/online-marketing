@@ -231,32 +231,32 @@
                                     <div class="form-group">
                                         <label for="variations">Add Product Variations</label>
                                         <div id="variations-container">
-    @foreach ($variations as $index => $variation)
-        <div class="variation-row row mb-3" data-index="{{ $index }}">
-            <div class="col-md-3">
-                <select class="form-control variation-type" name="variation[{{ $index }}][type]" onchange="handleVariationChange(this)">
-                    <option value="Size" {{ $variation->type === 'Size' ? 'selected' : '' }}>Size</option>
-                    <option value="Color" {{ $variation->type === 'Color' ? 'selected' : '' }}>Color</option>
-                    <option value="Material" {{ $variation->type === 'Material' ? 'selected' : '' }}>Material</option>
-                </select>
-            </div>
-            <div class="col-md-4 variation-input-container">
-                @if ($variation->type === 'Color')
-                    <input type="color" class="form-control variation-input" name="variation[{{ $index }}][value]" value="{{ $variation->hex_value }}" onchange="updateHexValue(this)">
-                    <input type="hidden" name="variation[{{ $index }}][hex_value]" value="{{ $variation->hex_value }}">
-                @else
-                    <input type="text" class="form-control variation-input" name="variation[{{ $index }}][value]" value="{{ $variation->value }}" placeholder="Variation">
-                @endif
-            </div>
-            <div class="col-md-3">
-                <input type="number" class="form-control variation-input" name="variation[{{ $index }}][quantity]" value="{{ $variation->quantity }}" placeholder="Quantity">
-            </div>
-            <div class="col-md-1">
-                <button type="button" class="btn remove-btn" onclick="removeVariationRow(this)">X</button>
-            </div>
-        </div>
-    @endforeach
-</div>
+                                            @foreach ($variations as $index => $variation)
+                                                <div class="variation-row row mb-3" data-index="{{ $index }}">
+                                                    <div class="col-md-3">
+                                                        <select class="form-control variation-type" name="variation[{{ $index }}][type]" onchange="handleVariationChange(this)">
+                                                            <option value="Size" {{ $variation->type === 'Size' ? 'selected' : '' }}>Size</option>
+                                                            <option value="Color" {{ $variation->type === 'Color' ? 'selected' : '' }}>Color</option>
+                                                            <option value="Material" {{ $variation->type === 'Material' ? 'selected' : '' }}>Material</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 variation-input-container">
+                                                        @if ($variation->type === 'Color')
+                                                            <input type="color" class="form-control variation-input" name="variation[{{ $index }}][value]" value="{{ $variation->hex_value }}" onchange="updateHexValue(this)">
+                                                            <input type="hidden" name="variation[{{ $index }}][hex_value]" value="{{ $variation->hex_value }}">
+                                                        @else
+                                                            <input type="text" class="form-control variation-input" name="variation[{{ $index }}][value]" value="{{ $variation->value }}" placeholder="Variation">
+                                                        @endif
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="number" class="form-control variation-input" name="variation[{{ $index }}][quantity]" value="{{ $variation->quantity }}" placeholder="Quantity">
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <button type="button" class="btn remove-btn" onclick="removeVariationRow(this)">X</button>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
 
                                         <button type="button" class="btn btn-secondary mt-3" id="addVariationBtn" style="width: 30%;">+ Add another variation</button>
                                     </div>
