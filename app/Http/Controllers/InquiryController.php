@@ -34,6 +34,7 @@ class InquiryController extends Controller
             'message' => $request->message,
         ]);
 
+
         return redirect()->back()->with('status', 'Your inquiry has been submitted successfully.');
     }
 

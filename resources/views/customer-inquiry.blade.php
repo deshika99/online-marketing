@@ -120,6 +120,7 @@
 @endif
 
 
+
     <form action="{{ route('inquiry.store') }}" method="POST">
         @csrf
         <!-- Order ID Field -->

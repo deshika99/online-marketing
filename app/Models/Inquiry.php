@@ -16,8 +16,10 @@ class Inquiry extends Model
         'phone',
         'subject',
         'message',
+
         'reply',
         'status'
+
     ];
 
     public function user()

@@ -1,6 +1,4 @@
-@extends('layouts.affiliate_main.master')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <!-- Main layout -->
 <main style="margin-top: 58px">
@@ -41,10 +39,10 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{ $totalReferrals }}</td>
-                                    <td>{{ $totalViews }}</td>
-                                    <td>{{ $totalUnpaidEarnings }}</td>
-                                    <td>{{ number_format($totalPaidEarnings, 2) }}</td> <!-- Format to 2 decimal places -->
+                                    <td><?php echo e($totalReferrals); ?></td>
+                                    <td><?php echo e($totalViews); ?></td>
+                                    <td><?php echo e($totalUnpaidEarnings); ?></td>
+                                    <td><?php echo e(number_format($totalPaidEarnings, 2)); ?></td> <!-- Format to 2 decimal places -->
                                 </tr>
                             </tbody>
                         </table>
@@ -58,7 +56,7 @@
                 <div class="card">
                     <div class="card-body">
                         <p class="mb-3">Account Balance</p>
-                        <h3 class="mb-4">LKR {{ number_format($totalPaidEarnings, 2) }}</h3>                  
+                        <h3 class="mb-4">LKR <?php echo e(number_format($totalPaidEarnings, 2)); ?></h3>                  
                         <button class="btn btn-secondary">Withdraw</button>             
                     </div>
                 </div>
@@ -115,4 +113,6 @@
     </div>
 </main>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.affiliate_main.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\e support project\resources\views/affiliate_dashboard/index.blade.php ENDPATH**/ ?>

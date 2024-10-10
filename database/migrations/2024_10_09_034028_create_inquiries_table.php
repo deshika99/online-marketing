@@ -13,17 +13,20 @@ return new class extends Migration
 {
     Schema::create('inquiries', function (Blueprint $table) {
         $table->id();
+
         $table->unsignedBigInteger('user_id'); 
+
         $table->string('order_id');
         $table->string('email');
         $table->string('phone');
         $table->string('subject');
         $table->text('message');
+
         $table->text('reply')->nullable(); 
         $table->enum('status', ['Not replied', 'Replied'])->default('Not replied'); 
         $table->timestamps();
 
- 
+
         $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
     });
 }

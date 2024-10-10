@@ -20,6 +20,7 @@
                             <input type="date" id="dateFilter" class="form-control col-md-3" placeholder="Select date" style="font-size:15px;">
                         </div>
 
+
                         <table id="example" class="table" style="width:100%">
                             <thead>
                                 <tr>
@@ -72,6 +73,7 @@
                         </form>
                     </div>
                 </div>
+
             </div>
         </div>
     @empty
@@ -81,13 +83,38 @@
     @endforelse
 </tbody>
 
+
                         </table>
+
+</main>
+
+
+<div class="modal fade" id="inquiryDetailsModal{{ $inquiry->id }}" tabindex="-1" aria-labelledby="inquiryDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content p-2">
+            <div class="modal-header">
+                <h5 class="modal-title" id="inquiryDetailsModalLabel">Inquiry Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Customer:</strong> {{ $inquiry->customer_name }}</p>
+                <p><strong>Order ID:</strong> {{ $inquiry->order_id }}</p>
+                <p><strong>Inquiry Type:</strong> {{ $inquiry->subject }}</p>
+                <p><strong>Status:</strong> {{ $inquiry->status }}</p>
+                <p><strong>Message:</strong> {{ $inquiry->message }}</p>
+                <form>
+                    <div class="mb-3">
+                        <label for="responseMessage" class="form-label">Response</label>
+                        <textarea class="form-control" id="responseMessage" rows="3"></textarea>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </main>
+
 
 
 <script>

@@ -6,6 +6,9 @@ use App\Models\Affiliate_Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use App\Models\RaffleTicket;
+use App\Models\Products;
+use App\Models\AffiliateReferral;
 
 
 
@@ -136,6 +139,33 @@ class AffiliateCustomerController extends Controller
         }
     }
 
+    public function generatePromo(Request $request)
+    {
+        $trackingId = $request->input('tracking_id');
+        $productId = $request->input('product_id');
+
+        // Construct the product URL
+        $productUrl = url("/product/$productId");
+
+        // Construct the affiliate URL
+        $affiliateUrl = url("/track/$trackingId/$productId?redirect=" . urlencode($productUrl));
+
+        // Create the promo material message with the affiliate link
+        $promoMaterial = "
+            Top On Sale Product Recommendations!\n
+            Product: Product Name\n
+            Original price: LKR 1000\n
+            Affiliate Link: $affiliateUrl
+        ";
+
+        // Store the promo material in the session (with the product ID)
+        session()->flash('promo_material_' . $productId, $promoMaterial);
+
+        // Redirect back to the view, so the modal gets updated with the new promo material
+        return back();
+    }
+
+
 
     
     
@@ -145,9 +175,32 @@ class AffiliateCustomerController extends Controller
     {
         $affiliateId = Session::get('customer_id');
         $affiliateName = $affiliateId ? Affiliate_Customer::find($affiliateId)->name : 'Guest';
-    
-        return view('affiliate_dashboard.index', compact('affiliateName', 'affiliateId'));
+
+        // Get all referral records for the current affiliate
+        $referrals = AffiliateReferral::where('user_id', $affiliateId)->get();
+
+        // Calculate total referrals and total views
+        $totalReferrals = $referrals->sum('referral_count');
+        $totalViews = $referrals->sum('views_count');
+
+        // Total Unpaid Earnings is always 0
+        $totalUnpaidEarnings = 0;
+
+        // Calculate total paid earnings
+        $totalPaidEarnings = $referrals->sum(function ($referral) {
+            return $referral->referral_count * $referral->affiliate_commission;
+        });
+
+        return view('affiliate_dashboard.index', compact(
+            'affiliateName', 
+            'affiliateId', 
+            'totalReferrals', 
+            'totalViews', 
+            'totalUnpaidEarnings', 
+            'totalPaidEarnings'
+        ));
     }
+
     
 
     public function logout(Request $request)
