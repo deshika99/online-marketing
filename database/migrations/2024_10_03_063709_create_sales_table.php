@@ -15,7 +15,7 @@ class CreateSalesTable extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->onDelete('cascade'); 
+            $table->string('product_id'); 
             $table->decimal('normal_price', 10, 2);
             $table->decimal('sale_rate', 5, 2);
             $table->decimal('sale_price', 10, 2);
@@ -23,6 +23,7 @@ class CreateSalesTable extends Migration
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });
+        
     }
 
     /**

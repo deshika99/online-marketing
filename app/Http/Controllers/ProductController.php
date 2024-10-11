@@ -6,6 +6,7 @@ use App\Models\ProductImage;
 use App\Models\Category;
 use App\Models\SpecialOffers;
 use App\Models\Review;
+use App\Models\Sale;
 use App\Models\Variation;
 use App\Models\VariationImage;
 use App\Models\SubSubcategory;
@@ -39,8 +40,8 @@ class ProductController extends Controller
             return $product;
         });
 
-        $colors = Variation::where('type', 'color')->distinct()->pluck('value');
-
+        $colors = Variation::where('type', 'color')->distinct()->get(['value', 'hex_value']);
+        
         if (request()->ajax()) {
             return view('partials.products', compact('products', 'colors'));
         }
@@ -66,7 +67,7 @@ class ProductController extends Controller
             return $product;
         });
 
-        $colors = Variation::where('type', 'color')->distinct()->pluck('value');
+        $colors = Variation::where('type', 'color')->distinct()->get(['value', 'hex_value']);
         
         return view('all_items', compact('products', 'colors'));
     }
@@ -98,9 +99,11 @@ class ProductController extends Controller
 
         if (!empty($request->selectedColors)) {
             $query->whereHas('variations', function ($q) use ($request) {
-                $q->whereIn('value', $request->selectedColors)->where('type', 'color');
+                $q->whereIn('hex_value', $request->selectedColors)
+                  ->where('type', 'color');
             });
         }
+        
 
         if (!empty($request->selectedRatings)) {
             $query->whereHas('reviews', function ($q) use ($request) {
@@ -146,6 +149,10 @@ class ProductController extends Controller
         $specialOffer = SpecialOffers::where('product_id', $product_id)
         ->where('status', 'active') 
         ->first();
+
+        $sale = Sale::where('product_id', $product_id)
+        ->where('status', 'active') 
+        ->first();
         
         $relatedProducts = Products::where('product_category', $product->product_category)
             ->where('product_id', '!=', $product->product_id)
@@ -174,7 +181,7 @@ class ProductController extends Controller
             '1' => Review::where('product_id', $product_id)->where('rating', 1)->count(),
         ];
     
-        return view('single_product_page', compact('product', 'relatedProducts', 'reviews', 'averageRating', 'totalReviews', 'ratingsCount', 'specialOffer'));
+        return view('single_product_page', compact('product', 'relatedProducts', 'reviews', 'averageRating', 'totalReviews', 'ratingsCount', 'specialOffer', 'sale'));
     }
     
 
@@ -226,7 +233,6 @@ class ProductController extends Controller
             'affiliateProduct' => $request->has('affiliateProduct') ? true : false,
         ]);
 
-        try {
             $validatedData = $request->validate([
                 'productName' => 'required|string|max:255',
                 'productDesc' => 'required|string',
@@ -312,13 +318,10 @@ class ProductController extends Controller
                     $hexValue = $variation['value'];
                     $colorName = 'Unknown Color';
 
-                    try {
+                
                         $response = $client->get('https://www.thecolorapi.com/id?hex=' . ltrim($hexValue, '#'));
                         $data = json_decode($response->getBody(), true);
                         $colorName = $data['name']['value'] ?? 'Unknown Color'; 
-                    } catch (\Exception $e) {
-                        Log::error('Color API Error', ['error' => $e->getMessage()]);
-                    }
 
                     // Check for existing variation and update
                     if (isset($variation['id']) && in_array($variation['id'], $existingVariationIds)) {
@@ -374,11 +377,6 @@ class ProductController extends Controller
             Variation::whereIn('id', $variationsToDelete)->delete();
 
             return redirect()->route('products')->with('status', 'Product updated successfully!');
-        } catch (\Exception $e) {
-            Log::error('Product update failed for ID ' . $id . ': ' . $e->getMessage());
-    
-            return redirect()->back()->withErrors(['error' => 'Failed to update product.']);
-        }
     }
     
     
@@ -452,14 +450,9 @@ class ProductController extends Controller
         if ($variation['type'] === 'Color') {
             $hexValue = $variation['value'];
 
-            try {
                 $response = $client->get('https://www.thecolorapi.com/id?hex=' . ltrim($hexValue, '#'));
                 $data = json_decode($response->getBody(), true);
                 $colorName = $data['name']['value'] ?? 'Unknown Color'; 
-            } catch (\Exception $e) {
-                Log::error('Color API Error', ['error' => $e->getMessage()]);
-                $colorName = 'Unknown Color';
-            }
 
             if (isset($variation['quantity']) && $variation['quantity'] > 0) {
                 Variation::create([

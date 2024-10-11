@@ -29,4 +29,9 @@ class RaffleTicket extends Model
     {
         return $this->belongsTo(AffCustomer::class, 'user_id');
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Products::class); // Assuming a product is related to a raffle ticket
+    }
 }

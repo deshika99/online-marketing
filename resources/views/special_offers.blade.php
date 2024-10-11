@@ -154,14 +154,18 @@
                             <p>{!! $product->product_description !!}</p>
                             <div class="d-flex flex-row my-3">
                                 <div class="text-warning mb-1 me-2">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                    <span class="ms-1">4.5</span>
+                                    @for($i = 0; $i < floor($product->average_rating); $i++)
+                                        <i class="fa fa-star"></i>
+                                    @endfor
+                                    @if($product->average_rating - floor($product->average_rating) >= 0.5)
+                                        <i class="fas fa-star-half-alt"></i>
+                                    @endif
+                                    @for($i = 0; $i < (5 - ceil($product->average_rating)); $i++)
+                                        <i class="fa fa-star-o"></i>
+                                    @endfor
+                                    <span class="ms-1">{{ number_format($product->average_rating, 1) }}</span>
                                 </div>
-                                <span class="text-primary">18 Ratings | </span>
+                                <span class="text-primary">{{ $product->rating_count }} Ratings | </span>
                                 <span class="text-primary">&nbsp; 25 Questions Answered</span>
                             </div>
                             <div style="margin-top: -15px;">

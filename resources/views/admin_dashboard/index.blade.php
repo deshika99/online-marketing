@@ -89,7 +89,7 @@
                                     <i class="fa-solid fa-dollar-sign fa-3x"></i>
                                 </div>
                                 <div class="text-end">
-                                    <h3 class="mb-0">1400</h3>
+                                    <h3 class="mb-0">{{ $totalCostToday }}</h3>
                                     <p class="mb-0 text-uppercase">Today Revenue</p>
                                 </div>
                             </div>
@@ -130,13 +130,22 @@
 
             <div class="container">
                 <div class="row mt-4 justify-content-between">
-                    <!-- Line Chart Container -->
+
+                   <!-- Bar Chart Container -->
+                   <div class="col-md-8 mb-4 chart-item">
+                        <div class="chart-container">
+                            <div class="chart-title">Sales in the Last 12 Months</div>
+                            <div id="salesBarChart"></div>
+                        </div>
+                    </div>
+
+                    <!-- Line Chart Container 
                     <div class="col-md-8 mb-4 chart-item">
                         <div class="chart-container">
                             <div class="chart-title">Product Sales</div>
                             <div id="productSalesChart"></div>
                         </div>
-                    </div>
+                    </div>-->
 
                     <!-- Pie Chart Container -->
                     <div class="col-md-4 mb-4 chart-item">
@@ -147,15 +156,7 @@
                         </div>
                     </div>
 
-                    <!-- Bar Chart Container -->
-                    <div class="col-md-8 mb-4 chart-item">
-                        <div class="chart-container">
-                            <div class="chart-title">Sales in the Last 12 Months</div>
-                            <div id="salesBarChart"></div>
-                        </div>
-                    </div>
-
-                    <!-- Optional: Line Chart Container -->
+                    <!-- Line Chart Container 
                     <div class="col-md-12 mb-4 chart-item">
                         <div class="card shadow">
                             <div class="card-body">
@@ -166,7 +167,8 @@
                                 <div id="lineChart1"></div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
+
                 </div>
             </div>
 
@@ -175,8 +177,6 @@
 </main>
 
 
-
-@section('scripts')
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
@@ -298,17 +298,18 @@
 });
 
 
-   
-// Sales bar Chart
+//sales in 12 months
 document.addEventListener('DOMContentLoaded', function () {
+    var salesData = @json(array_values($salesIn12Months)); 
+
     var options = {
         chart: {
             type: 'bar',
-            height: 400
+            height: 300
         },
         series: [{
             name: 'Sales (Rs.)',
-            data: [1200, 1500, 1800, 1100, 900, 1400, 1600, 1300, 2000, 1700, 1900, 2100] 
+            data: salesData 
         }],
         xaxis: {
             categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -342,7 +343,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var chart = new ApexCharts(document.querySelector("#salesBarChart"), options);
     chart.render();
-    });
+});
+
+
 
 
  // Line Chart 

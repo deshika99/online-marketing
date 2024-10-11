@@ -18,10 +18,9 @@ class Sale extends Model
         'status',
     ];
 
-    // Define relationships if necessary (e.g., with Product model)
     public function product()
     {
-        return $this->belongsTo(Products::class);
+        return $this->belongsTo(Products::class, 'product_id', 'product_id');
     }
 }
 
