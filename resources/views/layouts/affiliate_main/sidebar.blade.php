@@ -45,9 +45,7 @@
             <a href="{{ route('code_center') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('code_center') ? 'active' : '' }}" data-mdb-ripple-init aria-label="Go to Code Center">
                 <span>Code Center</span>
             </a>
-            <a href="{{ route('incentive_campaign') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('incentive_campaign') ? 'active' : '' }}" data-mdb-ripple-init aria-label="Go to Incentive Campaign">
-                <span>Incentive Campaign</span>
-            </a>
+            
 
             <div class="list-group">
                 <a href="#" class="list-group-item list-group-item-action py-2" data-bs-toggle="collapse" data-bs-target="#reportsSubmenu" aria-expanded="false" aria-label="Reports">

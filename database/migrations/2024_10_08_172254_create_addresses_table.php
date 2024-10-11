@@ -18,11 +18,13 @@ return new class extends Migration
             $table->string('phone_num', 15);
             $table->string('email');
             $table->string('address');
-            $table->string('apartment')->nullable(); // Optional field
+            $table->string('apartment')->nullable(); 
             $table->string('city');
             $table->string('postal_code', 10);
-            $table->timestamps(); // Created at, updated at
+            $table->boolean('default')->default(false); 
+            $table->timestamps(); 
         });
+        
     }
 
     /**

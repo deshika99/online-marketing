@@ -7,6 +7,7 @@ use App\Models\RaffleTicket;
 use App\Models\AffiliateReferral;
 use App\Models\AffiliateLink;
 use App\Models\Products;
+use App\Models\AffiliateProduct;
 use Illuminate\Support\Facades\Session;
 
 
@@ -66,7 +67,7 @@ class AffiliateLinkController extends Controller
 
             if ($raffleTicket) {
                 // Save the generated link to the affiliate_links table
-                AffiliateLink::create([
+                $affiliateLink=AffiliateLink::create([
                     'user_id' => $raffleTicket->user_id,
                     'raffle_ticket_id' => $raffleTicket->id,
                     'link' => $trackingUrl,
@@ -81,6 +82,12 @@ class AffiliateLinkController extends Controller
                     'referral_count' => 0,
                     'product_price' => $product->total_price, 
                     'affiliate_commission' => $this->calculateCommission($product->affiliate_price),
+                ]);
+
+                // Link the product and the affiliate link
+                AffiliateProduct::create([
+                    'product_id' => $product->id,
+                    'affiliate_link_id' => $affiliateLink->id,
                 ]);
 
                 // Redirect back to the form with the generated link
@@ -147,32 +154,8 @@ class AffiliateLinkController extends Controller
     
 
 
-    public function trackReferral($tracking_id, $product_price)
-    {
-        // Find the raffle ticket by the tracking ID
-        $raffleTicket = RaffleTicket::where('token', $tracking_id)->first();
 
-        if ($raffleTicket) {
-            // Find the associated referral record
-            $referral = AffiliateReferral::where('raffle_ticket_id', $raffleTicket->id)->first();
 
-            if ($referral) {
-                // Increment the referral count
-                $referral->increment('referral_count');
-
-                // Calculate affiliate commission (e.g., 10%)
-                $commissionRate = 0.10; // Example 10% commission rate
-                $commissionEarned = $product_price * $commissionRate;
-
-                // Update the referral record
-                $referral->update([
-                    'product_price' => $product_price,
-                    'affiliate_commission' => $commissionEarned,
-                    'completed_at' => now(),
-                ]);
-            }
-        }
-    }
 
     public function adCenter() 
     {
@@ -187,45 +170,18 @@ class AffiliateLinkController extends Controller
 
 
     public function codeCenter()
-{
-    // Get the customer ID from session
-    $customerId = Session::get('customer_id');
+    {
+        // Get the customer ID from session
+        $customerId = Session::get('customer_id');
 
-    // Find all affiliate links for the customer
-    $affiliateLinks = AffiliateLink::where('user_id', $customerId)->get();
+        // Find all affiliate links for the customer
+        $affiliateLinks = AffiliateLink::with(['raffleTicket', 'product'])
+            ->where('user_id', $customerId)
+            ->get();
 
-    // Prepare an array to hold product details and affiliate links
-    $data = [];
-
-    // Loop through each affiliate link
-    foreach ($affiliateLinks as $link) {
-        // Find the related AffiliateReferral to get the product URL
-        $affiliateReferral = AffiliateReferral::where('raffle_ticket_id', $link->raffle_ticket_id)->first();
-
-        if ($affiliateReferral) {
-            // Extract the product identifier from the product URL
-            $productIdentifier = basename($affiliateReferral->product_url);
-
-            // Find the product by product_id or product_name
-            $product = Products::where('product_id', $productIdentifier)
-                                ->orWhere('product_name', $productIdentifier)
-                                ->first();
-
-            if ($product) {
-                // Store product details and affiliate link data
-                $data[] = [
-                    'product_name' => $product->product_name,
-                    'product_image' => $product->images->first() ? $product->images->first()->image_path : null,
-                    'tracking_id' => $link->raffleTicket->token,
-                    'affiliate_link' => $link->link,
-                ];
-            }
-        }
+        // Pass data to the view
+        return view('affiliate_dashboard.code_center', compact('affiliateLinks'));
     }
-
-    // Pass data to the view
-    return view('affiliate_dashboard.code_center', compact('data'));
-}
 
 
 

@@ -23,30 +23,32 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between p-md-1">
                             <div class="d-flex flex-row">
-                                <div class="align-self-center">
-                                    <i class="fas fa-pencil-alt text-info fa-3x me-4"></i>
-                                </div>
+                                
                                 <div>
                                     <h5 style="font-weight: bold;">Dashboard</h5>
                                 </div>
                             </div> 
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-hover text-nowrap table-striped">
-                                <thead>
+                        <table class="table table-hover text-nowrap table-striped">
+                            <thead>
                                 <tr>
-                                    <th scope="col">Account Number</th>
-                                    <th scope="col">Withdrawal Amount</th>
-                                    <th scope="col">Processing Fee</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Remark</th>
+                                    <th scope="col">Total Referrals</th>
+                                    <th scope="col">Total Views</th>
+                                    <th scope="col">Total Unpaid Earnings</th>
+                                    <th scope="="col">Total Paid Earnings</th>
                                 </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>  
-                                  </tr>
-                                </tbody>
-                            </table>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ $totalReferrals }}</td>
+                                    <td>{{ $totalViews }}</td>
+                                    <td>{{ $totalUnpaidEarnings }}</td>
+                                    <td>{{ number_format($totalPaidEarnings, 2) }}</td> <!-- Format to 2 decimal places -->
+                                </tr>
+                            </tbody>
+                        </table>
+
                         </div>
                     </div>
                 </div>
@@ -56,7 +58,7 @@
                 <div class="card">
                     <div class="card-body">
                         <p class="mb-3">Account Balance</p>
-                        <h3 class="mb-4">LKR 0.00</h3>                  
+                        <h3 class="mb-4">LKR {{ number_format($totalPaidEarnings, 2) }}</h3>                  
                         <button class="btn btn-secondary">Withdraw</button>             
                     </div>
                 </div>

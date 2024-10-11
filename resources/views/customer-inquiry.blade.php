@@ -99,18 +99,27 @@
 <div class="inquiry-form-container">
     <h2>Customer Inquiry Form</h2>
 
-    <!-- Session Success/Error Messages -->
-    @if (session('success'))
-        <div style="color: green;">
-            {{ session('success') }}
-        </div>
-    @endif
+    @if (session('status'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            toastr.success("{{ session('status') }}", 'Success', {
+                positionClass: 'toast-top-right'
+            });
+        });
+    </script>
+@endif
 
-    @if (session('error'))
-        <div style="color: red;">
-            {{ session('error') }}
-        </div>
-    @endif
+@if (session('error'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            toastr.error("{{ session('error') }}", 'Error', {
+                positionClass: 'toast-top-right'
+            });
+        });
+    </script>
+@endif
+
+
 
     <form action="{{ route('inquiry.store') }}" method="POST">
         @csrf
