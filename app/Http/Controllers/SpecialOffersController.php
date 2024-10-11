@@ -138,10 +138,19 @@ class SpecialOffersController extends Controller
     
         $products = Products::with('images')
             ->whereIn('product_id', $orderedProductIds)
+            ->with(['reviews' => function($query) {
+                $query->where('status', 'published');
+            }])
             ->paginate(18);
     
+        foreach ($products as $product) {
+            $product->average_rating = $product->reviews->avg('rating');
+            $product->rating_count = $product->reviews->count();
+        }
+        
         return view('best_sellers', compact('products'));
     }
+    
     
     
 }

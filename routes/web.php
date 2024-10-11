@@ -56,6 +56,10 @@ Route::get('/admin/customer_inquiries', [InquiryController::class, 'showCustomer
 
 
 
+
+
+
+
 //member dashboard
 Route::get('home/My-Account', function () {
     return view('member_dashboard.dashboard');
@@ -70,21 +74,19 @@ Route::get('home/My-Account/order-details/{order_code}', [UserDashboardControlle
 Route::post('/order/cancel/{order_code}', [UserDashboardController::class, 'cancelOrder']);
 Route::post('/confirm-delivery', [UserDashboardController::class, 'confirmDelivery'])->name('confirm-delivery');
 Route::get('home/My-Account/My-Reviews', [UserDashboardController::class, 'myReviews'])->name('myreviews');
-//new route dashboard
-Route::get('home/My-Account/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
 
+Route::get('home/My-Account/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
 
 
 Route::get('home/My-Account/addresses', [UserDashboardController::class, 'showAddresses'])->name('addresses');
 Route::post('home/My-Account/addresses/update', [UserDashboardController::class, 'updateAddress'])->name('updateAddress');
-Route::post('home/My-Account/addresses/delete', [UserDashboardController::class, 'deleteAddress'])->name('deleteAddress');
+Route::delete('/addresses/{id}', [UserDashboardController::class, 'destroy'])->name('address.delete');
 Route::post('home/My-Account/addresses/store', [UserDashboardController::class, 'storeAddress'])->name('storeAddress');
-
-//write-reviews
 
 Route::get('/member-dashboard/write-reviews', [UserDashboardController::class, 'writeReview'])->name('write.reviews');
 Route::post('/member-dashboard/reviews', [UserDashboardController::class, 'storeReview'])->name('reviews.store');
 
+Route::get('home/My-Account/inquiries', [UserDashboardController::class, 'showInquiries'])->name('myinquiries');
 
 
 Route::get('home/My-Account/change-password', function () {
@@ -92,24 +94,15 @@ Route::get('home/My-Account/change-password', function () {
 })->name('change-password');
 
 
-Route::get('home/My-Account/addresses', function () { 
-    return view('member_dashboard.addresses');
-})->name('addresses');
 
-
-
-//new return button
 Route::get('home/My-Account/returns', function () { 
     return view('member_dashboard.returns');
 })->name('returns');
 
-// new route return details page
+
 Route::get('home/My-Account/returns-details', function () {
     return view('member_dashboard.returns-details');
 })->name('returns.details');
-
-
-
 
 Route::get('home/My-Account/logout', function () {
     return view('logout');
@@ -158,10 +151,13 @@ Route::post('/home/affiliate/login', [AffiliateCustomerController::class, 'login
 Route::get('/affiliate/dashboard', [AffiliateCustomerController::class, 'index'])->name('index');
 Route::post('/affiliate/logout', [AffiliateCustomerController::class, 'logout'])->name('aff_logout');
 Route::get('/affiliate/dashboard/ad_center', [AffiliateProductController::class, 'showAdCenter'])->name('ad_center');
+Route::post('/affiliate/promo/maritial/genaratr', [AffiliateCustomerController::class, 'promomatirials'])->name('promo_matirials');
 Route::get('/affiliate/dashboard/ad_center/{product_id}/promote-modal', [AffiliateProductController::class, 'showPromoteModal'])->name('products.promoteModal');
 Route::get('/affiliate/dashboard/ad_center/download-images', [AffiliateProductController::class, 'downloadImages'])->name('products.downloadImages');
 Route::get('/affiliate/dashboard/ad_center/{id}/promote-modal', [AffiliateProductController::class, 'showPromoteModal'])->name('products.promoteModal');
 Route::get('/affiliate/dashboard/ad_center/download-images', [AffiliateProductController::class, 'downloadImages'])->name('products.downloadImages');
+
+Route::post('/generate-promo', [AffiliateProductController::class, 'generatePromo'])->name('generate.promo');
 
 
 
@@ -220,14 +216,8 @@ Route::middleware([App\Http\Middleware\AdminAuth::class])->group(function () {
 
 Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 
-
-// Route to display the admin profile
 Route::get('/admin/profile', [AdminProfileController::class, 'showProfile'])->name('admin.profile');
-
-// Route to handle profile updates
 Route::post('/admin/profile/update', [AdminProfileController::class, 'updateProfile'])->name('admin.profile.update');
-
-// Route to handle password updates
 Route::post('/admin/profile/password', [AdminProfileController::class, 'updatePassword'])->name('admin.profile.password.update');
 
 
@@ -294,10 +284,13 @@ Route::view('/admin/manage_reviews', 'admin_dashboard.manage_reviews')->name('ma
 Route::get('/admin/manage_reviews', [ReviewController::class, 'index'])->name('manage_reviews');
 Route::get('/admin/manage_reviews/{id}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
 Route::post('/admin/manage_reviews/{id}/approve', [ReviewController::class, 'approve'])->name('reviews.approve');
-
-
 Route::delete('/admin/manage_reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 
+Route::post('/inquiry', [InquiryController::class, 'store'])->name('inquiry.store');
+
+Route::get('/admin/customer_inquiries', [InquiryController::class, 'showCustomerInquiries'])->name('customer_inquiries');
+Route::post('/inquiries/{id}/response', [InquiryController::class, 'submitResponse'])->name('inquiries.response');
+Route::post('/inquiries/{id}/resolve', [InquiryController::class, 'resolveInquiry'])->name('inquiries.resolve');
 
 
 //about 

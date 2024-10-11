@@ -234,8 +234,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     background-color: #f8f9fa; 
     color: #333; 
@@ -936,6 +936,7 @@ label {
     .filter-sidebar.active {
         display: block;
         transform: translateX(0);
+        height: auto;
     }
 }
 

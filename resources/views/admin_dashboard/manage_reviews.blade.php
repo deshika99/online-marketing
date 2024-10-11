@@ -181,7 +181,7 @@
                                         <th>Product</th>
                                         <th>Reviewer</th>
                                         <th style="width: 30%">Review</th>
-                                        <th style="width: 10%">Date</th>
+                                        <th style="width: 15%">Date</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -310,23 +310,7 @@
 }
 
 
-<script>
-    function deleteReview(id) {
-        if (confirm('Are you sure you want to delete this Review?')) {
-            document.getElementById('delete-form-' + id).submit();
-        }
-    }
 
-    function approveReview(id) {
-        // handle the approval logic here
-    }
-
-
-    function confirmDelete(formId, message) {
-        if (confirm(message)) {
-            document.getElementById(formId).submit();
-        }
-    }
 </script>
 
 @endsection

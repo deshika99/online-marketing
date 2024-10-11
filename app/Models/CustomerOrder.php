@@ -16,7 +16,6 @@ class CustomerOrder extends Model
         'order_code',
         'user_id',
         'customer_fname',
-        'customer_lname',
         'phone',
         'email',
         'company_name',

@@ -49,7 +49,7 @@
     <div class="filter-button" onclick="toggleFilter()">Filter</div>
     <div class="container products-container">
     <!-- Filter sidebar -->
-    <div class="filter-sidebar"  style="width: 22%">
+    <div class="filter-sidebar">
         <div class="filter-header">
             <h3 class="filter-title">Filter</h3>
             <button class="reset-button mb-3" onclick="resetFilters()">Reset</button>
@@ -234,12 +234,15 @@
                                 @endif
                                 <h6 class="product-name">{{ \Illuminate\Support\Str::limit($product->product_name, 30, '...') }}</h6>
                                 <div class="price">
-                                    @if($product->specialOffer && $product->specialOffer->status === 'active')
+                                    @if($product->sale && $product->sale->status === 'active')
+                                        <span class="sale-price">Rs. {{ number_format($product->sale->sale_price, 2) }}</span>
+                                    @elseif($product->specialOffer && $product->specialOffer->status === 'active')
                                         <span class="offer-price">Rs. {{ number_format($product->specialOffer->offer_price, 2) }}</span>
                                     @else
                                         Rs. {{ number_format($product->normal_price, 2) }}
                                     @endif
                                 </div>
+
                             </a>
                         </div>
                     </div>
@@ -287,11 +290,22 @@
                 <div class="modal-body">
                     <div class="row gx-5">
                         <aside class="col-lg-5">
-                            <div class="rounded-4 mb-3 d-flex justify-content-center">
+                        <div class="rounded-4 mb-3 d-flex justify-content-center">
+                            @if($product->images->first())
                                 <a class="rounded-4 main-image-link" href="{{ asset('storage/' . $product->images->first()->image_path) }}">
-                                    <img id="mainImage" class="rounded-4 fit" src="{{ asset('storage/' . $product->images->first()->image_path) }}" />
+                                    <img id="mainImage" class="rounded-4 fit" 
+                                        src="{{ asset('storage/' . $product->images->first()->image_path) }}" 
+                                    />
                                 </a>
-                            </div>
+                            @else
+                                <a class="rounded-4 main-image-link" href="{{ asset('images/default.jpg') }}">
+                                    <img id="mainImage" class="rounded-4 fit" 
+                                        src="{{ asset('images/default.jpg') }}" 
+                                    />
+                                </a>
+                            @endif
+                        </div>
+
                             <div class="d-flex justify-content-center mb-3">
                                 @foreach($product->images as $image)
                                 <a class="mx-1 rounded-2 thumbnail-image" data-image="{{ asset('storage/' . $image->image_path) }}" href="javascript:void(0);">
@@ -319,10 +333,6 @@
                                 </div>
                                 <span class="text-primary">{{ $product->rating_count }} Ratings | </span>
                                 <span class="text-primary">&nbsp; 25 Questions Answered</span>
-                            </div>
-                            <div style="margin-top: -15px;">
-                                <span class="text-muted">Brand: </span>
-                                <span class="text-primary">No Brand | More Wearable technology from No Brand</span>
                             </div>
                             <hr />
                             
@@ -562,7 +572,15 @@ function updateProductDisplay(products) {
     products.forEach(product => {
         let priceHTML = '';
 
-        if (product.special_offer && product.special_offer.status === 'active') {
+        // Debug: log the product object
+        console.log('Filtered Products:', products);
+
+        if (product.Sale && product.Sale.status === 'active') {
+                priceHTML = `
+                    <span class="sale-price">Rs. ${parseFloat(product.Sale.sale_price).toFixed(2)}</span>
+                `;
+            }
+        else if (product.special_offer && product.special_offer.status === 'active') {
             priceHTML = `
                 <span class="offer-price">Rs. ${parseFloat(product.special_offer.offer_price).toFixed(2)}</span> 
             `;
@@ -570,7 +588,6 @@ function updateProductDisplay(products) {
             priceHTML = `Rs. ${parseFloat(product.normal_price).toFixed(2)}`;
         }
 
-       
         const productHTML = `
             <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4">
                 <div class="products-item position-relative">
@@ -590,6 +607,9 @@ function updateProductDisplay(products) {
         
         productsContainer.innerHTML += productHTML;
     });
+
+
+
 
     document.querySelectorAll('.btn-cart').forEach(button => {
         button.addEventListener('click', function(event) {

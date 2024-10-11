@@ -7,6 +7,8 @@ use App\Models\CustomerOrder;
 use App\Models\Products;
 use App\Models\Variation;
 use App\Models\CustomerOrderItems;
+use App\Models\RaffleTicket;
+use App\Models\AffiliateReferral;
 use App\Models\CartItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,15 +17,35 @@ use Carbon\Carbon;
 
 class CustomerOrderController extends Controller
 {
+
+
+    public function trackReferral($tracking_id, $product_id)
+    {
+        // Find the raffle ticket by the tracking ID
+        $raffleTicket = RaffleTicket::where('token', $tracking_id)->first();
+    
+        if ($raffleTicket) {
+            // Find the specific referral record by raffle_ticket_id and product_id
+            $referral = AffiliateReferral::where('raffle_ticket_id', $raffleTicket->id)
+                                         ->where('product_url', 'like', '%' . $product_id . '%')
+                                         ->first();
+    
+            if ($referral) {
+                // Increment the referral count for the specific product referral
+                $referral->increment('referral_count');
+            }
+        }
+    }
+    
+    
+
+
    
     public function store(Request $request)
-
     {
-
 
         $request->validate([
             'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'email' => 'required|email|max:255',
             'address' => 'required|string|max:255',
@@ -34,8 +56,8 @@ class CustomerOrderController extends Controller
         ]);
 
         $cart = Auth::check() ? CartItem::where('user_id', Auth::id())->with('product')->get() : collect(session('cart', []));
-        //dd($cart);
         
+        // Check if cart is empty
         if ($cart->isEmpty()) {
             return redirect()->back()->with('error', 'Your cart is empty. Add some items to proceed.');
         }
@@ -50,8 +72,6 @@ class CustomerOrderController extends Controller
             ];
         })->toArray();
 
-        
-
         $subtotal = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cartArray));
         $shipping = 300;
         $total = $subtotal + $shipping;
@@ -61,7 +81,6 @@ class CustomerOrderController extends Controller
         $orderData = [
             'order_code' => $orderCode,
             'customer_fname' => $request->input('first_name'),
-            'customer_lname' => $request->input('last_name'),
             'phone' => $request->input('phone'),
             'email' => $request->input('email'),
             'company_name' => $request->input('company_name'),
@@ -76,12 +95,13 @@ class CustomerOrderController extends Controller
             'status' => 'Confirmed',
         ];
 
-        
-
         $order = CustomerOrder::create($orderData);
-        
+
         foreach ($cartArray as $item) {
-            
+
+            $tracking_id = session('tracking_id'); // Retrieve the tracking ID from session
+            $this->trackReferral($tracking_id, $item['product_id']);
+
             CustomerOrderItems::create([
                 'order_code' => $orderCode,
                 'product_id' => $item['product_id'],
@@ -91,7 +111,7 @@ class CustomerOrderController extends Controller
                 'size' => $item['size'],
                 'color' => $item['color'],
             ]);
-            
+
             // Reduce product quantity in Products and Variations table
             $product = Products::where('product_id', $item['product_id'])->first();
             if ($product) {
@@ -111,12 +131,6 @@ class CustomerOrderController extends Controller
             }
 
 
-
-        return redirect()->route('payment', ['order_code' => $orderCode]);
- 
-    }
-
-
             // Handle color variation
             $colorVariation = Variation::where('product_id', $item['product_id'])
                 ->where('type', 'color')
@@ -129,13 +143,15 @@ class CustomerOrderController extends Controller
             }
         }
 
-       
+        
+
+
+
         return redirect()->route('payment', ['order_code' => $orderCode]);
-    } catch (\Exception $e) {
-         
-        \Log::error('Order placement failed: ' . $e->getMessage());
-        return redirect()->back()->with('error', 'An error occurred while placing the order. Please try again.');
+ 
     }
+
 }
+
 
 }

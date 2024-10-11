@@ -17,46 +17,38 @@
                 <div class="tab-pane fade show active" role="tabpanel">
                     <div class="container mt-4 mb-4">
                         <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Product Image</th>
-                                        <th>Product Name</th>
-                                        <th>Tracking ID</th>
-                                        <th>Affiliate Link</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($data as $item)
-                                        <tr>
-                                            <!-- Display Product Image -->
-                                            <td>
-                                                @if($item['product_image'])
-                                                    <img src="{{ asset('storage/' . $item['product_image']) }}" alt="Product Image" width="100">
-                                                @else
-                                                    <span>No Image</span>
-                                                @endif
-                                            </td>
-
-                                            <!-- Display Product Name -->
-                                            <td>{{ $item['product_name'] }}</td>
-
-                                            <!-- Display Tracking ID -->
-                                            <td>{{ $item['tracking_id'] }}</td>
-
-                                            <!-- Display Affiliate Link -->
-                                            <td>{{ $item['affiliate_link'] }}</td>
-
-                                            <!-- Actions: Copy & View Report -->
-                                            <td>
-                                                <!-- Copy Button -->
-                                                <button class="btn btn-primary copy-btn" data-link="{{ $item['affiliate_link'] }}" onclick="copyToClipboard('{{ $item['affiliate_link'] }}')">Copy Link</button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                        <table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Product Image</th>
+            <th>Product Name</th>
+            <th>Tracking ID</th>
+            <th>Affiliate Link</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($affiliateLinks as $affiliateLink)
+            <tr>
+                <td>
+                @if($affiliateLink->product && $affiliateLink->product->images->isNotEmpty())
+                        <img src="{{ asset('storage/' . $affiliateLink->product->images->first()->image_path) }}" alt="{{ $affiliateLink->product->product_name }}" style="width: 100px; height: auto;">
+                    @else
+                        No Image
+                    @endif
+                </td>
+                <td>{{ $affiliateLink->product->product_name ?? 'N/A' }}</td>
+                <td>{{ $affiliateLink->raffleTicket->token ?? 'N/A' }}</td>
+                <td>
+                    <a href="{{ $affiliateLink->link }}" target="_blank">{{ $affiliateLink->link }}</a>
+                </td>
+                <td>
+                    <button class="btn btn-primary" onclick="copyToClipboard('{{ $affiliateLink->link }}')">Copy</button>
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
                         </div>
                     </div>
                 </div>
