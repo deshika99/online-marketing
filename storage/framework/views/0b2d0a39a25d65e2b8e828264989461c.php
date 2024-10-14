@@ -293,16 +293,16 @@
         <div class="carousel-item active" style="background-image: url('/assets/images/slider/slider6.png');">
             <div class="d-flex justify-content-center align-items-center h-100">
                 <div class="text-white">
-                    <h1 class="mb-4 mt-5">Elevate Your <br>Lifestyle</h1>
+                    <h1 class="mb-4 mt-2">Elevate Your <br>Lifestyle</h1>
                     <h5 class="mb-4 mt-5">On home & living, leisure & more</h5>
                     <!--<a class="btn btn-outline-light btn-lg m-2" href="#" role="button" rel="nofollow">Add to Cart</a>-->
                 </div>
             </div>
         </div>
-        <div class="carousel-item" style="background-image: url('/assets/images/slider/slider6.png');">
+        <div class="carousel-item" style="background-image: url('/assets/images/slider/d.jpg');">
             <div class="d-flex justify-content-center align-items-center h-100">
                 <div class="text-white">
-                    <h1 class="mb-4 mt-5">Elevate Your <br>Lifestyle</h1>
+                    <h1 class="mb-4 mt-2">Elevate Your <br>Lifestyle</h1>
                     <h5 class="mb-4 mt-5">On home & living, leisure & more</h5>
                     <!--<a class="btn btn-outline-light btn-lg m-2" href="#" role="button" rel="nofollow">Add to Cart</a>-->
                 </div>
@@ -310,7 +310,7 @@
             </div>
         </div>
 
-        <!--<div class="carousel-item" style="background-image: url('/assets/images/slider/slider7.png');">
+        <div class="carousel-item" style="background-image: url('/assets/images/slider/neww.jpg');">
                 <div class="d-flex justify-content-center align-items-center h-100">
                     <div class="text-white">
                         <h1 class="mb-3">Summer<br>Fashion Sale</h1><br>
@@ -318,7 +318,7 @@
                         <h4 class="mt-5 text-white">UP TO 50% OFF</h4>
                     </div>
                 </div>
-        </div>-->
+        </div>
 
     </div>
 

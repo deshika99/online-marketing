@@ -69,7 +69,7 @@
         <input type="hidden" name="subsubcategory" value="{{ $subsubcategory ?? '' }}">
    
     <!-- Filter sidebar -->
-    <div class="filter-sidebar" style="width: 22%">
+    <div class="filter-sidebar">
         <div class="filter-header">
             <h3 class="filter-title">Filter</h3>
             <button class="reset-button mb-3" onclick="resetFilters()">Reset</button>
@@ -214,12 +214,14 @@
                             @endif
                             <h6 class="product-name">{{ \Illuminate\Support\Str::limit($product->product_name, 30, '...') }}</h6>
                             <div class="price">
-                                @if($product->specialOffer && $product->specialOffer->status === 'active')
-                                    <span class="offer-price">Rs. {{ number_format($product->specialOffer->offer_price, 2) }}</span>
-                                @else
-                                    Rs. {{ number_format($product->normal_price, 2) }}
-                                @endif
-                            </div>
+                                    @if($product->sale && $product->sale->status === 'active')
+                                        <span class="sale-price">Rs. {{ number_format($product->sale->sale_price, 2) }}</span>
+                                    @elseif($product->specialOffer && $product->specialOffer->status === 'active')
+                                        <span class="offer-price">Rs. {{ number_format($product->specialOffer->offer_price, 2) }}</span>
+                                    @else
+                                        Rs. {{ number_format($product->normal_price, 2) }}
+                                    @endif
+                                </div>
                         </a>
                     </div>
                 </div>
@@ -543,14 +545,21 @@ function updateProductDisplay(products) {
     productsContainer.innerHTML = '';  
 
     if (products.length === 0) {
-        productsContainer.innerHTML = '<div class="no-products"><p>No products found.</p></div>';
+        productsContainer.innerHTML = '<div class="no-products"><p>No products found under.</p></div>';
         return;
     }
 
     products.forEach(product => {
         let priceHTML = '';
 
-        if (product.special_offer && product.special_offer.status === 'active') {
+        // Debug: log the product object
+        console.log('Filtered Products:', products);
+
+        if (product.Sale && product.Sale.status === 'active') {
+            priceHTML = `
+                <span class="sale-price">Rs. ${parseFloat(product.Sale.sale_price).toFixed(2)}</span>
+            `;
+        } else if (product.special_offer && product.special_offer.status === 'active') {
             priceHTML = `
                 <span class="offer-price">Rs. ${parseFloat(product.special_offer.offer_price).toFixed(2)}</span> 
             `;
@@ -564,7 +573,7 @@ function updateProductDisplay(products) {
                     <a href="/product/${product.product_id}" class="d-block text-decoration-none">
                         <div class="product-image-wrapper position-relative">
                             <img src="/storage/${product.images[0].image_path}" alt="Product Image" class="img-fluid">
-                            <button type="button" class="btn btn-cart position-absolute bottom-0 end-0 me-2 mb-2" data-bs-toggle="modal" data-bs-target="#cartModal_${product.product_id}" data-product-id="${product.product_id}" data-auth="${product.isAuth}">
+                            <button type="button" class="btn btn-cart position-absolute bottom-0 end-0 me-2 mb-2" data-bs-toggle="modal" data-bs-target="#cartModal_${product.product_id}">
                                 <i class="bi bi-cart-plus"></i>
                             </button>
                         </div>
@@ -575,8 +584,10 @@ function updateProductDisplay(products) {
             </div>
         `;
 
+        
         productsContainer.innerHTML += productHTML;
     });
+
 
 
     document.querySelectorAll('.btn-cart').forEach(button => {
