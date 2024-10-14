@@ -144,7 +144,7 @@
 <div class="dashboard-container" style="display: flex; justify-content: space-between; margin-top: 20px;">
     <!-- Recent Activity Section -->
     <div class="activity-section" style="flex: 1; margin-right: 10px; padding: 20px; background-color: #ffffff; border-radius: 10px;">
-        <h5 style="color: #007bff; border-bottom: 2px solid #007bff; padding-bottom: 10px;">Recent Activity</h5>
+        <h5 style="color: #007bff; border-bottom: 2px solid #007bff; padding-bottom: 10px;">Recent Activities</h5>
         <ul>
             <?php if(!empty($activities)): ?>
                 <?php $__currentLoopData = $activities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $activity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

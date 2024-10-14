@@ -162,6 +162,7 @@ class ProductController extends Controller
         
         $relatedProducts = Products::where('product_category', $product->product_category)
             ->where('product_id', '!=', $product->product_id)
+            ->take(15)
             ->get();
 
         foreach ($relatedProducts as $relatedProduct) {
@@ -263,7 +264,6 @@ class ProductController extends Controller
             ]);
     
             $request->merge([
-                'affiliateProduct' => $request->has('affiliateProduct') ? true : false,
                 'tags' => $request->input('tags') ? implode(',', array_map('trim', explode(',', $request->input('tags')))) : '',
             ]);
     

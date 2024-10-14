@@ -272,20 +272,20 @@
                 </div>
                 <div class="modal-body">
                     <div class="row gx-5">
-                        <aside class="col-lg-5">
-                            <div class="rounded-4 mb-3 d-flex justify-content-center">
-                                <a class="rounded-4 main-image-link" href="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>">
-                                    <img id="mainImage" class="rounded-4 fit" src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" />
-                                </a>
-                            </div>
-                            <div class="d-flex justify-content-center mb-3">
-                                <?php $__currentLoopData = $product->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <aside class="col-lg-5">
+                        <div class="rounded-4 mb-3 d-flex justify-content-center">
+                            <a class="rounded-4 main-image-link" href="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>">
+                                <img id="mainImage" class="rounded-4 fit" src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" />
+                            </a>
+                        </div>
+                        <div class="d-flex justify-content-center mb-3">
+                            <?php $__currentLoopData = $product->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <a class="mx-1 rounded-2 thumbnail-image" data-image="<?php echo e(asset('storage/' . $image->image_path)); ?>" href="javascript:void(0);">
                                     <img class="thumbnail rounded-2" src="<?php echo e(asset('storage/' . $image->image_path)); ?>" />
                                 </a>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            </div>
-                        </aside>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </div>
+                    </aside>
 
                         <main class="col-lg-7">
                             <h4><?php echo e($product->product_name); ?></h4>
@@ -403,6 +403,18 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.thumbnail-image').forEach(function(thumbnail) {
+            thumbnail.addEventListener('click', function() {
+                const newImage = this.getAttribute('data-image');
+                document.getElementById('mainImage').setAttribute('src', newImage);
+                document.querySelector('.main-image-link').setAttribute('href', newImage);
+            });
+        });
+    });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.btn-cart').forEach(button => {
@@ -591,6 +603,7 @@ function updateProductDisplay(products) {
     });
 
 
+
     document.querySelectorAll('.btn-cart').forEach(button => {
         button.addEventListener('click', function(event) {
             event.stopPropagation(); 
@@ -672,15 +685,7 @@ function updateProductDisplay(products) {
     });  
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.thumbnail-image').forEach(function(thumbnail) {
-            thumbnail.addEventListener('click', function() {
-                const newImage = this.getAttribute('data-image');
-                document.getElementById('mainImage').setAttribute('src', newImage);
-                document.querySelector('.main-image-link').setAttribute('href', newImage);
-            });
-        });
-    });
+
 
 </script>
 

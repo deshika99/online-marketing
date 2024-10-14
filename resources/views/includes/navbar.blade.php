@@ -55,7 +55,7 @@
                            <input autocomplete="off" id="search" type="search" class="form-control rounded" placeholder="Search" style="width: 250px;" />
                            <span class="input-group-text border-0 d-none d-lg-flex"><i class="fas fa-search"></i></span>
                         </form>
-                            <div id="search-results" style="display:none; position:absolute; background:white; width:38%; border:1px solid #ccc;"></div>
+                            <div id="search-results" style="display:none; position:absolute; background:white; width:38%; border:1px solid #ccc; z-index: 1000;"></div>
                     </div>
 
 
@@ -237,7 +237,6 @@
                         <a href="{{ route('special_offerproducts') }}" class="mx-3">Special Offers</a>
                         <a href="{{ route('sale_products') }}" class="mx-3">Flash Sale</a>
                         <a href="{{ route('best_sellers') }}" class="mx-3">Bestsellers</a>
-                        <a href="#" class="mx-3">Super Deals</a>
                     </div>
                 </div>
         </div>
