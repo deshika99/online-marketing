@@ -154,4 +154,3 @@ class CustomerOrderController extends Controller
 }
 
 
-}

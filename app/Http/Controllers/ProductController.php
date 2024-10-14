@@ -518,7 +518,25 @@ class ProductController extends Controller
         return view('admin_dashboard.product-details', compact('product'));
     }
     
+
+    public function searchProducts(Request $request)
+    {
+        $search = $request->get('search');
+        
+        // Fetch products matching the search query
+        $products = Products::where('product_name', 'LIKE', '%' . $search . '%')
+                            ->select('id', 'product_name', 'product_id',) // Assuming you have a 'product_code'
+                            ->get();
+        
+        // Return the results as JSON
+        return response()->json($products);
+    }
     
+
+    
+
+    
+
 
 
 }

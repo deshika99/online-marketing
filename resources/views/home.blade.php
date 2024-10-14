@@ -12,7 +12,7 @@
     color:white;
     font-size: 17px;
  }
-    .shopping-titles .card{
+.shopping-titles .card{
     border-radius: 15px; 
     overflow: hidden; 
     width:90%;
@@ -139,6 +139,23 @@
     font-size: 15px; 
     font-weight: bold;
 }
+
+/*search bar*/
+
+.search-item {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.search-item a {
+    text-decoration: none;
+    color: #000;
+}
+
+.search-item:hover {
+    background-color: #f1f1f1;
+}
+
 </style>
 
 
@@ -162,12 +179,17 @@
                     <img src="/assets/images/brand_name.png" height="30" width="320" alt="brand"/>
                 </a>
             </div>
+
+           
             <div class="col-md-4 mt-4">
                 <form class="d-flex input-group w-auto my-auto mb-md-0">
-                    <input autocomplete="off" type="search" class="form-control rounded" placeholder="Search" />
+                    <input autocomplete="off" id="search" type="search" class="form-control rounded" placeholder="Search"  />
                     <span class="input-group-text border-0 d-none d-lg-flex"><i class="fas fa-search"></i></span>
-                </form>
+                 </form>
+                    <div id="search-results" style="display:none; position:absolute; background:white; width:27%; border:1px solid #ccc;"></div>
             </div>
+
+
             <div class="col-md-4 p-3 d-flex justify-content-center justify-content-md-end align-items-center">
                 <div class="d-flex align-items-center">
                     <div class="dropdown me-3">
@@ -538,4 +560,47 @@
 
 <!-- Include Toastr JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('#search').on('keyup', function() {
+            var query = $(this).val();
+            if (query.length > 2) {
+                $.ajax({
+                    url: "{{ route('searchProducts') }}", // Route to handle search
+                    type: "GET",
+                    data: { search: query },
+                    success: function(data) {
+                        $('#search-results').empty().show(); // Clear previous results and show dropdown
+                        if (data.length > 0) {
+                            $.each(data, function(index, product) {
+                                $('#search-results').append(
+                                    '<div class="search-item"><a href="/product/' + product.product_id + '">' + product.product_name + '</a></div>'
+                                );
+                            });
+                        } else {
+                            $('#search-results').append('<div class="search-item">No products found</div>');
+                        }
+                    },
+                    error: function() {
+                        $('#search-results').append('<div class="search-item">Error searching products</div>');
+                    }
+                });
+            } else {
+                $('#search-results').hide(); // Hide dropdown if query is too short
+            }
+        });
+
+        // Hide results when clicking outside of the search input
+        $(document).click(function(e) {
+            if (!$(e.target).closest('#search, #search-results').length) {
+                $('#search-results').hide();
+            }
+        });
+    });
+</script>
+
+
+
 @endsection
