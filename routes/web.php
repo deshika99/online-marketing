@@ -135,6 +135,7 @@ Route::post('/order/confirm-cod/{order_code}', [PaymentController::class, 'confi
 
 Route::get('/order/order_received/{order_code}', [PaymentController::class, 'getOrderDetails'])->name('order.thankyou');
 
+Route::get('/search-products', [ProductController::class, 'searchProducts'])->name('searchProducts');
 
 
 Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');

@@ -213,10 +213,10 @@ unset($__errorArgs, $__bag); ?>
                         </div>
                         
                         <div class="row mb-3">
-    <label for="new_password" class="col-md-4 col-form-label text-md-start"><?php echo e(__('Password')); ?></label>
-    <div class="col-md-7">
-        <div class="input-group">
-            <input type="password" class="form-control <?php $__errorArgs = ['password'];
+                            <label for="new_password" class="col-md-4 col-form-label text-md-start"><?php echo e(__('Password')); ?></label>
+                            <div class="col-md-7">
+                                <div class="input-group">
+                                    <input type="password" class="form-control <?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -224,32 +224,32 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>" id="new_password" name="password" required>
-            <div class="input-group-append">
-                <span class="input-group-text" onclick="togglePasswordVisibility('new_password', this)">
-                    <i class="fa fa-eye" aria-hidden="true"></i>
-                </span>
-            </div>
-        </div>
-        <?php $__errorArgs = ['password'];
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" onclick="togglePasswordVisibility('new_password', this)">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-            <span class="invalid-feedback" role="alert">
-                <strong><?php echo e($message); ?></strong>
-            </span>
-        <?php unset($message);
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong><?php echo e($message); ?></strong>
+                                    </span>
+                                <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-    </div>
-</div>
+                            </div>
+                        </div>
 
-<div class="row mb-3">
-    <label for="password-confirm" class="col-md-4 col-form-label text-md-start"><?php echo e(__('Confirm Password')); ?></label>
-    <div class="col-md-7">
-        <div class="input-group">
-            <input type="password" class="form-control <?php $__errorArgs = ['password_confirmation'];
+                        <div class="row mb-3">
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-start"><?php echo e(__('Confirm Password')); ?></label>
+                            <div class="col-md-7">
+                                <div class="input-group">
+                                    <input type="password" class="form-control <?php $__errorArgs = ['password_confirmation'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -257,27 +257,27 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>" id="password-confirm" name="password_confirmation" required>
-            <div class="input-group-append">
-                <span class="input-group-text" onclick="togglePasswordVisibility('password-confirm', this)">
-                    <i class="fa fa-eye" aria-hidden="true"></i>
-                </span>
-            </div>
-        </div>
-        <?php $__errorArgs = ['password_confirmation'];
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" onclick="togglePasswordVisibility('password-confirm', this)">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <?php $__errorArgs = ['password_confirmation'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-            <span class="invalid-feedback" role="alert">
-                <strong><?php echo e($message); ?></strong>
-            </span>
-        <?php unset($message);
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong><?php echo e($message); ?></strong>
+                                    </span>
+                                <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-        <small id="passwordError" class="text-danger d-none">Passwords do not match</small>
-    </div>
-</div>
+                                <small id="passwordError" class="text-danger d-none">Passwords do not match</small>
+                            </div>
+                        </div>
 
                         <p>
                             I hereby confirm that all the above information is true and agree if the institution does not  

@@ -591,7 +591,6 @@ function updateProductDisplay(products) {
     });
 
 
-
     document.querySelectorAll('.btn-cart').forEach(button => {
         button.addEventListener('click', function(event) {
             event.stopPropagation(); 
