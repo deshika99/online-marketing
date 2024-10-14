@@ -50,7 +50,7 @@ Route::get('/best-sellers', [SpecialOffersController::class, 'bestSellers'])->na
 Route::view('/home/affiliate/all', 'aff_all')->name('aff_all');
 Route::view('/home/affiliate/single', 'aff_single')->name('aff_single');
 
-Route::post('/inquiry', [InquiryController::class, 'store'])->name('inquiry.store');//inquiry 
+Route::post('/inquiry', [InquiryController::class, 'store'])->name('inquiry.store');//inquiry
 Route::get('/admin/customer_inquiries', [InquiryController::class, 'showCustomerInquiries'])->name('customer_inquiries');
 
 
@@ -94,7 +94,13 @@ Route::get('home/My-Account/change-password', function () {
 })->name('change-password');
 
 
+Route::get('home/My-Account/addresses', function () { 
+    return view('member_dashboard.addresses');
+})->name('addresses');
 
+
+
+//new return button
 Route::get('home/My-Account/returns', function () { 
     return view('member_dashboard.returns');
 })->name('returns');
@@ -293,7 +299,7 @@ Route::post('/inquiries/{id}/response', [InquiryController::class, 'submitRespon
 Route::post('/inquiries/{id}/resolve', [InquiryController::class, 'resolveInquiry'])->name('inquiries.resolve');
 
 
-//about 
+//about
 Route::get('/about', function () {
     return view('about');
 })->name('about');
@@ -310,16 +316,15 @@ Route::post('/contact-submit', function (Request $request) {
     // Form handling logic here (e.g., saving to database or sending email)
     // Example:
     // Mail::to('admin@example.com')->send(new ContactFormMail($request->all()));
-    
+
     return back()->with('success', 'Thank you for contacting us!');
 })->name('contact.submit');
 
 //customer-inquiry
-//about 
+//about
 Route::get('/customer-inquiry', function () {
     return view('customer-inquiry');
 })->name('customer-inquiry');
-
 
 
 
