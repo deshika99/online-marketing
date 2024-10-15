@@ -268,14 +268,14 @@
                                 <img src="{{ asset('storage/category_images/' . $category->image) }}" alt="{{ $category->parent_category }} icon" class="category-icon">
                                 {{ $category->parent_category }}
                             </a>
-                            @if ($category->subcategories->isNotEmpty()) <!-- Check if subcategories exist -->
+                            @if ($category->subcategories->isNotEmpty()) 
                                 <div class="dropdown-menu multi-column">
                                     @foreach ($category->subcategories as $subcategory)
                                         <div class="dropdown-column">
                                             <a href="{{ route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory]) }}">
                                                 <strong style="font-size:16px;">{{ $subcategory->subcategory }}</strong>
                                             </a>
-                                            @if ($subcategory->subSubcategories->isNotEmpty()) <!-- Check if sub-subcategories exist -->
+                                            @if ($subcategory->subSubcategories->isNotEmpty())
                                                 @foreach ($subcategory->subSubcategories as $subSubcategory)
                                                     <a href="{{ route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory, 'subsubcategory' => $subSubcategory->sub_subcategory]) }}">
                                                         {{ $subSubcategory->sub_subcategory }}

@@ -269,14 +269,14 @@
                                 <?php echo e($category->parent_category); ?>
 
                             </a>
-                            <?php if($category->subcategories->isNotEmpty()): ?> <!-- Check if subcategories exist -->
+                            <?php if($category->subcategories->isNotEmpty()): ?> 
                                 <div class="dropdown-menu multi-column">
                                     <?php $__currentLoopData = $category->subcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="dropdown-column">
                                             <a href="<?php echo e(route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory])); ?>">
                                                 <strong style="font-size:16px;"><?php echo e($subcategory->subcategory); ?></strong>
                                             </a>
-                                            <?php if($subcategory->subSubcategories->isNotEmpty()): ?> <!-- Check if sub-subcategories exist -->
+                                            <?php if($subcategory->subSubcategories->isNotEmpty()): ?>
                                                 <?php $__currentLoopData = $subcategory->subSubcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subSubcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <a href="<?php echo e(route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory, 'subsubcategory' => $subSubcategory->sub_subcategory])); ?>">
                                                         <?php echo e($subSubcategory->sub_subcategory); ?>

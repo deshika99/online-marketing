@@ -94,9 +94,7 @@ Route::get('home/My-Account/change-password', function () {
 })->name('change-password');
 
 
-Route::get('home/My-Account/addresses', function () { 
-    return view('member_dashboard.addresses');
-})->name('addresses');
+
 
 
 

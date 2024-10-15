@@ -438,7 +438,6 @@ class UserDashboardController extends Controller
 
     public function showAddresses()
     {     
-
         $user = Auth::user();
         $addresses = Address::where('user_id', $user->id)->get();
         return view('member_dashboard.addresses', compact('addresses'));

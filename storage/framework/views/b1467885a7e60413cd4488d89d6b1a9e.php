@@ -10,10 +10,7 @@
     }
 
     .otherlinks a {
-        text-decoration: none;
         color: white;
-        font-weight: 500;
-        margin: 0 10px;
     }
 
     .category-icon {
@@ -23,83 +20,7 @@
         vertical-align: middle;
     }
 
-    /* Desktop View */
-    @media (min-width: 768px) {
-        .otherlinks-dropdown {
-            display: none; /* Hide dropdown in desktop view */
-        }
-    }
 
-    /* Mobile View */
-    @media (max-width: 767.98px) {
-        .navbar-divider {
-            flex-direction: column;
-            text-align: center;
-        }
-
-        .category-select-wrapper1,
-        .otherlinks {
-            width: 100%;
-            justify-content: center;
-        }
-
-        .category-icon {
-            margin-right: 0;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-        }
-
-        .profile_image {
-            width: 30px;
-            height: 30px;
-        }
-
-        .dropdown-menu {
-            width: 100%;
-            text-align: center;
-        }
-
-        /* Other Links responsive - Dropdown for mobile */
-        .otherlinks-dropdown {
-            display: inline-block; /* Show dropdown */
-        }
-
-        .otherlinks-dropdown .dropdown-menu {
-            width: 100%;
-            text-align: center;
-        }
-
-        /* Adjust Dropdown to align under sign-up */
-        .navbar-divider .otherlinks-dropdown {
-            position: relative;
-            top: -20px; /* Move the dropdown below Sign-up */
-            color: white;
-            text-align: left;
-            width: 40%; /* Expand to full width */
-        }
-
-        /* Adjust Sign-up button position */
-        .signup-btn {
-            margin-top: 20px; /* Create space for the dropdown */
-        }
-    }
-
-    /* Align the Other dropdown to the right */
-    @media (max-width: 767.98px) {
-        .navbar-divider .otherlinks-dropdown {
-            margin-left: 220px; /* Align to the right */
-            top: -33px; /* Adjust the value to move it higher */
-        }
-    }
-    @media (max-width: 767.98px) {
-    .otherlinks-dropdown .dropdown-menu {
-        position: absolute; /* Ensure absolute positioning */
-        right: -30px; /* Move it slightly to the right */
-        transform: translateX(-30px); /* Adjust horizontal alignment */
-    }
-}
 
 .search-item {
         padding: 10px;
@@ -161,23 +82,19 @@
                             <span style="font-size: 19px; position: relative;">
                                 <i class="fas fa-shopping-cart"></i>
                             </span>
-                            <span id="cart-count" class="badge badge-danger">
-                                0
-                            </span>
+                            <span id="cart-count" class="badge badge-danger">0</span>
                         </a>
 
-                        <!-- Authentication Links -->
+                        <!-- User Authentication Links -->
                         <?php if(auth()->guard()->guest()): ?>
-                            <?php if(Route::has('login')): ?>
-                                <a class="text-reset me-3" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
-                                    <div style="font-weight:500">LOGIN</div>
-                                </a>
+                        <?php if(Route::has('login')): ?>
+                            <a class="text-reset me-3" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                <div style="font-weight:500">LOGIN</div>
                                 <?php if(Route::has('register')): ?>
-                                    <a class="signup-btn p-2" href="<?php echo e(route('register')); ?>">
-                                        SIGN UP
-                                    </a>
+                                    <a class="signup-btn p-2" href="<?php echo e(route('register')); ?>" style="">SIGN UP</a>
                                 <?php endif; ?>
-                            <?php endif; ?>
+                            </a>
+                        <?php endif; ?>
                         <?php else: ?>
                             <div class="dropdown me-3">
                                 <a id="navbarDropdown" class="text-reset dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -210,69 +127,75 @@
         </div>
     </div>
 
-    <!-- Navbar Divider -->
-    <div class="navbar-divider w-100 p-0">
-        <div class="container d-flex justify-content-center align-items-center flex-wrap" style="width: 100%;">
-            <!-- Categories Dropdown -->
-            <div class="category-select-wrapper1 d-flex justify-content-center align-items-center mb-2">
-                <div class="custom-dropdown w-100 ms-4">
-                    <div class="dropdown-toggle" id="dropdownMenuButton" aria-expanded="false">
-                        <i class="fas fa-bars me-2"></i> All Categories
-                    </div>
-                    <div class="dropdown-menu">
-                        <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="dropdown-item dropdown-submenu">
-                                <a href="<?php echo e(route('user_products', ['category' => $category->parent_category])); ?>">
-                                    <img src="<?php echo e(asset('storage/category_images/' . $category->image)); ?>" alt="<?php echo e($category->parent_category); ?> icon" class="category-icon">
-                                    <?php echo e($category->parent_category); ?>
+  <!-- Navbar Divider -->
+<div class="navbar-divider w-100 p-0 mb-1">
+    <div class="container d-flex justify-content-center align-items-center" style="width: 80%;">
 
-                                </a>
+        <div class="d-flex align-items-center" style="font-size: 16px;">
+
+            <!-- All Categories Dropdown -->
+            <div class="custom-dropdown me-4">
+                <div class="dropdown-toggle" id="dropdownMenuButton" aria-expanded="false" style="font-size:15px;">
+                    <i class="fas fa-bars me-2"></i> All Categories
+                </div>
+                <div class="dropdown-menu">
+                    <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <div class="dropdown-item dropdown-submenu">
+                            <a href="<?php echo e(route('user_products', ['category' => $category->parent_category])); ?>">
+                                <img src="<?php echo e(asset('storage/category_images/' . $category->image)); ?>" alt="<?php echo e($category->parent_category); ?> icon" class="category-icon">
+                                <?php echo e($category->parent_category); ?>
+
+                            </a>
+                            <?php if($category->subcategories->isNotEmpty()): ?> 
                                 <div class="dropdown-menu multi-column">
                                     <?php $__currentLoopData = $category->subcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="dropdown-column">
                                             <a href="<?php echo e(route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory])); ?>">
-                                                <strong style="font-size: 16px;"><?php echo e($subcategory->subcategory); ?></strong>
+                                                <strong style="font-size:16px;"><?php echo e($subcategory->subcategory); ?></strong>
                                             </a>
-                                            <?php $__currentLoopData = $subcategory->subSubcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subSubcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <a href="<?php echo e(route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory, 'subsubcategory' => $subSubcategory->sub_subcategory])); ?>">
-                                                    <?php echo e($subSubcategory->sub_subcategory); ?>
+                                            <?php if($subcategory->subSubcategories->isNotEmpty()): ?> 
+                                                <?php $__currentLoopData = $subcategory->subSubcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subSubcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <a href="<?php echo e(route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory, 'subsubcategory' => $subSubcategory->sub_subcategory])); ?>">
+                                                        <?php echo e($subSubcategory->sub_subcategory); ?>
 
-                                                </a>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    </a>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            <?php endif; ?>
                                         </div>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
-                            </div>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    </div>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
             </div>
 
             <!-- Other Links -->
-            <div class="d-none d-md-flex justify-content-center align-items-center flex-grow-1 otherlinks">
+            <div class="d-flex ms-4 d-none d-md-flex otherlinks" style="font-size:15px;">
                 <a href="<?php echo e(route('all_items')); ?>" class="mx-3">All Items</a>
                 <a href="<?php echo e(route('special_offerproducts')); ?>" class="mx-3">Special Offers</a>
                 <a href="<?php echo e(route('sale_products')); ?>" class="mx-3">Flash Sale</a>
                 <a href="<?php echo e(route('best_sellers')); ?>" class="mx-3">Bestsellers</a>
-                <a href="#" class="mx-3">Super Deals</a>
             </div>
 
             <!-- Dropdown for Other Links in Mobile View -->
-            <div class="dropdown otherlinks-dropdown">
-                <a class="text-reset dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
-                    Other 
+            <div class="dropdown d-md-none otherlinks ms-4" style="font-size:15px;">
+                <a class="dropdown-toggle" href="#" id="otherLinksDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Other
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end">
+                <ul class="dropdown-menu" aria-labelledby="otherLinksDropdown">
                     <li><a class="dropdown-item" href="<?php echo e(route('all_items')); ?>">All Items</a></li>
                     <li><a class="dropdown-item" href="<?php echo e(route('special_offerproducts')); ?>">Special Offers</a></li>
                     <li><a class="dropdown-item" href="<?php echo e(route('sale_products')); ?>">Flash Sale</a></li>
                     <li><a class="dropdown-item" href="<?php echo e(route('best_sellers')); ?>">Bestsellers</a></li>
-                    <li><a class="dropdown-item" href="#">Super Deals</a></li>
                 </ul>
             </div>
         </div>
     </div>
+    </div>
+
 </header>
+
 
 
 
@@ -387,19 +310,25 @@ unset($__errorArgs, $__bag); ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var dropdownToggle = document.getElementById('dropdownMenuButton');
-        var dropdownMenu = dropdownToggle.nextElementSibling;
+            var dropdownToggle = document.getElementById('dropdownMenuButton');
+            var dropdownMenu = dropdownToggle.nextElementSibling;
 
-        dropdownToggle.addEventListener('click', function () {
-            dropdownMenu.classList.toggle('show');
+            dropdownToggle.addEventListener('click', function () {
+                dropdownMenu.classList.toggle('show');
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
         });
 
-    </script>    
-    
-  
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-     <script type="text/javascript">
-       $(document).ready(function() {
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
         $('#search').on('keyup', function() {
             var query = $(this).val();
             if (query.length > 2) {
@@ -435,8 +364,8 @@ unset($__errorArgs, $__bag); ?>
             }
         });
     });
-    
 </script>
+
 
 
    
