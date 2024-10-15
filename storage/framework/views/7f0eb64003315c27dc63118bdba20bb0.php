@@ -24,6 +24,66 @@
       <?php echo $__env->make('layouts.affiliate_main.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
       
         <?php echo $__env->yieldContent('content'); ?>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            <?php if(session('status')): ?>
+                Swal.fire({
+                    title: 'Success!',
+                    text: "<?php echo e(session('status')); ?>",
+                    icon: 'success',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    }
+                });
+            <?php endif; ?>
+
+            <?php if(session('error')): ?>
+                Swal.fire({
+                    title: 'Error!',
+                    text: "<?php echo e(session('error')); ?>",
+                    icon: 'error',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    }
+                });
+            <?php endif; ?>
+        });
+
+        function confirmDelete(formId, message) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: message || "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel',
+                customClass: {
+                    container: 'delete-confirm-modal'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(formId).submit();
+                }
+            });
+        }
+
+    </script>
+
     </div> <!-- .wrapper -->
     
     <?php echo $__env->make('layouts.affiliate_main.script', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>

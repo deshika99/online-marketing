@@ -278,7 +278,6 @@ body {
 .custom-dropdown {
     position: relative;
     display: inline-block;
-    width: 20%;
 }
 
 .custom-dropdown .dropdown-toggle {
@@ -350,7 +349,7 @@ body {
     background-color: #fff;
     border: 1px solid #e0e0e0;
     width:750px;
-    height: 550px;
+    height: auto;
     padding: 10px;
     box-sizing: border-box;
     z-index: 1000;
@@ -450,7 +449,7 @@ a.text-reset {
     }
 
     
- /* Carousel */
+/* Carousel */
 #introCarousel,
 .carousel-inner,
 .carousel-item,
@@ -461,12 +460,12 @@ a.text-reset {
 .carousel-item {
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center;
 }
 
 .carousel-item h1,
 .carousel-item h5,
 .carousel-item h4,
-.carousel-item h3,
 .carousel-item a {
   text-align: left;
   position: absolute;
@@ -491,16 +490,17 @@ a.text-reset {
 }
 
 .carousel-item h4 {
-    top: 60%; 
-    font-weight: bold;
-    font-size: 38px;
-  }
+  top: 65%; 
+  font-weight: bold;
+  font-size: 38px;
+}
 
 .carousel-item a {
-  top: 70%;
+  top: 75%;
   background: #1c0a60;
   display: inline-block;
   color: white;
+  padding: 10px 20px;
   border-radius: 25px;
   text-decoration: none;
 }
@@ -508,12 +508,6 @@ a.text-reset {
 .carousel-item a:hover {
   background-color: black;
   color: white;
-}
-
-@media (min-width: 992px) {
-  #introCarousel {
-    
-  }
 }
 
 .carousel-indicators button {
@@ -526,6 +520,65 @@ a.text-reset {
 
 .carousel-indicators .active {
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Adjustments for Smaller Screens */
+@media (max-width: 768px) {
+  #introCarousel,
+  .carousel-inner,
+  .carousel-item,
+  .carousel-item.active {
+    height: 70vh;
+  }
+
+  .carousel-item h1 {
+    font-size: 35px;
+    left: 5%;
+    top: 60%;
+  }
+
+  .carousel-item h5 {
+    font-size: 20px;
+    top: 60%;
+    left: 5%;
+  }
+
+  .carousel-item h4 {
+    font-size: 25px;
+    top: 60%;
+    left: 5%;
+  }
+
+  .carousel-item a {
+    top: 70%;
+    left: 5%;
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  #introCarousel,
+  .carousel-inner,
+  .carousel-item,
+  .carousel-item.active {
+    height: 60vh;
+  }
+
+  .carousel-item h1 {
+    font-size: 28px;
+  }
+
+  .carousel-item h5 {
+    font-size: 18px;
+  }
+
+  .carousel-item h4 {
+    font-size: 22px;
+  }
+
+  .carousel-item a {
+    padding: 6px 12px;
+  }
 }
 
 /* login modal */

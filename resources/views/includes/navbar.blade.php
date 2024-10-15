@@ -1,3 +1,4 @@
+
 <style>
     .navbar-divider {
         height: 40px;
@@ -101,7 +102,20 @@
 }
 
 
-     
+.search-item {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .search-item a {
+        text-decoration: none;
+        color: #000;
+    }
+
+    .search-item:hover {
+        background-color: #f1f1f1;
+    }
+
 </style>
 
 <header>
@@ -126,6 +140,7 @@
                     </form>
                 </div>
 
+
                 <!-- User & Cart Section -->
                 <div class="col-md-3 mb-2 d-flex justify-content-center justify-content-md-end align-items-center">
                     <div class="d-flex align-items-center">
@@ -140,6 +155,16 @@
                                 <li><a class="dropdown-item" href="{{ route('helpcenter') }}">Help Center</a></li>
                             </ul>
                         </div>
+
+                    <div class="col-md-5 mt-2">
+                        <form class="d-flex input-group w-auto my-auto mb-md-0">
+                           <input autocomplete="off" id="search" type="search" class="form-control rounded" placeholder="Search" style="width: 250px;" />
+                           <span class="input-group-text border-0 d-none d-lg-flex"><i class="fas fa-search"></i></span>
+                        </form>
+                            <div id="search-results" style="display:none; position:absolute; background:white; width:38%; border:1px solid #ccc; z-index: 1000;"></div>
+                    </div>
+
+
 
                         <span class="me-3">|</span>
 
@@ -226,7 +251,9 @@
                                     @endforeach
                                 </div>
                             </div>
+
                         @endforeach
+
                     </div>
                 </div>
             </div>
@@ -256,6 +283,7 @@
         </div>
     </div>
 </header>
+
 
 
 
@@ -336,6 +364,55 @@
         });
     </script>
 @endif
+
+    </script>    
+    
+  
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     <script type="text/javascript">
+       $(document).ready(function() {
+        $('#search').on('keyup', function() {
+            var query = $(this).val();
+            if (query.length > 2) {
+                $.ajax({
+                    url: "{{ route('searchProducts') }}", // Route to handle search
+                    type: "GET",
+                    data: { search: query },
+                    success: function(data) {
+                        $('#search-results').empty().show(); // Clear previous results and show dropdown
+                        if (data.length > 0) {
+                            $.each(data, function(index, product) {
+                                $('#search-results').append(
+                                    '<div class="search-item"><a href="/product/' + product.product_id + '">' + product.product_name + '</a></div>'
+                                );
+                            });
+                        } else {
+                            $('#search-results').append('<div class="search-item">No products found</div>');
+                        }
+                    },
+                    error: function() {
+                        $('#search-results').append('<div class="search-item">Error searching products</div>');
+                    }
+                });
+            } else {
+                $('#search-results').hide(); // Hide dropdown if query is too short
+            }
+        });
+
+        // Hide results when clicking outside of the search input
+        $(document).click(function(e) {
+            if (!$(e.target).closest('#search, #search-results').length) {
+                $('#search-results').hide();
+            }
+        });
+    });
+    
+</script>
+
+
+   
+    
+
 
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

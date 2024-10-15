@@ -105,6 +105,7 @@ class AffiliateCustomerController extends Controller
     
     public function login(Request $request)
     {
+        //dd($request);
         // Validate the incoming request data
         $request->validate([
             'email' => 'required|email',
@@ -127,7 +128,7 @@ class AffiliateCustomerController extends Controller
                     Session::put('customer_id', $customer->id);
                     Session::put('customer_name', $customer->name);
                     
-                    return redirect()->route('index', ['affiliate_id' => $customer->id]);
+                    return redirect()->route('aff_home', ['affiliate_id' => $customer->id]);
                 } else {
                     // Password mismatch, return an error
                     return redirect()->route('aff_home')->withErrors(['password' => 'Invalid credentials.']);
