@@ -68,8 +68,13 @@
                                                     <button class="btn btn-sm btn-danger mt-2">Delete</button>
                                                 </form>
 
-                                                <!-- View Report Button -->
-                                                <a href="{{ route('raffletickets.report', $ticket->id) }}" class="btn btn-sm btn-info">View Report</a>
+                                                <!-- View Report button in the referring page -->
+                                                <form action="{{ route('realtime_tracking') }}" method="POST" style="display: inline;">
+                                                    @csrf
+                                                    <input type="hidden" name="raffle_ticket_id" value="{{ $ticket->id }}">
+                                                    <button type="submit" class="btn btn-sm btn-info">View Report</button>
+                                                </form>
+
                                             </td>
                                         </tr>
                                     @endforeach
