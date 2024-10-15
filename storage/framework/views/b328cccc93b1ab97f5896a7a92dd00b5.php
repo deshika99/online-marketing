@@ -84,13 +84,17 @@
 <div class="container mt-4 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-8 mt-3">
-            <h3 class="text-center mb-4 mt-3">Create your affiliate account</h3>
+            <h2 class="text-center mb-4 mt-3">Create Your Affiliate Account</h2>
             <div class="card register-card mt-3">
                 <div class="card-body">
                     <form method="POST" action="<?php echo e(route('aff_reg')); ?>">
                         <?php echo csrf_field(); ?>
+
+                        <h4>Basic Information</h4>
+                        <br><br>
+
                         <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-start">Name</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-start">Name <span class="text-danger"> *</span></label>
                             <div class="col-md-7">
                                 <input id="name" type="text" class="form-control <?php $__errorArgs = ['name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -115,7 +119,7 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="address" class="col-md-4 col-form-label text-md-start">Address</label>
+                            <label for="address" class="col-md-4 col-form-label text-md-start">Address <span class="text-danger"> *</span></label>
                             <div class="col-md-7">
                                 <input id="address" type="text" class="form-control <?php $__errorArgs = ['address'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -140,7 +144,7 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="district" class="col-md-4 col-form-label text-md-start">District</label>
+                            <label for="district" class="col-md-4 col-form-label text-md-start">District <span class="text-danger"> *</span></label>
                             <div class="col-md-7">
                                 <input id="district" type="text" class="form-control <?php $__errorArgs = ['district'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -165,7 +169,7 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="dob-day" class="col-md-4 col-form-label text-md-start">Date Of Birth</label>
+                            <label for="dob-day" class="col-md-4 col-form-label text-md-start">Date Of Birth <span class="text-danger"> *</span></label>
                             <div class="col-md-7 d-flex">
                               
                                 <input id="dob-day" type="number" class="form-control me-2 <?php $__errorArgs = ['dob_day'];
@@ -236,7 +240,7 @@ unset($__errorArgs, $__bag); ?>
                         </div>
 
                         <div class="row mb-3">
-                            <label for="gender" class="col-md-4 col-form-label text-md-start">Gender</label>
+                            <label for="gender" class="col-md-4 col-form-label text-md-start">Gender <span class="text-danger"> *</span></label>
                             <div class="col-md-7">
                                 <select class="form-select <?php $__errorArgs = ['gender'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -246,7 +250,7 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>" id="gender" name="gender">
-                                    <option selected disabled></option>
+                                    <option selected disabled>Select Gender</option>
                                     <option value="male" <?php echo e(old('gender') == 'male' ? 'selected' : ''); ?>>Male</option>
                                     <option value="female" <?php echo e(old('gender') == 'female' ? 'selected' : ''); ?>>Female</option>
                                     <option value="other" <?php echo e(old('gender') == 'other' ? 'selected' : ''); ?>>Other</option>
@@ -267,7 +271,7 @@ unset($__errorArgs, $__bag); ?>
                         </div>
 
                         <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-start">Email Address</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-start">Email Address <span class="text-danger"> *</span></label>
                             <div class="col-md-7">
                                 <input id="email" type="email" class="form-control <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -292,7 +296,7 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="phone_num" class="col-md-4 col-form-label text-md-start">Phone Number</label>
+                            <label for="phone_num" class="col-md-4 col-form-label text-md-start">Phone Number <span class="text-danger"> *</span></label>
                             <div class="col-md-7">
                                 <input id="phone_num" type="text" class="form-control <?php $__errorArgs = ['phone_num'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -317,7 +321,7 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="NIC" class="col-md-4 col-form-label text-md-start">NIC</label>
+                            <label for="NIC" class="col-md-4 col-form-label text-md-start">NIC <span class="text-danger"> *</span></label>
                             <div class="col-md-7">
                                 <input id="NIC" type="text" class="form-control <?php $__errorArgs = ['NIC'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -342,7 +346,7 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-start">Password</label>
+                            <label for="password" class="col-md-4 col-form-label text-md-start">Password <span class="text-danger"> *</span></label>
                             <div class="col-md-7">
                                 <input id="password" type="password" class="form-control <?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -367,9 +371,9 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
                         <div class="row mb-5">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-start">Confirm Password</label>
+                            <label for="password_confirmation" class="col-md-4 col-form-label text-md-start">Confirm Password <span class="text-danger"> *</span></label>
                             <div class="col-md-7">
-                                <input id="password-confirm" type="password" class="form-control <?php $__errorArgs = ['password_confirmation'];
+                                <input id="password_confirmation" type="password" class="form-control <?php $__errorArgs = ['password_confirmation'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -392,9 +396,415 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
 
+                        <br>
+                        <hr>
+                        <br>
+
+                        <h4>Promotional Methods</h4>
+                        <br><br>
+
+
+                        <!-- Promotion Method -->
+                        <div class="row mb-3">
+                            <label class="col-md-4 col-form-label text-md-start">Promotion Method</label>
+                            <div class="col-md-7">
+                                <div class="form-check">
+                                    <input class="form-check-input <?php $__errorArgs = ['promotion_method'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" type="checkbox" name="promotion_method[]" value="Instagram" id="instagram" <?php echo e(is_array(old('promotion_method')) && in_array('Instagram', old('promotion_method')) ? 'checked' : ''); ?>>
+                                    <label class="form-check-label" for="instagram">Instagram</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input <?php $__errorArgs = ['promotion_method'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" type="checkbox" name="promotion_method[]" value="Facebook" id="facebook" <?php echo e(is_array(old('promotion_method')) && in_array('Facebook', old('promotion_method')) ? 'checked' : ''); ?>>
+                                    <label class="form-check-label" for="facebook">Facebook</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input <?php $__errorArgs = ['promotion_method'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" type="checkbox" name="promotion_method[]" value="TikTok" id="tiktok" <?php echo e(is_array(old('promotion_method')) && in_array('TikTok', old('promotion_method')) ? 'checked' : ''); ?>>
+                                    <label class="form-check-label" for="tiktok">TikTok</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input <?php $__errorArgs = ['promotion_method'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" type="checkbox" name="promotion_method[]" value="YouTube" id="youtube" <?php echo e(is_array(old('promotion_method')) && in_array('YouTube', old('promotion_method')) ? 'checked' : ''); ?>>
+                                    <label class="form-check-label" for="youtube">YouTube</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input <?php $__errorArgs = ['promotion_method'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" type="checkbox" name="promotion_method[]" value="Content website/blog" id="content_website" <?php echo e(is_array(old('promotion_method')) && in_array('Content website/blog', old('promotion_method')) ? 'checked' : ''); ?>>
+                                    <label class="form-check-label" for="content_website">Content website/blog</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input <?php $__errorArgs = ['promotion_method'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" type="checkbox" name="promotion_method[]" value="WhatsApp" id="whatsapp" <?php echo e(is_array(old('promotion_method')) && in_array('WhatsApp', old('promotion_method')) ? 'checked' : ''); ?>>
+                                    <label class="form-check-label" for="whatsapp">Through WhatsApp groups and status</label>
+                                </div>
+                                <?php $__errorArgs = ['promotion_method'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong><?php echo e($message); ?></strong>
+                                    </span>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
+                        </div>
+
+
+                        <!-- Instagram Profile URL -->
+                        <div class="row mb-3">
+                            <label for="instagram_url" class="col-md-4 col-form-label text-md-start">Instagram Profile URL</label>
+                            <div class="col-md-7">
+                                <input id="instagram_url" type="url" class="form-control <?php $__errorArgs = ['instagram_url'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="instagram_url" value="<?php echo e(old('instagram_url')); ?>" autocomplete="instagram_url">
+                                <?php $__errorArgs = ['instagram_url'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong><?php echo e($message); ?></strong>
+                                    </span>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
+                        </div>
+
+                        <!-- Facebook Page URL -->
+                        <div class="row mb-3">
+                            <label for="facebook_url" class="col-md-4 col-form-label text-md-start">Facebook Page URL</label>
+                            <div class="col-md-7">
+                                <input id="facebook_url" type="url" class="form-control <?php $__errorArgs = ['facebook_url'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="facebook_url" value="<?php echo e(old('facebook_url')); ?>" autocomplete="facebook_url">
+                                <?php $__errorArgs = ['facebook_url'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong><?php echo e($message); ?></strong>
+                                    </span>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
+                        </div>
+
+                        <!-- TikTok Profile URL -->
+                        <div class="row mb-3">
+                            <label for="tiktok_url" class="col-md-4 col-form-label text-md-start">TikTok Profile URL</label>
+                            <div class="col-md-7">
+                                <input id="tiktok_url" type="url" class="form-control <?php $__errorArgs = ['tiktok_url'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="tiktok_url" value="<?php echo e(old('tiktok_url')); ?>" autocomplete="tiktok_url">
+                                <?php $__errorArgs = ['tiktok_url'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong><?php echo e($message); ?></strong>
+                                    </span>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
+                        </div>
+
+                        <!-- YouTube Channel URL -->
+                        <div class="row mb-3">
+                            <label for="youtube_url" class="col-md-4 col-form-label text-md-start">YouTube Channel URL</label>
+                            <div class="col-md-7">
+                                <input id="youtube_url" type="url" class="form-control <?php $__errorArgs = ['youtube_url'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="youtube_url" value="<?php echo e(old('youtube_url')); ?>" autocomplete="youtube_url">
+                                <?php $__errorArgs = ['youtube_url'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong><?php echo e($message); ?></strong>
+                                    </span>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
+                        </div>
+
+                        <!-- Content Website/Blog URL -->
+                        <div class="row mb-3">
+                            <label for="content_website_url" class="col-md-4 col-form-label text-md-start">Content Website/Blog URL</label>
+                            <div class="col-md-7">
+                                <input id="content_website_url" type="url" class="form-control <?php $__errorArgs = ['content_website_url'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="content_website_url" value="<?php echo e(old('content_website_url')); ?>" autocomplete="content_website_url">
+                                <?php $__errorArgs = ['content_website_url'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong><?php echo e($message); ?></strong>
+                                    </span>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
+                        </div>
+
+                        <!-- Content whatsapp Group URL -->
+                        <div class="row mb-3">
+                            <label for="content_whatsapp_url" class="col-md-4 col-form-label text-md-start">Content Whatsapp Group URL</label>
+                            <div class="col-md-7">
+                                <input id="content_whatsapp_url" type="url" class="form-control <?php $__errorArgs = ['content_whatsapp_url'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="content_whatsapp_url" value="<?php echo e(old('content_whatsapp_url')); ?>" autocomplete="content_whatsapp_url">
+                                <?php $__errorArgs = ['content_whatsapp_url'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong><?php echo e($message); ?></strong>
+                                    </span>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
+                        </div>
+
+                        <br>
+                        <hr>
+                        <br>
+
+                        <h4>Payment Informations</h4>
+                        <br><br>
+
+                        <!-- Bank Name -->
+                        <div class="row mb-3">
+                            <label for="bank_name" class="col-md-4 col-form-label text-md-start">Bank Name<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <input id="bank_name" type="text" class="form-control <?php $__errorArgs = ['bank_name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="bank_name" value="<?php echo e(old('bank_name')); ?>" required autocomplete="bank_name">
+                                <?php $__errorArgs = ['bank_name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong><?php echo e($message); ?></strong>
+                                    </span>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
+                        </div>
+
+                        <!-- Branch -->
+                        <div class="row mb-3">
+                            <label for="branch" class="col-md-4 col-form-label text-md-start">Branch<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <input id="branch" type="text" class="form-control <?php $__errorArgs = ['branch'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="branch" value="<?php echo e(old('branch')); ?>" required autocomplete="branch">
+                                <?php $__errorArgs = ['branch'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong><?php echo e($message); ?></strong>
+                                    </span>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
+                        </div>
+
+                        <!-- Account Name -->
+                        <div class="row mb-3">
+                            <label for="account_name" class="col-md-4 col-form-label text-md-start">Account Name<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <input id="account_name" type="text" class="form-control <?php $__errorArgs = ['account_name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="account_name" value="<?php echo e(old('account_name')); ?>" required autocomplete="account_name">
+                                <?php $__errorArgs = ['account_name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong><?php echo e($message); ?></strong>
+                                    </span>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
+                        </div>
+
+                        <!-- Account Number -->
+                        <div class="row mb-3">
+                            <label for="account_number" class="col-md-4 col-form-label text-md-start">Account Number<span class="text-danger"> *</span></label>
+                            <div class="col-md-7">
+                                <input id="account_number" type="text" class="form-control <?php $__errorArgs = ['account_number'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="account_number" value="<?php echo e(old('account_number')); ?>" required autocomplete="account_number">
+                                <?php $__errorArgs = ['account_number'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong><?php echo e($message); ?></strong>
+                                    </span>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <!-- Agree to Terms of Service and Privacy Policy -->
+                        <div class="row mb-3">
+                            <div class="col-md-7 ">
+                                <div class="form-check">
+                                    <input class="form-check-input <?php $__errorArgs = ['terms'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" type="checkbox" name="terms" id="terms" <?php echo e(old('terms') ? 'checked' : ''); ?>>
+                                    <label class="form-check-label" for="terms">
+                                        I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a>.
+                                    </label>
+                                </div>
+                                <?php $__errorArgs = ['terms'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong><?php echo e($message); ?></strong>
+                                    </span>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
+                        </div>
+
+                        <br>
+
                         <div class="row submit-btn mb-0">
-                            <div class="col-md-7 offset-md-4">
-                                <button type="submit" class="btn btn-warning">Submit</button>
+                            <div class="col-md-7 offset-md-0.5">
+                                <button type="submit" class="btn btn-warning">Register As Affiliate</button>
                             </div>
                         </div>
                     </form>
