@@ -177,8 +177,6 @@
 
 
 
-<?php $__env->startSection('scripts'); ?>
-
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
     // Product Sales Line Chart

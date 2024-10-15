@@ -285,11 +285,22 @@
                 <div class="modal-body">
                     <div class="row gx-5">
                         <aside class="col-lg-5">
-                            <div class="rounded-4 mb-3 d-flex justify-content-center">
+                        <div class="rounded-4 mb-3 d-flex justify-content-center">
+                            <?php if($product->images->first()): ?>
                                 <a class="rounded-4 main-image-link" href="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>">
-                                    <img id="mainImage" class="rounded-4 fit" src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" />
+                                    <img id="mainImage" class="rounded-4 fit" 
+                                        src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" 
+                                    />
                                 </a>
-                            </div>
+                            <?php else: ?>
+                                <a class="rounded-4 main-image-link" href="<?php echo e(asset('images/default.jpg')); ?>">
+                                    <img id="mainImage" class="rounded-4 fit" 
+                                        src="<?php echo e(asset('images/default.jpg')); ?>" 
+                                    />
+                                </a>
+                            <?php endif; ?>
+                        </div>
+
                             <div class="d-flex justify-content-center mb-3">
                                 <?php $__currentLoopData = $product->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <a class="mx-1 rounded-2 thumbnail-image" data-image="<?php echo e(asset('storage/' . $image->image_path)); ?>" href="javascript:void(0);">
