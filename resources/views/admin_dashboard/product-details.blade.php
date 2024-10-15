@@ -117,6 +117,9 @@
                         </div>
                     </div>
                     @endif
+                    <div class="row mb-2">
+                        <div class="col-12"><strong class="me-2">Tags :</strong>{{ $product->tags }}</div>
+                    </div>
 
 
                 </div>

@@ -162,6 +162,7 @@ class ProductController extends Controller
         
         $relatedProducts = Products::where('product_category', $product->product_category)
             ->where('product_id', '!=', $product->product_id)
+            ->take(15)
             ->get();
 
         foreach ($relatedProducts as $relatedProduct) {
@@ -263,7 +264,6 @@ class ProductController extends Controller
             ]);
     
             $request->merge([
-                'affiliateProduct' => $request->has('affiliateProduct') ? true : false,
                 'tags' => $request->input('tags') ? implode(',', array_map('trim', explode(',', $request->input('tags')))) : '',
             ]);
     
@@ -524,7 +524,25 @@ class ProductController extends Controller
         return view('admin_dashboard.product-details', compact('product'));
     }
     
+
+    public function searchProducts(Request $request)
+    {
+        $search = $request->get('search');
+        
+        // Fetch products matching the search query
+        $products = Products::where('product_name', 'LIKE', '%' . $search . '%')
+                            ->select('id', 'product_name', 'product_id',) // Assuming you have a 'product_code'
+                            ->get();
+        
+        // Return the results as JSON
+        return response()->json($products);
+    }
     
+
+    
+
+    
+
 
 
 }

@@ -11,7 +11,7 @@
                                     <a href="mailto:omarketingcomplex@gmail.com" style="color:white; text-decoration:none;">omarketingcomplex@gmail.com</a>
                                 </p>
                                 <p><i class="fas fa-phone mr-3"></i> 
-                                    <a href="tel:+94778337143" style="color:white; text-decoration:none;">077 833 7143</a>
+                                    <a href="tel:+94778337143" style="color:white; text-decoration:none;">075 833 7141</a>
                                 </p>
                             </div>
                             
