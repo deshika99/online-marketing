@@ -104,27 +104,25 @@
 }
 </style>
 
-<!-- Dashboard Header -->
 
 
-<div class="dashboard-header">
+
+<div class="dashboard-header" style="display: flex; align-items: center; background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
     @if(isset($user))
         <img src="{{ $user->profile_image_url }}" alt="Profile Picture" style="width: 70px; height: auto; border-radius: 50%; object-fit: cover; margin-right: 20px;">
-
-        <span style="font-size: 20px; font-weight: bold;">{{ $user->name }}</span>
+        <span style="font-size: 20px; font-weight: bold; color: #343a40;">{{ $user->name }}</span>
     @else
-        <p>No user details available.</p>
+        <p style="color: #dc3545;">No user details available.</p>
     @endif
 </div>
 
-
 <!-- My Orders Section -->
-<div class="orders-section">
-    <h5>My Orders</h5>
+<div class="orders-section" style="margin-top: 20px; padding: 20px; background-color: #ffffff; border-radius: 10px;">
+    <h5 style="color: #007bff; border-bottom: 2px solid #007bff; padding-bottom: 10px;">My Orders</h5>
     <div class="orders-row">
         <div class="orders-box">
-            <img src="https://icons.veryicon.com/png/128/miscellaneous/bigmk_app_icon/unpaid-2.png" alt="Unpaid">
-            <p>Unpaid</p>
+            <img src="https://icons.veryicon.com/png/128/miscellaneous/document-format/reviewed-5.png" alt="Confirmed">
+            <p>Confirmed</p>
         </div>
         <div class="orders-box">
             <img src="https://icons.veryicon.com/png/128/miscellaneous/cb/to-be-shipped-25.png" alt="To be shipped">
@@ -135,11 +133,48 @@
             <p>Shipped</p>
         </div>
         <div class="orders-box">
-            <img src="https://icons.veryicon.com/png/128/miscellaneous/document-format/reviewed-5.png" alt="To be reviewed">
-            <p>To be reviewed</p>
+            <a href="{{ route('myreviews') }}" class="text-decoration-none text-black">
+                <img src="https://icons.veryicon.com/png/o/application/collaborative-software-foundation-icon/comment-235.png" alt="To be reviewed">
+                <p>To be reviewed</p>
+            </a>
         </div>
     </div>
 </div>
+
+
+
+<div class="dashboard-container" style="display: flex; justify-content: space-between; margin-top: 20px;">
+    <!-- Recent Activity Section -->
+    <div class="activity-section" style="flex: 1; margin-right: 10px; padding: 20px; background-color: #ffffff; border-radius: 10px;">
+        <h5 style="color: #007bff; border-bottom: 2px solid #007bff; padding-bottom: 10px;">Recent Activities</h5>
+        <ul>
+            @if(!empty($activities))
+                @foreach($activities as $activity)
+                    <li>{!! $activity !!}</li>
+                @endforeach
+            @else
+                <li style="color: #dc3545;">No recent activities.</li>
+            @endif
+        </ul>
+    </div>
+
+    <!-- Notifications Section -->
+    <div class="notifications-section" style="flex: 1; margin-left: 10px; padding: 20px; background-color: #ffffff; border-radius: 10px;">
+        <h5 style="color: #007bff; border-bottom: 2px solid #007bff; padding-bottom: 10px;">Notifications</h5>
+        <ul>
+            @if(!empty($notifications))
+                @foreach($notifications as $notification)
+                    <li>{!! $notification !!}</li>
+                @endforeach
+            @else
+                <li style="color: #dc3545;">No new notifications.</li>
+            @endif
+        </ul>
+    </div>
+</div>
+
+
+
 
 <!--
 <div class="faq-section">

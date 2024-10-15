@@ -59,6 +59,8 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             // Update last login timestamp
             $this->authenticated($request, Auth::user());
+
+            // Redirect to the intended page or the default redirect path
             return redirect()->intended($this->redirectPath());
         }
 
@@ -66,6 +68,7 @@ class LoginController extends Controller
             'email' => 'The provided credentials do not match our records.',
         ])->withInput();
     }
+
 
 
     public function logout(Request $request)

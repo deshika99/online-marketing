@@ -24,7 +24,7 @@ class ProductController extends Controller
     public function showProductsByCategory($category = null, $subcategory = null, $subsubcategory = null)
     {
         $perPage = 16; 
-        $query = Products::with('images', 'specialOffer');
+        $query = Products::with('images', 'specialOffer', 'Sale'); 
 
         if ($subsubcategory) {
             $query->where('sub_subcategory', $subsubcategory);
@@ -60,18 +60,18 @@ class ProductController extends Controller
     public function show_all_items()
     {
         $perPage = 16; 
-        $query = Products::with('images', 'specialOffer');
+        $query = Products::with('images', 'specialOffer', 'Sale'); 
         $products = $query->paginate($perPage)->through(function ($product) {
             $product->average_rating = $product->reviews()->where('status', 'published')->avg('rating');
             $product->rating_count = $product->reviews()->where('status', 'published')->count();
             return $product;
         });
-
+    
         $colors = Variation::where('type', 'color')->distinct()->get(['value', 'hex_value']);
         
         return view('all_items', compact('products', 'colors'));
     }
-
+    
     
 
 
@@ -116,21 +116,27 @@ class ProductController extends Controller
         if ($request->priceMin) {
             $query->where(function ($q) use ($request) {
                 $q->where('normal_price', '>=', $request->priceMin)
-                ->orWhereHas('specialOffer', function ($q) use ($request) {
-                    $q->where('offer_price', '>=', $request->priceMin);
-                });
+                    ->orWhereHas('specialOffer', function ($q) use ($request) {
+                        $q->where('offer_price', '>=', $request->priceMin);
+                    })
+                    ->orWhereHas('sale', function ($q) use ($request) {
+                        $q->where('sale_price', '>=', $request->priceMin);
+                    });
             });
         }
-
+        
         if ($request->priceMax) {
             $query->where(function ($q) use ($request) {
                 $q->where('normal_price', '<=', $request->priceMax)
-                ->orWhereHas('specialOffer', function ($q) use ($request) {
-                    $q->where('offer_price', '<=', $request->priceMax);
-                });
+                    ->orWhereHas('specialOffer', function ($q) use ($request) {
+                        $q->where('offer_price', '<=', $request->priceMax);
+                    })
+                    ->orWhereHas('sale', function ($q) use ($request) {
+                        $q->where('sale_price', '<=', $request->priceMax);
+                    });
             });
         }
-
+        
         $products = $query->get();
 
         return response()->json(['products' => $products]);
@@ -156,6 +162,7 @@ class ProductController extends Controller
         
         $relatedProducts = Products::where('product_category', $product->product_category)
             ->where('product_id', '!=', $product->product_id)
+            ->take(15)
             ->get();
 
         foreach ($relatedProducts as $relatedProduct) {
@@ -257,7 +264,6 @@ class ProductController extends Controller
             ]);
     
             $request->merge([
-                'affiliateProduct' => $request->has('affiliateProduct') ? true : false,
                 'tags' => $request->input('tags') ? implode(',', array_map('trim', explode(',', $request->input('tags')))) : '',
             ]);
     
@@ -518,7 +524,25 @@ class ProductController extends Controller
         return view('admin_dashboard.product-details', compact('product'));
     }
     
+
+    public function searchProducts(Request $request)
+    {
+        $search = $request->get('search');
+        
+        // Fetch products matching the search query
+        $products = Products::where('product_name', 'LIKE', '%' . $search . '%')
+                            ->select('id', 'product_name', 'product_id',) // Assuming you have a 'product_code'
+                            ->get();
+        
+        // Return the results as JSON
+        return response()->json($products);
+    }
     
+
+    
+
+    
+
 
 
 }

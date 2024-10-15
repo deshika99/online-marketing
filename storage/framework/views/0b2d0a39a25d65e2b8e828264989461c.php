@@ -10,7 +10,7 @@
     color:white;
     font-size: 17px;
  }
-    .shopping-titles .card{
+.shopping-titles .card{
     border-radius: 15px; 
     overflow: hidden; 
     width:90%;
@@ -137,6 +137,23 @@
     font-size: 15px; 
     font-weight: bold;
 }
+
+/*search bar*/
+
+.search-item {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.search-item a {
+    text-decoration: none;
+    color: #000;
+}
+
+.search-item:hover {
+    background-color: #f1f1f1;
+}
+
 </style>
 
 
@@ -160,12 +177,15 @@
                     <img src="/assets/images/brand_name.png" height="30" width="320" alt="brand"/>
                 </a>
             </div>
-            <div class="col-md-4 mt-4">
+            <div class="col-md-4 mt-4 d-none d-md-block">
                 <form class="d-flex input-group w-auto my-auto mb-md-0">
-                    <input autocomplete="off" type="search" class="form-control rounded" placeholder="Search" />
+                    <input autocomplete="off" id="search" type="search" class="form-control rounded" placeholder="Search"  />
                     <span class="input-group-text border-0 d-none d-lg-flex"><i class="fas fa-search"></i></span>
-                </form>
+                 </form>
+                    <div id="search-results" style="display:none; position:absolute; background:white; width:27%; border:1px solid #ccc;z-index: 1000;"></div>
             </div>
+
+
             <div class="col-md-4 p-3 d-flex justify-content-center justify-content-md-end align-items-center">
                 <div class="d-flex align-items-center">
                     <div class="dropdown me-3">
@@ -229,53 +249,76 @@
             </div>
         </div>
 
-       <!-- Navbar Divider -->
-        <div class="navbar-divider w-100 p-0 mb-1">
-                <div class="container d-flex justify-content-center align-items-center" style="width: 65%;">
-                    <div class="category-select-wrapper1 d-flex justify-content-center align-items-center">
-                        <div class="custom-dropdown w-100 ms-4">
-                            <div class="dropdown-toggle" id="dropdownMenuButton" aria-expanded="false">
-                                <i class="fas fa-bars me-2"></i> All Categories
-                            </div>
-                            <div class="dropdown-menu">
-                                <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <div class="dropdown-item dropdown-submenu">
-                                        <a href="<?php echo e(route('user_products', ['category' => $category->parent_category])); ?>">
-                                            <img src="<?php echo e(asset('storage/category_images/' . $category->image)); ?>" alt="<?php echo e($category->parent_category); ?> icon" class="category-icon">
-                                            <?php echo e($category->parent_category); ?>
 
-                                        </a>
-                                        <div class="dropdown-menu multi-column">
-                                            <?php $__currentLoopData = $category->subcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <div class="dropdown-column">
-                                                    <a href="<?php echo e(route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory])); ?>">
-                                                        <strong style="font-size:16px;"><?php echo e($subcategory->subcategory); ?></strong>
-                                                    </a>
-                                                    <?php $__currentLoopData = $subcategory->subSubcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subSubcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <a href="<?php echo e(route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory, 'subsubcategory' => $subSubcategory->sub_subcategory])); ?>">
-                                                            <?php echo e($subSubcategory->sub_subcategory); ?>
+<!-- Navbar Divider -->
+<div class="navbar-divider w-100 p-0 mb-1">
+    <div class="container d-flex justify-content-center align-items-center" style="width: 80%;">
 
-                                                        </a>
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                </div>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                        </div>
-                                    </div>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            </div>
-                        </div>
-                    </div>
+        <div class="d-flex align-items-center" style="font-size: 16px;">
 
-                    <!-- other Links -->
-                    <div class="d-flex justify-content-center align-items-center flex-grow-1 otherlinks" style="font-size:16px;">
-                        <a href="<?php echo e(route('all_items')); ?>" class="mx-3">All Items</a>
-                        <a href="<?php echo e(route('special_offerproducts')); ?>" class="mx-3">Special Offers</a>
-                        <a href="<?php echo e(route('sale_products')); ?>" class="mx-3">Flash Sale</a>
-                        <a href="<?php echo e(route('best_sellers')); ?>" class="mx-3">Bestsellers</a>
-                        <a href="#" class="mx-3">Super Deals</a>
-                    </div>
+            <!-- All Categories Dropdown -->
+            <div class="custom-dropdown me-4">
+                <div class="dropdown-toggle" id="dropdownMenuButton" aria-expanded="false">
+                    <i class="fas fa-bars me-2"></i> All Categories
                 </div>
+                <div class="dropdown-menu">
+                    <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <div class="dropdown-item dropdown-submenu">
+                            <a href="<?php echo e(route('user_products', ['category' => $category->parent_category])); ?>">
+                                <img src="<?php echo e(asset('storage/category_images/' . $category->image)); ?>" alt="<?php echo e($category->parent_category); ?> icon" class="category-icon">
+                                <?php echo e($category->parent_category); ?>
+
+                            </a>
+                            <?php if($category->subcategories->isNotEmpty()): ?> <!-- Check if subcategories exist -->
+                                <div class="dropdown-menu multi-column">
+                                    <?php $__currentLoopData = $category->subcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <div class="dropdown-column">
+                                            <a href="<?php echo e(route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory])); ?>">
+                                                <strong style="font-size:16px;"><?php echo e($subcategory->subcategory); ?></strong>
+                                            </a>
+                                            <?php if($subcategory->subSubcategories->isNotEmpty()): ?> <!-- Check if sub-subcategories exist -->
+                                                <?php $__currentLoopData = $subcategory->subSubcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subSubcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <a href="<?php echo e(route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory, 'subsubcategory' => $subSubcategory->sub_subcategory])); ?>">
+                                                        <?php echo e($subSubcategory->sub_subcategory); ?>
+
+                                                    </a>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </div>
+            </div>
+
+            <div class="d-flex ms-4 d-none d-md-flex otherlinks">
+                <a href="<?php echo e(route('all_items')); ?>" class="mx-3">All Items</a>
+                <a href="<?php echo e(route('special_offerproducts')); ?>" class="mx-3">Special Offers</a>
+                <a href="<?php echo e(route('sale_products')); ?>" class="mx-3">Flash Sale</a>
+                <a href="<?php echo e(route('best_sellers')); ?>" class="mx-3">Bestsellers</a>
+            </div>
+
+            <!-- Visible only on screens smaller than 660px -->
+            <div class="dropdown d-md-none otherlinks ms-4">
+                <a class="dropdown-toggle" href="#" id="otherLinksDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Other
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="otherLinksDropdown">
+                    <li><a class="dropdown-item" href="<?php echo e(route('all_items')); ?>">All Items</a></li>
+                    <li><a class="dropdown-item" href="<?php echo e(route('special_offerproducts')); ?>">Special Offers</a></li>
+                    <li><a class="dropdown-item" href="<?php echo e(route('sale_products')); ?>">Flash Sale</a></li>
+                    <li><a class="dropdown-item" href="<?php echo e(route('best_sellers')); ?>">Bestsellers</a></li>
+                </ul>
+            </div>
         </div>
+    </div>
+</div>
+
+
+
+
 </nav>
 
 
@@ -293,24 +336,14 @@
         <div class="carousel-item active" style="background-image: url('/assets/images/slider/slider6.png');">
             <div class="d-flex justify-content-center align-items-center h-100">
                 <div class="text-white">
-                    <h1 class="mb-4 mt-5">Elevate Your <br>Lifestyle</h1>
+                    <h1 class="mb-4 mt-2">Elevate Your <br>Lifestyle</h1>
                     <h5 class="mb-4 mt-5">On home & living, leisure & more</h5>
                     <!--<a class="btn btn-outline-light btn-lg m-2" href="#" role="button" rel="nofollow">Add to Cart</a>-->
                 </div>
             </div>
         </div>
-        <div class="carousel-item" style="background-image: url('/assets/images/slider/slider6.png');">
-            <div class="d-flex justify-content-center align-items-center h-100">
-                <div class="text-white">
-                    <h1 class="mb-4 mt-5">Elevate Your <br>Lifestyle</h1>
-                    <h5 class="mb-4 mt-5">On home & living, leisure & more</h5>
-                    <!--<a class="btn btn-outline-light btn-lg m-2" href="#" role="button" rel="nofollow">Add to Cart</a>-->
-                </div>
-                
-            </div>
-        </div>
-
-        <!--<div class="carousel-item" style="background-image: url('/assets/images/slider/slider7.png');">
+       
+        <div class="carousel-item" style="background-image: url('/assets/images/slider/neww.jpg');">
                 <div class="d-flex justify-content-center align-items-center h-100">
                     <div class="text-white">
                         <h1 class="mb-3">Summer<br>Fashion Sale</h1><br>
@@ -318,6 +351,14 @@
                         <h4 class="mt-5 text-white">UP TO 50% OFF</h4>
                     </div>
                 </div>
+        </div>
+        <!-- <div class="carousel-item" style="background-image: url('/assets/images/slider/d.jpg');">
+            <div class="d-flex justify-content-center align-items-center h-100">
+                <div class="text-white">
+                    <h1 class="mb-4 mt-2">Elevate Your <br>Lifestyle</h1>
+                    <h5 class="mb-4 mt-5">On home & living, leisure & more</h5>
+                </div>
+            </div>
         </div>-->
 
     </div>
@@ -457,7 +498,7 @@ unset($__errorArgs, $__bag); ?>
     <a href="<?php echo e(route('special_offerproducts')); ?>" style="text-decoration: none; color:black;"><h4>Special Offers</h4></a>
     <div class="row justify-content-between">
         <?php $__currentLoopData = $specialOffers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $offer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <div class="col-md-2 col-sm-5 col-6">
+            <div class="col-md-2 col-sm-5 col-6 mb-2">
                 <div class="special-offer-item mb-2">
                     <a href="<?php echo e(route('single_product_page', ['product_id' => $offer->product_id])); ?>">
                         <?php if($offer->product->images->isNotEmpty()): ?>
@@ -568,6 +609,49 @@ unset($__errorArgs, $__bag); ?>
 
 <!-- Include Toastr JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('#search').on('keyup', function() {
+            var query = $(this).val();
+            if (query.length > 2) {
+                $.ajax({
+                    url: "<?php echo e(route('searchProducts')); ?>", // Route to handle search
+                    type: "GET",
+                    data: { search: query },
+                    success: function(data) {
+                        $('#search-results').empty().show(); // Clear previous results and show dropdown
+                        if (data.length > 0) {
+                            $.each(data, function(index, product) {
+                                $('#search-results').append(
+                                    '<div class="search-item"><a href="/product/' + product.product_id + '">' + product.product_name + '</a></div>'
+                                );
+                            });
+                        } else {
+                            $('#search-results').append('<div class="search-item">No products found</div>');
+                        }
+                    },
+                    error: function() {
+                        $('#search-results').append('<div class="search-item">Error searching products</div>');
+                    }
+                });
+            } else {
+                $('#search-results').hide(); // Hide dropdown if query is too short
+            }
+        });
+
+        // Hide results when clicking outside of the search input
+        $(document).click(function(e) {
+            if (!$(e.target).closest('#search, #search-results').length) {
+                $('#search-results').hide();
+            }
+        });
+    });
+</script>
+
+
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\online-marketing\resources\views/home.blade.php ENDPATH**/ ?>

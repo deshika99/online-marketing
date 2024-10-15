@@ -110,9 +110,9 @@ class CartController extends Controller
     
     public function checkout()
     {
-        $user = auth()->user();
+        $user = auth()->user(); 
         $defaultAddress = Address::where('user_id', $user->id)->where('default', 1)->first();
-
+    
         if (Auth::check()) {
             $cart = CartItem::with('product')->where('user_id', Auth::id())->get();
         } else {
@@ -123,8 +123,8 @@ class CartController extends Controller
                 return (object) $item;
             });
         }
-    
-        return view('checkout', compact('cart','defaultAddress'));
+
+        return view('checkout', compact('cart', 'defaultAddress', 'user'));
     }
     
 

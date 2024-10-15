@@ -76,6 +76,7 @@ class Products extends Model
         return $this->hasMany(AffiliateProduct::class);
     }
 
+    
 
     
 }

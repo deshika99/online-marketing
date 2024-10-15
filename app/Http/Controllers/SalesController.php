@@ -100,15 +100,18 @@ class SalesController extends Controller
             'products.*.normal_price' => 'required|numeric',
             'products.*.sale_rate' => 'required|numeric|min:0|max:100',
         ]);
-    
+
         $sale = Sale::findOrFail($id);
         $sale->end_date = $validatedData['end_date'];
-    
-        // Save the new sale rate
+
+        if (now()->lt($sale->end_date)) {
+            $sale->status = 'active';
+        }
+
         $productData = $validatedData['products'][0];
         $sale->sale_rate = $productData['sale_rate'];
         $sale->save();
-    
+
         $sale->product()->updateOrCreate(
             ['product_id' => $productData['product_id']],
             [
@@ -117,9 +120,10 @@ class SalesController extends Controller
                 'sale_price' => $productData['normal_price'] - ($productData['normal_price'] * ($productData['sale_rate'] / 100)),
             ]
         );
-    
+
         return redirect()->route('flash_sales')->with('status', 'Sale updated successfully.');
     }
+
     
     
     

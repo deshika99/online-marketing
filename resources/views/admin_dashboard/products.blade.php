@@ -41,12 +41,13 @@
                             <thead>
                                 <tr>
                                     <th scope="col" style="width:5%">#</th>
+                                    <th scope="col">ID</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Image</th>
-                                    <th scope="col" style="width:20%">Category</th>
+                                    <th scope="col" style="width:15%">Category</th>
                                     <th scope="col" style="width:10%">Quantity</th>
                                     <th scope="col">Total Price</th>
-                                    <th scope="col" style="width:15%">Action</th>
+                                    <th scope="col" style="width:12%">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -58,6 +59,7 @@
                                     data-images="{{ $product->images->toJson() }}" 
                                     data-variations="{{ $product->variations->toJson() }}">
                                     <td>{{ $index + 1 }}</td>
+                                    <td>{{ $product->product_id }}</td>
                                     <td>{{ $product->product_name }}</td>
                                     <td>
                                         @if ($product->images->isNotEmpty())
@@ -98,36 +100,34 @@
 
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    function filterProducts() {
-        const categoryFilter = document.getElementById('category-filter').value;
-        const affiliateOnly = document.getElementById('affiliate-only').checked;
+    document.addEventListener('DOMContentLoaded', function() {
+        const categoryFilter = document.getElementById('category-filter');
+        const affiliateCheckbox = document.getElementById('affiliate-only');
+        const productRows = document.querySelectorAll('.product-row');
 
-        const rows = document.querySelectorAll('.product-row');
+        function filterProducts() {
+            const selectedCategory = categoryFilter.value;
+            const isAffiliateOnly = affiliateCheckbox.checked;
 
-        rows.forEach(row => {
-            const categoryName = row.getAttribute('data-category');
-            const isAffiliate = row.getAttribute('data-affiliate') === 'true';
+            productRows.forEach(row => {
+                const category = row.getAttribute('data-category');
+                const isAffiliate = row.getAttribute('data-affiliate') === 'true';
 
-            const matchCategory = categoryFilter === 'all' || categoryFilter === categoryName;
-            const matchAffiliate = !affiliateOnly || isAffiliate;
+                const showCategory = (selectedCategory === 'all' || category === selectedCategory);
+                const showAffiliate = !isAffiliateOnly || isAffiliate;
 
-            if (matchCategory && matchAffiliate) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    }
+                if (showCategory && showAffiliate) {
+                    row.style.display = ''; 
+                } else {
+                    row.style.display = 'none'; 
+                }
+            });
+        }
 
-    document.getElementById('category-filter').addEventListener('change', filterProducts);
-    document.getElementById('affiliate-only').addEventListener('change', filterProducts);
-    filterProducts();
+        categoryFilter.addEventListener('change', filterProducts);
+        affiliateCheckbox.addEventListener('change', filterProducts);
+    });
+</script>
 
-
-
-});
-
-    </script>
 
 @endsection

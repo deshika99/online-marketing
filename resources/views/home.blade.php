@@ -12,7 +12,7 @@
     color:white;
     font-size: 17px;
  }
-    .shopping-titles .card{
+.shopping-titles .card{
     border-radius: 15px; 
     overflow: hidden; 
     width:90%;
@@ -139,6 +139,23 @@
     font-size: 15px; 
     font-weight: bold;
 }
+
+/*search bar*/
+
+.search-item {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.search-item a {
+    text-decoration: none;
+    color: #000;
+}
+
+.search-item:hover {
+    background-color: #f1f1f1;
+}
+
 </style>
 
 
@@ -162,12 +179,15 @@
                     <img src="/assets/images/brand_name.png" height="30" width="320" alt="brand"/>
                 </a>
             </div>
-            <div class="col-md-4 mt-4">
+            <div class="col-md-4 mt-4 d-none d-md-block">
                 <form class="d-flex input-group w-auto my-auto mb-md-0">
-                    <input autocomplete="off" type="search" class="form-control rounded" placeholder="Search" />
+                    <input autocomplete="off" id="search" type="search" class="form-control rounded" placeholder="Search"  />
                     <span class="input-group-text border-0 d-none d-lg-flex"><i class="fas fa-search"></i></span>
-                </form>
+                 </form>
+                    <div id="search-results" style="display:none; position:absolute; background:white; width:27%; border:1px solid #ccc;z-index: 1000;"></div>
             </div>
+
+
             <div class="col-md-4 p-3 d-flex justify-content-center justify-content-md-end align-items-center">
                 <div class="d-flex align-items-center">
                     <div class="dropdown me-3">
@@ -229,51 +249,74 @@
             </div>
         </div>
 
-       <!-- Navbar Divider -->
-        <div class="navbar-divider w-100 p-0 mb-1">
-                <div class="container d-flex justify-content-center align-items-center" style="width: 65%;">
-                    <div class="category-select-wrapper1 d-flex justify-content-center align-items-center">
-                        <div class="custom-dropdown w-100 ms-4">
-                            <div class="dropdown-toggle" id="dropdownMenuButton" aria-expanded="false">
-                                <i class="fas fa-bars me-2"></i> All Categories
-                            </div>
-                            <div class="dropdown-menu">
-                                @foreach ($categories as $category)
-                                    <div class="dropdown-item dropdown-submenu">
-                                        <a href="{{ route('user_products', ['category' => $category->parent_category]) }}">
-                                            <img src="{{ asset('storage/category_images/' . $category->image) }}" alt="{{ $category->parent_category }} icon" class="category-icon">
-                                            {{ $category->parent_category }}
-                                        </a>
-                                        <div class="dropdown-menu multi-column">
-                                            @foreach ($category->subcategories as $subcategory)
-                                                <div class="dropdown-column">
-                                                    <a href="{{ route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory]) }}">
-                                                        <strong style="font-size:16px;">{{ $subcategory->subcategory }}</strong>
-                                                    </a>
-                                                    @foreach ($subcategory->subSubcategories as $subSubcategory)
-                                                        <a href="{{ route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory, 'subsubcategory' => $subSubcategory->sub_subcategory]) }}">
-                                                            {{ $subSubcategory->sub_subcategory }}
-                                                        </a>
-                                                    @endforeach
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- other Links -->
-                    <div class="d-flex justify-content-center align-items-center flex-grow-1 otherlinks" style="font-size:16px;">
-                        <a href="{{ route('all_items') }}" class="mx-3">All Items</a>
-                        <a href="{{ route('special_offerproducts') }}" class="mx-3">Special Offers</a>
-                        <a href="{{ route('sale_products') }}" class="mx-3">Flash Sale</a>
-                        <a href="{{ route('best_sellers') }}" class="mx-3">Bestsellers</a>
-                        <a href="#" class="mx-3">Super Deals</a>
-                    </div>
+<!-- Navbar Divider -->
+<div class="navbar-divider w-100 p-0 mb-1">
+    <div class="container d-flex justify-content-center align-items-center" style="width: 80%;">
+
+        <div class="d-flex align-items-center" style="font-size: 16px;">
+
+            <!-- All Categories Dropdown -->
+            <div class="custom-dropdown me-4">
+                <div class="dropdown-toggle" id="dropdownMenuButton" aria-expanded="false">
+                    <i class="fas fa-bars me-2"></i> All Categories
                 </div>
+                <div class="dropdown-menu">
+                    @foreach ($categories as $category)
+                        <div class="dropdown-item dropdown-submenu">
+                            <a href="{{ route('user_products', ['category' => $category->parent_category]) }}">
+                                <img src="{{ asset('storage/category_images/' . $category->image) }}" alt="{{ $category->parent_category }} icon" class="category-icon">
+                                {{ $category->parent_category }}
+                            </a>
+                            @if ($category->subcategories->isNotEmpty()) <!-- Check if subcategories exist -->
+                                <div class="dropdown-menu multi-column">
+                                    @foreach ($category->subcategories as $subcategory)
+                                        <div class="dropdown-column">
+                                            <a href="{{ route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory]) }}">
+                                                <strong style="font-size:16px;">{{ $subcategory->subcategory }}</strong>
+                                            </a>
+                                            @if ($subcategory->subSubcategories->isNotEmpty()) <!-- Check if sub-subcategories exist -->
+                                                @foreach ($subcategory->subSubcategories as $subSubcategory)
+                                                    <a href="{{ route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory, 'subsubcategory' => $subSubcategory->sub_subcategory]) }}">
+                                                        {{ $subSubcategory->sub_subcategory }}
+                                                    </a>
+                                                @endforeach
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="d-flex ms-4 d-none d-md-flex otherlinks">
+                <a href="{{ route('all_items') }}" class="mx-3">All Items</a>
+                <a href="{{ route('special_offerproducts') }}" class="mx-3">Special Offers</a>
+                <a href="{{ route('sale_products') }}" class="mx-3">Flash Sale</a>
+                <a href="{{ route('best_sellers') }}" class="mx-3">Bestsellers</a>
+            </div>
+
+            <!-- Visible only on screens smaller than 660px -->
+            <div class="dropdown d-md-none otherlinks ms-4">
+                <a class="dropdown-toggle" href="#" id="otherLinksDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Other
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="otherLinksDropdown">
+                    <li><a class="dropdown-item" href="{{ route('all_items') }}">All Items</a></li>
+                    <li><a class="dropdown-item" href="{{ route('special_offerproducts') }}">Special Offers</a></li>
+                    <li><a class="dropdown-item" href="{{ route('sale_products') }}">Flash Sale</a></li>
+                    <li><a class="dropdown-item" href="{{ route('best_sellers') }}">Bestsellers</a></li>
+                </ul>
+            </div>
         </div>
+    </div>
+</div>
+
+
+
+
 </nav>
 
 
@@ -291,24 +334,14 @@
         <div class="carousel-item active" style="background-image: url('/assets/images/slider/slider6.png');">
             <div class="d-flex justify-content-center align-items-center h-100">
                 <div class="text-white">
-                    <h1 class="mb-4 mt-5">Elevate Your <br>Lifestyle</h1>
+                    <h1 class="mb-4 mt-2">Elevate Your <br>Lifestyle</h1>
                     <h5 class="mb-4 mt-5">On home & living, leisure & more</h5>
                     <!--<a class="btn btn-outline-light btn-lg m-2" href="#" role="button" rel="nofollow">Add to Cart</a>-->
                 </div>
             </div>
         </div>
-        <div class="carousel-item" style="background-image: url('/assets/images/slider/slider6.png');">
-            <div class="d-flex justify-content-center align-items-center h-100">
-                <div class="text-white">
-                    <h1 class="mb-4 mt-5">Elevate Your <br>Lifestyle</h1>
-                    <h5 class="mb-4 mt-5">On home & living, leisure & more</h5>
-                    <!--<a class="btn btn-outline-light btn-lg m-2" href="#" role="button" rel="nofollow">Add to Cart</a>-->
-                </div>
-                
-            </div>
-        </div>
-
-        <!--<div class="carousel-item" style="background-image: url('/assets/images/slider/slider7.png');">
+       
+        <div class="carousel-item" style="background-image: url('/assets/images/slider/neww.jpg');">
                 <div class="d-flex justify-content-center align-items-center h-100">
                     <div class="text-white">
                         <h1 class="mb-3">Summer<br>Fashion Sale</h1><br>
@@ -316,6 +349,14 @@
                         <h4 class="mt-5 text-white">UP TO 50% OFF</h4>
                     </div>
                 </div>
+        </div>
+        <!-- <div class="carousel-item" style="background-image: url('/assets/images/slider/d.jpg');">
+            <div class="d-flex justify-content-center align-items-center h-100">
+                <div class="text-white">
+                    <h1 class="mb-4 mt-2">Elevate Your <br>Lifestyle</h1>
+                    <h5 class="mb-4 mt-5">On home & living, leisure & more</h5>
+                </div>
+            </div>
         </div>-->
 
     </div>
@@ -427,7 +468,7 @@
     <a href="{{ route('special_offerproducts') }}" style="text-decoration: none; color:black;"><h4>Special Offers</h4></a>
     <div class="row justify-content-between">
         @foreach ($specialOffers as $offer)
-            <div class="col-md-2 col-sm-5 col-6">
+            <div class="col-md-2 col-sm-5 col-6 mb-2">
                 <div class="special-offer-item mb-2">
                     <a href="{{ route('single_product_page', ['product_id' => $offer->product_id]) }}">
                         @if ($offer->product->images->isNotEmpty())
@@ -538,4 +579,47 @@
 
 <!-- Include Toastr JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('#search').on('keyup', function() {
+            var query = $(this).val();
+            if (query.length > 2) {
+                $.ajax({
+                    url: "{{ route('searchProducts') }}", // Route to handle search
+                    type: "GET",
+                    data: { search: query },
+                    success: function(data) {
+                        $('#search-results').empty().show(); // Clear previous results and show dropdown
+                        if (data.length > 0) {
+                            $.each(data, function(index, product) {
+                                $('#search-results').append(
+                                    '<div class="search-item"><a href="/product/' + product.product_id + '">' + product.product_name + '</a></div>'
+                                );
+                            });
+                        } else {
+                            $('#search-results').append('<div class="search-item">No products found</div>');
+                        }
+                    },
+                    error: function() {
+                        $('#search-results').append('<div class="search-item">Error searching products</div>');
+                    }
+                });
+            } else {
+                $('#search-results').hide(); // Hide dropdown if query is too short
+            }
+        });
+
+        // Hide results when clicking outside of the search input
+        $(document).click(function(e) {
+            if (!$(e.target).closest('#search, #search-results').length) {
+                $('#search-results').hide();
+            }
+        });
+    });
+</script>
+
+
+
 @endsection
