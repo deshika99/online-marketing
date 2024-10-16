@@ -271,11 +271,11 @@
     
   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-     <script type="text/javascript">
-       $(document).ready(function() {
+<script type="text/javascript">
+    $(document).ready(function() {
         $('#search').on('keyup', function() {
             var query = $(this).val();
-            if (query.length > 2) {
+            if (query.length > 2) { // Start search after 3 characters
                 $.ajax({
                     url: "{{ route('searchProducts') }}", // Route to handle search
                     type: "GET",
@@ -292,8 +292,9 @@
                             $('#search-results').append('<div class="search-item">No products found</div>');
                         }
                     },
-                    error: function() {
-                        $('#search-results').append('<div class="search-item">Error searching products</div>');
+                    error: function(xhr, status, error) {
+                        console.error("AJAX error:", error); // Debugging
+                        $('#search-results').empty().append('<div class="search-item">Error searching products</div>');
                     }
                 });
             } else {
@@ -308,8 +309,8 @@
             }
         });
     });
-    
 </script>
+
 
 
    
