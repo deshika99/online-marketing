@@ -179,8 +179,7 @@ unset($__errorArgs, $__bag); ?>
                         <div class="row mb-3">
 
                             <label for="dob-day" class="col-md-4 col-form-label text-md-start">Date Of Birth <span class="text-danger"> *</span></label>
-
-                            <div class="col-md-7 d-flex">
+              <div class="col-md-7 d-flex">
                               
                                 <input id="dob-day" type="number" class="form-control me-2 <?php $__errorArgs = ['dob_day'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -284,7 +283,8 @@ unset($__errorArgs, $__bag); ?>
                         <div class="row mb-3">
 
                             <label for="email" class="col-md-4 col-form-label text-md-start">Email Address <span class="text-danger"> *</span></label>
-              <div class="col-md-7">
+                            <div class="col-md-7">
+
                                 <input id="email" type="email" class="form-control <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -823,6 +823,11 @@ unset($__errorArgs, $__bag); ?>
 
                         <br>
 
+
+                        <div class="row submit-btn mb-0">
+                            <div class="col-md-7 offset-md-0.5">
+                                <button type="submit" class="btn btn-warning">Register As Affiliate</button>
+
                         <div class="row submit-btn mb-0">
                             <div class="col-md-7 offset-md-0.5">
                                 <button type="submit" class="btn btn-warning">Register As Affiliate</button>
@@ -830,6 +835,7 @@ unset($__errorArgs, $__bag); ?>
                         <div class="row submit-btn mb-0">
                             <div class="col-md-7 offset-md-4">
                                 <button type="submit" class="btn btn-warning">Submit</button>
+
 
                             </div>
                         </div>

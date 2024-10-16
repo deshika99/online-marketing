@@ -528,21 +528,20 @@ class ProductController extends Controller
     public function searchProducts(Request $request)
     {
         $search = $request->get('search');
-        
-        // Fetch products matching the search query
-        $products = Products::where('product_name', 'LIKE', '%' . $search . '%')
-                            ->select('id', 'product_name', 'product_id',) // Assuming you have a 'product_code'
-                            ->get();
-        
-        // Return the results as JSON
-        return response()->json($products);
+
+        // If search query is empty, return an empty result
+    if (!$search) {
+        return response()->json([]);
     }
-    
 
-    
+        $products = Products::where('product_name', 'LIKE', '%' . $search . '%')
+        ->orWhere('tags', 'LIKE', '%' . $search . '%') // If tags are stored as comma-separated strings in the 'tags' column
+        ->select('id', 'product_name', 'product_id')
+         ->get();
 
-    
-
+    // Return the results as JSON
+     return response()->json($products);
+    }
 
 
 }
