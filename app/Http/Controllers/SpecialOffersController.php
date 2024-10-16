@@ -130,14 +130,15 @@ class SpecialOffersController extends Controller
 
     public function bestSellers(Request $request)
     {
-        // Get the most ordered products 
-        $orderedProductIds = CustomerOrderItems::select('product_id')
-            ->groupBy('product_id')
-            ->orderByRaw('count(*) desc')
+        // Get the most ordered products along with their quantities
+        $orderedProducts = CustomerOrderItems::select('product_id')
+            ->selectRaw('SUM(quantity) as total_quantity') 
+            ->groupBy('product_id') 
+            ->orderBy('total_quantity', 'desc')
             ->pluck('product_id'); 
     
         $products = Products::with('images')
-            ->whereIn('product_id', $orderedProductIds)
+            ->whereIn('product_id', $orderedProducts)
             ->with(['reviews' => function($query) {
                 $query->where('status', 'published');
             }])
@@ -150,6 +151,7 @@ class SpecialOffersController extends Controller
         
         return view('best_sellers', compact('products'));
     }
+    
     
     
     

@@ -32,12 +32,18 @@
     display: flex;
     gap: 30px;
     justify-content: space-between;
+
+    flex-wrap: wrap;
+
 }
 
 .about-images {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
+
+    flex: 1;
+
 }
 
 .about-images img {
@@ -49,6 +55,9 @@
 
 .about-text {
     max-width: 50%;
+
+    flex: 1;
+
 }
 
 .about-text h2 {
@@ -62,7 +71,65 @@
     color: #555;
     line-height: 1.6;
     margin-bottom: 15px;
+
+    text-align: justify;
+    text-justify: inter-word; /* Ensure equal word spacing */
+    word-break: break-word; /* Break long words to avoid big gaps */
+    word-spacing: normal; /* Reset any extra word spacing */
+    letter-spacing: normal; /* Set normal letter spacing */
+    hyphens: auto; /* Allow automatic hyphenation */
+    
 }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column;
+    }
+    
+    .about-text {
+        max-width: 100%;
+    }
+    
+    .about-images {
+        grid-template-columns: 1fr;
+    }
+
+    .about-images img {
+        width: 100%;
+        height: 250px;
+    }
+    .about-text p {
+        font-size: 14px; 
+        word-spacing: normal; 
+        letter-spacing: normal;
+        text-align: justify;
+    }
+
+}
+
+@media (max-width: 480px) {
+    .about-header h1 {
+        font-size: 36px;
+    }
+
+    .about-header p {
+        font-size: 16px;
+    }
+
+    .about-text h2 {
+        font-size: 28px;
+    }
+    
+    .about-text p {
+        font-size: 14px;
+        text-align: justify;
+        word-spacing: normal; 
+        letter-spacing: normal;
+    }
+}
+
+
 <!-- services  -->
 .services-section {
         text-align: center;
@@ -173,6 +240,13 @@
     color: #555;
     line-height: 1.6;
     margin-bottom: 15px;
+
+    text-align: justify;
+    word-spacing: 1px;
+    letter-spacing: 0.5px;
+    text-justify: inter-word; /* Space evenly between words */
+    hyphens: auto; /* Automatically break words to fit lines */
+
 }
 
 @media (max-width: 768px) {
@@ -187,6 +261,17 @@
     .mission {
         max-width: 100%;
     }
+
+    .mission p {
+       font-size: 14px;
+       word-spacing: 0.5px;
+       letter-spacing: 0.4px;
+       hyphens: auto;
+       text-justify: inter-word;
+       
+   }
+    
+
 }
 
    
@@ -223,7 +308,9 @@
                 Your go-to platform for effortless online shopping.
                  We offer a wide variety of high-quality products, from fashion and accessories to home goods and electronics. 
                  At OMC, we focus on providing a secure, convenient, and enjoyable shopping experience with fast shipping and exceptional service.
-                  Whether you’re after the latest trends or everyday essentials, OMC has everything you need, all in one place.
+
+                  Whether you’re after the latest trends or everyday essentials,OMC has everything you need,all in one place.
+
             </p>
             </div>
     </div>
@@ -279,7 +366,9 @@
     <img src="https://media.istockphoto.com/id/1283030328/photo/silhouette-of-businessman-holding-target-board-on-the-top-of-mountain-with-over-blue-sky-and.jpg?s=612x612&w=0&k=20&c=2ZifINbmOZq9dWW8iviW1k275x2zDy8w5_TBuLB5Sso=" alt="OMC Mission Image" class="image">
     <div class="mission">
       <h2>Our Mission</h2>
-      <p> "At the Online Marketing Complex (OMC), our mission is to empower businesses and individuals by providing comprehensive marketing solutions that drive success in the digital world.
+
+      <p> "At the Online Marketing Complex (OMC),our mission is to empower businesses and individuals by providing comprehensive marketing solutions that drive success in the digital world.
+
          We are dedicated to offering top-tier services in branding, digital media, content creation, and strategic marketing, enabling our clients to achieve their full potential.
           With a focus on innovation, creativity, and customer satisfaction, OMC strives to make online marketing accessible and effective for all, transforming ideas into impactful realities."</p>
     </div>

@@ -257,17 +257,92 @@ class UserDashboardController extends Controller
 
 
     public function index()
-{
-    if (Auth::check()) {
-        $user = Auth::user();
-        return view('member_dashboard.dashboard', compact('user'));
-    } else {
-        return redirect()->route('login');
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            $activities = $this->getRecentActivities($user->id);
+            $notifications = $this->getRecentNotifications($user->id); // Fetch notifications
+            return view('member_dashboard.dashboard', compact('user', 'activities', 'notifications'));
+        } else {
+            return redirect()->route('login');
+        }
     }
-}
+    
 
+    private function getRecentActivities($userId)
+    {
+        // Fetch recent orders for the user
+        $orderActivities = CustomerOrder::where('user_id', $userId)
+            ->orderBy('updated_at', 'desc') 
+            ->limit(3)
+            ->get(['order_code', 'created_at'])
+            ->map(function ($order) {
+                return [
+                    'type' => 'order',
+                    'message' => "Order #{$order->order_code} placed on <strong>" . $order->created_at->format('F d, Y') . "</strong>",
+                    'date' => $order->created_at,
+                ];
+            });
+    
+        // Fetch recent reviews for the user
+        $reviewActivities = Review::where('user_id', $userId)
+            ->whereIn('status', ['published', 'pending'])
+            ->orderBy('created_at', 'desc')
+            ->limit(3)
+            ->get(['product_id', 'created_at'])
+            ->map(function ($review) {
+                return [
+                    'type' => 'review',
+                    'message' => "Review for Product ID #{$review->product_id} submitted on <strong>" . $review->created_at->format('F d, Y') . "</strong>",
+                    'date' => $review->created_at,
+                ];
+            });
+    
+        $activities = $orderActivities->merge($reviewActivities);
+        $activities = $activities->sortByDesc('date')->take(3);
+    
+        if ($activities->isEmpty()) {
+            return ["No recent activities."];
+        }
+    
+        return $activities->pluck('message');
+    }
+    
 
+    private function getRecentNotifications($userId)
+    {
+        // Fetch recent shipped orders for the user
+        $orderNotifications = CustomerOrder::where('user_id', $userId)
+            ->where('status', 'shipped')
+            ->orderBy('updated_at', 'desc') 
+            ->limit(3)
+            ->get(['order_code', 'updated_at'])
+            ->map(function ($order) {
+                return "Your order #{$order->order_code} has been shipped! on <strong>" . $order->updated_at->format('F d, Y') . "</strong>";
+            });
+    
+        // Fetch recent inquiries with replies for the user
+        $inquiryNotifications = Inquiry::where('user_id', $userId)
+            ->where('status', 'replied')
+            ->orderBy('updated_at', 'desc')
+            ->limit(3)
+            ->get(['subject', 'updated_at'])
+            ->map(function ($inquiry) {
+                return "Your inquiry about '{$inquiry->subject}' has been responded on <strong>" . $inquiry->updated_at->format('F d, Y') . "</strong>.";
+            });
+    
+        $notifications = $orderNotifications->merge($inquiryNotifications);
+        $notifications = $notifications->sortByDesc('updated_at')->take(3);
+    
+        if ($notifications->isEmpty()) {
+            return ["No new notifications."];
+        }
+    
+        return $notifications; 
+    }
+    
 
+    
 
     public function updateAddress(Request $request)
     {
@@ -394,16 +469,3 @@ class UserDashboardController extends Controller
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
