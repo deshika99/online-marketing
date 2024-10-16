@@ -89,7 +89,7 @@
 }
 
 .review-item {
-    padding: 15px;
+    padding: 5px;
     margin-bottom: 15px;
 }
 
@@ -407,6 +407,7 @@
                                             @endforeach
                                         </div>
                                     </div>
+                                    <hr/>
 
                                     <!-- Review List -->
                                     <div class="review-list">
@@ -415,15 +416,18 @@
                                                 <div class="user-info">
                                                     <img src="{{ $review->is_anonymous ? asset('assets/images/default-user.png') : asset('storage/' . $review->user->profile_image) }}" alt="User image" class="user-image">
                                                     <div class="user-details mt-3">
-                                                        <h6>{{ $review->is_anonymous ? 'Anonymous' : $review->user->name }}</h6>
+                                                        <h6>
+                                                            {{ $review->is_anonymous ? 'Anonymous' : $review->user->name }}
+                                                            <span class="text-secondary" style="font-size: 0.8em; margin-left:15px;">{{ \Carbon\Carbon::parse($review->created_at)->format('d M Y') }}</span>
+                                                        </h6>
                                                     </div>
                                                     <div class="user-rating">
                                                         <span class="me-1">{{ $review->rating }}.0</span>
                                                         <span class="rating text-warning">
                                                             @for($i = 1; $i <= 5; $i++)
-                                                                @if($i <= $averageRating)
+                                                                @if($i <= $review->rating)
                                                                     <i class="fa fa-star"></i>
-                                                                @elseif($i - $averageRating < 1)
+                                                                @elseif($i - $review->rating < 1)
                                                                     <i class="fas fa-star-half-alt"></i>
                                                                 @else
                                                                     <i class="fa fa-star-o"></i>
@@ -437,7 +441,7 @@
                                                     <div class="review-images mt-2 d-flex flex-wrap">
                                                         @if($review->images->isNotEmpty())
                                                             @foreach($review->images as $image)
-                                                                <img src="{{ asset('storage/' . $image->media_path) }}" alt="Review image" class="review-img">
+                                                                <img src="{{ asset('storage/' . $image->media_path) }}" alt="Review image" class="review-img" width="100" onclick="showReviewImage('{{ asset('storage/' . $image->media_path) }}', {{ $review->id }})">
                                                             @endforeach
                                                         @endif
                                                         @if($review->videos->isNotEmpty())
@@ -449,12 +453,19 @@
                                                             @endforeach
                                                         @endif
                                                     </div>
+                                                    <!-- Display Larger Image -->
+                                                    <div class="main-review-image mt-3">
+                                                        <img id="mainReviewImage-{{ $review->id }}" src="" alt="Larger Review Image" style="display:none; width:350px;">
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <hr /> 
                                         @endforeach
-                                    </div>                                
+                                    </div>
+
                                 </div>
                             </div>
+
 
 
                             <div class="tab-pane fade mb-2" id="ex1-pills-QA" role="tabpanel" aria-labelledby="ex1-tab-QA">
@@ -681,6 +692,19 @@ $(document).ready(function() {
 
 
 
+<!-- review image-->
+<script>
+    function showReviewImage(imagePath, reviewId) {
+        const mainImage = document.getElementById(`mainReviewImage-${reviewId}`);
 
-
+        if (mainImage.style.display === 'block' && mainImage.src === imagePath) {
+            // Hide the image
+            mainImage.style.display = 'none';
+            mainImage.src = '';
+        } else {
+            mainImage.src = imagePath;
+            mainImage.style.display = 'block';
+        }
+    }
+</script>
 @endsection

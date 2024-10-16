@@ -63,9 +63,15 @@ class CustomerOrderController extends Controller
         }
 
         $cartArray = $cart->map(function ($item) {
+            $price = $item->product->sale && $item->product->sale->status === 'active' 
+                ? $item->product->sale->sale_price 
+                : ($item->product->specialOffer && $item->product->specialOffer->status === 'active'
+                    ? $item->product->specialOffer->offer_price
+                    : $item->product->normal_price);
+    
             return [
                 'product_id' => $item->product_id,
-                'price' => $item->product->normal_price,
+                'price' => $price,
                 'quantity' => $item->quantity,
                 'size' => $item->size,
                 'color' => $item->color,
@@ -142,9 +148,6 @@ class CustomerOrderController extends Controller
                 $colorVariation->save();
             }
         }
-
-        
-
 
 
         return redirect()->route('payment', ['order_code' => $orderCode]);

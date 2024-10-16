@@ -145,6 +145,7 @@
 .search-item {
     padding: 10px;
     border-bottom: 1px solid #ccc;
+    cursor: pointer; 
 }
 
 .search-item a {
@@ -580,11 +581,13 @@
 <!-- Include Toastr JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function() {
-        $('#search').on('keyup', function() {
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#search').on('keyup', function(event) {
             var query = $(this).val();
+            // Check if the query length is more than 2 characters
             if (query.length > 2) {
                 $.ajax({
                     url: "{{ route('searchProducts') }}", // Route to handle search
@@ -595,7 +598,9 @@
                         if (data.length > 0) {
                             $.each(data, function(index, product) {
                                 $('#search-results').append(
-                                    '<div class="search-item"><a href="/product/' + product.product_id + '">' + product.product_name + '</a></div>'
+                                    '<div class="search-item" data-href="/product/' + product.product_id + '">' +
+                                        product.product_name +
+                                    '</div>'
                                 );
                             });
                         } else {
@@ -603,11 +608,25 @@
                         }
                     },
                     error: function() {
+                        $('#search-results').empty().show();
                         $('#search-results').append('<div class="search-item">Error searching products</div>');
                     }
                 });
             } else {
                 $('#search-results').hide(); // Hide dropdown if query is too short
+            }
+
+            // Handle search submission on Enter key
+            if (event.key === 'Enter') {
+                window.location.href = "/search-results?query=" + encodeURIComponent(query);
+            }
+        });
+
+        // Handle click event on the search icon
+        $('#search-icon').on('click', function() {
+            var query = $('#search').val();
+            if (query.length > 2) {
+                window.location.href = "/search-results?query=" + encodeURIComponent(query);
             }
         });
 
@@ -617,8 +636,15 @@
                 $('#search-results').hide();
             }
         });
+
+        // Make entire search item clickable
+        $('#search-results').on('click', '.search-item', function() {
+            var href = $(this).data('href'); // Get the URL from the data attribute
+            window.location.href = href; // Redirect to the product page
+        });
     });
 </script>
+
 
 
 

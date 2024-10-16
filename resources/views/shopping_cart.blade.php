@@ -111,22 +111,30 @@
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2">SubTotal ({{ count($cart) }} items):</p>
                                 <p class="mb-2" id="subtotal">
-                                    Rs. {{ $cart->sum(fn($item) => 
-                                        ($item->product->specialOffer && $item->product->specialOffer->status === 'active') 
-                                        ? $item->product->specialOffer->offer_price 
-                                        : $item->product->normal_price
-                                    ) }}
+                                    Rs. {{ $cart->sum(function($item) {
+                                        if ($item->product->sale && $item->product->sale->status === 'active') {
+                                            return $item->product->sale->sale_price * $item->quantity;
+                                        } elseif ($item->product->specialOffer && $item->product->specialOffer->status === 'active') {
+                                            return $item->product->specialOffer->offer_price * $item->quantity;
+                                        } else {
+                                            return $item->product->normal_price * $item->quantity;
+                                        }
+                                    }) }}
                                 </p>
                             </div>
                             <hr />
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2">Total:</p>
                                 <p class="mb-2 fw-bold" id="total" style="color:#f55b29;">
-                                    Rs. {{ $cart->sum(fn($item) => 
-                                        ($item->product->specialOffer && $item->product->specialOffer->status === 'active') 
-                                        ? $item->product->specialOffer->offer_price 
-                                        : $item->product->normal_price
-                                    ) }}
+                                    Rs. {{ $cart->sum(function($item) {
+                                        if ($item->product->sale && $item->product->sale->status === 'active') {
+                                            return $item->product->sale->sale_price * $item->quantity;
+                                        } elseif ($item->product->specialOffer && $item->product->specialOffer->status === 'active') {
+                                            return $item->product->specialOffer->offer_price * $item->quantity;
+                                        } else {
+                                            return $item->product->normal_price * $item->quantity;
+                                        }
+                                    }) }}
                                 </p>
                             </div>
                             <div class="mt-3">

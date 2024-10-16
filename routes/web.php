@@ -53,6 +53,7 @@ Route::view('/home/affiliate/single', 'aff_single')->name('aff_single');
 Route::post('/inquiry', [InquiryController::class, 'store'])->name('inquiry.store');//inquiry
 Route::get('/admin/customer_inquiries', [InquiryController::class, 'showCustomerInquiries'])->name('customer_inquiries');
 
+Route::get('/search-results', [ProductController::class, 'showSearchResults'])->name('searchResults');
 
 
 

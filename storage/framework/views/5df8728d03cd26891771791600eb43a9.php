@@ -87,7 +87,7 @@
 }
 
 .review-item {
-    padding: 15px;
+    padding: 5px;
     margin-bottom: 15px;
 }
 
@@ -412,6 +412,7 @@
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </div>
                                     </div>
+                                    <hr/>
 
                                     <!-- Review List -->
                                     <div class="review-list">
@@ -420,15 +421,19 @@
                                                 <div class="user-info">
                                                     <img src="<?php echo e($review->is_anonymous ? asset('assets/images/default-user.png') : asset('storage/' . $review->user->profile_image)); ?>" alt="User image" class="user-image">
                                                     <div class="user-details mt-3">
-                                                        <h6><?php echo e($review->is_anonymous ? 'Anonymous' : $review->user->name); ?></h6>
+                                                        <h6>
+                                                            <?php echo e($review->is_anonymous ? 'Anonymous' : $review->user->name); ?>
+
+                                                            <span class="text-secondary" style="font-size: 0.8em; margin-left:15px;"><?php echo e(\Carbon\Carbon::parse($review->created_at)->format('d M Y')); ?></span>
+                                                        </h6>
                                                     </div>
                                                     <div class="user-rating">
                                                         <span class="me-1"><?php echo e($review->rating); ?>.0</span>
                                                         <span class="rating text-warning">
                                                             <?php for($i = 1; $i <= 5; $i++): ?>
-                                                                <?php if($i <= $averageRating): ?>
+                                                                <?php if($i <= $review->rating): ?>
                                                                     <i class="fa fa-star"></i>
-                                                                <?php elseif($i - $averageRating < 1): ?>
+                                                                <?php elseif($i - $review->rating < 1): ?>
                                                                     <i class="fas fa-star-half-alt"></i>
                                                                 <?php else: ?>
                                                                     <i class="fa fa-star-o"></i>
@@ -442,7 +447,7 @@
                                                     <div class="review-images mt-2 d-flex flex-wrap">
                                                         <?php if($review->images->isNotEmpty()): ?>
                                                             <?php $__currentLoopData = $review->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                <img src="<?php echo e(asset('storage/' . $image->media_path)); ?>" alt="Review image" class="review-img">
+                                                                <img src="<?php echo e(asset('storage/' . $image->media_path)); ?>" alt="Review image" class="review-img" width="100" onclick="showReviewImage('<?php echo e(asset('storage/' . $image->media_path)); ?>', <?php echo e($review->id); ?>)">
                                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                         <?php endif; ?>
                                                         <?php if($review->videos->isNotEmpty()): ?>
@@ -454,12 +459,19 @@
                                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                         <?php endif; ?>
                                                     </div>
+                                                    <!-- Display Larger Image -->
+                                                    <div class="main-review-image mt-3">
+                                                        <img id="mainReviewImage-<?php echo e($review->id); ?>" src="" alt="Larger Review Image" style="display:none; width:350px;">
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <hr /> 
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </div>                                
+                                    </div>
+
                                 </div>
                             </div>
+
 
 
                             <div class="tab-pane fade mb-2" id="ex1-pills-QA" role="tabpanel" aria-labelledby="ex1-tab-QA">
@@ -687,8 +699,21 @@ $(document).ready(function() {
 
 
 
+<!-- review image-->
+<script>
+    function showReviewImage(imagePath, reviewId) {
+        const mainImage = document.getElementById(`mainReviewImage-${reviewId}`);
 
-
+        if (mainImage.style.display === 'block' && mainImage.src === imagePath) {
+            // Hide the image
+            mainImage.style.display = 'none';
+            mainImage.src = '';
+        } else {
+            mainImage.src = imagePath;
+            mainImage.style.display = 'block';
+        }
+    }
+</script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\online-marketing\resources\views/single_product_page.blade.php ENDPATH**/ ?>

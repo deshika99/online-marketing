@@ -25,6 +25,7 @@
 .search-item {
         padding: 10px;
         border-bottom: 1px solid #ccc;
+        cursor: pointer; 
     }
 
     .search-item a {
@@ -52,13 +53,15 @@
                     </a>
                 </div>
 
-                <!-- Search Section -->
+               <!-- Search Section -->
                 <div class="col-md-5 mt-2">
-                    <form class="d-flex input-group w-auto my-auto mb-3 mb-md-0">
-                        <input autocomplete="off" type="search" class="form-control rounded" placeholder="Search" />
-                        <span class="input-group-text border-0 d-none d-lg-flex"><i class="fas fa-search"></i></span>
+                    <form class="d-flex input-group w-auto my-auto mb-md-0" id="search-form">
+                        <input autocomplete="off" id="search" type="search" class="form-control rounded" placeholder="Search" style="width: 250px;" />
+                        <span class="input-group-text border-0 d-none d-lg-flex" id="search-icon"><i class="fas fa-search"></i></span>
                     </form>
+                    <div id="search-results" style="display:none; position:absolute; background:white; width:38%; border:1px solid #ccc; z-index: 1000;"></div>
                 </div>
+
 
                 <!-- User & Cart Section -->
                 <div class="col-md-3 mb-2 d-flex justify-content-center justify-content-md-end align-items-center">
@@ -324,15 +327,17 @@ unset($__errorArgs, $__bag); ?>
             });
         });
 
-    </script>    
-    
-  
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</script>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#search').on('keyup', function() {
+        $('#search').on('keyup', function(event) {
             var query = $(this).val();
-            if (query.length > 2) { // Start search after 3 characters
+            // Check if the query length is more than 2 characters
+            if (query.length > 2) {
                 $.ajax({
                     url: "<?php echo e(route('searchProducts')); ?>", // Route to handle search
                     type: "GET",
@@ -342,20 +347,35 @@ unset($__errorArgs, $__bag); ?>
                         if (data.length > 0) {
                             $.each(data, function(index, product) {
                                 $('#search-results').append(
-                                    '<div class="search-item"><a href="/product/' + product.product_id + '">' + product.product_name + '</a></div>'
+                                    '<div class="search-item" data-href="/product/' + product.product_id + '">' +
+                                        product.product_name +
+                                    '</div>'
                                 );
                             });
                         } else {
                             $('#search-results').append('<div class="search-item">No products found</div>');
                         }
                     },
-                    error: function(xhr, status, error) {
-                        console.error("AJAX error:", error); // Debugging
-                        $('#search-results').empty().append('<div class="search-item">Error searching products</div>');
+                    error: function() {
+                        $('#search-results').empty().show();
+                        $('#search-results').append('<div class="search-item">Error searching products</div>');
                     }
                 });
             } else {
                 $('#search-results').hide(); // Hide dropdown if query is too short
+            }
+
+            // Handle search submission on Enter key
+            if (event.key === 'Enter') {
+                window.location.href = "/search-results?query=" + encodeURIComponent(query);
+            }
+        });
+
+        // Handle click event on the search icon
+        $('#search-icon').on('click', function() {
+            var query = $('#search').val();
+            if (query.length > 2) {
+                window.location.href = "/search-results?query=" + encodeURIComponent(query);
             }
         });
 
@@ -365,9 +385,14 @@ unset($__errorArgs, $__bag); ?>
                 $('#search-results').hide();
             }
         });
+
+        // Make entire search item clickable
+        $('#search-results').on('click', '.search-item', function() {
+            var href = $(this).data('href'); // Get the URL from the data attribute
+            window.location.href = href; // Redirect to the product page
+        });
     });
 </script>
-
 
 
    
