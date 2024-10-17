@@ -1,6 +1,4 @@
-@extends('layouts.affiliate_main.master')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <style>
     .table thead{
         background-color: #f9f9f9; 
@@ -11,17 +9,19 @@
     <div class="container pt-4 px-4"> 
 
         <!-- Display success or error messages -->
-        @if (session('success'))
+        <?php if(session('success')): ?>
             <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
+                <?php echo e(session('success')); ?>
 
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
             </div>
-        @endif
+        <?php endif; ?>
+
+        <?php if(session('error')): ?>
+            <div class="alert alert-danger">
+                <?php echo e(session('error')); ?>
+
+            </div>
+        <?php endif; ?>
 
         <h3 class="py-3">Withdrawals</h3>
 
@@ -31,7 +31,7 @@
                 <div class="card">
                     <div class="card-body">
                         <p class="mb-3">Total Available Balance</p>
-                        <h3 class="mb-6">LKR {{ number_format($totalBalance, 2) }}</h3> 
+                        <h3 class="mb-6">LKR <?php echo e(number_format($totalBalance, 2)); ?></h3> 
                     </div>
                 </div>
             </div>
@@ -42,13 +42,13 @@
                     <div class="card-body">
                         <p class="mb-3">Request Withdrawal</p>
                         <p class="mb-2 " style="color:red;">Check your balance; it must be more than 1000 before requesting a withdrawal.</p>
-                        <form method="POST" action="{{ route('paymentrequest') }}">
-                            @csrf
+                        <form method="POST" action="<?php echo e(route('paymentrequest')); ?>">
+                            <?php echo csrf_field(); ?>
                             <div class="mb-3">
                                 <input type="number" name="withdraw_amount" id="withdraw_amount" class="form-control" placeholder="Enter Amount" required>
                             </div>
                             <!-- Use raw numeric totalBalance value -->
-                            <input type="hidden" name="total" value="{{ $totalBalance }}">
+                            <input type="hidden" name="total" value="<?php echo e($totalBalance); ?>">
                             <button type="submit" class="btn btn-primary">Withdraw</button>
                         </form>
                     </div>
@@ -81,21 +81,21 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse($paymentRequests as $request)
+                                    <?php $__empty_1 = true; $__currentLoopData = $paymentRequests; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $request): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                         <tr>
-                                            <td>{{ $request->requested_at }}</td>
-                                            <td>{{ $request->bank_name }} - {{ $request->branch }}</td>
-                                            <td>{{ $request->account_number }}</td>
-                                            <td>LKR {{ number_format($request->withdraw_amount, 2) }}</td>
-                                            <td>LKR {{ number_format($request->processing_fee, 2) }}</td>
-                                            <td>LKR {{ number_format($request->paid_amount, 2) }}</td>
-                                            <td>{{ $request->status }}</td>
+                                            <td><?php echo e($request->requested_at); ?></td>
+                                            <td><?php echo e($request->bank_name); ?> - <?php echo e($request->branch); ?></td>
+                                            <td><?php echo e($request->account_number); ?></td>
+                                            <td>LKR <?php echo e(number_format($request->withdraw_amount, 2)); ?></td>
+                                            <td>LKR <?php echo e(number_format($request->processing_fee, 2)); ?></td>
+                                            <td>LKR <?php echo e(number_format($request->paid_amount, 2)); ?></td>
+                                            <td><?php echo e($request->status); ?></td>
                                         </tr>
-                                    @empty
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                         <tr>
                                             <td colspan="8" class="text-center">No withdrawal requests found.</td>
                                         </tr>
-                                    @endforelse
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -105,7 +105,7 @@
 
             <!-- Card Footer -->
             <div class="card-footer d-flex justify-content-between align-items-center">
-                <span>Total: {{ $paymentRequests->count() }}</span>
+                <span>Total: <?php echo e($paymentRequests->count()); ?></span>
                 <div class="d-flex align-items-center">
                     <label for="items-per-page" class="form-label me-2 mb-0">Items per page:</label>
                     <select id="items-per-page" class="form-select items-per-page" style="font-size: 0.8rem; width: auto;">
@@ -128,4 +128,6 @@
     </div>
 </main>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.affiliate_main.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\e support project\resources\views/affiliate_dashboard/withdrawals.blade.php ENDPATH**/ ?>
