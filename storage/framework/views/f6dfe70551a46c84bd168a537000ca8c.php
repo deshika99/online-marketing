@@ -68,8 +68,13 @@
                                                     <button class="btn btn-sm btn-danger mt-2">Delete</button>
                                                 </form>
 
-                                                <!-- View Report Button -->
-                                                <a href="<?php echo e(route('raffletickets.report', $ticket->id)); ?>" class="btn btn-sm btn-info">View Report</a>
+                                                <!-- View Report button in the referring page -->
+                                                <form action="<?php echo e(route('realtime_tracking')); ?>" method="POST" style="display: inline;">
+                                                    <?php echo csrf_field(); ?>
+                                                    <input type="hidden" name="raffle_ticket_id" value="<?php echo e($ticket->id); ?>">
+                                                    <button type="submit" class="btn btn-sm btn-info">View Report</button>
+                                                </form>
+
                                             </td>
                                         </tr>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

@@ -53,18 +53,28 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-3 d-flex flex-column align-items-start">
-                                        <div class="d-flex flex-column align-items-start">
-                                            <?php if($item->product->specialOffer && $item->product->specialOffer->status === 'active'): ?>
-                                                <p class="text-orange h6 mt-3">
-                                                    Rs. <span class="item-price"><?php echo e(number_format($item->product->specialOffer->offer_price, 2)); ?></span>
-                                                </p>
-                                            <?php else: ?>
-                                                <p class="text-orange h6 mt-4">
-                                                    Rs. <span class="item-price"><?php echo e(number_format($item->product->normal_price, 2)); ?></span>
-                                                </p>
-                                            <?php endif; ?>
-                                        </div>
+                                    <div class="d-flex flex-column align-items-start">
+                                        <?php
+                                            $salePrice = $item->product->sale ? $item->product->sale->sale_price : null;
+                                            $specialOfferPrice = $item->product->specialOffer ? $item->product->specialOffer->offer_price : null;
+                                            $normalPrice = $item->product->normal_price;
+                                        ?>
+
+                                        <?php if($salePrice): ?>
+                                            <p class="text-orange h6 mt-3">
+                                                Rs. <span class="item-price"><?php echo e(number_format($salePrice, 2)); ?></span>
+                                            </p>
+                                        <?php elseif($specialOfferPrice): ?>
+                                            <p class="text-orange h6 mt-3">
+                                                Rs. <span class="item-price"><?php echo e(number_format($specialOfferPrice, 2)); ?></span>
+                                            </p>
+                                        <?php else: ?>
+                                            <p class="text-orange h6 mt-4">
+                                                Rs. <span class="item-price"><?php echo e(number_format($normalPrice, 2)); ?></span>
+                                            </p>
+                                        <?php endif; ?>
                                     </div>
+                                </div>
 
                                     <div class="col-lg-2 d-flex align-items-center justify-content-end">
                                         <div class="input-group quantity-input">

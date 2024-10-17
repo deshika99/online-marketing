@@ -138,6 +138,7 @@
     font-weight: bold;
 }
 
+
 /*search bar*/
 
 .search-item {
@@ -154,6 +155,7 @@
 .search-item:hover {
     background-color: #f1f1f1;
 }
+
 
 </style>
 

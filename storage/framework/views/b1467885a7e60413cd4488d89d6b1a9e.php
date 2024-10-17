@@ -10,6 +10,7 @@
     }
 
     .otherlinks a {
+
         color: white;
     }
 
@@ -19,6 +20,8 @@
         margin-right: 8px;
         vertical-align: middle;
     }
+
+
 
 
 
@@ -37,6 +40,7 @@
         background-color: #f1f1f1;
     }
 
+
 </style>
 
 <header>
@@ -53,6 +57,7 @@
                     </a>
                 </div>
 
+
                <!-- Search Section -->
                 <div class="col-md-5 mt-2">
                     <form class="d-flex input-group w-auto my-auto mb-md-0" id="search-form">
@@ -61,6 +66,24 @@
                     </form>
                     <div id="search-results" style="display:none; position:absolute; background:white; width:38%; border:1px solid #ccc; z-index: 1000;"></div>
                 </div>
+
+                
+
+                <!-- User & Cart Section -->
+                <div class="col-md-3 mb-2 d-flex justify-content-center justify-content-md-end align-items-center">
+                    <div class="d-flex align-items-center">
+                        <!-- Dropdown Menu -->
+                        <div class="dropdown me-3">
+                            <a class="text-reset dropdown-toggle1" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-bars"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" href="<?php echo e(route('all_items')); ?>">All Items</a></li>
+                                <li><a class="dropdown-item" href="#">Questions</a></li>
+                                <li><a class="dropdown-item" href="<?php echo e(route('helpcenter')); ?>">Help Center</a></li>
+                            </ul>
+                        </div>
+
 
 
                 <!-- User & Cart Section -->
@@ -116,6 +139,7 @@
                                     </a>
                                     <a class="dropdown-item" href="<?php echo e(route('logout')); ?>" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="font-size: 15px;">
                                         <?php echo e(__('Logout')); ?>
+
 
                                     </a>
                                     <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" class="d-none">
@@ -203,6 +227,7 @@
 
 
 
+
 <!-- Login Modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -269,6 +294,7 @@ unset($__errorArgs, $__bag); ?>
                         <input class="form-check-input" type="checkbox" name="remember" id="remember" <?php echo e(old('remember') ? 'checked' : ''); ?>>
                         <label class="form-check-label" for="remember"><?php echo e(__('Remember Me')); ?></label>
                     </div>
+
                     <!-- Forgot Password Link -->
                     <?php if(Route::has('password.request')): ?>
                         <div>
@@ -284,6 +310,17 @@ unset($__errorArgs, $__bag); ?>
                         <hr class="flex-grow-1">
                         <span class="mx-2 text-secondary">Or continue with</span>
                         <hr class="flex-grow-1">
+
+
+
+                    <!-- other Links -->
+                    <div class="d-flex justify-content-center align-items-center flex-grow-1 otherlinks">
+                        <a href="<?php echo e(route('all_items')); ?>" class="mx-3">All Items</a>
+                        <a href="<?php echo e(route('special_offerproducts')); ?>" class="mx-3">Special Offers</a>
+                        <a href="<?php echo e(route('sale_products')); ?>" class="mx-3">Flash Sale</a>
+                        <a href="<?php echo e(route('best_sellers')); ?>" class="mx-3">Bestsellers</a>
+
+
                     </div>
                     <a class="btn btn-floating" href="#!" role="button">
                         <i class="fa-brands fa-facebook fa-3x" style="color: #2ba2fd;"></i>
@@ -304,6 +341,7 @@ unset($__errorArgs, $__bag); ?>
         document.addEventListener('DOMContentLoaded', function() {
             var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
             loginModal.show();
+
         });
     </script>
 <?php endif; ?>
@@ -338,6 +376,7 @@ unset($__errorArgs, $__bag); ?>
             var query = $(this).val();
             // Check if the query length is more than 2 characters
             if (query.length > 2) {
+
                 $.ajax({
                     url: "<?php echo e(route('searchProducts')); ?>", // Route to handle search
                     type: "GET",
@@ -356,9 +395,11 @@ unset($__errorArgs, $__bag); ?>
                             $('#search-results').append('<div class="search-item">No products found</div>');
                         }
                     },
+
                     error: function() {
                         $('#search-results').empty().show();
                         $('#search-results').append('<div class="search-item">Error searching products</div>');
+
                     }
                 });
             } else {
@@ -395,11 +436,28 @@ unset($__errorArgs, $__bag); ?>
 </script>
 
 
+
    
     
 
 
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var dropdownToggle = document.getElementById('dropdownMenuButton');
+        var dropdownMenu = dropdownToggle.nextElementSibling;
 
+        dropdownToggle.addEventListener('click', function () {
+            dropdownMenu.classList.toggle('show');
+        });
 
-
+        document.addEventListener('click', function (event) {
+            if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+    });
+</script>
 <?php /**PATH C:\xampp\htdocs\online-marketing\resources\views/includes/navbar.blade.php ENDPATH**/ ?>

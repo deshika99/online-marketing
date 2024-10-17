@@ -140,6 +140,7 @@
     font-weight: bold;
 }
 
+
 /*search bar*/
 
 .search-item {

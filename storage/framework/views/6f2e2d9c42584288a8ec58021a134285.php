@@ -1,6 +1,4 @@
-@extends('layouts.affiliate_main.master')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <style>
     /* Blur everything except the form container */
     body {
@@ -129,8 +127,8 @@
 
 <div class="add-bank-account-container">
     <h1>Add New Bank Account</h1>
-    <form action="{{ route('updatebank') }}" method="POST">
-        @csrf
+    <form action="<?php echo e(route('updatebank')); ?>" method="POST">
+        <?php echo csrf_field(); ?>
         <!-- Bank Name -->
         <div class="form-group">
             <label for="bank_name">Bank Name</label>
@@ -162,4 +160,6 @@
     </form>
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.affiliate_main.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\e support project\resources\views/affiliate_dashboard/bank_acc.blade.php ENDPATH**/ ?>

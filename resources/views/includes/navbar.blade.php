@@ -10,7 +10,12 @@
     }
 
     .otherlinks a {
+
+        text-decoration: none;
         color: white;
+        font-weight: 500;
+        margin: 0 10px;
+
     }
 
     .category-icon {
@@ -19,6 +24,85 @@
         margin-right: 8px;
         vertical-align: middle;
     }
+
+
+    /* Desktop View */
+    @media (min-width: 768px) {
+        .otherlinks-dropdown {
+            display: none; /* Hide dropdown in desktop view */
+        }
+    }
+
+    /* Mobile View */
+    @media (max-width: 767.98px) {
+        .navbar-divider {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .category-select-wrapper1,
+        .otherlinks {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .category-icon {
+            margin-right: 0;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .profile_image {
+            width: 30px;
+            height: 30px;
+        }
+
+        .dropdown-menu {
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Other Links responsive - Dropdown for mobile */
+        .otherlinks-dropdown {
+            display: inline-block; /* Show dropdown */
+        }
+
+        .otherlinks-dropdown .dropdown-menu {
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Adjust Dropdown to align under sign-up */
+        .navbar-divider .otherlinks-dropdown {
+            position: relative;
+            top: -20px; /* Move the dropdown below Sign-up */
+            color: white;
+            text-align: left;
+            width: 40%; /* Expand to full width */
+        }
+
+        /* Adjust Sign-up button position */
+        .signup-btn {
+            margin-top: 20px; /* Create space for the dropdown */
+        }
+    }
+
+    /* Align the Other dropdown to the right */
+    @media (max-width: 767.98px) {
+        .navbar-divider .otherlinks-dropdown {
+            margin-left: 220px; /* Align to the right */
+            top: -33px; /* Adjust the value to move it higher */
+        }
+    }
+    @media (max-width: 767.98px) {
+    .otherlinks-dropdown .dropdown-menu {
+        position: absolute; /* Ensure absolute positioning */
+        right: -30px; /* Move it slightly to the right */
+        transform: translateX(-30px); /* Adjust horizontal alignment */
+    }
+}
 
 
 
@@ -53,13 +137,13 @@
                     </a>
                 </div>
 
-               <!-- Search Section -->
+
+                <!-- Search Section -->
                 <div class="col-md-5 mt-2">
-                    <form class="d-flex input-group w-auto my-auto mb-md-0" id="search-form">
-                        <input autocomplete="off" id="search" type="search" class="form-control rounded" placeholder="Search" style="width: 250px;" />
-                        <span class="input-group-text border-0 d-none d-lg-flex" id="search-icon"><i class="fas fa-search"></i></span>
+                    <form class="d-flex input-group w-auto my-auto mb-3 mb-md-0">
+                        <input autocomplete="off" type="search" class="form-control rounded" placeholder="Search" />
+                        <span class="input-group-text border-0 d-none d-lg-flex"><i class="fas fa-search"></i></span>
                     </form>
-                    <div id="search-results" style="display:none; position:absolute; background:white; width:38%; border:1px solid #ccc; z-index: 1000;"></div>
                 </div>
 
 
@@ -78,6 +162,34 @@
                             </ul>
                         </div>
 
+
+               <!-- Search Section -->
+                <div class="col-md-5 mt-2">
+                    <form class="d-flex input-group w-auto my-auto mb-md-0" id="search-form">
+                        <input autocomplete="off" id="search" type="search" class="form-control rounded" placeholder="Search" style="width: 250px;" />
+                        <span class="input-group-text border-0 d-none d-lg-flex" id="search-icon"><i class="fas fa-search"></i></span>
+                    </form>
+                    <div id="search-results" style="display:none; position:absolute; background:white; width:38%; border:1px solid #ccc; z-index: 1000;"></div>
+                </div>
+
+
+
+                <!-- User & Cart Section -->
+                <div class="col-md-3 mb-2 d-flex justify-content-center justify-content-md-end align-items-center">
+                    <div class="d-flex align-items-center">
+                        <!-- Dropdown Menu -->
+                        <div class="dropdown me-3">
+                            <a class="text-reset dropdown-toggle1" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-bars"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" href="{{ route('all_items') }}">All Items</a></li>
+                                <li><a class="dropdown-item" href="#">Questions</a></li>
+                                <li><a class="dropdown-item" href="{{ route('helpcenter') }}">Help Center</a></li>
+                            </ul>
+                        </div>
+
+
                         <span class="me-3">|</span>
 
                         <!-- Shopping Cart -->
@@ -85,6 +197,7 @@
                             <span style="font-size: 19px; position: relative;">
                                 <i class="fas fa-shopping-cart"></i>
                             </span>
+
                             <span id="cart-count" class="badge badge-danger">0</span>
                         </a>
 
@@ -98,11 +211,14 @@
                                 @endif
                             </a>
                         @endif
+
                         @else
                             <div class="dropdown me-3">
                                 <a id="navbarDropdown" class="text-reset dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     <div class="icon-circle">
+
                                         @if (Auth::user()->profile_image)
+
                                             <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;" class="profile_image">
                                         @else
                                             <span style="font-size: 17px;">{{ Auth::user()->name[0] }}</span>
@@ -128,6 +244,7 @@
         </div>
     </div>
 
+
   <!-- Navbar Divider -->
 <div class="navbar-divider w-100 p-0 mb-1">
     <div class="container d-flex justify-content-center align-items-center" style="width: 80%;">
@@ -147,10 +264,12 @@
                                 {{ $category->parent_category }}
                             </a>
                             @if ($category->subcategories->isNotEmpty()) 
+
                                 <div class="dropdown-menu multi-column">
                                     @foreach ($category->subcategories as $subcategory)
                                         <div class="dropdown-column">
                                             <a href="{{ route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory]) }}">
+
                                                 <strong style="font-size:16px;">{{ $subcategory->subcategory }}</strong>
                                             </a>
                                             @if ($subcategory->subSubcategories->isNotEmpty()) 
@@ -166,15 +285,19 @@
                             @endif
                         </div>
                     @endforeach
+
                 </div>
             </div>
 
             <!-- Other Links -->
+
             <div class="d-flex ms-4 d-none d-md-flex otherlinks" style="font-size:15px;">
+
                 <a href="{{ route('all_items') }}" class="mx-3">All Items</a>
                 <a href="{{ route('special_offerproducts') }}" class="mx-3">Special Offers</a>
                 <a href="{{ route('sale_products') }}" class="mx-3">Flash Sale</a>
                 <a href="{{ route('best_sellers') }}" class="mx-3">Bestsellers</a>
+
             </div>
 
             <!-- Dropdown for Other Links in Mobile View -->
@@ -183,15 +306,19 @@
                     Other
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="otherLinksDropdown">
+
                     <li><a class="dropdown-item" href="{{ route('all_items') }}">All Items</a></li>
                     <li><a class="dropdown-item" href="{{ route('special_offerproducts') }}">Special Offers</a></li>
                     <li><a class="dropdown-item" href="{{ route('sale_products') }}">Flash Sale</a></li>
                     <li><a class="dropdown-item" href="{{ route('best_sellers') }}">Bestsellers</a></li>
+
                 </ul>
             </div>
         </div>
     </div>
+
     </div>
+
 
 </header>
 
@@ -272,6 +399,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
             loginModal.show();
+
         });
     </script>
 @endif
@@ -293,7 +421,11 @@
                     dropdownMenu.classList.remove('show');
                 }
             });
+
         });
+    </script>
+@endif
+
 
 </script>
 
@@ -306,6 +438,7 @@
             var query = $(this).val();
             // Check if the query length is more than 2 characters
             if (query.length > 2) {
+
                 $.ajax({
                     url: "{{ route('searchProducts') }}", // Route to handle search
                     type: "GET",
@@ -324,9 +457,11 @@
                             $('#search-results').append('<div class="search-item">No products found</div>');
                         }
                     },
+
                     error: function() {
                         $('#search-results').empty().show();
                         $('#search-results').append('<div class="search-item">Error searching products</div>');
+
                     }
                 });
             } else {
@@ -363,10 +498,27 @@
 </script>
 
 
+
    
     
 
 
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var dropdownToggle = document.getElementById('dropdownMenuButton');
+        var dropdownMenu = dropdownToggle.nextElementSibling;
 
+        dropdownToggle.addEventListener('click', function () {
+            dropdownMenu.classList.toggle('show');
+        });
 
-
+        document.addEventListener('click', function (event) {
+            if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+    });
+</script>

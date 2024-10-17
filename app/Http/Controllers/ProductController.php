@@ -529,6 +529,7 @@ class ProductController extends Controller
     public function showSearchResults(Request $request)
     {
 
+
         $query = $request->get('query', ''); 
         $products = [];
     
@@ -578,6 +579,10 @@ class ProductController extends Controller
     }
     
 
+
+    // Return the results as JSON
+     return response()->json($products);
+    }
 
 
 }

@@ -67,7 +67,7 @@
         <input type="hidden" name="subsubcategory" value="<?php echo e($subsubcategory ?? ''); ?>">
    
     <!-- Filter sidebar -->
-    <div class="filter-sidebar" style="width: 22%">
+    <div class="filter-sidebar">
         <div class="filter-header">
             <h3 class="filter-title">Filter</h3>
             <button class="reset-button mb-3" onclick="resetFilters()">Reset</button>
@@ -212,13 +212,15 @@
                             <?php endif; ?>
                             <h6 class="product-name"><?php echo e(\Illuminate\Support\Str::limit($product->product_name, 30, '...')); ?></h6>
                             <div class="price">
-                                <?php if($product->specialOffer && $product->specialOffer->status === 'active'): ?>
-                                    <span class="offer-price">Rs. <?php echo e(number_format($product->specialOffer->offer_price, 2)); ?></span>
-                                <?php else: ?>
-                                    Rs. <?php echo e(number_format($product->normal_price, 2)); ?>
+                                    <?php if($product->sale && $product->sale->status === 'active'): ?>
+                                        <span class="sale-price">Rs. <?php echo e(number_format($product->sale->sale_price, 2)); ?></span>
+                                    <?php elseif($product->specialOffer && $product->specialOffer->status === 'active'): ?>
+                                        <span class="offer-price">Rs. <?php echo e(number_format($product->specialOffer->offer_price, 2)); ?></span>
+                                    <?php else: ?>
+                                        Rs. <?php echo e(number_format($product->normal_price, 2)); ?>
 
-                                <?php endif; ?>
-                            </div>
+                                    <?php endif; ?>
+                                </div>
                         </a>
                     </div>
                 </div>
@@ -270,20 +272,20 @@
                 </div>
                 <div class="modal-body">
                     <div class="row gx-5">
-                        <aside class="col-lg-5">
-                            <div class="rounded-4 mb-3 d-flex justify-content-center">
-                                <a class="rounded-4 main-image-link" href="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>">
-                                    <img id="mainImage" class="rounded-4 fit" src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" />
-                                </a>
-                            </div>
-                            <div class="d-flex justify-content-center mb-3">
-                                <?php $__currentLoopData = $product->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <aside class="col-lg-5">
+                        <div class="rounded-4 mb-3 d-flex justify-content-center">
+                            <a class="rounded-4 main-image-link" href="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>">
+                                <img id="mainImage" class="rounded-4 fit" src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" />
+                            </a>
+                        </div>
+                        <div class="d-flex justify-content-center mb-3">
+                            <?php $__currentLoopData = $product->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <a class="mx-1 rounded-2 thumbnail-image" data-image="<?php echo e(asset('storage/' . $image->image_path)); ?>" href="javascript:void(0);">
                                     <img class="thumbnail rounded-2" src="<?php echo e(asset('storage/' . $image->image_path)); ?>" />
                                 </a>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            </div>
-                        </aside>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </div>
+                    </aside>
 
                         <main class="col-lg-7">
                             <h4><?php echo e($product->product_name); ?></h4>
@@ -401,6 +403,18 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.thumbnail-image').forEach(function(thumbnail) {
+            thumbnail.addEventListener('click', function() {
+                const newImage = this.getAttribute('data-image');
+                document.getElementById('mainImage').setAttribute('src', newImage);
+                document.querySelector('.main-image-link').setAttribute('href', newImage);
+            });
+        });
+    });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.btn-cart').forEach(button => {
@@ -545,14 +559,21 @@ function updateProductDisplay(products) {
     productsContainer.innerHTML = '';  
 
     if (products.length === 0) {
-        productsContainer.innerHTML = '<div class="no-products"><p>No products found.</p></div>';
+        productsContainer.innerHTML = '<div class="no-products"><p>No products found under.</p></div>';
         return;
     }
 
     products.forEach(product => {
         let priceHTML = '';
 
-        if (product.special_offer && product.special_offer.status === 'active') {
+        // Debug: log the product object
+        console.log('Filtered Products:', products);
+
+        if (product.Sale && product.Sale.status === 'active') {
+            priceHTML = `
+                <span class="sale-price">Rs. ${parseFloat(product.Sale.sale_price).toFixed(2)}</span>
+            `;
+        } else if (product.special_offer && product.special_offer.status === 'active') {
             priceHTML = `
                 <span class="offer-price">Rs. ${parseFloat(product.special_offer.offer_price).toFixed(2)}</span> 
             `;
@@ -566,7 +587,7 @@ function updateProductDisplay(products) {
                     <a href="/product/${product.product_id}" class="d-block text-decoration-none">
                         <div class="product-image-wrapper position-relative">
                             <img src="/storage/${product.images[0].image_path}" alt="Product Image" class="img-fluid">
-                            <button type="button" class="btn btn-cart position-absolute bottom-0 end-0 me-2 mb-2" data-bs-toggle="modal" data-bs-target="#cartModal_${product.product_id}" data-product-id="${product.product_id}" data-auth="${product.isAuth}">
+                            <button type="button" class="btn btn-cart position-absolute bottom-0 end-0 me-2 mb-2" data-bs-toggle="modal" data-bs-target="#cartModal_${product.product_id}">
                                 <i class="bi bi-cart-plus"></i>
                             </button>
                         </div>
@@ -577,8 +598,10 @@ function updateProductDisplay(products) {
             </div>
         `;
 
+        
         productsContainer.innerHTML += productHTML;
     });
+
 
 
     document.querySelectorAll('.btn-cart').forEach(button => {
@@ -662,15 +685,7 @@ function updateProductDisplay(products) {
     });  
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.thumbnail-image').forEach(function(thumbnail) {
-            thumbnail.addEventListener('click', function() {
-                const newImage = this.getAttribute('data-image');
-                document.getElementById('mainImage').setAttribute('src', newImage);
-                document.querySelector('.main-image-link').setAttribute('href', newImage);
-            });
-        });
-    });
+
 
 </script>
 
