@@ -64,6 +64,7 @@
                                     <th scope="col">Contact No</th>
                                     <th scope="col">Email</th>
                                     <th scope="col" style="width:17%">Status</th>
+                                    <th scope="col" style="width: 5%">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -89,6 +90,12 @@
                                         @elseif ($customer->status == 'rejected')
                                             <span class="status-rejected">Rejected</span>
                                         @endif
+                                    </td>
+                                    <td class="action-buttons">
+                                        <a href="{{ route('aff_customer-details', $customer->id) }}" class="btn btn-info btn-sm view-btn" 
+                                            style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
                                     </td>
                                 </tr>
                                 @endforeach

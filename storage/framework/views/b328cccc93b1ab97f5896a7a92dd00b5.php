@@ -92,13 +92,12 @@
                     <form method="POST" action="<?php echo e(route('aff_reg')); ?>">
                         <?php echo csrf_field(); ?>
 
-
-                        <h4>Basic Information</h4>
+                      <h4>Basic Information</h4>
                         <br><br>
 
                         <div class="row mb-3">
                             <label for="name" class="col-md-4 col-form-label text-md-start">Name <span class="text-danger"> *</span></label>
-
+n
                             <div class="col-md-7">
                                 <input id="name" type="text" class="form-control <?php $__errorArgs = ['name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -179,7 +178,8 @@ unset($__errorArgs, $__bag); ?>
                         <div class="row mb-3">
 
                             <label for="dob-day" class="col-md-4 col-form-label text-md-start">Date Of Birth <span class="text-danger"> *</span></label>
-              <div class="col-md-7 d-flex">
+                            <div class="col-md-7 d-flex">
+
                               
                                 <input id="dob-day" type="number" class="form-control me-2 <?php $__errorArgs = ['dob_day'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -260,7 +260,7 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>" id="gender" name="gender">
-                                    <option selected disabled></option>
+                                    <option selected disabled>Select Gender</option>
                                     <option value="male" <?php echo e(old('gender') == 'male' ? 'selected' : ''); ?>>Male</option>
                                     <option value="female" <?php echo e(old('gender') == 'female' ? 'selected' : ''); ?>>Female</option>
                                     <option value="other" <?php echo e(old('gender') == 'other' ? 'selected' : ''); ?>>Other</option>
@@ -390,10 +390,10 @@ unset($__errorArgs, $__bag); ?>
                         </div>
                         <div class="row mb-5">
 
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-start">Confirm Password <span class="text-danger"> *</span></label>
+                            <label for="password_confirmation" class="col-md-4 col-form-label text-md-start">Confirm Password <span class="text-danger"> *</span></label>
 
                             <div class="col-md-7">
-                                <input id="password-confirm" type="password" class="form-control <?php $__errorArgs = ['password_confirmation'];
+                                <input id="password_confirmation" type="password" class="form-control <?php $__errorArgs = ['password_confirmation'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -823,18 +823,11 @@ unset($__errorArgs, $__bag); ?>
 
                         <br>
 
-
                         <div class="row submit-btn mb-0">
                             <div class="col-md-7 offset-md-0.5">
                                 <button type="submit" class="btn btn-warning">Register As Affiliate</button>
 
-                        <div class="row submit-btn mb-0">
-                            <div class="col-md-7 offset-md-0.5">
-                                <button type="submit" class="btn btn-warning">Register As Affiliate</button>
 
-                        <div class="row submit-btn mb-0">
-                            <div class="col-md-7 offset-md-4">
-                                <button type="submit" class="btn btn-warning">Submit</button>
 
 
                             </div>

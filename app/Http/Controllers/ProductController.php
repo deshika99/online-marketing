@@ -525,19 +525,60 @@ class ProductController extends Controller
     }
     
 
+
+    public function showSearchResults(Request $request)
+    {
+
+
+        $query = $request->get('query', ''); 
+        $products = [];
+    
+        if (!empty($query)) {
+            $searchTerms = explode(' ', $query); 
+    
+            $products = Products::with(['Sale', 'specialOffer'])
+                ->where(function ($q) use ($searchTerms) {
+                    foreach ($searchTerms as $term) {
+                        $q->where('product_name', 'LIKE', '%' . $term . '%'); // Match individual terms in product name
+                    }
+                    
+                    foreach ($searchTerms as $term) {
+                        $q->orWhere('tags', 'LIKE', '%' . $term . '%'); // Match tags
+                    }
+                })
+                ->select('id', 'product_name', 'product_id', 'normal_price')
+                ->get();
+        }
+    
+        return view('search_results', compact('products', 'query'));
+    }
+    
+
     public function searchProducts(Request $request)
     {
         $search = $request->get('search');
-
-        // If search query is empty, return an empty result
-    if (!$search) {
-        return response()->json([]);
+    
+        if (!$search) {
+            return response()->json([]);
+        }
+    
+        $searchTerms = explode(' ', $search);
+        $products = Products::query();
+    
+        foreach ($searchTerms as $term) {
+            $products->where('product_name', 'LIKE', '%' . $term . '%');
+        }
+    
+        foreach ($searchTerms as $term) {
+            $products->orWhere('tags', 'LIKE', '%' . $term . '%');
+        }
+    
+        $products = $products->select('id', 'product_name', 'product_id')->get();
+    
+        return response()->json($products); 
     }
+    
 
-        $products = Products::where('product_name', 'LIKE', '%' . $search . '%')
-        ->orWhere('tags', 'LIKE', '%' . $search . '%') // If tags are stored as comma-separated strings in the 'tags' column
-        ->select('id', 'product_name', 'product_id')
-         ->get();
 
     // Return the results as JSON
      return response()->json($products);

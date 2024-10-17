@@ -128,36 +128,64 @@
 
 
          <!-- Summary -->
-         <div class="col-md-4">
-            <div class="card shadow-0 border summary-card">
-                <div class="p-4">
-                    <h5 class="mb-3">Your Order</h5>
-                    @forelse ($cart as $item)
+            <div class="col-md-4">
+                <div class="card shadow-0 border summary-card">
+                    <div class="p-4">
+                        <h5 class="mb-3">Your Order</h5>
+                        @forelse ($cart as $item)
+                            <div class="d-flex justify-content-between">
+                                <p class="mb-2">{{ $item->product->product_name }} x {{ $item->quantity ?? 1 }}</p>
+                                <p class="mb-2">
+                                    @php
+                                        $price = $item->product->sale && $item->product->sale->status === 'active' 
+                                            ? $item->product->sale->sale_price 
+                                            : ($item->product->specialOffer && $item->product->specialOffer->status === 'active'
+                                                ? $item->product->specialOffer->offer_price
+                                                : $item->product->normal_price);
+                                    @endphp
+                                    Rs. {{ number_format($price * ($item->quantity ?? 1), 2) }}
+                                </p>
+                            </div>
+                        @empty
+                            <p>No items in the cart</p>
+                        @endforelse
+                        <hr />
                         <div class="d-flex justify-content-between">
-                            <p class="mb-2">{{ $item->product->product_name }} x {{ $item->quantity ?? 1 }}</p>
-                            <p class="mb-2">Rs. {{ ($item->product->normal_price ?? 0) * ($item->quantity ?? 1) }}</p>
+                            <p class="mb-2">Subtotal:</p>
+                            <p class="mb-2">
+                                Rs. {{ number_format($cart->sum(function($item) {
+                                    return ($item->product->sale && $item->product->sale->status === 'active' 
+                                            ? $item->product->sale->sale_price 
+                                            : ($item->product->specialOffer && $item->product->specialOffer->status === 'active'
+                                                ? $item->product->specialOffer->offer_price
+                                                : $item->product->normal_price)) 
+                                        * ($item->quantity ?? 1);
+                                }), 2) }}
+                            </p>
                         </div>
-                    @empty
-                        <p>No items in the cart</p>
-                    @endforelse
-                    <hr />
-                    <div class="d-flex justify-content-between">
-                        <p class="mb-2">Subtotal:</p>
-                        <p class="mb-2">Rs. {{ $cart->sum(fn($item) => $item->product->normal_price * $item->quantity) }}</p>
+                        <div class="d-flex justify-content-between">
+                            <p class="mb-2">Delivery Fee:</p>
+                            <p class="mb-2">Rs. 300.00</p>
+                        </div>
+                        <hr />
+                        <div class="d-flex justify-content-between">
+                            <h5 class="mb-2">Total:</h5>
+                            <h5 class="mb-2 fw-bold">
+                                Rs. {{ number_format($cart->sum(function($item) {
+                                    return ($item->product->sale && $item->product->sale->status === 'active' 
+                                            ? $item->product->sale->sale_price 
+                                            : ($item->product->specialOffer && $item->product->specialOffer->status === 'active'
+                                                ? $item->product->specialOffer->offer_price
+                                                : $item->product->normal_price)) 
+                                        * ($item->quantity ?? 1);
+                                }) + 300, 2) }}
+                            </h5>
+                        </div>
+                        <button type="submit" class="btn w-100" style="background-color:#4A2FF4; color:white;">Proceed to Pay</button>
                     </div>
-                    <div class="d-flex justify-content-between">
-                        <p class="mb-2">Delivery Fee:</p>
-                        <p class="mb-2">Rs. 300</p>
-                    </div>
-                    <hr />
-                    <div class="d-flex justify-content-between">
-                        <h5 class="mb-2">Total:</h5>
-                        <h5 class="mb-2 fw-bold">Rs. {{ $cart->sum(fn($item) => $item->product->normal_price * $item->quantity) + 300 }}</h5>
-                    </div>
-                    <button type="submit" class="btn w-100" style="background-color:#4A2FF4; color:white;">Proceed to Pay</button>
                 </div>
             </div>
-        </div>
+
       </div>
     </form>
   </section>

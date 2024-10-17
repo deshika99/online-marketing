@@ -8,3 +8,5 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.min.css" rel="stylesheet"><?php /**PATH C:\xampp\htdocs\online-marketing\resources\views/layouts/affiliate_main/css.blade.php ENDPATH**/ ?>
 
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" /><?php /**PATH C:\xampp\htdocs\online-marketing\resources\views/layouts/affiliate_main/css.blade.php ENDPATH**/ ?>
+

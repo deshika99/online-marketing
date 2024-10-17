@@ -141,7 +141,7 @@
 
 
 
-<div class="dashboard-container" style="display: flex; justify-content: space-between; margin-top: 20px;">
+<div class="dashboard-container" style="display: flex; justify-content: space-between; margin-top: 15px;">
     <!-- Recent Activity Section -->
     <div class="activity-section" style="flex: 1; margin-right: 10px; padding: 20px; background-color: #ffffff; border-radius: 10px;">
         <h5 style="color: #007bff; border-bottom: 2px solid #007bff; padding-bottom: 10px;">Recent Activities</h5>

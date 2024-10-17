@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Aff_Customer extends Model
+class Affiliate_User extends Model
 {
     use HasFactory;
-    protected $table = 'aff_customers';
+    
+    protected $table = 'affiliate_users';
 
     protected $fillable = [
         'name',
@@ -19,8 +20,8 @@ class Aff_Customer extends Model
         'NIC',
         'contactno',
         'email',
-        'password',
-        'promotion_method',
+        'password',              
+        'promotion_method',       
         'instagram_url',
         'facebook_url',
         'tiktok_url',
@@ -33,4 +34,15 @@ class Aff_Customer extends Model
         'account_number',
         'status',
     ];
+
+    protected $casts = [
+        'promotion_method' => 'array',  
+        'DOB' => 'date',                
+    ];
+
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);  
+    }
 }

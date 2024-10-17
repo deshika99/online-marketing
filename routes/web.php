@@ -54,6 +54,7 @@ Route::view('/home/affiliate/single', 'aff_single')->name('aff_single');
 Route::post('/inquiry', [InquiryController::class, 'store'])->name('inquiry.store');//inquiry
 Route::get('/admin/customer_inquiries', [InquiryController::class, 'showCustomerInquiries'])->name('customer_inquiries');
 
+Route::get('/search-results', [ProductController::class, 'showSearchResults'])->name('searchResults');
 
 
 
@@ -95,9 +96,7 @@ Route::get('home/My-Account/change-password', function () {
 })->name('change-password');
 
 
-Route::get('home/My-Account/addresses', function () { 
-    return view('member_dashboard.addresses');
-})->name('addresses');
+
 
 
 
@@ -154,7 +153,7 @@ Route::post('/dashboard/password/update', [UserDashboardController::class, 'upda
 //affiliate dashboard
 Route::view('/home/affiliate/affiliate_home', 'aff_home')->name('aff_home');
 Route::post('/home/affiliate/register', [AffiliateCustomerController::class, 'register'])->name('aff_reg');
-Route::view('/home/affiliate/register', 'aff_reg')->name('register_form');
+Route::view('/home/affiliate/register/', 'aff_reg')->name('register_form');
 Route::post('/home/affiliate/login', [AffiliateCustomerController::class, 'login'])->name('aff_login');
 Route::get('/affiliate/dashboard', [AffiliateCustomerController::class, 'index'])->name('index');
 Route::post('/affiliate/logout', [AffiliateCustomerController::class, 'logout'])->name('aff_logout');
@@ -266,6 +265,7 @@ Route::get('/admin/product-details/{id}', [ProductController::class, 'showProduc
 
 Route::get('/admin/aff_customers', [AffiliateCustomerController::class, 'showAffCustomers'])->name('aff_customers');
 Route::patch('/admin/aff_customers/{id}/status', [AffiliateCustomerController::class, 'updateStatus'])->name('aff_customers.updateStatus');
+Route::get('/admin/aff_customer-details/{id}', [AffiliateCustomerController::class, 'showAffCustomerDetails'])->name('aff_customer-details');
 
 Route::get('/admin/users', [UserController::class, 'show_users'])->name('show_users');
 Route::get('/admin/users/{id}/edit', [UserController::class, 'editUserPage'])->name('admin.users.edit');

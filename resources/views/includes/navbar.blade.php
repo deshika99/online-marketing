@@ -10,10 +10,12 @@
     }
 
     .otherlinks a {
+
         text-decoration: none;
         color: white;
         font-weight: 500;
         margin: 0 10px;
+
     }
 
     .category-icon {
@@ -22,6 +24,7 @@
         margin-right: 8px;
         vertical-align: middle;
     }
+
 
     /* Desktop View */
     @media (min-width: 768px) {
@@ -102,9 +105,11 @@
 }
 
 
+
 .search-item {
         padding: 10px;
         border-bottom: 1px solid #ccc;
+        cursor: pointer; 
     }
 
     .search-item a {
@@ -132,6 +137,7 @@
                     </a>
                 </div>
 
+
                 <!-- Search Section -->
                 <div class="col-md-5 mt-2">
                     <form class="d-flex input-group w-auto my-auto mb-3 mb-md-0">
@@ -156,14 +162,32 @@
                             </ul>
                         </div>
 
-                    <div class="col-md-5 mt-2">
-                        <form class="d-flex input-group w-auto my-auto mb-md-0">
-                           <input autocomplete="off" id="search" type="search" class="form-control rounded" placeholder="Search" style="width: 250px;" />
-                           <span class="input-group-text border-0 d-none d-lg-flex"><i class="fas fa-search"></i></span>
-                        </form>
-                            <div id="search-results" style="display:none; position:absolute; background:white; width:38%; border:1px solid #ccc; z-index: 1000;"></div>
-                    </div>
 
+               <!-- Search Section -->
+                <div class="col-md-5 mt-2">
+                    <form class="d-flex input-group w-auto my-auto mb-md-0" id="search-form">
+                        <input autocomplete="off" id="search" type="search" class="form-control rounded" placeholder="Search" style="width: 250px;" />
+                        <span class="input-group-text border-0 d-none d-lg-flex" id="search-icon"><i class="fas fa-search"></i></span>
+                    </form>
+                    <div id="search-results" style="display:none; position:absolute; background:white; width:38%; border:1px solid #ccc; z-index: 1000;"></div>
+                </div>
+
+
+
+                <!-- User & Cart Section -->
+                <div class="col-md-3 mb-2 d-flex justify-content-center justify-content-md-end align-items-center">
+                    <div class="d-flex align-items-center">
+                        <!-- Dropdown Menu -->
+                        <div class="dropdown me-3">
+                            <a class="text-reset dropdown-toggle1" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-bars"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" href="{{ route('all_items') }}">All Items</a></li>
+                                <li><a class="dropdown-item" href="#">Questions</a></li>
+                                <li><a class="dropdown-item" href="{{ route('helpcenter') }}">Help Center</a></li>
+                            </ul>
+                        </div>
 
 
                         <span class="me-3">|</span>
@@ -173,28 +197,28 @@
                             <span style="font-size: 19px; position: relative;">
                                 <i class="fas fa-shopping-cart"></i>
                             </span>
-                            <span id="cart-count" class="badge badge-danger">
-                                0
-                            </span>
+
+                            <span id="cart-count" class="badge badge-danger">0</span>
                         </a>
 
-                        <!-- Authentication Links -->
+                        <!-- User Authentication Links -->
                         @guest
-                            @if (Route::has('login'))
-                                <a class="text-reset me-3" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
-                                    <div style="font-weight:500">LOGIN</div>
-                                </a>
+                        @if (Route::has('login'))
+                            <a class="text-reset me-3" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                <div style="font-weight:500">LOGIN</div>
                                 @if (Route::has('register'))
-                                    <a class="signup-btn p-2" href="{{ route('register') }}">
-                                        SIGN UP
-                                    </a>
+                                    <a class="signup-btn p-2" href="{{ route('register') }}" style="">SIGN UP</a>
                                 @endif
-                            @endif
+                            </a>
+                        @endif
+
                         @else
                             <div class="dropdown me-3">
                                 <a id="navbarDropdown" class="text-reset dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     <div class="icon-circle">
-                                        @if(Auth::user()->profile_image)
+
+                                        @if (Auth::user()->profile_image)
+
                                             <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;" class="profile_image">
                                         @else
                                             <span style="font-size: 17px;">{{ Auth::user()->name[0] }}</span>
@@ -220,68 +244,82 @@
         </div>
     </div>
 
-    <!-- Navbar Divider -->
-    <div class="navbar-divider w-100 p-0">
-        <div class="container d-flex justify-content-center align-items-center flex-wrap" style="width: 100%;">
-            <!-- Categories Dropdown -->
-            <div class="category-select-wrapper1 d-flex justify-content-center align-items-center mb-2">
-                <div class="custom-dropdown w-100 ms-4">
-                    <div class="dropdown-toggle" id="dropdownMenuButton" aria-expanded="false">
-                        <i class="fas fa-bars me-2"></i> All Categories
-                    </div>
-                    <div class="dropdown-menu">
-                        @foreach ($categories as $category)
-                            <div class="dropdown-item dropdown-submenu">
-                                <a href="{{ route('user_products', ['category' => $category->parent_category]) }}">
-                                    <img src="{{ asset('storage/category_images/' . $category->image) }}" alt="{{ $category->parent_category }} icon" class="category-icon">
-                                    {{ $category->parent_category }}
-                                </a>
+
+  <!-- Navbar Divider -->
+<div class="navbar-divider w-100 p-0 mb-1">
+    <div class="container d-flex justify-content-center align-items-center" style="width: 80%;">
+
+        <div class="d-flex align-items-center" style="font-size: 16px;">
+
+            <!-- All Categories Dropdown -->
+            <div class="custom-dropdown me-4">
+                <div class="dropdown-toggle" id="dropdownMenuButton" aria-expanded="false" style="font-size:15px;">
+                    <i class="fas fa-bars me-2"></i> All Categories
+                </div>
+                <div class="dropdown-menu">
+                    @foreach ($categories as $category)
+                        <div class="dropdown-item dropdown-submenu">
+                            <a href="{{ route('user_products', ['category' => $category->parent_category]) }}">
+                                <img src="{{ asset('storage/category_images/' . $category->image) }}" alt="{{ $category->parent_category }} icon" class="category-icon">
+                                {{ $category->parent_category }}
+                            </a>
+                            @if ($category->subcategories->isNotEmpty()) 
+
                                 <div class="dropdown-menu multi-column">
                                     @foreach ($category->subcategories as $subcategory)
                                         <div class="dropdown-column">
                                             <a href="{{ route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory]) }}">
-                                                <strong style="font-size: 16px;">{{ $subcategory->subcategory }}</strong>
+
+                                                <strong style="font-size:16px;">{{ $subcategory->subcategory }}</strong>
                                             </a>
-                                            @foreach ($subcategory->subSubcategories as $subSubcategory)
-                                                <a href="{{ route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory, 'subsubcategory' => $subSubcategory->sub_subcategory]) }}">
-                                                    {{ $subSubcategory->sub_subcategory }}
-                                                </a>
-                                            @endforeach
+                                            @if ($subcategory->subSubcategories->isNotEmpty()) 
+                                                @foreach ($subcategory->subSubcategories as $subSubcategory)
+                                                    <a href="{{ route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory, 'subsubcategory' => $subSubcategory->sub_subcategory]) }}">
+                                                        {{ $subSubcategory->sub_subcategory }}
+                                                    </a>
+                                                @endforeach
+                                            @endif
                                         </div>
                                     @endforeach
                                 </div>
-                            </div>
+                            @endif
+                        </div>
+                    @endforeach
 
-                        @endforeach
-
-                    </div>
                 </div>
             </div>
 
             <!-- Other Links -->
-            <div class="d-none d-md-flex justify-content-center align-items-center flex-grow-1 otherlinks">
+
+            <div class="d-flex ms-4 d-none d-md-flex otherlinks" style="font-size:15px;">
+
                 <a href="{{ route('all_items') }}" class="mx-3">All Items</a>
                 <a href="{{ route('special_offerproducts') }}" class="mx-3">Special Offers</a>
                 <a href="{{ route('sale_products') }}" class="mx-3">Flash Sale</a>
                 <a href="{{ route('best_sellers') }}" class="mx-3">Bestsellers</a>
-                <a href="#" class="mx-3">Super Deals</a>
+
             </div>
 
             <!-- Dropdown for Other Links in Mobile View -->
-            <div class="dropdown otherlinks-dropdown">
-                <a class="text-reset dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
-                    Other 
+            <div class="dropdown d-md-none otherlinks ms-4" style="font-size:15px;">
+                <a class="dropdown-toggle" href="#" id="otherLinksDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Other
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end">
+                <ul class="dropdown-menu" aria-labelledby="otherLinksDropdown">
+
                     <li><a class="dropdown-item" href="{{ route('all_items') }}">All Items</a></li>
                     <li><a class="dropdown-item" href="{{ route('special_offerproducts') }}">Special Offers</a></li>
                     <li><a class="dropdown-item" href="{{ route('sale_products') }}">Flash Sale</a></li>
                     <li><a class="dropdown-item" href="{{ route('best_sellers') }}">Bestsellers</a></li>
-                    <li><a class="dropdown-item" href="#">Super Deals</a></li>
+
                 </ul>
             </div>
         </div>
     </div>
+
+    </div>
+
+
 </header>
 
 
@@ -361,19 +399,46 @@
         document.addEventListener('DOMContentLoaded', function() {
             var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
             loginModal.show();
+
         });
     </script>
 @endif
 
-    </script>    
-    
-  
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+            var dropdownToggle = document.getElementById('dropdownMenuButton');
+            var dropdownMenu = dropdownToggle.nextElementSibling;
+
+            dropdownToggle.addEventListener('click', function () {
+                dropdownMenu.classList.toggle('show');
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
+
+        });
+    </script>
+@endif
+
+
+</script>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#search').on('keyup', function() {
+        $('#search').on('keyup', function(event) {
             var query = $(this).val();
-            if (query.length > 2) { // Start search after 3 characters
+            // Check if the query length is more than 2 characters
+            if (query.length > 2) {
+
                 $.ajax({
                     url: "{{ route('searchProducts') }}", // Route to handle search
                     type: "GET",
@@ -383,20 +448,37 @@
                         if (data.length > 0) {
                             $.each(data, function(index, product) {
                                 $('#search-results').append(
-                                    '<div class="search-item"><a href="/product/' + product.product_id + '">' + product.product_name + '</a></div>'
+                                    '<div class="search-item" data-href="/product/' + product.product_id + '">' +
+                                        product.product_name +
+                                    '</div>'
                                 );
                             });
                         } else {
                             $('#search-results').append('<div class="search-item">No products found</div>');
                         }
                     },
-                    error: function(xhr, status, error) {
-                        console.error("AJAX error:", error); // Debugging
-                        $('#search-results').empty().append('<div class="search-item">Error searching products</div>');
+
+                    error: function() {
+                        $('#search-results').empty().show();
+                        $('#search-results').append('<div class="search-item">Error searching products</div>');
+
                     }
                 });
             } else {
                 $('#search-results').hide(); // Hide dropdown if query is too short
+            }
+
+            // Handle search submission on Enter key
+            if (event.key === 'Enter') {
+                window.location.href = "/search-results?query=" + encodeURIComponent(query);
+            }
+        });
+
+        // Handle click event on the search icon
+        $('#search-icon').on('click', function() {
+            var query = $('#search').val();
+            if (query.length > 2) {
+                window.location.href = "/search-results?query=" + encodeURIComponent(query);
             }
         });
 
@@ -405,6 +487,12 @@
             if (!$(e.target).closest('#search, #search-results').length) {
                 $('#search-results').hide();
             }
+        });
+
+        // Make entire search item clickable
+        $('#search-results').on('click', '.search-item', function() {
+            var href = $(this).data('href'); // Get the URL from the data attribute
+            window.location.href = href; // Redirect to the product page
         });
     });
 </script>

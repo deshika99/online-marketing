@@ -146,6 +146,7 @@
 .search-item {
     padding: 10px;
     border-bottom: 1px solid #ccc;
+    cursor: pointer; 
 }
 
 .search-item a {
@@ -269,14 +270,14 @@
                                 <img src="{{ asset('storage/category_images/' . $category->image) }}" alt="{{ $category->parent_category }} icon" class="category-icon">
                                 {{ $category->parent_category }}
                             </a>
-                            @if ($category->subcategories->isNotEmpty()) <!-- Check if subcategories exist -->
+                            @if ($category->subcategories->isNotEmpty()) 
                                 <div class="dropdown-menu multi-column">
                                     @foreach ($category->subcategories as $subcategory)
                                         <div class="dropdown-column">
                                             <a href="{{ route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory]) }}">
                                                 <strong style="font-size:16px;">{{ $subcategory->subcategory }}</strong>
                                             </a>
-                                            @if ($subcategory->subSubcategories->isNotEmpty()) <!-- Check if sub-subcategories exist -->
+                                            @if ($subcategory->subSubcategories->isNotEmpty())
                                                 @foreach ($subcategory->subSubcategories as $subSubcategory)
                                                     <a href="{{ route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory, 'subsubcategory' => $subSubcategory->sub_subcategory]) }}">
                                                         {{ $subSubcategory->sub_subcategory }}
@@ -581,11 +582,13 @@
 <!-- Include Toastr JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function() {
-        $('#search').on('keyup', function() {
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#search').on('keyup', function(event) {
             var query = $(this).val();
+            // Check if the query length is more than 2 characters
             if (query.length > 2) {
                 $.ajax({
                     url: "{{ route('searchProducts') }}", // Route to handle search
@@ -596,7 +599,9 @@
                         if (data.length > 0) {
                             $.each(data, function(index, product) {
                                 $('#search-results').append(
-                                    '<div class="search-item"><a href="/product/' + product.product_id + '">' + product.product_name + '</a></div>'
+                                    '<div class="search-item" data-href="/product/' + product.product_id + '">' +
+                                        product.product_name +
+                                    '</div>'
                                 );
                             });
                         } else {
@@ -604,11 +609,25 @@
                         }
                     },
                     error: function() {
+                        $('#search-results').empty().show();
                         $('#search-results').append('<div class="search-item">Error searching products</div>');
                     }
                 });
             } else {
                 $('#search-results').hide(); // Hide dropdown if query is too short
+            }
+
+            // Handle search submission on Enter key
+            if (event.key === 'Enter') {
+                window.location.href = "/search-results?query=" + encodeURIComponent(query);
+            }
+        });
+
+        // Handle click event on the search icon
+        $('#search-icon').on('click', function() {
+            var query = $('#search').val();
+            if (query.length > 2) {
+                window.location.href = "/search-results?query=" + encodeURIComponent(query);
             }
         });
 
@@ -618,8 +637,15 @@
                 $('#search-results').hide();
             }
         });
+
+        // Make entire search item clickable
+        $('#search-results').on('click', '.search-item', function() {
+            var href = $(this).data('href'); // Get the URL from the data attribute
+            window.location.href = href; // Redirect to the product page
+        });
     });
 </script>
+
 
 
 
