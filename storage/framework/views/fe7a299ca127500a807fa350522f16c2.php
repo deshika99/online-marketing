@@ -144,6 +144,7 @@
 .search-item {
     padding: 10px;
     border-bottom: 1px solid #ccc;
+    cursor: pointer; 
 }
 
 .search-item a {
@@ -270,14 +271,14 @@
                                 <?php echo e($category->parent_category); ?>
 
                             </a>
-                            <?php if($category->subcategories->isNotEmpty()): ?> <!-- Check if subcategories exist -->
+                            <?php if($category->subcategories->isNotEmpty()): ?> 
                                 <div class="dropdown-menu multi-column">
                                     <?php $__currentLoopData = $category->subcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="dropdown-column">
                                             <a href="<?php echo e(route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory])); ?>">
                                                 <strong style="font-size:16px;"><?php echo e($subcategory->subcategory); ?></strong>
                                             </a>
-                                            <?php if($subcategory->subSubcategories->isNotEmpty()): ?> <!-- Check if sub-subcategories exist -->
+                                            <?php if($subcategory->subSubcategories->isNotEmpty()): ?>
                                                 <?php $__currentLoopData = $subcategory->subSubcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subSubcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <a href="<?php echo e(route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory, 'subsubcategory' => $subSubcategory->sub_subcategory])); ?>">
                                                         <?php echo e($subSubcategory->sub_subcategory); ?>
@@ -611,11 +612,13 @@ unset($__errorArgs, $__bag); ?>
 <!-- Include Toastr JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function() {
-        $('#search').on('keyup', function() {
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#search').on('keyup', function(event) {
             var query = $(this).val();
+            // Check if the query length is more than 2 characters
             if (query.length > 2) {
                 $.ajax({
                     url: "<?php echo e(route('searchProducts')); ?>", // Route to handle search
@@ -626,7 +629,9 @@ unset($__errorArgs, $__bag); ?>
                         if (data.length > 0) {
                             $.each(data, function(index, product) {
                                 $('#search-results').append(
-                                    '<div class="search-item"><a href="/product/' + product.product_id + '">' + product.product_name + '</a></div>'
+                                    '<div class="search-item" data-href="/product/' + product.product_id + '">' +
+                                        product.product_name +
+                                    '</div>'
                                 );
                             });
                         } else {
@@ -634,11 +639,25 @@ unset($__errorArgs, $__bag); ?>
                         }
                     },
                     error: function() {
+                        $('#search-results').empty().show();
                         $('#search-results').append('<div class="search-item">Error searching products</div>');
                     }
                 });
             } else {
                 $('#search-results').hide(); // Hide dropdown if query is too short
+            }
+
+            // Handle search submission on Enter key
+            if (event.key === 'Enter') {
+                window.location.href = "/search-results?query=" + encodeURIComponent(query);
+            }
+        });
+
+        // Handle click event on the search icon
+        $('#search-icon').on('click', function() {
+            var query = $('#search').val();
+            if (query.length > 2) {
+                window.location.href = "/search-results?query=" + encodeURIComponent(query);
             }
         });
 
@@ -648,8 +667,15 @@ unset($__errorArgs, $__bag); ?>
                 $('#search-results').hide();
             }
         });
+
+        // Make entire search item clickable
+        $('#search-results').on('click', '.search-item', function() {
+            var href = $(this).data('href'); // Get the URL from the data attribute
+            window.location.href = href; // Redirect to the product page
+        });
     });
 </script>
+
 
 
 
