@@ -456,7 +456,7 @@ unset($__errorArgs, $__bag); ?>
 
         });
     </script>
-<?php endif; ?>
+
 
 
 </script>
