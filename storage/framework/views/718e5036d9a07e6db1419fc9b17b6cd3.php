@@ -154,7 +154,8 @@
                                                 <div class="mb-3 mt-4">
                                                     <label for="trackingIdDisplay-<?php echo e($product->product_id); ?>" class="form-label">Tracking ID:</label>
                                                     <p id="trackingIdDisplay-<?php echo e($product->product_id); ?>">
-                                                        <?php echo e($defaultTrackingId->token); ?> <!-- This assumes the default tracking ID is passed from the controller -->
+                                                        <?php echo e($defaultTrackingId ? $defaultTrackingId->token : 'No Default Tracking ID'); ?>
+
                                                     </p>
                                                 </div>
 

@@ -27,7 +27,7 @@ class RaffleTicket extends Model
     // Define the relationship to the User (or AffCustomer if that's what you're using)
     public function user()
     {
-        return $this->belongsTo(AffCustomer::class, 'user_id');
+        return $this->belongsTo(AffiliateUser::class, 'user_id');
     }
 
     public function product()
