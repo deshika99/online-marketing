@@ -39,7 +39,11 @@
             <a href="<?php echo e(route('index')); ?>" class="list-group-item list-group-item-action py-2 <?php echo e(request()->routeIs('index') ? 'active' : ''); ?>" data-mdb-ripple-init aria-current="true" aria-label="Go to Home">
                 <span>Home</span>
             </a>
-
+    
+            <a href="<?php echo e(route('tracking_id')); ?>" class="list-group-item list-group-item-action py-2 <?php echo e(request()->routeIs('tracking_id') ? 'active' : ''); ?>" data-mdb-ripple-init aria-label="Go to Tools">
+                <span>Tracking IDS</span>
+            </a>
+            
             <a href="<?php echo e(route('affiliate.tool')); ?>" class="list-group-item list-group-item-action py-2 <?php echo e(request()->routeIs('affiliate.tool') ? 'active' : ''); ?>" data-mdb-ripple-init aria-label="Go to Tools">
                 <span>Tools</span>
             </a>
@@ -95,9 +99,7 @@
                     <a href="<?php echo e(route('mywebsites_page')); ?>" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
                       My Websites
                     </a>
-                    <a href="<?php echo e(route('tracking_id')); ?>" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
-                        Tracking ID
-                    </a>
+                    
                 </div>
             </div>
         </div>

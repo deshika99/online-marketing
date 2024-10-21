@@ -132,17 +132,18 @@
               </div>
 
               <!-- Tracking ID Dropdown -->
-              <div class="form-group">
-                  <label for="tracking-id">Select Tracking ID:</label>
-                  <select id="tracking-id" name="tracking_id">
-                      <?php $__currentLoopData = $trackingIds; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $trackingId): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                          <option value="<?php echo e($trackingId->token); ?>" <?php echo e($trackingId->id == $defaultTrackingId->id ? 'selected' : ''); ?>>
-                              <?php echo e($trackingId->token); ?>
+                <div class="form-group">
+                    <label for="tracking-id">Select Tracking ID:</label>
+                    <select id="tracking-id" name="tracking_id">
+                        <?php $__currentLoopData = $trackingIds; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $trackingId): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($trackingId->token); ?>">
+                                <?php echo e($trackingId->token); ?>
 
-                          </option>
-                      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                  </select>
-              </div>
+                            </option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </select>
+                </div>
+
 
               <!-- Generate Button -->
               <div style="display: flex; justify-content: center;">
