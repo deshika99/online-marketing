@@ -8,7 +8,7 @@ use App\Models\AffiliateReferral;
 use App\Models\Products;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
-use App\Models\Affiliate_Customer;
+use App\Models\Affiliate_User;
 use App\Models\PaymentRequest;
 
 
@@ -89,7 +89,7 @@ class AffiliateReportController extends Controller
         $customerId = Session::get('customer_id'); // Get the logged-in user's ID
 
         // Fetch the payment details from the Affiliate_Customer model
-        $customer = Affiliate_Customer::where('id', $customerId)->first();
+        $customer = Affiliate_User::where('id', $customerId)->first();
         
 
         // Pass the customer payment details to the view

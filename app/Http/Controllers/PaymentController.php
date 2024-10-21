@@ -11,7 +11,7 @@ use App\Models\Variation;
 use App\Models\CustomerOrderItems;
 use App\Models\CartItem;
 use Illuminate\Support\Facades\DB;
-use App\Models\Affiliate_Customer;
+use App\Models\Affiliate_User;
 use Carbon\Carbon;
 use App\Models\PaymentRequest;
 use Illuminate\Support\Facades\Session;
@@ -90,6 +90,7 @@ class PaymentController extends Controller
 
     public function updatebank(Request $request)
     {
+        
         // Validate the form data
         $request->validate([
             'bank_name' => 'required|string|max:255',
@@ -100,7 +101,9 @@ class PaymentController extends Controller
 
         // Get the authenticated customer
         $customerId = Session::get('customer_id');
-        $customer = Affiliate_Customer::findOrFail($customerId);
+        $customer = Affiliate_User::findOrFail($customerId);
+
+        dd($customer);
 
         // Update the customer's bank account details
         $customer->update([
@@ -111,7 +114,7 @@ class PaymentController extends Controller
         ]);
 
         // Redirect back with a success message
-        return redirect()->back()->with('success', 'Bank account details added successfully.');
+        return redirect()->route('payment_info')->with('success', 'Bank account details added successfully.');
     }
 
     public function paymentRequest(Request $request)
@@ -138,8 +141,8 @@ class PaymentController extends Controller
         }
         
     
-        // Get the user's bank details from Affiliate_Customer
-        $customer = Affiliate_Customer::findOrFail($customerId);
+        // Get the user's bank details from Affiliate_User
+        $customer = Affiliate_User::findOrFail($customerId);
         
         if (!$customer || !$customer->account_number) {
             return redirect()->back()->with('error', 'No valid bank details found for the user.');
