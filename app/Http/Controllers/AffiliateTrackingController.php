@@ -51,17 +51,30 @@ class AffiliateTrackingController extends Controller
 
     public function setDefault($id)
     {
-        $customerId = Session::get('customer_id');
-        // Reset all raffle tickets to non-default
-        RaffleTicket::where('user_id', auth()->id())->update(['default' => false]);
-
-        // Set the selected ticket as default
+        $customerId = auth()->id();  // Get the currently logged-in user's ID
+    
+        // Step 1: Find the current active ticket
+        $currentDefault = RaffleTicket::where('user_id', $customerId)
+                                       ->where('status', 'Active')
+                                       ->first();
+    
+        // Step 2: If there is an active ticket, set it to 'Pending'
+        if ($currentDefault && $currentDefault->id !== (int)$id) { // Ensure the active ticket is not the one being set
+            $currentDefault->status = 'Pending';  // Update the current default to 'Pending'
+            $currentDefault->save();               // Save the change
+        }
+    
+        // Step 3: Set the selected ticket's status to 'Active'
         $ticket = RaffleTicket::findOrFail($id);
-        $ticket->default = true;
-        $ticket->save();
-
+        $ticket->status = 'Active';  // Set the selected ticket as default
+        $ticket->save();             // Save the change
+    
+        // Step 4: Redirect with success message
         return redirect()->back()->with('success', 'Default Tracking ID updated successfully.');
     }
+    
+    
+
 
     public function destroy($id)
     {

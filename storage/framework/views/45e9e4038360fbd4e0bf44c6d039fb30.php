@@ -113,7 +113,26 @@
                                 <table class="table table-borderless">
                                     <tbody>
                                         <tr>
-                                            <td><strong>Promotional attribute</strong><br><?php echo e($customer->promotion_method); ?></td>
+                                        <?php if(!empty($customer->promotion_method)): ?>
+                                            <?php
+                                                // Check if it's JSON and decode it
+                                                $promotion_methods = is_string($customer->promotion_method) 
+                                                                    ? json_decode($customer->promotion_method, true) 
+                                                                    : $customer->promotion_method;
+                                            ?>
+                                            <?php if(is_array($promotion_methods)): ?>
+                                                <ul>
+                                                    <?php $__currentLoopData = $promotion_methods; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $method): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <li><?php echo e($method); ?></li>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                </ul>
+                                            <?php else: ?>
+                                                <p><?php echo e($promotion_methods); ?></p>
+                                            <?php endif; ?>
+                                        <?php else: ?>
+                                            <p>No promotion methods available</p>
+                                        <?php endif; ?>
+
                                             <td><strong>Channel Type</strong><br>Social</td>
                                             <td><strong>Site name</strong><br>-</td>
                                             <td><strong>Site URL</strong><br>-</td>

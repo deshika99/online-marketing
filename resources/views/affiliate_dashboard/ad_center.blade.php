@@ -155,7 +155,7 @@
                                                 <div class="mb-3 mt-4">
                                                     <label for="trackingIdDisplay-{{ $product->product_id }}" class="form-label">Tracking ID:</label>
                                                     <p id="trackingIdDisplay-{{ $product->product_id }}">
-                                                        {{ $defaultTrackingId->token }} <!-- This assumes the default tracking ID is passed from the controller -->
+                                                        {{ $defaultTrackingId ? $defaultTrackingId->token : 'No Default Tracking ID' }}
                                                     </p>
                                                 </div>
 
