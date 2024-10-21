@@ -580,9 +580,8 @@ class ProductController extends Controller
     
 
 
-    // Return the results as JSON
-     return response()->json($products);
-    }
-
+   
 
 }
+
+

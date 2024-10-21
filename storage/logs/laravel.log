@@ -1,3 +1,4 @@
+
 [2024-10-17 14:57:05] local.ERROR: syntax error, unexpected token "return", expecting "function" or "const" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"return\", expecting \"function\" or \"const\" at C:\\xampp\\htdocs\\esupport_systems\\online-marketing\\app\\Http\\Controllers\\ProductController.php:584)
 [stacktrace]
 #0 C:\\xampp\\htdocs\\esupport_systems\\online-marketing\\vendor\\composer\\ClassLoader.php(427): Composer\\Autoload\\{closure}('C:\\\\xampp\\\\htdocs...')
@@ -533,4 +534,5 @@
 #70 C:\\xampp\\htdocs\\esupport_systems\\online-marketing\\public\\index.php(17): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #71 C:\\xampp\\htdocs\\esupport_systems\\online-marketing\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('C:\\\\xampp\\\\htdocs...')
 #72 {main}
+
 "} 

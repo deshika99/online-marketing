@@ -11,7 +11,11 @@
 
     .otherlinks a {
 
+        text-decoration: none;
         color: white;
+        font-weight: 500;
+        margin: 0 10px;
+
     }
 
     .category-icon {
@@ -22,6 +26,83 @@
     }
 
 
+    /* Desktop View */
+    @media (min-width: 768px) {
+        .otherlinks-dropdown {
+            display: none; /* Hide dropdown in desktop view */
+        }
+    }
+
+    /* Mobile View */
+    @media (max-width: 767.98px) {
+        .navbar-divider {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .category-select-wrapper1,
+        .otherlinks {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .category-icon {
+            margin-right: 0;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .profile_image {
+            width: 30px;
+            height: 30px;
+        }
+
+        .dropdown-menu {
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Other Links responsive - Dropdown for mobile */
+        .otherlinks-dropdown {
+            display: inline-block; /* Show dropdown */
+        }
+
+        .otherlinks-dropdown .dropdown-menu {
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Adjust Dropdown to align under sign-up */
+        .navbar-divider .otherlinks-dropdown {
+            position: relative;
+            top: -20px; /* Move the dropdown below Sign-up */
+            color: white;
+            text-align: left;
+            width: 40%; /* Expand to full width */
+        }
+
+        /* Adjust Sign-up button position */
+        .signup-btn {
+            margin-top: 20px; /* Create space for the dropdown */
+        }
+    }
+
+    /* Align the Other dropdown to the right */
+    @media (max-width: 767.98px) {
+        .navbar-divider .otherlinks-dropdown {
+            margin-left: 220px; /* Align to the right */
+            top: -33px; /* Adjust the value to move it higher */
+        }
+    }
+    @media (max-width: 767.98px) {
+    .otherlinks-dropdown .dropdown-menu {
+        position: absolute; /* Ensure absolute positioning */
+        right: -30px; /* Move it slightly to the right */
+        transform: translateX(-30px); /* Adjust horizontal alignment */
+    }
+}
 
 
 
@@ -40,7 +121,6 @@
         background-color: #f1f1f1;
     }
 
-
 </style>
 
 <header>
@@ -58,6 +138,11 @@
                 </div>
 
 
+               
+
+
+
+
                <!-- Search Section -->
                 <div class="col-md-5 mt-2">
                     <form class="d-flex input-group w-auto my-auto mb-md-0" id="search-form">
@@ -67,23 +152,6 @@
                     <div id="search-results" style="display:none; position:absolute; background:white; width:38%; border:1px solid #ccc; z-index: 1000;"></div>
                 </div>
 
-                
-
-                <!-- User & Cart Section -->
-                <div class="col-md-3 mb-2 d-flex justify-content-center justify-content-md-end align-items-center">
-                    <div class="d-flex align-items-center">
-                        <!-- Dropdown Menu -->
-                        <div class="dropdown me-3">
-                            <a class="text-reset dropdown-toggle1" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-bars"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                                <li><a class="dropdown-item" href="<?php echo e(route('all_items')); ?>">All Items</a></li>
-                                <li><a class="dropdown-item" href="#">Questions</a></li>
-                                <li><a class="dropdown-item" href="<?php echo e(route('helpcenter')); ?>">Help Center</a></li>
-                            </ul>
-                        </div>
-
 
 
                 <!-- User & Cart Section -->
@@ -100,6 +168,7 @@
                                 <li><a class="dropdown-item" href="<?php echo e(route('helpcenter')); ?>">Help Center</a></li>
                             </ul>
                         </div>
+
 
                         <span class="me-3">|</span>
 
@@ -108,6 +177,7 @@
                             <span style="font-size: 19px; position: relative;">
                                 <i class="fas fa-shopping-cart"></i>
                             </span>
+
                             <span id="cart-count" class="badge badge-danger">0</span>
                         </a>
 
@@ -121,11 +191,14 @@
                                 <?php endif; ?>
                             </a>
                         <?php endif; ?>
+
                         <?php else: ?>
                             <div class="dropdown me-3">
                                 <a id="navbarDropdown" class="text-reset dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     <div class="icon-circle">
+
                                         <?php if(Auth::user()->profile_image): ?>
+
                                             <img src="<?php echo e(asset('storage/' . Auth::user()->profile_image)); ?>" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;" class="profile_image">
                                         <?php else: ?>
                                             <span style="font-size: 17px;"><?php echo e(Auth::user()->name[0]); ?></span>
@@ -140,7 +213,6 @@
                                     <a class="dropdown-item" href="<?php echo e(route('logout')); ?>" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="font-size: 15px;">
                                         <?php echo e(__('Logout')); ?>
 
-
                                     </a>
                                     <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" class="d-none">
                                         <?php echo csrf_field(); ?>
@@ -153,6 +225,7 @@
             </div>
         </div>
     </div>
+
 
   <!-- Navbar Divider -->
 <div class="navbar-divider w-100 p-0 mb-1">
@@ -174,10 +247,12 @@
 
                             </a>
                             <?php if($category->subcategories->isNotEmpty()): ?> 
+
                                 <div class="dropdown-menu multi-column">
                                     <?php $__currentLoopData = $category->subcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="dropdown-column">
                                             <a href="<?php echo e(route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory])); ?>">
+
                                                 <strong style="font-size:16px;"><?php echo e($subcategory->subcategory); ?></strong>
                                             </a>
                                             <?php if($subcategory->subSubcategories->isNotEmpty()): ?> 
@@ -194,15 +269,19 @@
                             <?php endif; ?>
                         </div>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
                 </div>
             </div>
 
             <!-- Other Links -->
+
             <div class="d-flex ms-4 d-none d-md-flex otherlinks" style="font-size:15px;">
+
                 <a href="<?php echo e(route('all_items')); ?>" class="mx-3">All Items</a>
                 <a href="<?php echo e(route('special_offerproducts')); ?>" class="mx-3">Special Offers</a>
                 <a href="<?php echo e(route('sale_products')); ?>" class="mx-3">Flash Sale</a>
                 <a href="<?php echo e(route('best_sellers')); ?>" class="mx-3">Bestsellers</a>
+
             </div>
 
             <!-- Dropdown for Other Links in Mobile View -->
@@ -211,18 +290,21 @@
                     Other
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="otherLinksDropdown">
+
                     <li><a class="dropdown-item" href="<?php echo e(route('all_items')); ?>">All Items</a></li>
                     <li><a class="dropdown-item" href="<?php echo e(route('special_offerproducts')); ?>">Special Offers</a></li>
                     <li><a class="dropdown-item" href="<?php echo e(route('sale_products')); ?>">Flash Sale</a></li>
                     <li><a class="dropdown-item" href="<?php echo e(route('best_sellers')); ?>">Bestsellers</a></li>
+
                 </ul>
             </div>
         </div>
     </div>
+
     </div>
 
-</header>
 
+</header>
 
 
 
@@ -294,7 +376,6 @@ unset($__errorArgs, $__bag); ?>
                         <input class="form-check-input" type="checkbox" name="remember" id="remember" <?php echo e(old('remember') ? 'checked' : ''); ?>>
                         <label class="form-check-label" for="remember"><?php echo e(__('Remember Me')); ?></label>
                     </div>
-
                     <!-- Forgot Password Link -->
                     <?php if(Route::has('password.request')): ?>
                         <div>
@@ -310,17 +391,6 @@ unset($__errorArgs, $__bag); ?>
                         <hr class="flex-grow-1">
                         <span class="mx-2 text-secondary">Or continue with</span>
                         <hr class="flex-grow-1">
-
-
-
-                    <!-- other Links -->
-                    <div class="d-flex justify-content-center align-items-center flex-grow-1 otherlinks">
-                        <a href="<?php echo e(route('all_items')); ?>" class="mx-3">All Items</a>
-                        <a href="<?php echo e(route('special_offerproducts')); ?>" class="mx-3">Special Offers</a>
-                        <a href="<?php echo e(route('sale_products')); ?>" class="mx-3">Flash Sale</a>
-                        <a href="<?php echo e(route('best_sellers')); ?>" class="mx-3">Bestsellers</a>
-
-
                     </div>
                     <a class="btn btn-floating" href="#!" role="button">
                         <i class="fa-brands fa-facebook fa-3x" style="color: #2ba2fd;"></i>
@@ -363,8 +433,9 @@ unset($__errorArgs, $__bag); ?>
                     dropdownMenu.classList.remove('show');
                 }
             });
-        });
 
+        });
+  
 </script>
 
 
@@ -440,24 +511,4 @@ unset($__errorArgs, $__bag); ?>
    
     
 
-
-<!-- Scripts -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var dropdownToggle = document.getElementById('dropdownMenuButton');
-        var dropdownMenu = dropdownToggle.nextElementSibling;
-
-        dropdownToggle.addEventListener('click', function () {
-            dropdownMenu.classList.toggle('show');
-        });
-
-        document.addEventListener('click', function (event) {
-            if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                dropdownMenu.classList.remove('show');
-            }
-        });
-    });
-</script>
 <?php /**PATH C:\xampp\htdocs\online-marketing\resources\views/includes/navbar.blade.php ENDPATH**/ ?>
