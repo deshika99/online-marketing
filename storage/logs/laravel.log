@@ -1,3 +1,4 @@
+
 [2024-10-17 14:57:05] local.ERROR: syntax error, unexpected token "return", expecting "function" or "const" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"return\", expecting \"function\" or \"const\" at C:\\xampp\\htdocs\\esupport_systems\\online-marketing\\app\\Http\\Controllers\\ProductController.php:584)
 [stacktrace]
 #0 C:\\xampp\\htdocs\\esupport_systems\\online-marketing\\vendor\\composer\\ClassLoader.php(427): Composer\\Autoload\\{closure}('C:\\\\xampp\\\\htdocs...')
@@ -533,6 +534,7 @@
 #70 C:\\xampp\\htdocs\\esupport_systems\\online-marketing\\public\\index.php(17): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #71 C:\\xampp\\htdocs\\esupport_systems\\online-marketing\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('C:\\\\xampp\\\\htdocs...')
 #72 {main}
+
 "} 
 [2024-10-17 14:59:19] local.ERROR: syntax error, unexpected token "endif", expecting end of file (View: C:\xampp\htdocs\esupport_systems\online-marketing\resources\views\includes\navbar.blade.php) (View: C:\xampp\htdocs\esupport_systems\online-marketing\resources\views\includes\navbar.blade.php) (View: C:\xampp\htdocs\esupport_systems\online-marketing\resources\views\includes\navbar.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): syntax error, unexpected token \"endif\", expecting end of file (View: C:\\xampp\\htdocs\\esupport_systems\\online-marketing\\resources\\views\\includes\\navbar.blade.php) (View: C:\\xampp\\htdocs\\esupport_systems\\online-marketing\\resources\\views\\includes\\navbar.blade.php) (View: C:\\xampp\\htdocs\\esupport_systems\\online-marketing\\resources\\views\\includes\\navbar.blade.php) at C:\\xampp\\htdocs\\esupport_systems\\online-marketing\\storage\\framework\\views\\b2be10ed5645bef9ea50863a4a353878.php:459)
 [stacktrace]

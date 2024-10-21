@@ -138,29 +138,9 @@
                 </div>
 
 
-                <!-- Search Section -->
-                <div class="col-md-5 mt-2">
-                    <form class="d-flex input-group w-auto my-auto mb-3 mb-md-0">
-                        <input autocomplete="off" type="search" class="form-control rounded" placeholder="Search" />
-                        <span class="input-group-text border-0 d-none d-lg-flex"><i class="fas fa-search"></i></span>
-                    </form>
-                </div>
+               
 
 
-                <!-- User & Cart Section -->
-                <div class="col-md-3 mb-2 d-flex justify-content-center justify-content-md-end align-items-center">
-                    <div class="d-flex align-items-center">
-                        <!-- Dropdown Menu -->
-                        <div class="dropdown me-3">
-                            <a class="text-reset dropdown-toggle1" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-bars"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                                <li><a class="dropdown-item" href="{{ route('all_items') }}">All Items</a></li>
-                                <li><a class="dropdown-item" href="#">Questions</a></li>
-                                <li><a class="dropdown-item" href="{{ route('helpcenter') }}">Help Center</a></li>
-                            </ul>
-                        </div>
 
 
                <!-- Search Section -->
@@ -423,9 +403,6 @@
             });
 
         });
-    </script>
-
-
 
 </script>
 
@@ -502,23 +479,3 @@
    
     
 
-
-<!-- Scripts -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var dropdownToggle = document.getElementById('dropdownMenuButton');
-        var dropdownMenu = dropdownToggle.nextElementSibling;
-
-        dropdownToggle.addEventListener('click', function () {
-            dropdownMenu.classList.toggle('show');
-        });
-
-        document.addEventListener('click', function (event) {
-            if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                dropdownMenu.classList.remove('show');
-            }
-        });
-    });
-</script>

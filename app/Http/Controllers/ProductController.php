@@ -580,9 +580,7 @@ class ProductController extends Controller
     
 
 
-    // Return the results as JSON
+   
 
-    }
-
-
+}
 
