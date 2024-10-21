@@ -116,24 +116,24 @@
                                     <tbody>
                                         <tr>
                                         @if(!empty($customer->promotion_method))
-    @php
-        // Check if it's JSON and decode it
-        $promotion_methods = is_string($customer->promotion_method) 
-                             ? json_decode($customer->promotion_method, true) 
-                             : $customer->promotion_method;
-    @endphp
-    @if(is_array($promotion_methods))
-        <ul>
-            @foreach($promotion_methods as $method)
-                <li>{{ $method }}</li>
-            @endforeach
-        </ul>
-    @else
-        <p>{{ $promotion_methods }}</p>
-    @endif
-@else
-    <p>No promotion methods available</p>
-@endif
+                                            @php
+                                                // Check if it's JSON and decode it
+                                                $promotion_methods = is_string($customer->promotion_method) 
+                                                                    ? json_decode($customer->promotion_method, true) 
+                                                                    : $customer->promotion_method;
+                                            @endphp
+                                            @if(is_array($promotion_methods))
+                                                <ul>
+                                                    @foreach($promotion_methods as $method)
+                                                        <li>{{ $method }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                                <p>{{ $promotion_methods }}</p>
+                                            @endif
+                                        @else
+                                            <p>No promotion methods available</p>
+                                        @endif
 
                                             <td><strong>Channel Type</strong><br>Social</td>
                                             <td><strong>Site name</strong><br>-</td>

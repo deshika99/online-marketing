@@ -48,36 +48,33 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $__currentLoopData = $raffletickets; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ticket): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <tr>
-                                            <td><?php echo e($ticket->id); ?></td>
-                                            <td><?php echo e($ticket->token); ?></td>
-                                            <td><?php echo e($ticket->created_at); ?></td>
-                                            <td>
-                                                <form action="<?php echo e(route('raffletickets.setDefault', $ticket->id)); ?>" method="post">
-                                                    <?php echo csrf_field(); ?>
-                                                    <?php echo method_field('PUT'); ?>
-                                                    <button type="submit" class="btn btn-sm btn-primary" <?php echo e($ticket->default ? 'disabled' : ''); ?>>
-                                                        <?php echo e($ticket->default ? 'Default' : 'Set as Default'); ?>
+                                <?php $__currentLoopData = $raffletickets; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ticket): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+    <tr>
+        <td><?php echo e($ticket->id); ?></td>
+        <td><?php echo e($ticket->token); ?></td>
+        <td><?php echo e($ticket->created_at); ?></td>
+        <td>
+            
 
-                                                    </button>
-                                                </form>
-                                                <form action="<?php echo e(route('raffletickets.destroy', $ticket->id)); ?>" method="post" class="d-inline">
-                                                    <?php echo csrf_field(); ?>
-                                                    <?php echo method_field('DELETE'); ?>
-                                                    <button class="btn btn-sm btn-danger mt-2">Delete</button>
-                                                </form>
+            <!-- Form to delete the ticket -->
+            <form action="<?php echo e(route('raffletickets.destroy', $ticket->id)); ?>" method="post" class="d-inline">
+                <?php echo csrf_field(); ?>
+                <?php echo method_field('DELETE'); ?>
+                <button class="btn btn-sm btn-danger mt-2">Delete</button>
+            </form>
 
-                                                <!-- View Report button in the referring page -->
-                                                <form action="<?php echo e(route('realtime_tracking')); ?>" method="POST" style="display: inline;">
-                                                    <?php echo csrf_field(); ?>
-                                                    <input type="hidden" name="raffle_ticket_id" value="<?php echo e($ticket->id); ?>">
-                                                    <button type="submit" class="btn btn-sm btn-info">View Report</button>
-                                                </form>
+            <!-- View Report button -->
+            <form action="<?php echo e(route('realtime_tracking')); ?>" method="POST" style="display: inline;">
+                <?php echo csrf_field(); ?>
+                <input type="hidden" name="raffle_ticket_id" value="<?php echo e($ticket->id); ?>">
+                <button type="submit" class="btn btn-sm btn-info">View Report</button>
+            </form>
+        </td>
+    </tr>
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+
                                 </tbody>
                             </table>
                             <?php if($errors->any()): ?>

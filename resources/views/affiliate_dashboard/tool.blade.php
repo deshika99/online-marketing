@@ -134,16 +134,17 @@
               </div>
 
               <!-- Tracking ID Dropdown -->
-              <div class="form-group">
-                  <label for="tracking-id">Select Tracking ID:</label>
-                  <select id="tracking-id" name="tracking_id">
-                      @foreach($trackingIds as $trackingId)
-                          <option value="{{ $trackingId->token }}" {{ $trackingId->id == $defaultTrackingId->id ? 'selected' : '' }}>
-                              {{ $trackingId->token }}
-                          </option>
-                      @endforeach
-                  </select>
-              </div>
+                <div class="form-group">
+                    <label for="tracking-id">Select Tracking ID:</label>
+                    <select id="tracking-id" name="tracking_id">
+                        @foreach($trackingIds as $trackingId)
+                            <option value="{{ $trackingId->token }}">
+                                {{ $trackingId->token }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
 
               <!-- Generate Button -->
               <div style="display: flex; justify-content: center;">

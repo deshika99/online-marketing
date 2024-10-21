@@ -191,8 +191,8 @@ Route::get('/affiliate/dashboard/code_center', [AffiliateLinkController::class, 
 
 Route::view('/affiliate/dashboard/payment/account_balance', 'affiliate_dashboard.account_balance')->name('account_balance');
 Route::get('/affiliate/dashboard/payment/bank_acc', [PaymentController::class, 'bank_acc'])->name('bank_acc');
-Route::post('/affiliate/dashboard/payment/bank_acc', [PaymentController::class, 'updatebank'])->name('updatebank');
-Route::post('/affiliate/dashboard/payment/bank_acc', [PaymentController::class, 'paymentrequest'])->name('paymentrequest');
+Route::post('/affiliate/dashboard/payment/updatebank', [PaymentController::class, 'updatebank'])->name('updatebank');
+Route::post('/affiliate/dashboard/payment/paymentrequest', [PaymentController::class, 'paymentrequest'])->name('paymentrequest');
 
 
 Route::view('/affiliate/dashboard/payment/commission_rules', 'affiliate_dashboard.commission_rules')->name('commission_rules');

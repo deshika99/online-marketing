@@ -250,7 +250,7 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>" id="gender" name="gender">
-                                    <option selected disabled></option>
+                                    <option selected disabled>Select Gender</option>
                                     <option value="male" <?php echo e(old('gender') == 'male' ? 'selected' : ''); ?>>Male</option>
                                     <option value="female" <?php echo e(old('gender') == 'female' ? 'selected' : ''); ?>>Female</option>
                                     <option value="other" <?php echo e(old('gender') == 'other' ? 'selected' : ''); ?>>Other</option>
@@ -371,9 +371,9 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
                         <div class="row mb-5">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-start">Confirm Password <span class="text-danger"> *</span></label>
+                            <label for="password_confirmation" class="col-md-4 col-form-label text-md-start">Confirm Password <span class="text-danger"> *</span></label>
                             <div class="col-md-7">
-                                <input id="password-confirm" type="password" class="form-control <?php $__errorArgs = ['password_confirmation'];
+                                <input id="password_confirmation" type="password" class="form-control <?php $__errorArgs = ['password_confirmation'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
