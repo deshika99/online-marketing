@@ -165,7 +165,7 @@
         <div class="contact-item">
             <i class="fas fa-phone-alt"></i>
             <h3>Phone</h3>
-            <p>077 833 7143</p>
+            <p>075 833 7141</p>
         </div>
     </div>
 </div>
