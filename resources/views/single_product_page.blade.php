@@ -144,6 +144,8 @@
 }
 
 
+   
+
 </style>
 
 <div class="container mt-4 mb-5">
@@ -181,7 +183,10 @@
 
             <main class="col-lg-7">
                 <div class="ps-lg-3">
-                    <h4 class="title text-dark">{{ $product->product_name }}</h4>              
+                    <h4 class="title text-dark">{{ $product->product_name }}</h4>  
+                    <p class="description">
+                        {{ (str_replace('&nbsp;', ' ', strip_tags($product->product_description))) }}
+                    </p>       
                     <div class="d-flex flex-row my-3">
                         <div class="text-warning mb-1 me-2">
                             <span class="text-warning">
@@ -197,13 +202,10 @@
                             </span>
                             <span class="ms-1">{{ number_format($averageRating, 1) }}</span>
                         </div>
-                        <span class="text-primary">{{ $totalReviews }} Ratings | </span>
-                        <span class="text-primary">&nbsp; 25 Questions Answered</span>
+                        <span class="text-primary">{{ $totalReviews }} Ratings </span>
+                       
                     </div>
-                    <div style="margin-top: -15px;">
-                        <span class="text-muted">Brand: </span>
-                        <span class="text-primary">No Brand | More Wearable technology from No Brand</span>
-                    </div>
+                    
                     <hr />
                     <div class="product-availability mt-3">
                         <span class="">Availability :</span>

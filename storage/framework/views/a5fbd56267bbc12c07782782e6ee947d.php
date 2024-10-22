@@ -315,7 +315,10 @@
 
                         <main class="col-lg-7">
                             <h4><?php echo e($product->product_name); ?></h4>
-                            <p><?php echo $product->product_description; ?></p>
+                            <p class="description">
+                                <?php echo e((str_replace('&nbsp;', ' ', strip_tags($product->product_description)))); ?>
+
+                            </p>  
                             <div class="d-flex flex-row my-3">
                                 <div class="text-warning mb-1 me-2">
                                     <?php for($i = 0; $i < floor($product->average_rating); $i++): ?>
@@ -329,8 +332,8 @@
                                     <?php endfor; ?>
                                     <span class="ms-1"><?php echo e(number_format($product->average_rating, 1)); ?></span>
                                 </div>
-                                <span class="text-primary"><?php echo e($product->rating_count); ?> Ratings | </span>
-                                <span class="text-primary">&nbsp; 25 Questions Answered</span>
+                                <span class="text-primary"><?php echo e($product->rating_count); ?> Ratings  </span>
+                               
                             </div>
                             <hr />
                             

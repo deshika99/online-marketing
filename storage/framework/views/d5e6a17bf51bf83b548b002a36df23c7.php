@@ -1,6 +1,4 @@
-@extends('layouts.affiliate_main.master')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <style>
     .small-input {
@@ -32,31 +30,31 @@
                             <button type="button" class="btn-close text-reset" data-mdb-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body" style="font-size:15px;">
-                            <form id="editInfoForm" action="{{ route('affiliate.updateBasicInfo') }}" method="POST">
-                                @csrf
-                                @if($customer)
+                            <form id="editInfoForm" action="<?php echo e(route('affiliate.updateBasicInfo')); ?>" method="POST">
+                                <?php echo csrf_field(); ?>
+                                <?php if($customer): ?>
                                     <div class="form-group mb-3">
                                         <label for="payeename" class="text-secondary">Payee Name</label>
-                                        <input type="text" id="payeename" name="payeename" class="form-control small-input" value="{{ $customer->name }}">
+                                        <input type="text" id="payeename" name="payeename" class="form-control small-input" value="<?php echo e($customer->name); ?>">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="loginemail" class="text-secondary">Login Email</label>
-                                        <input type="email" id="loginemail" name="loginemail" class="form-control small-input" value="{{ $customer->email }}">
+                                        <input type="email" id="loginemail" name="loginemail" class="form-control small-input" value="<?php echo e($customer->email); ?>">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="loginphone" class="text-secondary">Login Phone Number</label>
-                                        <input type="text" id="loginphone" name="loginphone" class="form-control small-input" value="{{ $customer->contactno }}">
+                                        <input type="text" id="loginphone" name="loginphone" class="form-control small-input" value="<?php echo e($customer->contactno); ?>">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="contactmail" class="text-secondary">Contact Email</label>
-                                        <input type="email" id="contactmail" name="contactmail" class="form-control small-input" value="{{ $customer->email }}">
+                                        <input type="email" id="contactmail" name="contactmail" class="form-control small-input" value="<?php echo e($customer->email); ?>">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="contactphone" class="text-secondary">Contact Phone Number</label>
-                                        <input type="text" id="contactphone" name="contactphone" class="form-control small-input" value="{{ $customer->contactno }}">
+                                        <input type="text" id="contactphone" name="contactphone" class="form-control small-input" value="<?php echo e($customer->contactno); ?>">
                                     </div>
                                     <button type="submit" class="btn btn-primary btn-create">Submit</button>
-                                @endif
+                                <?php endif; ?>
                             </form>
                         </div>
                     </div>
@@ -66,15 +64,15 @@
                     <div class="table-responsive">
                         <table class="table table-borderless">
                             <tbody>
-                                @if($customer)
+                                <?php if($customer): ?>
                                 <tr>
-                                    <td><strong>Login email</strong><br>{{ $customer->email }}</td>
+                                    <td><strong>Login email</strong><br><?php echo e($customer->email); ?></td>
                                     <td><strong>Password</strong><br>*********</td>
-                                    <td><strong>Login phone number</strong><br>{{ $customer->contactno ?: '-' }}</td>
-                                    <td><strong>Contact email</strong><br>{{ $customer->email }}</td>
-                                    <td><strong>Payee Name</strong><br>{{ $customer->name }}</td>
+                                    <td><strong>Login phone number</strong><br><?php echo e($customer->contactno ?: '-'); ?></td>
+                                    <td><strong>Contact email</strong><br><?php echo e($customer->email); ?></td>
+                                    <td><strong>Payee Name</strong><br><?php echo e($customer->name); ?></td>
                                 </tr>
-                                @endif
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
@@ -95,11 +93,11 @@
      <!-- Edit Site Information Sidebar -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSite" aria-labelledby="offcanvasSiteLabel">
         <div class="offcanvas-body" style="font-size:15px;">
-            <form id="editSiteForm" action="{{ route('affiliate.updateSiteInfo') }}" method="POST">
-                @csrf
+            <form id="editSiteForm" action="<?php echo e(route('affiliate.updateSiteInfo')); ?>" method="POST">
+                <?php echo csrf_field(); ?>
                 <div class="form-group mb-3">
                     <label class="text-secondary mb-3" style="font-size: 18px;">Promotion Methods</label>
-                    @php
+                    <?php
                         // Decode the customer's selected promotion methods
                         $promotionMethods = is_array($customer->promotion_method) 
                             ? $customer->promotion_method 
@@ -110,33 +108,34 @@
 
                         // Define all possible promotion methods
                         $allMethods = ['Instagram', 'Facebook', 'TikTok', 'YouTube', 'Content website/blog', 'WhatsApp'];
-                    @endphp
+                    ?>
                     <div>
-                        @foreach($allMethods as $method)
-                            @php
+                        <?php $__currentLoopData = $allMethods; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $method): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php
                                 $isChecked = in_array($method, $promotionMethods);
                                 $urlValue = $isChecked ? $customer->{strtolower(str_replace(' ', '_', $method)) . '_url'} : '';
-                            @endphp
+                            ?>
                             <div class="form-check">
                                 <input class="form-check-input promotion-method-checkbox" type="checkbox" 
-                                    id="promotion_method_{{ $loop->index }}" 
+                                    id="promotion_method_<?php echo e($loop->index); ?>" 
                                     name="promotion_methods[]" 
-                                    value="{{ $method }}"
-                                    data-method="{{ strtolower(str_replace(' ', '_', $method)) }}" 
-                                    {{ $isChecked ? 'checked' : '' }}>
-                                <label class="form-check-label" for="promotion_method_{{ $loop->index }}">
-                                    {{ $method }}
+                                    value="<?php echo e($method); ?>"
+                                    data-method="<?php echo e(strtolower(str_replace(' ', '_', $method))); ?>" 
+                                    <?php echo e($isChecked ? 'checked' : ''); ?>>
+                                <label class="form-check-label" for="promotion_method_<?php echo e($loop->index); ?>">
+                                    <?php echo e($method); ?>
+
                                 </label>
                             </div>
                             <div class="form-group mb-4">
                              
-                                <input type="text" id="{{ strtolower(str_replace(' ', '_', $method)) }}_url" name="{{ strtolower(str_replace(' ', '_', $method)) }}_url" 
+                                <input type="text" id="<?php echo e(strtolower(str_replace(' ', '_', $method))); ?>_url" name="<?php echo e(strtolower(str_replace(' ', '_', $method))); ?>_url" 
                                     class="form-control small-input method-input" 
-                                    data-method="{{ strtolower(str_replace(' ', '_', $method)) }}" 
-                                    value="{{ $urlValue }}" 
-                                    {{ $isChecked ? '' : 'disabled' }}> 
+                                    data-method="<?php echo e(strtolower(str_replace(' ', '_', $method))); ?>" 
+                                    value="<?php echo e($urlValue); ?>" 
+                                    <?php echo e($isChecked ? '' : 'disabled'); ?>> 
                             </div>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
                 </div>
 
@@ -161,43 +160,43 @@
                                 <tbody>
                                     <tr>
                                         <td><strong>Promotion Methods</strong><br>
-                                            @if(!empty($customer->promotion_method))
-                                                @php
+                                            <?php if(!empty($customer->promotion_method)): ?>
+                                                <?php
                                                     $promotion_methods = is_array($customer->promotion_method) ? $customer->promotion_method : json_decode($customer->promotion_method, true);
-                                                @endphp
-                                                @if(is_array($promotion_methods))
+                                                ?>
+                                                <?php if(is_array($promotion_methods)): ?>
                                                     <ul>
-                                                        @foreach($promotion_methods as $method)
-                                                            <li>{{ $method }}</li>
-                                                        @endforeach
+                                                        <?php $__currentLoopData = $promotion_methods; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $method): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <li><?php echo e($method); ?></li>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </ul>
-                                                @else
-                                                    <p>{{ $promotion_methods }}</p>
-                                                @endif
-                                            @else
+                                                <?php else: ?>
+                                                    <p><?php echo e($promotion_methods); ?></p>
+                                                <?php endif; ?>
+                                            <?php else: ?>
                                                 <p>No promotion methods available</p>
-                                            @endif
+                                            <?php endif; ?>
                                         </td>
                                         <td><strong>Channel Type</strong><br>Social</td>
                                         <td><strong>Social media platform</strong><br>
-                                            @if(!empty($customer->instagram_url))
-                                                Instagram: <a href="{{ $customer->instagram_url }}" target="_blank">{{ $customer->instagram_url }}</a><br>
-                                            @endif
-                                            @if(!empty($customer->facebook_url))
-                                                Facebook: <a href="{{ $customer->facebook_url }}" target="_blank">{{ $customer->facebook_url }}</a><br>
-                                            @endif
-                                            @if(!empty($customer->tiktok_url))
-                                                TikTok: <a href="{{ $customer->tiktok_url }}" target="_blank">{{ $customer->tiktok_url }}</a><br>
-                                            @endif
-                                            @if(!empty($customer->youtube_url))
-                                                YouTube: <a href="{{ $customer->youtube_url }}" target="_blank">{{ $customer->youtube_url }}</a><br>
-                                            @endif
-                                            @if(!empty($customer->content_website_url))
-                                                Website: <a href="{{ $customer->content_website_url }}" target="_blank">{{ $customer->content_website_url }}</a><br>
-                                            @endif
-                                            @if(!empty($customer->content_whatsapp_url))
-                                                WhatsApp: <a href="{{ $customer->content_whatsapp_url }}" target="_blank">{{ $customer->content_whatsapp_url }}</a><br>
-                                            @endif
+                                            <?php if(!empty($customer->instagram_url)): ?>
+                                                Instagram: <a href="<?php echo e($customer->instagram_url); ?>" target="_blank"><?php echo e($customer->instagram_url); ?></a><br>
+                                            <?php endif; ?>
+                                            <?php if(!empty($customer->facebook_url)): ?>
+                                                Facebook: <a href="<?php echo e($customer->facebook_url); ?>" target="_blank"><?php echo e($customer->facebook_url); ?></a><br>
+                                            <?php endif; ?>
+                                            <?php if(!empty($customer->tiktok_url)): ?>
+                                                TikTok: <a href="<?php echo e($customer->tiktok_url); ?>" target="_blank"><?php echo e($customer->tiktok_url); ?></a><br>
+                                            <?php endif; ?>
+                                            <?php if(!empty($customer->youtube_url)): ?>
+                                                YouTube: <a href="<?php echo e($customer->youtube_url); ?>" target="_blank"><?php echo e($customer->youtube_url); ?></a><br>
+                                            <?php endif; ?>
+                                            <?php if(!empty($customer->content_website_url)): ?>
+                                                Website: <a href="<?php echo e($customer->content_website_url); ?>" target="_blank"><?php echo e($customer->content_website_url); ?></a><br>
+                                            <?php endif; ?>
+                                            <?php if(!empty($customer->content_whatsapp_url)): ?>
+                                                WhatsApp: <a href="<?php echo e($customer->content_whatsapp_url); ?>" target="_blank"><?php echo e($customer->content_whatsapp_url); ?></a><br>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -248,4 +247,6 @@
     });
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.affiliate_main.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\online-marketing\resources\views/affiliate_dashboard/mywebsites_page.blade.php ENDPATH**/ ?>

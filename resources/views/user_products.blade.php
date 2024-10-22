@@ -290,7 +290,9 @@
 
                         <main class="col-lg-7">
                             <h4>{{ $product->product_name }}</h4>
-                            <p>{!! $product->product_description !!}</p>
+                            <p class="description">
+                                {{ (str_replace('&nbsp;', ' ', strip_tags($product->product_description))) }}
+                            </p>
                             <div class="d-flex flex-row my-3">
                             <div class="text-warning mb-1 me-2">
                                 @for($i = 0; $i < floor($product->average_rating); $i++)
@@ -304,8 +306,8 @@
                                 @endfor
                                 <span class="ms-1">{{ number_format($product->average_rating, 1) }}</span>
                             </div>
-                            <span class="text-primary">{{ $product->rating_count }} Ratings | </span>
-                                <span class="text-primary">&nbsp; 25 Questions Answered</span>
+                            <span class="text-primary">{{ $product->rating_count }} Ratings  </span>
+                                
                             </div>
                             <hr />
                             
