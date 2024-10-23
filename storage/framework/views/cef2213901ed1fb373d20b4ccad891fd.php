@@ -45,6 +45,9 @@
                         <a class="nav-link <?php echo e(request()->routeIs('myreviews') ? 'active' : ''); ?>" href="<?php echo e(route('myreviews')); ?>">My Reviews</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link <?php echo e(request()->routeIs('myinquiries') ? 'active' : ''); ?>" href="<?php echo e(route('myinquiries')); ?>">Inquiries</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link <?php echo e(request()->routeIs('addresses') ? 'active' : ''); ?>" href="<?php echo e(route('addresses')); ?>">Address Book</a>
                     </li>
                     <li class="nav-item">

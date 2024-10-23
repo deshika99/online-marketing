@@ -1,3 +1,5 @@
+ 
+
 <?php $__env->startSection('dashboard-content'); ?>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -14,6 +16,7 @@
         background: rgba(0, 0, 0, 0.5);
         justify-content: center;
         align-items: center;
+        z-index: 1000;
     }
 
     .popup-content {
@@ -124,72 +127,178 @@
         cursor: pointer;
         margin: 20px;
     }
-</style>
 
+    .address-card{
+        border: 1px solid #93c1fe;
+        background: #f8fbff;
+    }
+</style>
 <h3 class="py-2 px-2">Address Book</h3>
 
-<!-- Button to open the popup -->
 <button class="btn btn-primary mt-3" onclick="openPopup()">+ Add New</button>
 
-<!-- Popup container -->
+
+
+<!-- Displaying Address Cards -->
+<div class="row mt-4">
+    <?php $__currentLoopData = $addresses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $address): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <div class="col-md-4 mb-3"> 
+            <div class="card address-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="card-title mb-0"><?php echo e($address->full_name); ?></h6> <!-- Remove bottom margin -->
+                        <?php if($address->default): ?>
+                            <span class="badge bg-primary">Default</span>
+                        <?php endif; ?>
+                    </div>
+                    <p class="card-text">
+                        <?php echo e($address->phone_num); ?><br>
+                        <?php echo e($address->email); ?><br>
+                        <?php echo e($address->address); ?><?php echo e($address->apartment ? ', ' . $address->apartment : ''); ?><br>
+                        <?php echo e($address->city); ?><br>
+                        <?php echo e($address->postal_code); ?>
+
+                    </p>
+                    <div class="d-flex">
+                        <button class="btn btn-sm" onclick="openEditPopup(<?php echo e(json_encode($address)); ?>)" style="color:red">Edit</button>
+                        <button class="btn btn-sm" onclick="showDeleteModal(<?php echo e($address->id); ?>)" style="color:red">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+</div>
+<!-- Add  modal -->
 <div class="popup" id="popup">
     <div class="popup-content">
         <span class="close-popup" onclick="closePopup()">&times;</span>
-        <h2>Add Address</h2>
-        <form>
+        <h3>Add Address</h3>
+             <form action="<?php echo e(route('storeAddress')); ?>" method="POST">
+                <?php echo csrf_field(); ?>
+                <div class="form-container">
+                    <div class="icon-input">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="first_name" placeholder="First name" value="<?php echo e(old('full_name', auth()->user()->name)); ?>" required>
+                    </div>
+                    <div class="icon-input">
+                        <i class="fas fa-phone"></i>
+                        <input type="text" name="phone" placeholder="Phone" value="<?php echo e(old('phone_num', auth()->user()->phone_num)); ?>" required>
+                    </div>
+                    <div class="icon-input">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" name="email" placeholder="Email" value="<?php echo e(old('email', auth()->user()->email)); ?>" required>
+                    </div>
+                    <div class="icon-input">
+                        <i class="fas fa-home"></i>
+                        <input type="text" name="address" placeholder="Street Address" value="<?php echo e(old('address', auth()->user()->address)); ?>" required>
+                    </div>
+                    <div class="icon-input">
+                        <i class="fas fa-home"></i>
+                        <input type="text" name="apartment" placeholder="Apartment, Suite, Unit (Optional)">
+                    </div>
+                    <div class="icon-input">
+                        <i class="fas fa-city"></i>
+                        <input type="text" name="city" placeholder="City" required>
+                    </div>
+                    <div class="icon-input">
+                        <i class="fas fa-mail-bulk"></i>
+                        <input type="text" name="postal_code" placeholder="Postal code" required>
+                    </div>
+
+                    <div class="icon-input checkbox-container" style="display: flex; align-items: center; padding-left: 30px;">
+                        <input type="checkbox" name="default" id="default" value="on" style="margin-right: 10px; width: auto;">
+                        <label for="default" style="margin: 0;">Set as default address</label>
+                    </div>
+                </div>
+                
+                <div class="form-buttons">
+                    <button type="submit" class="save-btn">
+                        <i class="fas fa-check"></i> Save
+                    </button>
+                </div>
+            </form>
+
+    </div>
+</div>
+
+<!-- Edit Address Popup Modal -->
+<div class="popup" id="editPopup">
+    <div class="popup-content">
+        <span class="close-popup" onclick="closeEditPopup()">&times;</span>
+        <h4>Edit Address</h4>
+        <form id="editAddressForm" action="<?php echo e(route('updateAddress')); ?>" method="POST">
+            <?php echo csrf_field(); ?>
+            <input type="hidden" name="address_id" id="edit_address_id" value="">
             <div class="form-container">
                 <div class="icon-input">
                     <i class="fas fa-user"></i>
-                    <input type="text" placeholder="First name">
-                </div>
-                <div class="icon-input">
-                    <i class="fas fa-user"></i>
-                    <input type="text" placeholder="Last name">
+                    <input type="text" name="first_name" id="edit_first_name" placeholder="First name" required>
                 </div>
                 <div class="icon-input">
                     <i class="fas fa-phone"></i>
-                    <input type="text" placeholder="Phone">
+                    <input type="text" name="phone" id="edit_phone" placeholder="Phone" required>
                 </div>
                 <div class="icon-input">
                     <i class="fas fa-envelope"></i>
-                    <input type="text" placeholder="Email">
-                </div>
-                <div class="icon-input">
-                    <i class="fas fa-building"></i>
-                    <input type="text" placeholder="Company Name (Optional)">
+                    <input type="email" name="email" id="edit_email" placeholder="Email" required>
                 </div>
                 <div class="icon-input">
                     <i class="fas fa-home"></i>
-                    <input type="text" placeholder="Street Address">
+                    <input type="text" name="address" id="edit_address" placeholder="Street Address" required>
                 </div>
                 <div class="icon-input">
                     <i class="fas fa-home"></i>
-                    <input type="text" placeholder="Apartment, Suite, unit etc. (Optional)">
+                    <input type="text" name="apartment" id="edit_apartment" placeholder="Apartment, Suite, Unit (Optional)">
                 </div>
                 <div class="icon-input">
                     <i class="fas fa-city"></i>
-                    <input type="text" placeholder="City">
+                    <input type="text" name="city" id="edit_city" placeholder="City" required>
                 </div>
                 <div class="icon-input">
                     <i class="fas fa-mail-bulk"></i>
-                    <input type="text" placeholder="Postal code">
+                    <input type="text" name="postal_code" id="edit_postal_code" placeholder="Postal code" required>
+                </div>
+                <div class="icon-input checkbox-container" style="display: flex; align-items: center; padding-left: 30px;">
+                    <input type="checkbox" name="default" id="edit_default" style="margin-right: 10px; width: auto;">
+                    <label for="edit_default" style="margin: 0;">Set as default address</label>
                 </div>
             </div>
-            <!-- Form action buttons -->
             <div class="form-buttons">
-                <button type="button" class="edit-btn" onclick="editForm()">
-                    <i class="fas fa-edit"></i> Edit
-                </button>
-                <button type="button" class="delete-btn" onclick="deleteForm()">
-                    <i class="fas fa-trash-alt"></i> Delete
-                </button>
                 <button type="submit" class="save-btn">
-                    <i class="fas fa-check"></i> Confirm
+                    <i class="fas fa-check"></i> Update
                 </button>
             </div>
         </form>
     </div>
 </div>
+
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this address?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <form id="deleteAddressForm" method="POST" action="<?php echo e(route('address.delete', ['id' => 0])); ?>">
+            <?php echo csrf_field(); ?>
+            <?php echo method_field('DELETE'); ?>
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 
 <script>
     function openPopup() {
@@ -200,18 +309,36 @@
         document.getElementById("popup").style.display = "none";
     }
 
-    function editForm() {
-        alert("Edit action triggered!");
+    function showDeleteModal(addressId) {
+        let formAction = '<?php echo e(route("address.delete", ":id")); ?>';
+        formAction = formAction.replace(':id', addressId);
+        document.getElementById('deleteAddressForm').action = formAction;
+        $('#deleteModal').modal('show');
     }
 
-    function deleteForm() {
-        if (confirm("Are you sure you want to delete this form?")) {
-            alert("Form deleted!");
-            document.querySelector("form").reset();
-        }
-    }
+
+    // Function to open the Edit modal with pre-filled data
+function openEditPopup(address) {
+    document.getElementById('edit_address_id').value = address.id;
+    document.getElementById('edit_first_name').value = address.full_name;
+    document.getElementById('edit_phone').value = address.phone_num;
+    document.getElementById('edit_email').value = address.email;
+    document.getElementById('edit_address').value = address.address;
+    document.getElementById('edit_apartment').value = address.apartment;
+    document.getElementById('edit_city').value = address.city;
+    document.getElementById('edit_postal_code').value = address.postal_code;
+    document.getElementById('edit_default').checked = address.default;
+
+
+    document.getElementById('editPopup').style.display = 'flex';
+}
+
+
+function closeEditPopup() {
+    document.getElementById('editPopup').style.display = 'none';
+}
+
 </script>
 
-<?php $__env->stopSection(); ?>
-
+<?php $__env->stopSection(); ?>                                             
 <?php echo $__env->make('layouts.user_sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\esupport_systems\online-marketing\resources\views/member_dashboard/addresses.blade.php ENDPATH**/ ?>

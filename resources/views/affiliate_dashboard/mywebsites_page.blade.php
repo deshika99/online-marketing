@@ -112,6 +112,7 @@
                                             // Default to an empty array if no promotion methods are available
                                             $promotionMethods = $promotionMethods ?: [];
 
+
                                             // Define all possible promotion methods
                                             $allMethods = ['Instagram', 'Facebook', 'TikTok', 'YouTube', 'Content website/blog', 'WhatsApp'];
                                         @endphp
@@ -153,6 +154,7 @@
                                     </div>
                                     <button type="submit" class="btn btn-primary btn-create">Submit</button>
                                 </form>
+
                             </div>
                         </div>
 

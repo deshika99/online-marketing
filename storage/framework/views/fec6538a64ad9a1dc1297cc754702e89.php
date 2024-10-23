@@ -221,7 +221,6 @@
 <?php endif; ?>
 
 
-
         <header>
             <div class="text-center bg-white border-bottom" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
                 <div class="px-5">
@@ -249,7 +248,7 @@
                                            LOGIN
                                         </div>
                                     </a>
-                                    <a class="text-reset me-3 signup-btn p-2" href="<?php echo e(route('aff_reg')); ?>">
+                                    <a class="text-reset me-3 signup-btn p-2" href="<?php echo e(route('register_form')); ?>">
                                         <div style="font-weight:500; color:white">
                                             SIGN UP
                                         </div>

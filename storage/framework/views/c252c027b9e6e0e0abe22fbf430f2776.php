@@ -233,32 +233,32 @@
                                     <div class="form-group">
                                         <label for="variations">Add Product Variations</label>
                                         <div id="variations-container">
-    <?php $__currentLoopData = $variations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $variation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <div class="variation-row row mb-3" data-index="<?php echo e($index); ?>">
-            <div class="col-md-3">
-                <select class="form-control variation-type" name="variation[<?php echo e($index); ?>][type]" onchange="handleVariationChange(this)">
-                    <option value="Size" <?php echo e($variation->type === 'Size' ? 'selected' : ''); ?>>Size</option>
-                    <option value="Color" <?php echo e($variation->type === 'Color' ? 'selected' : ''); ?>>Color</option>
-                    <option value="Material" <?php echo e($variation->type === 'Material' ? 'selected' : ''); ?>>Material</option>
-                </select>
-            </div>
-            <div class="col-md-4 variation-input-container">
-                <?php if($variation->type === 'Color'): ?>
-                    <input type="color" class="form-control variation-input" name="variation[<?php echo e($index); ?>][value]" value="<?php echo e($variation->hex_value); ?>" onchange="updateHexValue(this)">
-                    <input type="hidden" name="variation[<?php echo e($index); ?>][hex_value]" value="<?php echo e($variation->hex_value); ?>">
-                <?php else: ?>
-                    <input type="text" class="form-control variation-input" name="variation[<?php echo e($index); ?>][value]" value="<?php echo e($variation->value); ?>" placeholder="Variation">
-                <?php endif; ?>
-            </div>
-            <div class="col-md-3">
-                <input type="number" class="form-control variation-input" name="variation[<?php echo e($index); ?>][quantity]" value="<?php echo e($variation->quantity); ?>" placeholder="Quantity">
-            </div>
-            <div class="col-md-1">
-                <button type="button" class="btn remove-btn" onclick="removeVariationRow(this)">X</button>
-            </div>
-        </div>
-    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-</div>
+                                            <?php $__currentLoopData = $variations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $variation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <div class="variation-row row mb-3" data-index="<?php echo e($index); ?>">
+                                                    <div class="col-md-3">
+                                                        <select class="form-control variation-type" name="variation[<?php echo e($index); ?>][type]" onchange="handleVariationChange(this)">
+                                                            <option value="Size" <?php echo e($variation->type === 'Size' ? 'selected' : ''); ?>>Size</option>
+                                                            <option value="Color" <?php echo e($variation->type === 'Color' ? 'selected' : ''); ?>>Color</option>
+                                                            <option value="Material" <?php echo e($variation->type === 'Material' ? 'selected' : ''); ?>>Material</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 variation-input-container">
+                                                        <?php if($variation->type === 'Color'): ?>
+                                                            <input type="color" class="form-control variation-input" name="variation[<?php echo e($index); ?>][value]" value="<?php echo e($variation->hex_value); ?>" onchange="updateHexValue(this)">
+                                                            <input type="hidden" name="variation[<?php echo e($index); ?>][hex_value]" value="<?php echo e($variation->hex_value); ?>">
+                                                        <?php else: ?>
+                                                            <input type="text" class="form-control variation-input" name="variation[<?php echo e($index); ?>][value]" value="<?php echo e($variation->value); ?>" placeholder="Variation">
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="number" class="form-control variation-input" name="variation[<?php echo e($index); ?>][quantity]" value="<?php echo e($variation->quantity); ?>" placeholder="Quantity">
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <button type="button" class="btn remove-btn" onclick="removeVariationRow(this)">X</button>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        </div>
 
                                         <button type="button" class="btn btn-secondary mt-3" id="addVariationBtn" style="width: 30%;">+ Add another variation</button>
                                     </div>
