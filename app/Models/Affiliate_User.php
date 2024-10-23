@@ -45,4 +45,7 @@ class Affiliate_User extends Model
     {
         $this->attributes['password'] = bcrypt($value);  
     }
+
+
+    
 }

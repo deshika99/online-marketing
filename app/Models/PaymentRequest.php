@@ -21,4 +21,13 @@ class PaymentRequest extends Model
         'status',
         'requested_at',
     ];
+
+    protected $casts = [
+        'requested_at' => 'datetime',
+    ];
+    
+    public function affiliateUser()
+    {
+        return $this->belongsTo(Affiliate_User::class, 'user_id');
+    }
 }
