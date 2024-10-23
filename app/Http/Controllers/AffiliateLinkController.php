@@ -14,24 +14,25 @@ use Illuminate\Support\Facades\Session;
 class AffiliateLinkController extends Controller
 {
     public function showAffiliateForm() 
-    {
-        $customerId = Session::get('customer_id');
-        
-        // Get all tracking IDs for the logged-in user
-        $trackingIds = RaffleTicket::where('user_id', $customerId)->get();
+{
+    $customerId = Session::get('customer_id');
     
-        // Check if there's already a default tracking ID
-        $defaultTrackingId = $trackingIds->where('default', true)->first();
-    
-        // If no default tracking ID is set and the user has at least one tracking ID, set the first one as default
-        if (!$defaultTrackingId && $trackingIds->count() == 1) {
-            $defaultTrackingId = $trackingIds->first(); // Set the first ID as the default for this session (optional logic)
-            $defaultTrackingId->default = true; // Mark it as default
-            $defaultTrackingId->save(); // Save to the database
-        }
-    
-        return view('affiliate_dashboard.tool', compact('trackingIds', 'defaultTrackingId'));
+    // Get all tracking IDs (raffle tickets) for the logged-in user
+    $trackingIds = RaffleTicket::where('user_id', $customerId)->get();
+
+    // Check if there's already an "Active" tracking ID (default equivalent)
+    $defaultTrackingId = $trackingIds->where('status', 'Pending')->first();
+
+    // If no "Active" tracking ID is set and the user has at least one tracking ID, set the first one as "Active"
+    if (!$defaultTrackingId && $trackingIds->count() == 1) {
+        $defaultTrackingId = $trackingIds->first(); // Set the first ID as the default for this session
+        $defaultTrackingId->status = 'Pending'; // Mark it as Active (default equivalent)
+        $defaultTrackingId->save(); // Save to the database
     }
+
+    return view('affiliate_dashboard.tool', compact('trackingIds', 'defaultTrackingId'));
+}
+
     
 
 

@@ -13,42 +13,51 @@ class AffiliateProductController extends Controller
 
 
     public function showAdCenter(Request $request)
-    {
-        $categoryName = $request->get('category', 'all');
-        $query = Products::where('is_affiliate', 1);
-        
-        $customerId = Session::get('customer_id');
-        // Get all tracking IDs for the logged-in user
-        $trackingIds = RaffleTicket::where('user_id', $customerId)->get();
+{
+    $categoryName = $request->get('category', 'all');
+    $query = Products::where('is_affiliate', 1);
     
-        // Check if there's already a default tracking ID
-        $defaultTrackingId = $trackingIds->where('default', true)->first();
+    $customerId = Session::get('customer_id');
     
-        // If no default tracking ID is set and the user has at least one tracking ID, set the first one as default
-        if (!$defaultTrackingId && $trackingIds->count() == 1) {
-            $defaultTrackingId = $trackingIds->first(); // Set the first ID as the default for this session (optional logic)
-            $defaultTrackingId->default = true; // Mark it as default
-            $defaultTrackingId->save(); // Save to the database
-        }
+    // Get all tracking IDs (raffle tickets) for the logged-in user
+    $trackingIds = RaffleTicket::where('user_id', $customerId)->get();
 
-        if ($categoryName != 'all') {
-            $query->where('product_category', $categoryName);
-        }
+    // Check if there's already a tracking ID with 'Active' status (default equivalent)
+    $defaultTrackingId = $trackingIds->where('status', 'Pending')->first();
 
-        $hotDeals = $query->get();
-        $commissionThreshold = 8;
-        $highComQuery = Products::where('commission_percentage', '>', $commissionThreshold)
-            ->where('is_affiliate', 1);
-
-        if ($categoryName != 'all') {
-            $highComQuery->where('product_category', $categoryName);
-        }
-
-        $highCom = $highComQuery->get();
-        $categories = Category::all(); 
-
-        return view('affiliate_dashboard.ad_center', compact('hotDeals', 'highCom', 'categories','defaultTrackingId'));
+    // If no "Active" tracking ID is set and the user has at least one tracking ID, set the first one as "Active"
+    if (!$defaultTrackingId && $trackingIds->count() == 1) {
+        $defaultTrackingId = $trackingIds->first(); // Set the first ID as the default for this session
+        $defaultTrackingId->status = 'Pending'; // Mark it as Active (default equivalent)
+        $defaultTrackingId->save(); // Save to the database
     }
+
+    // Filter products by category if a specific category is selected
+    if ($categoryName != 'all') {
+        $query->where('product_category', $categoryName);
+    }
+
+    $hotDeals = $query->get();
+
+    // Filter high commission products (with commission percentage greater than the threshold)
+    $commissionThreshold = 8;
+    $highComQuery = Products::where('commission_percentage', '>', $commissionThreshold)
+        ->where('is_affiliate', 1);
+
+    // Apply category filter to high commission products as well
+    if ($categoryName != 'all') {
+        $highComQuery->where('product_category', $categoryName);
+    }
+
+    $highCom = $highComQuery->get();
+    
+    // Get all categories to display in the view
+    $categories = Category::all(); 
+
+    // Return the view with hot deals, high commission products, categories, and default tracking ID
+    return view('affiliate_dashboard.ad_center', compact('hotDeals', 'highCom', 'categories', 'defaultTrackingId'));
+}
+
 
 
     
