@@ -20,7 +20,7 @@ use App\Http\Controllers\NavbarController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\ReviewController;
-
+use App\Http\Controllers\AffiliateWithdrawalsController;
 use App\Http\Controllers\AffiliateLinkController;
 
 use App\Http\Controllers\SalesController;
@@ -265,6 +265,15 @@ Route::get('/admin/products/edit/{id}', [ProductController::class, 'edit'])->nam
 Route::put('/admin/products/{id}', [ProductController::class, 'update'])->name('update_product');
 Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy'])->name('delete_product');
 Route::get('/admin/product-details/{id}', [ProductController::class, 'showProductDetails'])->name('product-details');
+
+
+
+
+// Route to view the affiliate withdrawals page
+Route::get('/admin/affiliate_withdrawals', [AffiliateWithdrawalsController::class, 'index'])->name('affiliate_withdrawals');
+
+// Route to update the payment request status
+Route::post('/admin/affiliate_withdrawals/update/{id}', [AffiliateWithdrawalsController::class, 'updatePaymentStatus'])->name('affiliate.updatePaymentStatus');
 
 
 Route::get('/admin/aff_customers', [AffiliateCustomerController::class, 'showAffCustomers'])->name('aff_customers');

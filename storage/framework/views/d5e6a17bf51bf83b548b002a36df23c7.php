@@ -60,7 +60,7 @@
                     </div>
                 </div>
 
-                <div class="mb-4">
+                <div>
                     <div class="table-responsive">
                         <table class="table table-borderless">
                             <tbody>
@@ -80,81 +80,82 @@
             </div>  
         </div>
 
+
+
+   
         <div class="card">
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-md-4 mb-2 d-flex align-items-center">
                         <h5 class="py-3" style="font-weight: bold;">Site Information</h5>
                     </div>
-                   
-                </div>
-
-       
-     <!-- Edit Site Information Sidebar -->
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSite" aria-labelledby="offcanvasSiteLabel">
-        <div class="offcanvas-body" style="font-size:15px;">
-            <form id="editSiteForm" action="<?php echo e(route('affiliate.updateSiteInfo')); ?>" method="POST">
-                <?php echo csrf_field(); ?>
-                <div class="form-group mb-3">
-                    <label class="text-secondary mb-3" style="font-size: 18px;">Promotion Methods</label>
-                    <?php
-                        // Decode the customer's selected promotion methods
-                        $promotionMethods = is_array($customer->promotion_method) 
-                            ? $customer->promotion_method 
-                            : json_decode($customer->promotion_method, true);
-                        
-                        // Default to an empty array if no promotion methods are available
-                        $promotionMethods = $promotionMethods ?: [];
-
-                        // Define all possible promotion methods
-                        $allMethods = ['Instagram', 'Facebook', 'TikTok', 'YouTube', 'Content website/blog', 'WhatsApp'];
-                    ?>
-                    <div>
-                        <?php $__currentLoopData = $allMethods; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $method): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <?php
-                                $isChecked = in_array($method, $promotionMethods);
-                                $urlValue = $isChecked ? $customer->{strtolower(str_replace(' ', '_', $method)) . '_url'} : '';
-                            ?>
-                            <div class="form-check">
-                                <input class="form-check-input promotion-method-checkbox" type="checkbox" 
-                                    id="promotion_method_<?php echo e($loop->index); ?>" 
-                                    name="promotion_methods[]" 
-                                    value="<?php echo e($method); ?>"
-                                    data-method="<?php echo e(strtolower(str_replace(' ', '_', $method))); ?>" 
-                                    <?php echo e($isChecked ? 'checked' : ''); ?>>
-                                <label class="form-check-label" for="promotion_method_<?php echo e($loop->index); ?>">
-                                    <?php echo e($method); ?>
-
-                                </label>
-                            </div>
-                            <div class="form-group mb-4">
-                             
-                                <input type="text" id="<?php echo e(strtolower(str_replace(' ', '_', $method))); ?>_url" name="<?php echo e(strtolower(str_replace(' ', '_', $method))); ?>_url" 
-                                    class="form-control small-input method-input" 
-                                    data-method="<?php echo e(strtolower(str_replace(' ', '_', $method))); ?>" 
-                                    value="<?php echo e($urlValue); ?>" 
-                                    <?php echo e($isChecked ? '' : 'disabled'); ?>> 
-                            </div>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <div class="col-md-8 d-flex justify-content-end">
+                        <span class="filter-option me-3 text-primary" data-mdb-toggle="offcanvas" data-mdb-target="#offcanvasSite" aria-controls="offcanvasSite" style="cursor: pointer;">
+                            Edit
+                        </span>
                     </div>
-                </div>
+                        <!-- Edit Site Information Sidebar -->
+                        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSite" aria-labelledby="offcanvasSiteLabel">
+                            <div class="offcanvas-body" style="font-size:15px;">
+                                <form id="editSiteForm" action="<?php echo e(route('affiliate.updateSiteInfo')); ?>" method="POST">
+                                    <?php echo csrf_field(); ?>
+                                    <div class="form-group mb-3">
+                                        <label class="text-secondary mb-3" style="font-size: 18px;">Promotion Methods</label>
+                                        <?php
+                                            // Decode the customer's selected promotion methods
+                                            $promotionMethods = is_array($customer->promotion_method) 
+                                                ? $customer->promotion_method 
+                                                : json_decode($customer->promotion_method, true);
+                                            
+                                            // Default to an empty array if no promotion methods are available
+                                            $promotionMethods = $promotionMethods ?: [];
 
-                <button type="submit" class="btn btn-primary btn-create">Submit</button>
-            </form>
-        </div>
-    </div>
+                                            // Define all possible promotion methods
+                                            $allMethods = ['Instagram', 'Facebook', 'TikTok', 'YouTube', 'Content website/blog', 'WhatsApp'];
+                                        ?>
+                                        <div>
+                                        <?php $__currentLoopData = $allMethods; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $method): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php
+                                                $isChecked = in_array($method, $promotionMethods);
+                                                
+                                                // Determine the correct URL value for the method
+                                                if ($method === 'Content website/blog') {
+                                                    $urlValue = $isChecked ? $customer->content_website_url : '';
+                                                } elseif ($method === 'WhatsApp') {
+                                                    $urlValue = $isChecked ? $customer->content_whatsapp_url : '';
+                                                } else {
+                                                    $urlValue = $isChecked ? $customer->{strtolower(str_replace(' ', '_', $method)) . '_url'} : '';
+                                                }
+                                            ?>
+                                            <div class="form-check">
+                                                <input class="form-check-input promotion-method-checkbox" type="checkbox" 
+                                                    id="promotion_method_<?php echo e($loop->index); ?>" 
+                                                    name="promotion_methods[]" 
+                                                    value="<?php echo e($method); ?>" 
+                                                    data-method="<?php echo e(strtolower(str_replace(' ', '_', $method))); ?>" 
+                                                    <?php echo e($isChecked ? 'checked' : ''); ?>>
+                                                <label class="form-check-label" for="promotion_method_<?php echo e($loop->index); ?>">
+                                                    <?php echo e($method); ?>
 
-
-
-
-            <div class="mb-4">
-                <div class="card" style="background-color: #f8f9fa; box-shadow: none;">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-end">
-                            <span class="filter-option me-3 text-primary" data-mdb-toggle="offcanvas" data-mdb-target="#offcanvasSite" aria-controls="offcanvasSite" style="cursor: pointer;">
-                                Edit
-                            </span>
+                                                </label>
+                                            </div>
+                                            <div class="form-group mb-4">
+                                                <input type="text" id="<?php echo e(strtolower(str_replace(' ', '_', $method))); ?>_url" 
+                                                    name="<?php echo e(strtolower(str_replace(' ', '_', $method)) === 'content_website/blog' ? 'content_website_url' : strtolower(str_replace(' ', '_', $method)) . '_url'); ?>" 
+                                                    class="form-control small-input method-input" 
+                                                    data-method="<?php echo e(strtolower(str_replace(' ', '_', $method))); ?>" 
+                                                    value="<?php echo e($urlValue); ?>" 
+                                                    <?php echo e($isChecked ? '' : 'disabled'); ?>> 
+                                            </div>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-create">Submit</button>
+                                </form>
+                            </div>
                         </div>
+
+                    <div class="">
                         <div class="table-responsive">
                             <table class="table table-borderless">
                                 <tbody>
@@ -203,8 +204,6 @@
                             </table>
                         </div>
                     </div>
-                </div>
-            </div>
 
 
             </div>  

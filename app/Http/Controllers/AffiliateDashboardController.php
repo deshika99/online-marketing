@@ -41,8 +41,6 @@ class AffiliateDashboardController extends Controller
 
     public function updateSiteInfo(Request $request)
     {
-
-    
         $request->validate([
             'promotion_methods' => 'nullable|array',
             'instagram_url' => 'nullable|url',
@@ -52,34 +50,33 @@ class AffiliateDashboardController extends Controller
             'content_website_url' => 'nullable|url',
             'content_whatsapp_url' => 'nullable|url',
         ]);
-    
+
+        
         $affiliateId = Session::get('customer_id');
         $customer = Affiliate_User::where('id', $affiliateId)->first();
-    
+
         if ($customer) {
-    
             $selectedMethods = $request->promotion_methods ?? [];
-    
             $customer->promotion_method = json_encode($selectedMethods);
-    
+
             $customer->instagram_url = in_array('Instagram', $selectedMethods) ? $request->instagram_url : null;
             $customer->facebook_url = in_array('Facebook', $selectedMethods) ? $request->facebook_url : null;
             $customer->tiktok_url = in_array('TikTok', $selectedMethods) ? $request->tiktok_url : null;
             $customer->youtube_url = in_array('YouTube', $selectedMethods) ? $request->youtube_url : null;
             $customer->content_website_url = in_array('Content website/blog', $selectedMethods) ? $request->content_website_url : null;
-            $customer->content_whatsapp_url = in_array('WhatsApp', $selectedMethods) ? $request->content_whatsapp_url : null;
-    
+            $customer->content_whatsapp_url = in_array('WhatsApp', $selectedMethods) ? $request->whatsapp_url : null;
+
+
             $customer->save();
-    
+
             return redirect()->back()->with('success', 'Site information updated successfully.');
         }
 
         return redirect()->back()->with('error', 'Unable to update site information.');
     }
-    
+
 
 
    
     
-
 }
