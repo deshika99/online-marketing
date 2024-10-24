@@ -46,6 +46,9 @@
             <a href="<?php echo e(route('aff_customers')); ?>" class="list-group-item list-group-item-action py-2 <?php echo e(request()->routeIs('aff_customers') ? 'active' : ''); ?>" data-mdb-ripple-init>
                 <i class="fas fa-users text-muted"></i><span class="text-muted">Affiliate Customers</span>
             </a>
+            <a href="<?php echo e(route('affiliate_withdrawals')); ?>" class="list-group-item list-group-item-action py-2 <?php echo e(request()->routeIs('affiliate_withdrawals') ? 'active' : ''); ?>" data-mdb-ripple-init>
+                <i class="fa-solid fa-money-bill text-muted"></i><span class="text-muted">Affiliate Withdrawals</span>
+            </a>
             <a href="<?php echo e(route('customers')); ?>" class="list-group-item list-group-item-action py-2 <?php echo e(request()->routeIs('customers') ? 'active' : ''); ?>" data-mdb-ripple-init>
                 <i class="fas fa-users text-muted"></i><span class="text-muted">Customers</span>
             </a>
