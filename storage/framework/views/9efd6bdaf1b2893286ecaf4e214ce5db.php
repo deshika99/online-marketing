@@ -1,12 +1,10 @@
-
-
 <?php $__env->startSection('content'); ?>
 <style>
     .table thead {
         background-color: #9FC5E8;
     }
-    
-  /* General Reset */
+
+    /* General Reset */
     *{
         margin: 0;
         padding: 0;
@@ -18,7 +16,7 @@
         background-color: #f4f4f4;
     }
 
-/* Container */
+    /* Container */
     .tool-container {
         display: flex;
         flex-direction: column;
@@ -26,9 +24,8 @@
         justify-content: space-between;
     }
 
-
-/* Main Content */
-   .tool-content {
+    /* Main Content */
+    .tool-content {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -66,7 +63,7 @@
         color: #333;
     }
 
-    .form-group input {
+    .form-group input, .form-group select {
         width: 100%;
         padding: 10px;
         font-size: 16px;
@@ -75,44 +72,44 @@
         transition: border-color 0.3s ease;
     }
 
-    .form-group input:focus {
+    .form-group input:focus, .form-group select:focus {
         border-color: #f39c12;
     }
 
     button#generate-btn {
-      padding: 10px 15px;
-      font-size: 16px;
-      color: white;
-      background-color: #0056b3;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
+        padding: 10px 15px;
+        font-size: 16px;
+        color: white;
+        background-color: #0056b3;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
     }
 
     button#generate-btn:hover {
-      background-color:#0056b3;
+        background-color:#0056b3;
     }
 
-/* Generated Link Section */
+    /* Generated Link Section */
     .generated-link {
-      margin-top: 30px;
+        margin-top: 30px;
     }
 
     .generated-link h3 {
-      font-size: 18px;
-      margin-bottom: 10px;
-      color: #333;
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #333;
     }
 
     .generated-link p {
-      font-size: 16px;
-      background-color: #f9f9f9;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      color: #555;
-      word-wrap: break-word;
+        font-size: 16px;
+        background-color: #f9f9f9;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        color: #555;
+        word-wrap: break-word;
     }
 </style>
 
@@ -124,37 +121,53 @@
     <!-- Main Content: Tool Form -->
     <section class="tool-content">
       <div class="tool-form-container">
-        <h2>Generate Your Affiliate Link</h2>
-        <form class="tool-form">
-          <!-- Product URL Input -->
-          <div class="form-group">
-            <label for="product-link">Enter Product URL:</label>
-            <input type="url" id="product-link" placeholder="https://example.com/product" required>
+          <h2>Generate Your Affiliate Link</h2>
+          <form class="tool-form" id="affiliateForm" action="<?php echo e(route('genarate_tracking_Link')); ?>" method="post">
+              <?php echo csrf_field(); ?> <!-- Laravel CSRF token -->
+
+              <!-- Product URL Input -->
+              <div class="form-group">
+                  <label for="product-link">Enter Product URL:</label>
+                  <input type="url" id="product-link" name="product_url" placeholder="https://example.com/product" required>
+              </div>
+
+              <!-- Tracking ID Dropdown -->
+                <div class="form-group">
+                    <label for="tracking-id">Select Tracking ID:</label>
+                    <select id="tracking-id" name="tracking_id">
+                        <?php $__currentLoopData = $trackingIds; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $trackingId): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($trackingId->token); ?>">
+                                <?php echo e($trackingId->token); ?>
+
+                            </option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </select>
+                </div>
+
+
+              <!-- Generate Button -->
+              <div style="display: flex; justify-content: center;">
+                  <button type="submit" id="generate-btn" class="btn btn-secondary btn-sm" style="font-size: 0.9rem; width: 100%;">Generate Affiliate Link</button>
+              </div> 
+          </form>
+
+          <!-- Output Section -->
+          <div class="generated-link">
+              <h3>Your Affiliate Link:</h3>
+
+              <!-- Check if the session contains the generated link -->
+              <?php if(session('generated_link')): ?>
+                  <p id="output-link"><?php echo e(session('generated_link')); ?></p>
+              <?php else: ?>
+                  <p id="output-link">No link generated yet.</p>
+              <?php endif; ?>
           </div>
-
-          <!-- Affiliate ID Input -->
-          <div class="form-group">
-            <label for="affiliate-id">Affiliate ID:</label>
-            <input type="text" id="affiliate-id" placeholder="Your Affiliate ID" required>
-          </div>
-
-          <!-- Generate Button -->
-          <div style="display: flex; justify-content: center;">
-            <button type="button" id="toggleSelectAll2" class="btn btn-secondary btn-sm" style="font-size: 0.9rem; width: 100%;">
-              Generate Affiliate Link
-            </button>
-          </div> 
-        </form>
-
-        <!-- Output Section -->
-        <div class="generated-link">
-          <h3>Your Affiliate Link:</h3>
-          <p id="output-link">No link generated yet.</p>
-        </div>
       </div>
-    </section> 
+  </section>
+
 </main>
 
 
+<?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.affiliate_main.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\online-marketing\resources\views/affiliate_dashboard/tool.blade.php ENDPATH**/ ?>
