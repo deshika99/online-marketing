@@ -8,28 +8,22 @@ use App\Models\Affiliate_User;
 
 class AffiliateDashboardController extends Controller
 {
-    public function index()
 
+    public function index()
     {
         $affiliateId = Session::get('customer_id');
         $customer = Affiliate_User::where('id', $affiliateId)->first();
 
-        if ($customer && !empty($customer->promotion_method)) {
-            $customer->promotion_method = json_decode($customer->promotion_method, true);
+        if ($customer) {
+            if (is_string($customer->promotion_method)) {
+                $customer->promotion_method = json_decode($customer->promotion_method, true);
+            }
+
+            $customer->promotion_method = $customer->promotion_method ?? [];
         }
 
-
-    // Check if the customer exists and if the promotion method is set
-    if ($customer && isset($customer->promotion_method)) {
-        // Decode JSON to an array if promotion_method is not empty
-        $customer->promotion_method = !empty($customer->promotion_method) 
-            ? json_decode($customer->promotion_method, true) 
-            : [];  // Default to an empty array if it's empty
-    } else {
-        // If the customer does not exist, you may want to handle that scenario
-        // For example, redirect or return a message
+        return view('affiliate_dashboard.mywebsites_page', compact('customer'));
     }
-
 
 
     public function updateBasicInfo(Request $request)

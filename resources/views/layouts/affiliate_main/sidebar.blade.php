@@ -84,7 +84,10 @@
                     <a href="{{ route('payment_info') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
                         Payment Information
                     </a>
-                    <a href="{{ route('commission_rules') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
+                    <!-- <a href="{{ route('commission_rules') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
+                        Commission Rules
+                    </a> -->
+                    <a href="{{ route('show_affiliate_rules') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
                         Commission Rules
                     </a>
                 </div>

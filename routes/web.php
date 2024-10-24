@@ -22,7 +22,7 @@ use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AffiliateWithdrawalsController;
 use App\Http\Controllers\AffiliateLinkController;
-
+use App\Http\Controllers\AffiliateRulesController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\AffiliateDashboardController;
@@ -197,6 +197,8 @@ Route::post('/affiliate/dashboard/payment/paymentrequest', [PaymentController::c
 
 Route::view('/affiliate/dashboard/payment/commission_rules', 'affiliate_dashboard.commission_rules')->name('commission_rules');
 
+Route::get('/affiliate/dashboard/payment/affiliate_rules', [AffiliateRulesController::class, 'showrules'])->name('show_affiliate_rules');
+
 
 Route::post('/affiliate/update-site-info', [AffiliateDashboardController::class, 'updateSiteInfo'])->name('affiliate.updateSiteInfo');
 Route::post('/affiliate/update-basic-info', [AffiliateDashboardController::class, 'updateBasicInfo'])->name('affiliate.updateBasicInfo');
@@ -269,12 +271,17 @@ Route::get('/admin/product-details/{id}', [ProductController::class, 'showProduc
 
 
 
-// Route to view the affiliate withdrawals page
+
+
+Route::get('/admin/affiliate_rules', [AffiliateRulesController::class, 'index'])->name('affiliate_rules');
+Route::post('/admin/affiliate_rules', [AffiliateRulesController::class, 'store'])->name('admin_rules.store');
+Route::delete('/admin/affiliate_rules/{id}', [AffiliateRulesController::class, 'destroy'])->name('affiliate_rules.destroy');
+Route::put('/admin/affiliate_rules/{id}', [AffiliateRulesController::class, 'update'])->name('admin_users.update');
+
+
 Route::get('/admin/affiliate_withdrawals', [AffiliateWithdrawalsController::class, 'index'])->name('affiliate_withdrawals');
 
-// Route to update the payment request status
 Route::post('/admin/affiliate_withdrawals/update/{id}', [AffiliateWithdrawalsController::class, 'updatePaymentStatus'])->name('affiliate.updatePaymentStatus');
-
 
 Route::get('/admin/aff_customers', [AffiliateCustomerController::class, 'showAffCustomers'])->name('aff_customers');
 Route::patch('/admin/aff_customers/{id}/status', [AffiliateCustomerController::class, 'updateStatus'])->name('aff_customers.updateStatus');

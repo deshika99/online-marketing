@@ -43,15 +43,29 @@
             <a href="{{ route('admin.index') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('admin.index') ? 'active' : '' }}" data-mdb-ripple-init aria-current="true">
                 <i class="fas fa-tachometer-alt text-muted"></i><span class="text-muted">Dashboard</span>
             </a>
-            <a href="{{ route('aff_customers') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('aff_customers') ? 'active' : '' }}" data-mdb-ripple-init>
-                <i class="fas fa-users text-muted"></i><span class="text-muted">Affiliate Customers</span>
-            </a>
-            <a href="{{ route('affiliate_withdrawals') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('affiliate_withdrawals') ? 'active' : '' }}" data-mdb-ripple-init>
-                <i class="fa-solid fa-money-bill text-muted"></i><span class="text-muted">Affiliate Withdrawals</span>
-            </a>
             <a href="{{ route('customers') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('customers') ? 'active' : '' }}" data-mdb-ripple-init>
                 <i class="fas fa-users text-muted"></i><span class="text-muted">Customers</span>
             </a>
+
+
+            <!-- Affiliate Dropdown -->
+        <a class="list-group-item list-group-item-action py-2 d-flex justify-content-between align-items-center {{ request()->is('Affiliate*') ? 'active' : '' }}" data-bs-toggle="collapse" href="#AffiliateSubMenu" role="button" aria-expanded="false" aria-controls="AffiliateSubMenu">
+            <i class="fas fa-users text-muted"></i><span class="text-muted">Affiliate</span>
+            <i class="fas fa-chevron-down float-end mt-2" style="font-size:10px;"></i> 
+        </a>
+        <div class="collapse {{ request()->is('Affiliate*') ? 'show' : '' }}" id="AffiliateSubMenu">
+            <a href="{{ route('aff_customers') }}" class="list-group-item list-group-item-action ms-4" style="height: 35px; width:180px;">
+                Affiliate Customers
+            </a>
+            <a href="{{ route('affiliate_withdrawals') }}" class="list-group-item list-group-item-action ms-4" style="height: 35px; width:180px;">
+                Affiliate Withdrawals
+            </a>
+            <a href="{{ route('affiliate_rules') }}" class="list-group-item list-group-item-action ms-4" style="height: 35px; width:180px;">
+                Affiliate Rules
+            </a>
+        </div>
+
+
 
             <!-- Products Dropdown -->
             <a class="list-group-item list-group-item-action py-2 d-flex justify-content-between align-items-center {{ request()->is('products*') ? 'active' : '' }}" data-bs-toggle="collapse" href="#productsSubMenu" role="button" aria-expanded="false" aria-controls="productsSubMenu">
