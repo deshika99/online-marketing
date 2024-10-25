@@ -73,7 +73,7 @@
                                             <td>{{ $referral->referral_count }}</td>
 
                                             <!-- Affiliate Commission -->
-                                            <td>{{ number_format($referral->affiliate_commission * $referral->referral_count, 2) }}</td>
+                                            <td>{{ $referral->total_affiliate_price }}</td>
                                         </tr>
                                     @empty
                                         <tr>

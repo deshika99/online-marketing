@@ -61,7 +61,7 @@
                                     <th scope="col">Gender</th>
                                     <th scope="col">Contact No</th>
                                     <th scope="col">Email</th>
-                                    <th scope="col" style="width:17%">Status</th>
+                                    <th scope="col" style="width:5%">Status</th>
                                     <th scope="col" style="width: 5%">Action</th>
                                 </tr>
                             </thead>
@@ -80,7 +80,7 @@
                                             <form action="<?php echo e(route('aff_customers.updateStatus', $customer->id)); ?>" method="POST" style="display:inline;">
                                                 <?php echo csrf_field(); ?>
                                                 <?php echo method_field('PATCH'); ?>
-                                                <button type="submit" name="status" value="approved" class="btn-approve btn btn-success">Approve</button>
+                                                <button type="submit" name="status" value="approved" class="btn-approve btn btn-success mb-1">Approve</button>
                                                 <button type="submit" name="status" value="rejected" class="btn-reject btn btn-danger">Reject</button>
                                             </form>
                                         <?php elseif($customer->status == 'approved'): ?>

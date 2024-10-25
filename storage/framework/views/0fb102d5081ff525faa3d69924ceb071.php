@@ -72,7 +72,7 @@
                                             <td><?php echo e($referral->referral_count); ?></td>
 
                                             <!-- Affiliate Commission -->
-                                            <td><?php echo e(number_format($referral->affiliate_commission * $referral->referral_count, 2)); ?></td>
+                                            <td><?php echo e($referral->total_affiliate_price); ?></td>
                                         </tr>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                         <tr>
