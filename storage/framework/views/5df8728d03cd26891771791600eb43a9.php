@@ -566,14 +566,27 @@ const lightbox = GLightbox({
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+
 $(document).ready(function() {
+    // Add to Cart click event
     $('.btn-custom-cart').on('click', function(e) {
         e.preventDefault();
 
         const productId = $(this).data('product-id');
         const isAuth = $(this).data('auth');
         const selectedSize = $('button.size-option.active').text();  
-        const selectedColor = $('button.color-option.active').data('color');  
+        const selectedColor = $('button.color-option.active').data('color');
+
+        // Check if size and color are selected
+        if ($('button.size-option').length > 0 && $('button.color-option').length > 0) {
+            if (!selectedSize || !selectedColor) {
+                toastr.warning('Please select both size and color options before adding this product to the cart.', 'Warning', {
+                    positionClass: 'toast-top-right',
+                    timeOut: 3000,
+                });
+                return;
+            }
+        }
 
         if (isAuth) {
             $.ajax({
@@ -582,8 +595,8 @@ $(document).ready(function() {
                 data: {
                     _token: "<?php echo e(csrf_token()); ?>",
                     product_id: productId,
-                    size: selectedSize,   
-                    color: selectedColor 
+                    size: selectedSize || null,   // Allow null if no size selected
+                    color: selectedColor || null    // Allow null if no color selected
                 },
                 success: function(response) {
                     $.get("<?php echo e(route('cart.count')); ?>", function(data) {
@@ -611,56 +624,70 @@ $(document).ready(function() {
         }
     });
 
+    // Size option click event
     $('.size-option').on('click', function() {
         $('.size-option').removeClass('active');
         $(this).addClass('active');
     });
 
+    // Color option click event
     $('.color-option').on('click', function() {
         $('.color-option').removeClass('active');
         $(this).addClass('active');
+        $('#selected-color-name').text($(this).data('color-name'));
     });
 
-
+    // Buy Now function
     window.buyNow = function() {
-    const productId = $('.btn-custom-buy').data('product-id');
-    const isAuth = $('.btn-custom-buy').data('auth');
+        const productId = $('.btn-custom-buy').data('product-id');
+        const isAuth = $('.btn-custom-buy').data('auth');
+        const selectedSize = $('button.size-option.active').text();  
+        const selectedColor = $('button.color-option.active').data('color');
 
-    const selectedSize = $('button.size-option.active').text();  
-    const selectedColor = $('button.color-option.active').data('color');  
-
-    if (isAuth) {
-        $.ajax({
-            url: "<?php echo e(route('cart.add')); ?>",
-            method: 'POST',
-            data: {
-                _token: "<?php echo e(csrf_token()); ?>",
-                product_id: productId,
-                size: selectedSize,  
-                color: selectedColor 
-            },
-            success: function(response) {
-                $.get("<?php echo e(route('cart.count')); ?>", function(data) {
-                    $('#cart-count').text(data.cart_count);
-                });
-                window.location.href = "<?php echo e(route('shopping_cart')); ?>";
-            },
-            error: function(xhr) {
-                toastr.error('Something went wrong. Please try again.', 'Error', {
+        // Check if size and color are selected
+        if ($('button.size-option').length > 0 && $('button.color-option').length > 0) {
+            if (!selectedSize || !selectedColor) {
+                toastr.warning('Please select both size and color options before proceeding with the purchase.', 'Warning', {
                     positionClass: 'toast-top-right',
                     timeOut: 3000,
                 });
+                return;
             }
-        });
-    } else {
-        toastr.warning('Please log in to proceed with your purchase.', 'Warning', {
-            positionClass: 'toast-top-right',
-            timeOut: 3000,
-        });
-    }
-}
+        }
 
+        if (isAuth) {
+            $.ajax({
+                url: "<?php echo e(route('cart.add')); ?>",
+                method: 'POST',
+                data: {
+                    _token: "<?php echo e(csrf_token()); ?>",
+                    product_id: productId,
+                    size: selectedSize || null,  // Allow null if no size selected
+                    color: selectedColor || null   // Allow null if no color selected
+                },
+                success: function(response) {
+                    $.get("<?php echo e(route('cart.count')); ?>", function(data) {
+                        $('#cart-count').text(data.cart_count);
+                    });
+                    window.location.href = "<?php echo e(route('shopping_cart')); ?>";
+                },
+                error: function(xhr) {
+                    toastr.error('Something went wrong. Please try again.', 'Error', {
+                        positionClass: 'toast-top-right',
+                        timeOut: 3000,
+                    });
+                }
+            });
+        } else {
+            toastr.warning('Please log in to proceed with your purchase.', 'Warning', {
+                positionClass: 'toast-top-right',
+                timeOut: 3000,
+            });
+        }
+    }
 });
+
+
 
 $(document).ready(function() {
 
