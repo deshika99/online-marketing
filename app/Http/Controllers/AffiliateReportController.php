@@ -73,12 +73,27 @@ class AffiliateReportController extends Controller
 
     public function withdrawals()
     {
+
+        $affiliateId = Session::get('customer_id');
+        $affiliateName = $affiliateId ? Affiliate_User::find($affiliateId)->name : 'Guest';
+
+        // Get all referral records for the current affiliate
+        $referrals = AffiliateReferral::where('user_id', $affiliateId)->get();
+
+        // Calculate total paid earnings
+        $totalBalance = $referrals->sum('total_affiliate_price');
+
+        // Calculate total paid amount for completed payment requests
+        $completedPayments = PaymentRequest::where('user_id', $affiliateId)
+        ->where('status', 'completed')
+        ->sum('withdraw_amount');
+
+        // Update totalPaidEarnings by subtracting completedPayments
+        $totalBalance = max(0, $totalBalance - $completedPayments);
+
+
         $customerId = Session::get('customer_id');
         $paymentRequests = PaymentRequest::where('user_id', $customerId)->get();
-
-        // Calculate total balance
-        $totalBalance = AffiliateReferral::where('user_id', $customerId)
-                        ->sum(DB::raw('referral_count * affiliate_commission'));
 
         return view('affiliate_dashboard.withdrawals', compact('totalBalance','paymentRequests'));
     }

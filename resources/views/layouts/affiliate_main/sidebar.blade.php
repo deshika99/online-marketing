@@ -37,7 +37,11 @@
     <div class="position-sticky">
         <div class="list-group list-group-flush mx-2 mt-4">
             <a href="{{ route('index') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('index') ? 'active' : '' }}" data-mdb-ripple-init aria-current="true" aria-label="Go to Home">
-                <span>Home</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="{{ route('ad_center') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('ad_center') ? 'active' : '' }}" data-mdb-ripple-init aria-label="Go to Ad Center">
+                <span>Ad Center</span>
             </a>
     
             <a href="{{ route('tracking_id') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('tracking_id') ? 'active' : '' }}" data-mdb-ripple-init aria-label="Go to Tools">
@@ -52,9 +56,7 @@
                 <span>Code Center</span>
             </a>
 
-            <a href="{{ route('ad_center') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('ad_center') ? 'active' : '' }}" data-mdb-ripple-init aria-label="Go to Ad Center">
-                <span>Ad Center</span>
-            </a>
+            
             
 
             <div class="list-group">

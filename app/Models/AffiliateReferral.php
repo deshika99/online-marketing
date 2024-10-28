@@ -22,6 +22,7 @@ class AffiliateReferral extends Model
         'completed_at',
         'product_price',
         'affiliate_commission',
+        'total_affiliate_price',
     ];
 
     /**

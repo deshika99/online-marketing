@@ -103,7 +103,7 @@ class PaymentController extends Controller
         $customerId = Session::get('customer_id');
         $customer = Affiliate_User::findOrFail($customerId);
 
-        dd($customer);
+        //dd($customer);
 
         // Update the customer's bank account details
         $customer->update([

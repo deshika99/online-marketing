@@ -74,7 +74,7 @@
                                         <th scope="col">Time</th>
                                         <th scope="col">Transfer Channel</th>
                                         <th scope="col">Account Number</th>
-                                        <th scope="col">Withdrawal Amount</th>
+                                        <th scope="col">Requested Withdrawal Amount</th>
                                         <th scope="col">Processing Fee</th>
                                         <th scope="col">Paid Amount</th>
                                         <th scope="col">Status</th>
