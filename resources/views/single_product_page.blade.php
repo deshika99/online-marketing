@@ -222,7 +222,7 @@
                             <span>Size: </span>
                             @foreach($product->variations->where('type', 'Size') as $size)
                                 @if($size->quantity > 0) 
-                                    <button class="btn btn-outline-secondary btn-sm me-1 ms-1 size-option" style="height:28px;">
+                                    <button class="btn btn-outline-secondary btn-sm me-1 ms-1 size-option" style="height:28px;" required>
                                         {{ $size->value }}
                                     </button>
                                 @endif
