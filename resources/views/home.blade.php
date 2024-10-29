@@ -198,7 +198,6 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="{{ route('all_items') }}">All Items</a></li>
-                            <li><a class="dropdown-item" href="#">Questions</a></li>
                             <li><a class="dropdown-item" href="{{ route('helpcenter') }}">Help Center</a></li>
                         </ul>
                     </div>
