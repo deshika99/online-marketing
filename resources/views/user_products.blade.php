@@ -358,14 +358,10 @@
 
                             <div class="product-price mb-3 mt-3 d-flex align-items-center">
                                 <span class="h4" style="color:#f55b29; margin-right: 10px;">
-                                    @if($product->specialOffer && $product->specialOffer->status === 'active') 
-                                        Rs. {{ number_format($product->specialOffer->offer_price, 2) }} 
-                                        <s style="font-size: 14px; color: #989595; font-weight: 500; margin-left: 5px;">
-                                            Rs. {{ number_format($product->specialOffer->normal_price, 2) }}
-                                        </s>
-                                        <span class="discount" style="color:red; font-size: 18px; margin-left: 10px;">
-                                            {{ floor($product->specialOffer->offer_rate) }}% off 
-                                        </span>
+                                    @if($product->sale && $product->sale->status === 'active')
+                                        <span class="sale-price">Rs. {{ number_format($product->sale->sale_price, 2) }}</span>
+                                    @elseif($product->specialOffer && $product->specialOffer->status === 'active')
+                                        <span class="offer-price">Rs. {{ number_format($product->specialOffer->offer_price, 2) }}</span>
                                     @else
                                         Rs. {{ number_format($product->normal_price, 2) }}
                                     @endif
@@ -621,15 +617,29 @@ function updateProductDisplay(products) {
 
 
 <script>
- $(document).ready(function() {
-    //Add to Cart click event
+$(document).ready(function() {
+    // Add to Cart click event
     $('.add-to-cart-modal').on('click', function(e) {
         e.preventDefault();
 
         const productId = $(this).data('product-id');
         const isAuth = $(this).data('auth');  
         const selectedSize = $('button.size-option.active').text();  
-        const selectedColor = $('button.color-option.active').data('color');  
+        const selectedColor = $('button.color-option.active').data('color');
+
+        // Check if the product has size options
+        const hasSizeOptions = $('button.size-option').length > 0;
+        // Check if the product has color options
+        const hasColorOptions = $('button.color-option').length > 0;
+
+        // Only check for size and color selections if options are available
+        if ((hasSizeOptions && !selectedSize) || (hasColorOptions && !selectedColor)) {
+            toastr.warning('Please select both size and color options before adding this product to the cart.', 'Warning', {
+                positionClass: 'toast-top-right',
+                timeOut: 3000,
+            });
+            return;
+        }
 
         if (isAuth === true || isAuth === "true") { 
             $.ajax({
@@ -638,8 +648,8 @@ function updateProductDisplay(products) {
                 data: {
                     _token: "{{ csrf_token() }}",
                     product_id: productId,
-                    size: selectedSize || null,  
-                    color: selectedColor || null 
+                    size: selectedSize,  
+                    color: selectedColor 
                 },
                 success: function(response) {
                     $.get("{{ route('cart.count') }}", function(data) {
@@ -651,6 +661,7 @@ function updateProductDisplay(products) {
                         timeOut: 3000,
                     });
 
+                    // Reset active states after adding to cart
                     $('button.size-option.active').removeClass('active');
                     $('button.color-option.active').removeClass('active');
                 },
@@ -668,6 +679,8 @@ function updateProductDisplay(products) {
             });
         }
     });
+
+
 
     $('.size-option').on('click', function() {
         $('.size-option').removeClass('active');
