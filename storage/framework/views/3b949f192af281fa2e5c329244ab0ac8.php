@@ -89,7 +89,6 @@
                                     </div>
                                     <div class="col-lg-2 d-flex align-items-center justify-content-end">
                                         <div class="d-flex item-icons">
-                                            <a href="#!" class="btn btn-light btn-no-border icon-hover-primary"><i class="fas fa-heart fa-lg text-secondary"></i></a>
                                             <a href="#" class="btn btn-light btn-no-border icon-hover-danger btn-delete-item" data-product-id="<?php echo e($item->product_id); ?>"><i class="fas fa-trash fa-lg text-secondary"></i></a>
                                         </div>
                                     </div>

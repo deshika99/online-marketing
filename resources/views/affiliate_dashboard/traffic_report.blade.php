@@ -27,9 +27,9 @@
                     <div class="row align-items-center mb-3 ms-2">
                         <div class="col-md-3 mb-2">
                             <form action="{{ route('traffic_report') }}" method="GET">
-                                <label for="tracking_id" class="form-label" style="font-size: 0.8rem;">Select Raffle Ticket</label>
+                                <label for="tracking_id" class="form-label" style="font-size: 0.8rem;">Select Tracking ID</label>
                                 <select id="tracking_id" name="raffle_ticket_id" class="form-select" style="font-size: 0.8rem;">
-                                    <option value="" selected>All Raffle Tickets</option>
+                                    <option value="" selected>All Tracking IDs</option>
                                     @foreach($raffleTickets as $ticket)
                                         <option value="{{ $ticket->id }}" {{ request('raffle_ticket_id') == $ticket->id ? 'selected' : '' }}>
                                             {{ $ticket->token }}
