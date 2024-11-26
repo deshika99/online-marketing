@@ -315,7 +315,10 @@
 
                         <main class="col-lg-7">
                             <h4><?php echo e($product->product_name); ?></h4>
-                            <p><?php echo $product->product_description; ?></p>
+                            <p class="description">
+                                <?php echo e((str_replace('&nbsp;', ' ', strip_tags($product->product_description)))); ?>
+
+                            </p>  
                             <div class="d-flex flex-row my-3">
                                 <div class="text-warning mb-1 me-2">
                                     <?php for($i = 0; $i < floor($product->average_rating); $i++): ?>
@@ -329,8 +332,8 @@
                                     <?php endfor; ?>
                                     <span class="ms-1"><?php echo e(number_format($product->average_rating, 1)); ?></span>
                                 </div>
-                                <span class="text-primary"><?php echo e($product->rating_count); ?> Ratings | </span>
-                                <span class="text-primary">&nbsp; 25 Questions Answered</span>
+                                <span class="text-primary"><?php echo e($product->rating_count); ?> Ratings  </span>
+                               
                             </div>
                             <hr />
                             
@@ -343,6 +346,8 @@
                                 <?php endif; ?>
                             </div>
 
+                            <div class="product-container">
+                            <!-- Size Options -->
                             <?php if($product->variations->where('type', 'Size')->isNotEmpty()): ?>
                                 <div class="mb-2">
                                     <span>Size: </span>
@@ -357,6 +362,7 @@
                                 </div>
                             <?php endif; ?>
 
+                            <!-- Color Options -->
                             <?php if($product->variations->where('type', 'Color')->isNotEmpty()): ?>
                                 <div class="mb-2">
                                     <span>Color: </span>
@@ -373,15 +379,10 @@
 
                             <div class="product-price mb-3 mt-3 d-flex align-items-center">
                                 <span class="h4" style="color:#f55b29; margin-right: 10px;">
-                                    <?php if($product->specialOffer && $product->specialOffer->status === 'active'): ?> 
-                                        Rs. <?php echo e(number_format($product->specialOffer->offer_price, 2)); ?> 
-                                        <s style="font-size: 14px; color: #989595; font-weight: 500; margin-left: 5px;">
-                                            Rs. <?php echo e(number_format($product->specialOffer->normal_price, 2)); ?>
-
-                                        </s>
-                                        <span class="discount" style="color:red; font-size: 18px; margin-left: 10px;">
-                                            <?php echo e(floor($product->specialOffer->offer_rate)); ?>% off 
-                                        </span>
+                                    <?php if($product->sale && $product->sale->status === 'active'): ?>
+                                        <span class="sale-price">Rs. <?php echo e(number_format($product->sale->sale_price, 2)); ?></span>
+                                    <?php elseif($product->specialOffer && $product->specialOffer->status === 'active'): ?>
+                                        <span class="offer-price">Rs. <?php echo e(number_format($product->specialOffer->offer_price, 2)); ?></span>
                                     <?php else: ?>
                                         Rs. <?php echo e(number_format($product->normal_price, 2)); ?>
 
@@ -400,6 +401,8 @@
                                     <i class="me-1 fa fa-shopping-basket"></i>Add to cart
                                 </a>
                             <?php endif; ?>
+                        </div>
+
                             <a href="<?php echo e(route('single_product_page', $product->product_id )); ?>" style="text-decoration: none; font-size:14px; color: #297aa5">
                             View Full Details<i class="fa-solid fa-circle-right ms-1"></i></a>
                         </main>
@@ -416,6 +419,7 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.btn-cart').forEach(button => {
@@ -629,17 +633,50 @@ document.getElementById('price-max-input').addEventListener('input', filterProdu
 
 </script>
 
+
 <script>
 $(document).ready(function() {
-    // Add to Cart click event for buttons with class .add-to-cart-modal
+    // Add to Cart click event
     $('.add-to-cart-modal').on('click', function(e) {
         e.preventDefault();
 
         const productId = $(this).data('product-id');
         const isAuth = $(this).data('auth');  
-        const selectedSize = $('button.size-option.active').text();  
-        const selectedColor = $('button.color-option.active').data('color');  
 
+        // Get the closest product container
+        const productContainer = $(this).closest('.product-container');
+
+        // Check for the existence of size and color options scoped to the specific product
+        const sizeOptions = productContainer.find('button.size-option');
+        const colorOptions = productContainer.find('button.color-option');
+
+        const hasSizeOptions = sizeOptions.length > 0;
+        const hasColorOptions = colorOptions.length > 0;
+
+        // Get selected size and color only if their options are available
+        const selectedSize = hasSizeOptions ? sizeOptions.filter('.active').data('size') : null;  
+        const selectedColor = hasColorOptions ? colorOptions.filter('.active').data('color') : null;
+
+
+        // Check if size options are present and if a size was selected
+        if (hasSizeOptions && !selectedSize) {
+            toastr.warning('Please select a size option before adding this product to the cart.', 'Warning', {
+                positionClass: 'toast-top-right',
+                timeOut: 3000,
+            });
+            return;
+        }
+
+        // Check if color options are present and if a color was selected
+        if (hasColorOptions && !selectedColor) {
+            toastr.warning('Please select a color option before adding this product to the cart.', 'Warning', {
+                positionClass: 'toast-top-right',
+                timeOut: 3000,
+            });
+            return;
+        }
+
+        // Proceed to add to cart
         if (isAuth === true || isAuth === "true") { 
             $.ajax({
                 url: "<?php echo e(route('cart.add')); ?>",
@@ -647,8 +684,8 @@ $(document).ready(function() {
                 data: {
                     _token: "<?php echo e(csrf_token()); ?>",
                     product_id: productId,
-                    size: selectedSize || null,  
-                    color: selectedColor || null 
+                    size: selectedSize,  // Include size if it was selected or null
+                    color: selectedColor   // Include color if it was selected or null
                 },
                 success: function(response) {
                     $.get("<?php echo e(route('cart.count')); ?>", function(data) {
@@ -660,8 +697,9 @@ $(document).ready(function() {
                         timeOut: 3000,
                     });
 
-                    $('button.size-option.active').removeClass('active');
-                    $('button.color-option.active').removeClass('active');
+                    // Reset active states after adding to cart
+                    productContainer.find('button.size-option.active').removeClass('active');
+                    productContainer.find('button.color-option.active').removeClass('active');
                 },
                 error: function(xhr) {
                     toastr.error('Something went wrong. Please try again.', 'Error', {
@@ -678,34 +716,23 @@ $(document).ready(function() {
         }
     });
 
-
     $('.size-option').on('click', function() {
         $('.size-option').removeClass('active');
         $(this).addClass('active');
     });
 
-
     $('.color-option').on('click', function() {
         $('.color-option').removeClass('active');
         $(this).addClass('active');
+    });
+
+    $('.color-option').on('click', function() {
         $('.color-option').removeClass('selected-color');
         $(this).addClass('selected-color');
-    });
-
-    $('.btn-cart').on('click', function(event) {
-        event.stopPropagation(); 
-        event.preventDefault(); 
-    });
-
-  
-    document.querySelectorAll('.thumbnail-image').forEach(function(thumbnail) {
-        thumbnail.addEventListener('click', function() {
-            const newImage = this.getAttribute('data-image');
-            document.getElementById('mainImage').setAttribute('src', newImage);
-            document.querySelector('.main-image-link').setAttribute('href', newImage);
-        });
-    });
+    });  
 });
+
+
 </script>
 
 

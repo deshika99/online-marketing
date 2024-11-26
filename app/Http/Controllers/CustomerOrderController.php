@@ -23,23 +23,31 @@ class CustomerOrderController extends Controller
     {
         // Find the raffle ticket by the tracking ID
         $raffleTicket = RaffleTicket::where('token', $tracking_id)->first();
-    
+
         if ($raffleTicket) {
             // Find the specific referral record by raffle_ticket_id and product_id
             $referral = AffiliateReferral::where('raffle_ticket_id', $raffleTicket->id)
-                                         ->where('product_url', 'like', '%' . $product_id . '%')
-                                         ->first();
-    
+                                        ->where('product_url', 'like', '%' . $product_id . '%')
+                                        ->first();
+
             if ($referral) {
-                // Increment the referral count for the specific product referral
-                $referral->increment('referral_count');
+                // Retrieve the product details to get the affiliate price
+                $product = Products::where('product_id', $product_id)->first();
+
+                if ($product && $product->affiliate_price) {
+                    // Increment the referral count
+                    $referral->increment('referral_count');
+
+                    // Calculate and add the affiliate commission based on affiliate price
+                    $referral->total_affiliate_price += $referral->affiliate_commission;
+                    $referral->save(); // Save the updated referral with the new commission
+                }
             }
         }
     }
+
     
     
-
-
    
     public function store(Request $request)
     {
@@ -63,9 +71,15 @@ class CustomerOrderController extends Controller
         }
 
         $cartArray = $cart->map(function ($item) {
+            $price = $item->product->sale && $item->product->sale->status === 'active' 
+                ? $item->product->sale->sale_price 
+                : ($item->product->specialOffer && $item->product->specialOffer->status === 'active'
+                    ? $item->product->specialOffer->offer_price
+                    : $item->product->normal_price);
+    
             return [
                 'product_id' => $item->product_id,
-                'price' => $item->product->normal_price,
+                'price' => $price,
                 'quantity' => $item->quantity,
                 'size' => $item->size,
                 'color' => $item->color,
@@ -142,9 +156,6 @@ class CustomerOrderController extends Controller
                 $colorVariation->save();
             }
         }
-
-        
-
 
 
         return redirect()->route('payment', ['order_code' => $orderCode]);

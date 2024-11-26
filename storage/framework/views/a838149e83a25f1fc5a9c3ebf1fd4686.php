@@ -1,5 +1,4 @@
 
-
 <?php $__env->startSection('dashboard-content'); ?>
 
 <style>

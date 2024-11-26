@@ -49,30 +49,33 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($raffletickets as $ticket)
-                                        <tr>
-                                            <td>{{ $ticket->id }}</td>
-                                            <td>{{ $ticket->token }}</td>
-                                            <td>{{ $ticket->created_at }}</td>
-                                            <td>
-                                                <form action="{{ route('raffletickets.setDefault', $ticket->id) }}" method="post">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <button type="submit" class="btn btn-sm btn-primary" {{ $ticket->default ? 'disabled' : '' }}>
-                                                        {{ $ticket->default ? 'Default' : 'Set as Default' }}
-                                                    </button>
-                                                </form>
-                                                <form action="{{ route('raffletickets.destroy', $ticket->id) }}" method="post" class="d-inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="btn btn-sm btn-danger mt-2">Delete</button>
-                                                </form>
+                                @foreach($raffletickets as $ticket)
+    <tr>
+        <td>{{ $ticket->id }}</td>
+        <td>{{ $ticket->token }}</td>
+        <td>{{ $ticket->created_at }}</td>
+        <td>
+            
 
-                                                <!-- View Report Button -->
-                                                <a href="{{ route('raffletickets.report', $ticket->id) }}" class="btn btn-sm btn-info">View Report</a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+            <!-- Form to delete the ticket -->
+            <form action="{{ route('raffletickets.destroy', $ticket->id) }}" method="post" class="d-inline">
+                @csrf
+                @method('DELETE')
+                <button class="btn btn-sm btn-danger mt-2">Delete</button>
+            </form>
+
+            <!-- View Report button -->
+            <form action="{{ route('realtime_tracking') }}" method="POST" style="display: inline;">
+                @csrf
+                <input type="hidden" name="raffle_ticket_id" value="{{ $ticket->id }}">
+                <button type="submit" class="btn btn-sm btn-info">View Report</button>
+            </form>
+        </td>
+    </tr>
+@endforeach
+
+
+
                                 </tbody>
                             </table>
                             @if ($errors->any())

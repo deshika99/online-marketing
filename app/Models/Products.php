@@ -76,6 +76,10 @@ class Products extends Model
         return $this->hasMany(AffiliateProduct::class);
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
 
     
 }

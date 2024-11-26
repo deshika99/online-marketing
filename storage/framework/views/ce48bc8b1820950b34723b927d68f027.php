@@ -46,7 +46,7 @@
     <div class="filter-button" onclick="toggleFilter()">Filter</div>
     <div class="container products-container">
     <!-- Filter sidebar -->
-    <div class="filter-sidebar"  style="width: 22%">
+    <div class="filter-sidebar">
         <div class="filter-header">
             <h3 class="filter-title">Filter</h3>
             <button class="reset-button mb-3" onclick="resetFilters()">Reset</button>
@@ -231,13 +231,16 @@
                                 <?php endif; ?>
                                 <h6 class="product-name"><?php echo e(\Illuminate\Support\Str::limit($product->product_name, 30, '...')); ?></h6>
                                 <div class="price">
-                                    <?php if($product->specialOffer && $product->specialOffer->status === 'active'): ?>
+                                    <?php if($product->sale && $product->sale->status === 'active'): ?>
+                                        <span class="sale-price">Rs. <?php echo e(number_format($product->sale->sale_price, 2)); ?></span>
+                                    <?php elseif($product->specialOffer && $product->specialOffer->status === 'active'): ?>
                                         <span class="offer-price">Rs. <?php echo e(number_format($product->specialOffer->offer_price, 2)); ?></span>
                                     <?php else: ?>
                                         Rs. <?php echo e(number_format($product->normal_price, 2)); ?>
 
                                     <?php endif; ?>
                                 </div>
+
                             </a>
                         </div>
                     </div>
@@ -312,7 +315,10 @@
 
                         <main class="col-lg-7">
                             <h4><?php echo e($product->product_name); ?></h4>
-                            <p><?php echo $product->product_description; ?></p>
+                            <p class="description">
+                                <?php echo e((str_replace('&nbsp;', ' ', strip_tags($product->product_description)))); ?>
+
+                            </p>  
                             <div class="d-flex flex-row my-3">
                                 <div class="text-warning mb-1 me-2">
                                     <?php for($i = 0; $i < floor($product->average_rating); $i++): ?>
@@ -326,8 +332,8 @@
                                     <?php endfor; ?>
                                     <span class="ms-1"><?php echo e(number_format($product->average_rating, 1)); ?></span>
                                 </div>
-                                <span class="text-primary"><?php echo e($product->rating_count); ?> Ratings | </span>
-                                <span class="text-primary">&nbsp; 25 Questions Answered</span>
+                                <span class="text-primary"><?php echo e($product->rating_count); ?> Ratings  </span>
+                               
                             </div>
                             <hr />
                             
@@ -570,7 +576,15 @@ function updateProductDisplay(products) {
     products.forEach(product => {
         let priceHTML = '';
 
-        if (product.special_offer && product.special_offer.status === 'active') {
+        // Debug: log the product object
+        console.log('Filtered Products:', products);
+
+        if (product.Sale && product.Sale.status === 'active') {
+                priceHTML = `
+                    <span class="sale-price">Rs. ${parseFloat(product.Sale.sale_price).toFixed(2)}</span>
+                `;
+            }
+        else if (product.special_offer && product.special_offer.status === 'active') {
             priceHTML = `
                 <span class="offer-price">Rs. ${parseFloat(product.special_offer.offer_price).toFixed(2)}</span> 
             `;
@@ -578,7 +592,6 @@ function updateProductDisplay(products) {
             priceHTML = `Rs. ${parseFloat(product.normal_price).toFixed(2)}`;
         }
 
-       
         const productHTML = `
             <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4">
                 <div class="products-item position-relative">
@@ -598,6 +611,9 @@ function updateProductDisplay(products) {
         
         productsContainer.innerHTML += productHTML;
     });
+
+
+
 
     document.querySelectorAll('.btn-cart').forEach(button => {
         button.addEventListener('click', function(event) {

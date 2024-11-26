@@ -20,11 +20,13 @@ use App\Http\Controllers\NavbarController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\ReviewController;
-
+use App\Http\Controllers\AffiliateWithdrawalsController;
 use App\Http\Controllers\AffiliateLinkController;
-
+use App\Http\Controllers\AffiliateRulesController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\AffiliateDashboardController;
+use App\Http\Controllers\FrontendTemplateController;
 
 
 use Illuminate\Http\Request;     //contact form
@@ -50,9 +52,10 @@ Route::get('/best-sellers', [SpecialOffersController::class, 'bestSellers'])->na
 Route::view('/home/affiliate/all', 'aff_all')->name('aff_all');
 Route::view('/home/affiliate/single', 'aff_single')->name('aff_single');
 
-Route::post('/inquiry', [InquiryController::class, 'store'])->name('inquiry.store');//inquiry 
+Route::post('/inquiry', [InquiryController::class, 'store'])->name('inquiry.store');//inquiry
 Route::get('/admin/customer_inquiries', [InquiryController::class, 'showCustomerInquiries'])->name('customer_inquiries');
 
+Route::get('/search-results', [ProductController::class, 'showSearchResults'])->name('searchResults');
 
 
 
@@ -95,6 +98,10 @@ Route::get('home/My-Account/change-password', function () {
 
 
 
+
+
+
+//new return button
 Route::get('home/My-Account/returns', function () { 
     return view('member_dashboard.returns');
 })->name('returns');
@@ -129,6 +136,7 @@ Route::post('/order/confirm-cod/{order_code}', [PaymentController::class, 'confi
 
 Route::get('/order/order_received/{order_code}', [PaymentController::class, 'getOrderDetails'])->name('order.thankyou');
 
+Route::get('/search-products', [ProductController::class, 'searchProducts'])->name('searchProducts');
 
 
 Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
@@ -146,7 +154,7 @@ Route::post('/dashboard/password/update', [UserDashboardController::class, 'upda
 //affiliate dashboard
 Route::view('/home/affiliate/affiliate_home', 'aff_home')->name('aff_home');
 Route::post('/home/affiliate/register', [AffiliateCustomerController::class, 'register'])->name('aff_reg');
-Route::view('/home/affiliate/register', 'aff_reg')->name('register_form');
+Route::view('/home/affiliate/register/', 'aff_reg')->name('register_form');
 Route::post('/home/affiliate/login', [AffiliateCustomerController::class, 'login'])->name('aff_login');
 Route::get('/affiliate/dashboard', [AffiliateCustomerController::class, 'index'])->name('index');
 Route::post('/affiliate/logout', [AffiliateCustomerController::class, 'logout'])->name('aff_logout');
@@ -163,7 +171,7 @@ Route::post('/generate-promo', [AffiliateProductController::class, 'generateProm
 
 Route::view('/affiliate/dashboard/incentive_campaign', 'affiliate_dashboard.incentive_campaign')->name('incentive_campaign');
 
-Route::view('/affiliate/dashboard/reports/traffic_report', 'affiliate_dashboard.traffic_report')->name('traffic_report');
+
 Route::view('/affiliate/dashboard/reports/income_report', 'affiliate_dashboard.income_report')->name('income_report');
 Route::view('/affiliate/dashboard/reports/order_tracking', 'affiliate_dashboard.order_tracking')->name('order_tracking');
 Route::view('/affiliate/dashboard/reports/transaction_product_report', 'affiliate_dashboard.transaction_product_report')->name('transaction_product_report');
@@ -181,22 +189,32 @@ Route::get('/affiliate/dashboard/code_center', [AffiliateLinkController::class, 
 
 
 
-Route::view('/affiliate/dashboard/payment/withdrawals', 'affiliate_dashboard.withdrawals')->name('withdrawals');
+
 Route::view('/affiliate/dashboard/payment/account_balance', 'affiliate_dashboard.account_balance')->name('account_balance');
-Route::view('/affiliate/dashboard/payment/payment_info', 'affiliate_dashboard.payment_info')->name('payment_info');
-Route::view('/affiliate/dashboard/payment/bank_acc', 'affiliate_dashboard.bank_acc')->name('bank_acc');
-Route::post('/affiliate/dashboard/payment/bank_acc', [PaymentController::class, 'storeBankAccount'])->name('bank.acc');
+Route::get('/affiliate/dashboard/payment/bank_acc', [PaymentController::class, 'bank_acc'])->name('bank_acc');
+Route::post('/affiliate/dashboard/payment/updatebank', [PaymentController::class, 'updatebank'])->name('updatebank');
+Route::post('/affiliate/dashboard/payment/paymentrequest', [PaymentController::class, 'paymentrequest'])->name('paymentrequest');
+
 
 Route::view('/affiliate/dashboard/payment/commission_rules', 'affiliate_dashboard.commission_rules')->name('commission_rules');
 
-Route::view('/affiliate/dashboard/account/mywebsites_page', 'affiliate_dashboard.mywebsites_page')->name('mywebsites_page');
+Route::get('/affiliate/dashboard/payment/affiliate_rules', [AffiliateRulesController::class, 'showrules'])->name('show_affiliate_rules');
+
+
+Route::post('/affiliate/update-site-info', [AffiliateDashboardController::class, 'updateSiteInfo'])->name('affiliate.updateSiteInfo');
+Route::post('/affiliate/update-basic-info', [AffiliateDashboardController::class, 'updateBasicInfo'])->name('affiliate.updateBasicInfo');
+Route::get('/affiliate/dashboard/account/mywebsites_page', [AffiliateDashboardController::class, 'index'])->name('mywebsites_page');
+
 Route::get('/affiliate/dashboard/account/tracking_id', [AffiliateTrackingController::class, 'index'])->name('tracking_id');
 Route::post('/affiliate/dashboard/store/tracking_id', [AffiliateTrackingController::class, 'store'])->name('tracking_id_store');
 Route::put('/raffletickets/{id}/setDefault', [AffiliateTrackingController::class, 'setDefault'])->name('raffletickets.setDefault');
 Route::delete('/raffletickets/{id}', [AffiliateTrackingController::class, 'destroy'])->name('raffletickets.destroy');
 
 Route::get('/raffletickets/{id}/report', [AffiliateReportController::class, 'report'])->name('raffletickets.report');
-
+Route::get('/affiliate/dashboard/reports/traffic_report',[AffiliateReportController::class, 'trafficreport'] )->name('traffic_report');
+Route::get('/affiliate/dashboard/payment/withdrawals', [AffiliateReportController::class, 'withdrawals'] )->name('withdrawals');
+Route::get('/affiliate/dashboard/payment/payment_info', [AffiliateReportController::class, 'showPaymentInfo'])->name('payment_info');
+Route::post('/affiliate/dashboard/payment/realtime_tracking', [AffiliateReportController::class, 'realtimereport'])->name('realtime_tracking');
 
 
 //admin dashboard
@@ -252,8 +270,23 @@ Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy
 Route::get('/admin/product-details/{id}', [ProductController::class, 'showProductDetails'])->name('product-details');
 
 
+
+
+
+
+Route::get('/admin/affiliate_rules', [AffiliateRulesController::class, 'index'])->name('affiliate_rules');
+Route::post('/admin/affiliate_rules', [AffiliateRulesController::class, 'store'])->name('admin_rules.store');
+Route::delete('/admin/affiliate_rules/{id}', [AffiliateRulesController::class, 'destroy'])->name('affiliate_rules.destroy');
+Route::put('/admin/affiliate_rules/{id}', [AffiliateRulesController::class, 'update'])->name('admin_users.update');
+
+
+Route::get('/admin/affiliate_withdrawals', [AffiliateWithdrawalsController::class, 'index'])->name('affiliate_withdrawals');
+
+Route::post('/admin/affiliate_withdrawals/update/{id}', [AffiliateWithdrawalsController::class, 'updatePaymentStatus'])->name('affiliate.updatePaymentStatus');
+
 Route::get('/admin/aff_customers', [AffiliateCustomerController::class, 'showAffCustomers'])->name('aff_customers');
 Route::patch('/admin/aff_customers/{id}/status', [AffiliateCustomerController::class, 'updateStatus'])->name('aff_customers.updateStatus');
+Route::get('/admin/aff_customer-details/{id}', [AffiliateCustomerController::class, 'showAffCustomerDetails'])->name('aff_customer-details');
 
 Route::get('/admin/users', [UserController::class, 'show_users'])->name('show_users');
 Route::get('/admin/users/{id}/edit', [UserController::class, 'editUserPage'])->name('admin.users.edit');
@@ -293,7 +326,7 @@ Route::post('/inquiries/{id}/response', [InquiryController::class, 'submitRespon
 Route::post('/inquiries/{id}/resolve', [InquiryController::class, 'resolveInquiry'])->name('inquiries.resolve');
 
 
-//about 
+//about
 Route::get('/about', function () {
     return view('about');
 })->name('about');
@@ -310,12 +343,12 @@ Route::post('/contact-submit', function (Request $request) {
     // Form handling logic here (e.g., saving to database or sending email)
     // Example:
     // Mail::to('admin@example.com')->send(new ContactFormMail($request->all()));
-    
+
     return back()->with('success', 'Thank you for contacting us!');
 })->name('contact.submit');
 
 //customer-inquiry
-//about 
+//about
 Route::get('/customer-inquiry', function () {
     return view('customer-inquiry');
 })->name('customer-inquiry');
@@ -323,6 +356,7 @@ Route::get('/customer-inquiry', function () {
 
 
 
+Route::get('/main',[FrontendTemplateController::class, 'main'])->name('main');
 
 
 

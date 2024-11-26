@@ -1,5 +1,5 @@
 
-    <div class="footer-container" style="margin-top:100px;">
+    <div class="footer-container" style="margin-top:200px;">
             <footer class="text-center text-lg-start text-white" style="background: linear-gradient(90deg, #05467c, #0b71d4); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
                 <div class="container p-4 pb-0">
                     <section class="">
@@ -11,7 +11,7 @@
                                     <a href="mailto:omarketingcomplex@gmail.com" style="color:white; text-decoration:none;">omarketingcomplex@gmail.com</a>
                                 </p>
                                 <p><i class="fas fa-phone mr-3"></i> 
-                                    <a href="tel:+94778337143" style="color:white; text-decoration:none;">077 833 7143</a>
+                                    <a href="tel:+94778337143" style="color:white; text-decoration:none;">075 833 7141</a>
                                 </p>
                             </div>
                             
@@ -31,10 +31,14 @@
                             <hr class="w-100 clearfix d-md-none" />
 
                             <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3 my-acc-column">
-                                <h6 class="text-uppercase mb-4 font-weight-bold">My Account</h6>
-                                <p><a>Order History</a></p>
-                                <p><a>Specials</a></p>
+                                <h6 class="text-uppercase mb-4 font-weight-bold">My Account</h6>                               
+                                @auth
+                                    <p><a href="{{ route('myorders') }}" class="text-white text-decoration-none">Order History</a></p>
+                                @else
+                                    <p><a href="javascript:void(0);" class="text-white text-decoration-none" onclick="showLoginWarning()">Order History</a></p>
+                                @endauth
                             </div>
+
 
                             <hr class="w-100 clearfix d-md-none" />
 
@@ -68,3 +72,12 @@
                 </div>
             </footer>
         </div>
+
+<script>
+    function showLoginWarning() {
+        toastr.warning('Please log in to view your order history.', 'Warning', {
+            positionClass: 'toast-top-right',
+            timeOut: 3000,
+        });
+    }
+</script>

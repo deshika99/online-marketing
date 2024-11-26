@@ -37,14 +37,26 @@
     <div class="position-sticky">
         <div class="list-group list-group-flush mx-2 mt-4">
             <a href="{{ route('index') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('index') ? 'active' : '' }}" data-mdb-ripple-init aria-current="true" aria-label="Go to Home">
-                <span>Home</span>
+                <span>Dashboard</span>
             </a>
+
             <a href="{{ route('ad_center') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('ad_center') ? 'active' : '' }}" data-mdb-ripple-init aria-label="Go to Ad Center">
                 <span>Ad Center</span>
             </a>
+    
+            <a href="{{ route('tracking_id') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('tracking_id') ? 'active' : '' }}" data-mdb-ripple-init aria-label="Go to Tools">
+                <span>Tracking IDS</span>
+            </a>
+            
+            <a href="{{ route('affiliate.tool') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('affiliate.tool') ? 'active' : '' }}" data-mdb-ripple-init aria-label="Go to Tools">
+                <span>Tools</span>
+            </a>
+
             <a href="{{ route('code_center') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('code_center') ? 'active' : '' }}" data-mdb-ripple-init aria-label="Go to Code Center">
                 <span>Code Center</span>
             </a>
+
+            
             
 
             <div class="list-group">
@@ -56,21 +68,11 @@
                     <a href="{{ route('traffic_report') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
                         Traffic Report 
                     </a>
-                    <a href="{{ route('income_report') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
-                        Income Report 
-                    </a>
-                    <a href="{{ route('order_tracking') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
-                        Live Order Tracking
-                    </a>
-                    <a href="{{ route('transaction_product_report') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
-                        Transaction Product Report
-                    </a>
+                    
                 </div>
             </div>
 
-            <a href="{{ route('affiliate.tool') }}" class="list-group-item list-group-item-action py-2 {{ request()->routeIs('affiliate.tool') ? 'active' : '' }}" data-mdb-ripple-init aria-label="Go to Tools">
-                <span>Tools</span>
-            </a>
+            
 
             <div class="list-group">
                 <a href="#" class="list-group-item list-group-item-action py-2" data-bs-toggle="collapse" data-bs-target="#paymentSubmenu" aria-expanded="false" aria-label="Payment">
@@ -81,13 +83,13 @@
                     <a href="{{ route('withdrawals') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
                       Withdrawals
                     </a>
-                    <a href="{{ route('account_balance') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
-                        Account Balance
-                    </a>
                     <a href="{{ route('payment_info') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
                         Payment Information
                     </a>
-                    <a href="{{ route('commission_rules') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
+                    <!-- <a href="{{ route('commission_rules') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
+                        Commission Rules
+                    </a> -->
+                    <a href="{{ route('show_affiliate_rules') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
                         Commission Rules
                     </a>
                 </div>
@@ -102,9 +104,7 @@
                     <a href="{{ route('mywebsites_page') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
                       My Websites
                     </a>
-                    <a href="{{ route('tracking_id') }}" class="list-group-item list-group-item-action py-2 submenu-link" data-mdb-ripple-init>
-                        Tracking ID
-                    </a>
+                    
                 </div>
             </div>
         </div>

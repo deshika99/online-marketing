@@ -1,117 +1,202 @@
 <?php $__env->startSection('content'); ?>
 
-<!-- Main layout -->
+<!-- Font and Icon Styles -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+    .bg-gradient-warning {
+        background: linear-gradient(45deg, #FF9800, #FFC107);
+    }
+    .bg-gradient-success {
+        background: linear-gradient(45deg, #4CAF50, #81C784);
+    }
+    .bg-gradient-info {
+        background: linear-gradient(45deg, #00ACC1, #4DD0E1);
+    }
+    .bg-gradient-danger {
+        background: linear-gradient(45deg, #F44336, #E57373);
+    }
+    .text-end {
+        font-weight: bold;
+    }
+    .chart-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    .chart-item {
+        display: flex;
+        flex-direction: column;
+    }
+    .chart-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background: #fff;
+        border-radius: 5px;
+        padding: 20px;
+    }
+    .card-body h3 {
+        font-weight: bold;
+    }
+</style>
+
+<!-- Main Layout -->
 <main style="margin-top: 58px">
     <div class="container pt-4">
+        <?php if(session('success')): ?>
+            <div class="alert alert-success">
+                <?php echo e(session('success')); ?>
 
-        <section class="mb-4">
-            <div class="card">
-                <div class="card-header text-center py-3">
-                    <h5 class="mb-0 text-center"></h5>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive"></div>
-                </div>
             </div>
-        </section>
+        <?php endif; ?>
 
-        <div class="row mb-4">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between p-md-1">
-                            <div class="d-flex flex-row">
-                                
-                                <div>
-                                    <h5 style="font-weight: bold;">Dashboard</h5>
-                                </div>
-                            </div> 
-                        </div>
-                        <div class="table-responsive">
-                        <table class="table table-hover text-nowrap table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Total Referrals</th>
-                                    <th scope="col">Total Views</th>
-                                    <th scope="col">Total Unpaid Earnings</th>
-                                    <th scope="="col">Total Paid Earnings</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><?php echo e($totalReferrals); ?></td>
-                                    <td><?php echo e($totalViews); ?></td>
-                                    <td><?php echo e($totalUnpaidEarnings); ?></td>
-                                    <td><?php echo e(number_format($totalPaidEarnings, 2)); ?></td> <!-- Format to 2 decimal places -->
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <p class="mb-3">Account Balance</p>
-                        <h3 class="mb-4">LKR <?php echo e(number_format($totalPaidEarnings, 2)); ?></h3>                  
-                        <button class="btn btn-secondary">Withdraw</button>             
-                    </div>
-                </div>
+        <div class="row align-items-center mb-3 mt-2">
+            <div class="col">
+                <h2 class="h5 page-title">Welcome! </h2>
             </div>
         </div>
 
+        <!-- Metrics Section -->
         <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link active" id="notifications-tab" data-bs-toggle="tab" href="#notifications" role="tab" aria-controls="notifications" aria-selected="true">Notifications</a>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="system-messages-tab" data-bs-toggle="tab" href="#system-messages" role="tab" aria-controls="system-messages" aria-selected="false">System Messages</a>
-                            </li>
-                        </ul>
-                        
-                        <div class="tab-content mt-3" id="myTabContent">
-                            <div class="tab-pane fade show active" id="notifications" role="tabpanel" aria-labelledby="notifications-tab">
-                                <p class="mb-3">Recent notifications:</p>
-                                <ul class="list-group">
-                                    <li class="list-group-item">System update completed successfully</li>
-                                    <li class="list-group-item">Scheduled maintenance at 2 AM</li>
-                                    <li class="list-group-item"></li>
-                                </ul>
-                            </div>
-                            
-                            <div class="tab-pane fade" id="system-messages" role="tabpanel" aria-labelledby="system-messages-tab">
-                                <p class="mb-3">Recent system messages:</p>
-                                <ul class="list-group">
-                                    <li class="list-group-item">System update completed successfully</li>
-                                    <li class="list-group-item">Scheduled maintenance at 2 AM</li>
-                                    <li class="list-group-item">New features added to your account</li>
-                                </ul>
-                            </div>
+            <!-- Total Referrals Card -->
+            <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                <div class="card bg-gradient-warning text-white">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div><i class="material-icons" style="font-size: 3rem;">person_add</i></div>
+                        <div class="text-end">
+                            <h3><?php echo e($totalReferrals); ?></h3>
+                            <p class="mb-0">Total Referrals</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <p class="mb-3">Account</p>
-                        <h3 class="mb-4"></h3>                  
-                        <button class="btn btn-secondary"></button>             
+            <!-- Total Views Card -->
+            <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                <div class="card bg-gradient-success text-white">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div><i class="material-icons" style="font-size: 3rem;">visibility</i></div>
+                        <div class="text-end">
+                            <h3><?php echo e($totalViews); ?></h3>
+                            <p class="mb-0">Total Views</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paid Earnings Card -->
+            <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                <div class="card bg-gradient-danger text-white">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div><i class="material-icons" style="font-size: 3rem;">account_balance_wallet</i></div>
+                        <div class="text-end">
+                            <h3>LKR <?php echo e(number_format($completedPayments, 2)); ?></h3>
+                            <p class="mb-0">Paid Earnings</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Balance and Withdraw Card -->
+            <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                <div class="card bg-gradient-info text-white">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="material-icons" style="font-size: 3rem;">account_balance</i>
+                        </div>
+                        <div class="text-end">
+                            <h3>LKR <?php echo e(number_format($totalPaidEarnings, 2)); ?></h3>
+                            <p class="mb-0">Account Balance</p>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center bg-transparent">
+                        <a href="<?php echo e(route('withdrawals')); ?>" class="btn btn-light btn-sm">Withdraw</a>
                     </div>
                 </div>
             </div>
         </div>
 
+
+        <!-- Charts Section -->
+        <div class="row">
+            <!-- Referrals Over Time Chart -->
+            <div class="col-md-8 mb-4 chart-item">
+                <div class="chart-container">
+                    <div class="chart-title">Referrals Over the Last 12 Months</div>
+                    <div id="referralsChart"></div>
+                </div>
+            </div>
+
+            <!-- Earnings Distribution Chart -->
+            <div class="col-md-4 mb-4 chart-item">
+                <div class="chart-container">
+                    <div class="chart-title">Earnings Distribution</div>
+                    <div id="earningsChart"></div>
+                </div>
+            </div>
+        </div>
+
+        
     </div>
 </main>
+
+<!-- ApexCharts Scripts for Affiliate Dashboard -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    // Referrals Over Time (Line Chart)
+    document.addEventListener('DOMContentLoaded', function () {
+        var referralOptions = {
+            series: [{
+                name: 'Referrals',
+                data: <?php echo json_encode($referralsOverMonths, 15, 512) ?>
+            }],
+            chart: {
+                type: 'line',
+                height: 300,
+                toolbar: { show: false }
+            },
+            colors: ['#4CAF50'],
+            xaxis: {
+                categories: <?php echo json_encode($months, 15, 512) ?>,
+                labels: { style: { colors: '#6c757d' } }
+            },
+            yaxis: { labels: { style: { colors: '#6c757d' } } },
+            stroke: { curve: 'smooth', width: 2 }
+        };
+        var referralChart = new ApexCharts(document.querySelector("#referralsChart"), referralOptions);
+        referralChart.render();
+    });
+
+    // Earnings Distribution (Donut Chart)
+    document.addEventListener('DOMContentLoaded', function () {
+        var earningsOptions = {
+            series: [<?php echo json_encode($completedPayments, 15, 512) ?>, <?php echo json_encode($totalPaidEarnings, 15, 512) ?>], // Completed payments and account balance
+            chart: {
+                type: 'donut',
+                height: 250,
+            },
+            labels: ['Withdrawn Amount', 'Account Balance'],
+            colors: ['#FFC107', '#4CAF50'],
+            plotOptions: {
+                pie: {
+                    donut: { size: '65%' }
+                }
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: { width: '100%' },
+                    legend: { position: 'bottom' }
+                }
+            }]
+        };
+        var earningsChart = new ApexCharts(document.querySelector("#earningsChart"), earningsOptions);
+        earningsChart.render();
+    });
+
+</script>
 
 <?php $__env->stopSection(); ?>
 

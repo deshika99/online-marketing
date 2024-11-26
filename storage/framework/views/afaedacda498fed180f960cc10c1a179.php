@@ -118,7 +118,17 @@
                         <h5 class="mb-3">Order Summary</h5>
                         <div class="d-flex justify-content-between">
                             <p class="mb-2">Subtotal:</p>
-                            <p class="mb-2">Rs. <?php echo e($cart->sum(fn($item) => $item->product->normal_price * $item->quantity)); ?></p>
+                            <p class="mb-2">
+                                Rs. <?php echo e(number_format($cart->sum(function($item) {
+                                    $price = $item->product->sale && $item->product->sale->status === 'active' 
+                                        ? $item->product->sale->sale_price 
+                                        : ($item->product->specialOffer && $item->product->specialOffer->status === 'active'
+                                            ? $item->product->specialOffer->offer_price
+                                            : $item->product->normal_price);
+                                    return $price * $item->quantity;
+                                }), 2)); ?>
+
+                            </p>
                         </div>
                         <div class="d-flex justify-content-between">
                             <p class="mb-2">Delivery Fee:</p>
@@ -127,11 +137,22 @@
                         <hr />
                         <div class="d-flex justify-content-between">
                             <h6 class="mb-2">Total Amount:</h6>
-                            <h6 class="mb-2 fw-bold">Rs. <?php echo e($cart->sum(fn($item) => $item->product->normal_price * $item->quantity) + 300); ?></h6>
+                            <h6 class="mb-2 fw-bold">
+                                Rs. <?php echo e(number_format($cart->sum(function($item) {
+                                    $price = $item->product->sale && $item->product->sale->status === 'active' 
+                                        ? $item->product->sale->sale_price 
+                                        : ($item->product->specialOffer && $item->product->specialOffer->status === 'active'
+                                            ? $item->product->specialOffer->offer_price
+                                            : $item->product->normal_price);
+                                    return $price * $item->quantity;
+                                }) + 300, 2)); ?>
+
+                            </h6>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
 </section>
 

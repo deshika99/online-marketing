@@ -89,7 +89,6 @@
                                     </div>
                                     <div class="col-lg-2 d-flex align-items-center justify-content-end">
                                         <div class="d-flex item-icons">
-                                            <a href="#!" class="btn btn-light btn-no-border icon-hover-primary"><i class="fas fa-heart fa-lg text-secondary"></i></a>
                                             <a href="#" class="btn btn-light btn-no-border icon-hover-danger btn-delete-item" data-product-id="<?php echo e($item->product_id); ?>"><i class="fas fa-trash fa-lg text-secondary"></i></a>
                                         </div>
                                     </div>
@@ -109,11 +108,15 @@
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2">SubTotal (<?php echo e(count($cart)); ?> items):</p>
                                 <p class="mb-2" id="subtotal">
-                                    Rs. <?php echo e($cart->sum(fn($item) => 
-                                        ($item->product->specialOffer && $item->product->specialOffer->status === 'active') 
-                                        ? $item->product->specialOffer->offer_price 
-                                        : $item->product->normal_price
-                                    )); ?>
+                                    Rs. <?php echo e($cart->sum(function($item) {
+                                        if ($item->product->sale && $item->product->sale->status === 'active') {
+                                            return $item->product->sale->sale_price * $item->quantity;
+                                        } elseif ($item->product->specialOffer && $item->product->specialOffer->status === 'active') {
+                                            return $item->product->specialOffer->offer_price * $item->quantity;
+                                        } else {
+                                            return $item->product->normal_price * $item->quantity;
+                                        }
+                                    })); ?>
 
                                 </p>
                             </div>
@@ -121,11 +124,15 @@
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2">Total:</p>
                                 <p class="mb-2 fw-bold" id="total" style="color:#f55b29;">
-                                    Rs. <?php echo e($cart->sum(fn($item) => 
-                                        ($item->product->specialOffer && $item->product->specialOffer->status === 'active') 
-                                        ? $item->product->specialOffer->offer_price 
-                                        : $item->product->normal_price
-                                    )); ?>
+                                    Rs. <?php echo e($cart->sum(function($item) {
+                                        if ($item->product->sale && $item->product->sale->status === 'active') {
+                                            return $item->product->sale->sale_price * $item->quantity;
+                                        } elseif ($item->product->specialOffer && $item->product->specialOffer->status === 'active') {
+                                            return $item->product->specialOffer->offer_price * $item->quantity;
+                                        } else {
+                                            return $item->product->normal_price * $item->quantity;
+                                        }
+                                    })); ?>
 
                                 </p>
                             </div>
