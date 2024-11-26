@@ -26,6 +26,7 @@ use App\Http\Controllers\AffiliateRulesController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\AffiliateDashboardController;
+use App\Http\Controllers\FrontendTemplateController;
 
 
 use Illuminate\Http\Request;     //contact form
@@ -354,6 +355,8 @@ Route::get('/customer-inquiry', function () {
 
 
 
+
+Route::get('/main',[FrontendTemplateController::class, 'main'])->name('main');
 
 
 
