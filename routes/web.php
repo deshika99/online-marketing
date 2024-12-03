@@ -358,5 +358,47 @@ Route::get('/customer-inquiry', function () {
 
 Route::get('/main',[FrontendTemplateController::class, 'main'])->name('main');
 
+Route::get('/home', function () {
+    return view('frontend.home');
+})->name('home');
 
 
+Route::get('/About-us', function () {
+    return view('frontend.About-us');
+})->name('About-us');
+
+Route::get('/cart', function () {
+    return view('frontend.cart');
+})->name('cart');
+
+Route::get('/checkout', function () {
+    return view('frontend.checkout');
+})->name('checkout');
+
+Route::get('/compare', function () {
+    return view('frontend.compare');
+})->name('compare');
+
+Route::get('/contact', function () {
+    return view('frontend.contact');
+})->name('contact');
+
+Route::get('/customer-service', function () {
+    return view('frontend.customer-service');
+})->name('customer-service');
+
+Route::get('/faq', function () {
+    return view('frontend.faq');
+})->name('faq');
+
+Route::get('/login', function () {
+    return view('frontend.login');
+})->name('login');
+
+Route::get('/signup', function () {
+    return view('frontend.signup');
+})->name('signup');
+
+Route::get('/track-order', function () {
+    return view('frontend.track-order');
+})->name('track-order');
