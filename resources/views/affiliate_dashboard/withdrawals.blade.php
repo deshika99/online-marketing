@@ -10,19 +10,6 @@
 <main style="margin-top: 58px">
     <div class="container pt-4 px-4"> 
 
-        <!-- Display success or error messages -->
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-
         <h3 class="py-3">Withdrawals</h3>
 
         <div class="row">
