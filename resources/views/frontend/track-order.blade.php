@@ -2,6 +2,7 @@
 
 @section('content')
 
+        
         <!-- Start Page Title -->
         <div class="page-title-area">
             <div class="container">

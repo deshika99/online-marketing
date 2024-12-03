@@ -105,7 +105,7 @@
 
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="single-categories-box">
-                            <img src="assets/img/categories/img4.jpg" alt="image">
+                            <img src="frontend/assets/img/categories/img4.jpg" alt="image">
 
                             <div class="content text-white">
                                 <span>Take 20% OFF</span>
@@ -501,8 +501,8 @@
                         <div class="single-products-box">
                             <div class="products-image">
                                 <a href="products-type-1.html">
-                                    <img src="assets/img/products/img7.jpg" class="main-image" alt="image">
-                                    <img src="assets/img/products/img-hover7.jpg" class="hover-image" alt="image">
+                                    <img src="frontend/assets/img/products/img7.jpg" class="main-image" alt="image">
+                                    <img src="frontend/assets/img/products/img-hover7.jpg" class="hover-image" alt="image">
                                 </a>
 
                                 <div class="products-button">
@@ -1079,8 +1079,8 @@
                         <div class="single-products-box">
                             <div class="products-image">
                                 <a href="products-type-1.html">
-                                    <img src="assets/img/products/img16.jpg" class="main-image" alt="image">
-                                    <img src="assets/img/products/img-hover16.jpg" class="hover-image" alt="image">
+                                    <img src="frontend/assets/img/products/img16.jpg" class="main-image" alt="image">
+                                    <img src="frontend/assets/img/products/img-hover16.jpg" class="hover-image" alt="image">
                                 </a>
 
                                 <div class="products-button">
