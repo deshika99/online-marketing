@@ -104,7 +104,7 @@
 </style>
 
 
-<div class="container mt-4 mb-5">
+<div class="container mt-4 mb-5" style="max-height:100vh;">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<?php echo e(url('/')); ?>">Home</a></li>        
@@ -228,7 +228,10 @@
 
                         <main class="col-lg-7">
                             <h4><?php echo e($sale->product->product_name); ?></h4>
-                            <p><?php echo $sale->product->product_description; ?></p>
+                            <p class="description">
+                                <?php echo e((str_replace('&nbsp;', ' ', strip_tags($sale->product->product_description)))); ?>
+
+                            </p>
                             <div class="d-flex flex-row my-3">
                                 <div class="text-warning mb-1 me-2">
                                     <?php for($i = 0; $i < floor($sale->average_rating); $i++): ?>
@@ -242,8 +245,8 @@
                                     <?php endfor; ?>
                                     <span class="ms-1"><?php echo e(number_format($sale->average_rating, 1)); ?></span>
                                 </div>
-                                <span class="text-primary"><?php echo e($sale->rating_count); ?> Ratings | </span>
-                                <span class="text-primary">&nbsp; 25 Questions Answered</span>
+                                <span class="text-primary"><?php echo e($sale->rating_count); ?> Ratings  </span>
+                              
                             </div>
                             <hr />
 
@@ -255,7 +258,7 @@
                                     <span class="ms-1" style="color:red;">Out of stock</span>
                                 <?php endif; ?>
                             </div>
-
+                            <div class="product-container">
                             <?php if($sale->product->variations->where('type', 'Size')->isNotEmpty()): ?>
                                 <div class="mb-2">
                                     <span>Size: </span>
@@ -302,7 +305,6 @@
                                 </span>
                             </div>
 
-
                             <?php if(auth()->guard()->check()): ?>
                                 <a href="#" class="btn btn-custom-cart mb-3 add-to-cart-modal shadow-0 <?php echo e($sale->product->quantity <= 1 ? 'btn-disabled' : ''); ?>"
                                     data-product-id="<?php echo e($sale->product->product_id); ?>" data-auth="true" style="width: 40%;">
@@ -314,6 +316,8 @@
                                     <i class="me-1 fa fa-shopping-basket"></i>Add to cart
                                 </a>
                             <?php endif; ?>
+                            </div>
+
                             <a href="<?php echo e(route('single_product_page', $sale->product->product_id)); ?>" style="text-decoration: none; font-size:14px; color: #297aa5">
                                 View Full Details<i class="fa-solid fa-circle-right ms-1"></i>
                             </a>
@@ -379,16 +383,49 @@
 
 
 <script>
- $(document).ready(function() {
-    //Add to Cart click event
+$(document).ready(function() {
+    // Add to Cart click event
     $('.add-to-cart-modal').on('click', function(e) {
         e.preventDefault();
 
         const productId = $(this).data('product-id');
         const isAuth = $(this).data('auth');  
-        const selectedSize = $('button.size-option.active').text();  
-        const selectedColor = $('button.color-option.active').data('color');  
 
+        // Get the closest product container
+        const productContainer = $(this).closest('.product-container');
+
+        // Check for the existence of size and color options scoped to the specific product
+        const sizeOptions = productContainer.find('button.size-option');
+        const colorOptions = productContainer.find('button.color-option');
+
+        const hasSizeOptions = sizeOptions.length > 0;
+        const hasColorOptions = colorOptions.length > 0;
+
+        // Get selected size and color only if their options are available
+        const selectedSize = hasSizeOptions ? sizeOptions.filter('.active').data('size') : null;  
+        const selectedColor = hasColorOptions ? colorOptions.filter('.active').data('color') : null;
+
+
+
+        // Check if size options are present and if a size was selected
+        if (hasSizeOptions && !selectedSize) {
+            toastr.warning('Please select a size option before adding this product to the cart.', 'Warning', {
+                positionClass: 'toast-top-right',
+                timeOut: 3000,
+            });
+            return;
+        }
+
+        // Check if color options are present and if a color was selected
+        if (hasColorOptions && !selectedColor) {
+            toastr.warning('Please select a color option before adding this product to the cart.', 'Warning', {
+                positionClass: 'toast-top-right',
+                timeOut: 3000,
+            });
+            return;
+        }
+
+        // Proceed to add to cart
         if (isAuth === true || isAuth === "true") { 
             $.ajax({
                 url: "<?php echo e(route('cart.add')); ?>",
@@ -396,8 +433,8 @@
                 data: {
                     _token: "<?php echo e(csrf_token()); ?>",
                     product_id: productId,
-                    size: selectedSize || null,  
-                    color: selectedColor || null 
+                    size: selectedSize,  // Include size if it was selected or null
+                    color: selectedColor   // Include color if it was selected or null
                 },
                 success: function(response) {
                     $.get("<?php echo e(route('cart.count')); ?>", function(data) {
@@ -409,8 +446,9 @@
                         timeOut: 3000,
                     });
 
-                    $('button.size-option.active').removeClass('active');
-                    $('button.color-option.active').removeClass('active');
+                    // Reset active states after adding to cart
+                    productContainer.find('button.size-option.active').removeClass('active');
+                    productContainer.find('button.color-option.active').removeClass('active');
                 },
                 error: function(xhr) {
                     toastr.error('Something went wrong. Please try again.', 'Error', {

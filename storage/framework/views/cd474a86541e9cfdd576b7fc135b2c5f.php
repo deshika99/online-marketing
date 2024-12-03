@@ -190,7 +190,7 @@
 
                                 <div class="form-group">
                                     <label for="tags">Tags</label>
-                                    <input type="text" id="tags" name="tags" class="form-control" placeholder="Enter tags separated by commas">
+                                    <input type="text" id="tags" name="tags" class="form-control" placeholder="Enter tags separated by commas ex: white, dress">
                                 </div>
 
                                 <div class="form-group">

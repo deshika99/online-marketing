@@ -17,32 +17,11 @@
 
 <main style="margin-top: 58px">
     <div class="container pt-4 px-4"> 
-        <h3 class="py-3">Traffic Report</h3>
+        <h3 class="py-3">Traffic Report for Tracking ID: <?php echo e($raffleTicketId); ?></h3>
 
         <div class="card">
             <div class="card-body">
                 <div class="tab-pane fade show active" role="tabpanel">
-                    <div class="row align-items-center mb-3 ms-2">
-                        <div class="col-md-3 mb-2">
-                            <form action="<?php echo e(route('traffic_report')); ?>" method="GET">
-                                <label for="tracking_id" class="form-label" style="font-size: 0.8rem;">Select Raffle Ticket</label>
-                                <select id="tracking_id" name="raffle_ticket_id" class="form-select" style="font-size: 0.8rem;">
-                                    <option value="" selected>All Raffle Tickets</option>
-                                    <?php $__currentLoopData = $raffleTickets; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ticket): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <option value="<?php echo e($ticket->id); ?>" <?php echo e(request('raffle_ticket_id') == $ticket->id ? 'selected' : ''); ?>>
-                                            <?php echo e($ticket->token); ?>
-
-                                        </option>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                </select>
-                        </div>
-                    </div>
-
-                    <div class="form-controls mb-3 ms-3">
-                        <button type="submit" class="btn btn-primary">View</button>
-                        <a href="<?php echo e(route('traffic_report')); ?>" class="btn btn-secondary">Reset</a>
-                    </div>
-                    </form>
 
                     <div class="container mt-5 mb-4">
                         <div class="table-responsive">
@@ -72,7 +51,7 @@
                                             <td><?php echo e($referral->referral_count); ?></td>
 
                                             <!-- Affiliate Commission -->
-                                            <td><?php echo e($referral->total_affiliate_price); ?></td>
+                                            <td><?php echo e(number_format($referral->affiliate_commission * $referral->referral_count, 2)); ?></td>
                                         </tr>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                         <tr>
@@ -91,4 +70,4 @@
 </main>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.affiliate_main.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\esupport_systems\online-marketing\resources\views/affiliate_dashboard/traffic_report.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.affiliate_main.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\esupport_systems\online-marketing\resources\views/affiliate_dashboard/order_tracking.blade.php ENDPATH**/ ?>

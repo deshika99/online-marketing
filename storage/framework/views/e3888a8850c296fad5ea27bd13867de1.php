@@ -57,17 +57,16 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <select name="products[0][product_id]" class="form-control product-select" required>
-                                            <option value="">Select a product</option>
-                                            <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <option value="<?php echo e($product->id); ?>" data-price="<?php echo e($product->normal_price); ?>">
-                                                    <img src="<?php echo e(asset('storage/'.$product->image)); ?>" class="product-image" alt="<?php echo e($product->product_name); ?>">
+                                    <select name="products[0][product_id]" class="form-control product-select" required>
+        <option value="">Select a product</option>
+        <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <option value="<?php echo e($product->product_id); ?>" data-price="<?php echo e($product->normal_price); ?>">
+                <img src="<?php echo e(asset('storage/'.$product->image)); ?>" class="product-image" alt="<?php echo e($product->product_name); ?>">
+                <?php echo e($product->product_id); ?> - <?php echo e($product->product_name); ?>
 
-                                                    <?php echo e($product->product_id); ?> - <?php echo e($product->product_name); ?>
-
-                                              </option>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                        </select>
+            </option>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </select>
                                     </td>
                                     <td><input type="text" name="products[0][normal_price]" class="form-control product-price" required readonly></td>
                                     <td><input type="text" name="products[0][sale_rate]" class="form-control sale-rate" required></td>
@@ -99,9 +98,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     <select name="products[${rowIndex}][product_id]" class="form-control product-select" required>
                         <option value="">Select a product</option>
                         <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <option value="<?php echo e($product->id); ?>" data-price="<?php echo e($product->normal_price); ?>">
+                            <option value="<?php echo e($product->product_id); ?>" data-price="<?php echo e($product->normal_price); ?>">
                                 <img src="<?php echo e(asset('storage/'.$product->image)); ?>" class="product-image" alt="<?php echo e($product->product_name); ?>">
-                                <?php echo e($product->id); ?> - <?php echo e($product->product_name); ?>
+                                <?php echo e($product->product_id); ?> - <?php echo e($product->product_name); ?>
 
                             </option>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

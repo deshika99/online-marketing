@@ -139,7 +139,7 @@
     display: block;
     text-align: right;
     color: #6c63ff;
-    text-decoration: none;
+    text-decoration none;
     margin-top: 10px;
 }
 

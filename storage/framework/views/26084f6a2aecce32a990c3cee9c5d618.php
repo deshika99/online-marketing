@@ -19,10 +19,7 @@
             </div>
 
             <ul class="navbar-nav ms-auto d-flex align-items-center flex-row">
-                <a href="#" class="text-muted">
-                    <div>Help Center</div>
-                </a>
-                <span class="me-2 ms-2">|</span>
+                
 
                 <li class="nav-item dropdown me-4">
                     <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#" id="notificationsDropdown"
@@ -41,8 +38,9 @@
                         <span class="ms-2 text-muted"><?php echo e($affiliateName); ?></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                        <li><a class="dropdown-item" href="#">My profile</a></li>
-                        <li><a class="dropdown-item" href="#">Account Settings</a></li>
+                        
+                        <li><a class="dropdown-item" href="<?php echo e(route('mywebsites_page')); ?>">Account Settings</a></li>
+
                         <li>
                             <form id="logout-form" action="<?php echo e(route('aff_logout')); ?>" method="POST">
                                 <?php echo csrf_field(); ?>
