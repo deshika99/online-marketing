@@ -116,7 +116,6 @@
         background-color: #f1f1f1;
     }
 
-
 </style>
 
 <header>
@@ -140,6 +139,7 @@
                         <span class="input-group-text border-0 d-none d-lg-flex"><i class="fas fa-search"></i></span>
                     </form>
                 </div>
+
 
                 <!-- User & Cart Section -->
                 <div class="col-md-3 mb-2 d-flex justify-content-center justify-content-md-end align-items-center">
@@ -255,7 +255,9 @@
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
                             </div>
+
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
                     </div>
                 </div>
             </div>
@@ -285,6 +287,7 @@
         </div>
     </div>
 </header>
+
 
 
 
@@ -355,7 +358,6 @@ unset($__errorArgs, $__bag); ?>
                         <input class="form-check-input" type="checkbox" name="remember" id="remember" <?php echo e(old('remember') ? 'checked' : ''); ?>>
                         <label class="form-check-label" for="remember"><?php echo e(__('Remember Me')); ?></label>
                     </div>
-
                     <!-- Forgot Password Link -->
                     <?php if(Route::has('password.request')): ?>
                         <div>
@@ -371,15 +373,6 @@ unset($__errorArgs, $__bag); ?>
                         <hr class="flex-grow-1">
                         <span class="mx-2 text-secondary">Or continue with</span>
                         <hr class="flex-grow-1">
-
-
-                    <!-- other Links -->
-                    <div class="d-flex justify-content-center align-items-center flex-grow-1 otherlinks">
-                        <a href="<?php echo e(route('all_items')); ?>" class="mx-3">All Items</a>
-                        <a href="<?php echo e(route('special_offerproducts')); ?>" class="mx-3">Special Offers</a>
-                        <a href="<?php echo e(route('sale_products')); ?>" class="mx-3">Flash Sale</a>
-                        <a href="<?php echo e(route('best_sellers')); ?>" class="mx-3">Bestsellers</a>
-
                     </div>
                     <a class="btn btn-floating" href="#!" role="button">
                         <i class="fa-brands fa-facebook fa-3x" style="color: #2ba2fd;"></i>
@@ -401,10 +394,8 @@ unset($__errorArgs, $__bag); ?>
             var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
             loginModal.show();
         });
-
     </script>
 <?php endif; ?>
-
 
     </script>    
     
