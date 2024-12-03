@@ -118,6 +118,7 @@
 <?php endif; ?>
 
 
+
     <form action="<?php echo e(route('inquiry.store')); ?>" method="POST">
         <?php echo csrf_field(); ?>
         <!-- Order ID Field -->

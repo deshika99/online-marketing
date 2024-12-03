@@ -84,17 +84,21 @@
 <div class="container mt-4 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-8 mt-3">
+
             <h2 class="text-center mb-4 mt-3">Create Your Affiliate Account</h2>
+
             <div class="card register-card mt-3">
                 <div class="card-body">
                     <form method="POST" action="<?php echo e(route('aff_reg')); ?>">
                         <?php echo csrf_field(); ?>
+
 
                         <h4>Basic Information</h4>
                         <br><br>
 
                         <div class="row mb-3">
                             <label for="name" class="col-md-4 col-form-label text-md-start">Name <span class="text-danger"> *</span></label>
+
                             <div class="col-md-7">
                                 <input id="name" type="text" class="form-control <?php $__errorArgs = ['name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -119,7 +123,9 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
                         <div class="row mb-3">
+
                             <label for="address" class="col-md-4 col-form-label text-md-start">Address <span class="text-danger"> *</span></label>
+
                             <div class="col-md-7">
                                 <input id="address" type="text" class="form-control <?php $__errorArgs = ['address'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -144,7 +150,9 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
                         <div class="row mb-3">
+
                             <label for="district" class="col-md-4 col-form-label text-md-start">District <span class="text-danger"> *</span></label>
+
                             <div class="col-md-7">
                                 <input id="district" type="text" class="form-control <?php $__errorArgs = ['district'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -169,8 +177,9 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
                         <div class="row mb-3">
+
                             <label for="dob-day" class="col-md-4 col-form-label text-md-start">Date Of Birth <span class="text-danger"> *</span></label>
-                            <div class="col-md-7 d-flex">
+              <div class="col-md-7 d-flex">
                               
                                 <input id="dob-day" type="number" class="form-control me-2 <?php $__errorArgs = ['dob_day'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -241,6 +250,7 @@ unset($__errorArgs, $__bag); ?>
 
                         <div class="row mb-3">
                             <label for="gender" class="col-md-4 col-form-label text-md-start">Gender <span class="text-danger"> *</span></label>
+
                             <div class="col-md-7">
                                 <select class="form-select <?php $__errorArgs = ['gender'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -271,8 +281,10 @@ unset($__errorArgs, $__bag); ?>
                         </div>
 
                         <div class="row mb-3">
+
                             <label for="email" class="col-md-4 col-form-label text-md-start">Email Address <span class="text-danger"> *</span></label>
                             <div class="col-md-7">
+
                                 <input id="email" type="email" class="form-control <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -296,7 +308,9 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
                         <div class="row mb-3">
+
                             <label for="phone_num" class="col-md-4 col-form-label text-md-start">Phone Number <span class="text-danger"> *</span></label>
+
                             <div class="col-md-7">
                                 <input id="phone_num" type="text" class="form-control <?php $__errorArgs = ['phone_num'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -321,7 +335,9 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
                         <div class="row mb-3">
+
                             <label for="NIC" class="col-md-4 col-form-label text-md-start">NIC <span class="text-danger"> *</span></label>
+
                             <div class="col-md-7">
                                 <input id="NIC" type="text" class="form-control <?php $__errorArgs = ['NIC'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -346,7 +362,9 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
                         <div class="row mb-3">
+
                             <label for="password" class="col-md-4 col-form-label text-md-start">Password <span class="text-danger"> *</span></label>
+
                             <div class="col-md-7">
                                 <input id="password" type="password" class="form-control <?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -371,7 +389,9 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
                         <div class="row mb-5">
+
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-start">Confirm Password <span class="text-danger"> *</span></label>
+
                             <div class="col-md-7">
                                 <input id="password-confirm" type="password" class="form-control <?php $__errorArgs = ['password_confirmation'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -395,6 +415,7 @@ endif;
 unset($__errorArgs, $__bag); ?>
                             </div>
                         </div>
+
 
                         <br>
                         <hr>
@@ -802,9 +823,20 @@ unset($__errorArgs, $__bag); ?>
 
                         <br>
 
+
                         <div class="row submit-btn mb-0">
                             <div class="col-md-7 offset-md-0.5">
                                 <button type="submit" class="btn btn-warning">Register As Affiliate</button>
+
+                        <div class="row submit-btn mb-0">
+                            <div class="col-md-7 offset-md-0.5">
+                                <button type="submit" class="btn btn-warning">Register As Affiliate</button>
+
+                        <div class="row submit-btn mb-0">
+                            <div class="col-md-7 offset-md-4">
+                                <button type="submit" class="btn btn-warning">Submit</button>
+
+
                             </div>
                         </div>
                     </form>

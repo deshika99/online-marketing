@@ -24,6 +24,7 @@
       <?php echo $__env->make('layouts.affiliate_main.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
       
         <?php echo $__env->yieldContent('content'); ?>
+
         <script>
         document.addEventListener('DOMContentLoaded', function() {
             <?php if(session('status')): ?>
@@ -82,6 +83,7 @@
         }
 
     </script>
+
     </div> <!-- .wrapper -->
     
     <?php echo $__env->make('layouts.affiliate_main.script', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
