@@ -335,8 +335,12 @@ Route::post('/inquiries/{id}/resolve', [InquiryController::class, 'resolveInquir
 
 //about
 Route::get('/about', function () {
-    return view('about');
+    return view('frontend.About-us');
 })->name('about');
+
+Route::get('/aboutus', function () {
+    return view('about');
+});
 
 //contac
 Route::get('/contac', function () {
