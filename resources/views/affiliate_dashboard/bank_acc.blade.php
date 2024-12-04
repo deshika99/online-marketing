@@ -1,4 +1,4 @@
-@extends('layouts.affiliate_main.master') 
+@extends('layouts.affiliate_main.master')
 
 @section('content')
 <style>
@@ -24,7 +24,7 @@
         z-index: 2; /* Ensure form is on top of the blur */
         width: 100%;
         max-width: 500px;
-        margin: 50px auto;
+        margin: 150px auto;
         padding: 15px;
         background-color: #f9f9f9;
         border-radius: 8px;
@@ -129,42 +129,35 @@
 
 <div class="add-bank-account-container">
     <h1>Add New Bank Account</h1>
-    <form action="/affiliate/dashboard/payment/bank_acc" method="POST">
+    <form action="{{ route('updatebank') }}" method="POST">
         @csrf
+        <!-- Bank Name -->
         <div class="form-group">
-            <label for="beneficiary_bank_country">Beneficiary Bank Country or Region</label>
-            <input type="text" class="form-control" id="beneficiary_bank_country" name="beneficiary_bank_country">
+            <label for="bank_name">Bank Name</label>
+            <input type="text" class="form-control" id="bank_name" name="bank_name" required>
         </div>
+
+        <!-- Branch Name -->
         <div class="form-group">
-            <label for="currency">Currency</label>
-            <input type="text" class="form-control" id="currency" name="currency">
+            <label for="branch">Branch</label>
+            <input type="text" class="form-control" id="branch" name="branch" required>
         </div>
+
+        <!-- Account Holder Name -->
         <div class="form-group">
-            <label for="card_holder_name">Card Holder Name</label>
-            <input type="text" class="form-control" id="card_holder_name" name="card_holder_name">
+            <label for="account_name">Account Holder Name</label>
+            <input type="text" class="form-control" id="account_name" name="account_name" required>
         </div>
+
+        <!-- Account Number -->
         <div class="form-group">
-            <label for="bic">BIC</label>
-            <input type="text" class="form-control" id="bic" name="bic">
-        </div>
-        <div class="form-group">
-            <label for="beneficiary_bank_name">Beneficiary Bank Name</label>
-            <input type="text" class="form-control" id="beneficiary_bank_name" name="beneficiary_bank_name">
-        </div>
-        <div class="form-group">
-            <label for="account_num">Account Number</label>
-            <input type="text" class="form-control" id="account_num" name="account_num">
-        </div>
-        <div class="form-group">
-            <label for="routing_num">Routing Number</label>
-            <input type="text" class="form-control" id="routing_num" name="routing_num">
+            <label for="account_number">Account Number</label>
+            <input type="text" class="form-control" id="account_number" name="account_number" required>
         </div>
 
         <!-- Submit Button -->
         <div style="display: flex; justify-content: center;">
-            <button type="button" id="toggleSelectAll2" class="btn btn-secondary btn-sm" style="font-size: 0.9rem; width: 50%;">
-                ADD
-            </button>
+            <button type="submit" class="btn btn-primary">Add Bank Account</button>
         </div>
     </form>
 </div>

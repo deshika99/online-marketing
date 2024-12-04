@@ -10,7 +10,9 @@ class Affiliate_Customer extends Model
     use HasFactory;
 
     // Specify the table name (optional, if it's not automatically detected)
-    protected $table = 'affiliate_customers';
+
+    protected $table = 'aff_customers';
+
 
     // The attributes that are mass assignable
     protected $fillable = [

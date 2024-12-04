@@ -89,7 +89,7 @@
 }
 
 .review-item {
-    padding: 15px;
+    padding: 5px;
     margin-bottom: 15px;
 }
 
@@ -139,10 +139,12 @@
     display: block;
     text-align: right;
     color: #6c63ff;
-    text-decoration: none;
+    text-decoration none;
     margin-top: 10px;
 }
 
+
+   
 
 </style>
 
@@ -181,7 +183,10 @@
 
             <main class="col-lg-7">
                 <div class="ps-lg-3">
-                    <h4 class="title text-dark">{{ $product->product_name }}</h4>              
+                    <h4 class="title text-dark">{{ $product->product_name }}</h4>  
+                    <p class="description">
+                        {{ (str_replace('&nbsp;', ' ', strip_tags($product->product_description))) }}
+                    </p>       
                     <div class="d-flex flex-row my-3">
                         <div class="text-warning mb-1 me-2">
                             <span class="text-warning">
@@ -197,13 +202,10 @@
                             </span>
                             <span class="ms-1">{{ number_format($averageRating, 1) }}</span>
                         </div>
-                        <span class="text-primary">{{ $totalReviews }} Ratings | </span>
-                        <span class="text-primary">&nbsp; 25 Questions Answered</span>
+                        <span class="text-primary">{{ $totalReviews }} Ratings </span>
+                       
                     </div>
-                    <div style="margin-top: -15px;">
-                        <span class="text-muted">Brand: </span>
-                        <span class="text-primary">No Brand | More Wearable technology from No Brand</span>
-                    </div>
+                    
                     <hr />
                     <div class="product-availability mt-3">
                         <span class="">Availability :</span>
@@ -220,7 +222,7 @@
                             <span>Size: </span>
                             @foreach($product->variations->where('type', 'Size') as $size)
                                 @if($size->quantity > 0) 
-                                    <button class="btn btn-outline-secondary btn-sm me-1 ms-1 size-option" style="height:28px;">
+                                    <button class="btn btn-outline-secondary btn-sm me-1 ms-1 size-option" style="height:28px;" required>
                                         {{ $size->value }}
                                     </button>
                                 @endif
@@ -318,9 +320,9 @@
                             <li class="nav-item d-flex" role="presentation">
                                 <a class="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-review" data-bs-toggle="pill" href="#ex1-pills-review" role="tab" aria-controls="ex1-pills-3" aria-selected="false">Reviews</a>
                             </li>
-                            <li class="nav-item d-flex" role="presentation">
+                            <!--  <li class="nav-item d-flex" role="presentation">
                                 <a class="nav-link d-flex align-items-center justify-content-center w-100" id="ex1-tab-QA" data-bs-toggle="pill" href="#ex1-pills-QA" role="tab" aria-controls="ex1-pills-4" aria-selected="false"> Q & A</a>
-                            </li>
+                            </li>-->
                         </ul>
 
                         <!-- Pills content -->
@@ -407,6 +409,7 @@
                                             @endforeach
                                         </div>
                                     </div>
+                                    <hr/>
 
                                     <!-- Review List -->
                                     <div class="review-list">
@@ -415,15 +418,18 @@
                                                 <div class="user-info">
                                                     <img src="{{ $review->is_anonymous ? asset('assets/images/default-user.png') : asset('storage/' . $review->user->profile_image) }}" alt="User image" class="user-image">
                                                     <div class="user-details mt-3">
-                                                        <h6>{{ $review->is_anonymous ? 'Anonymous' : $review->user->name }}</h6>
+                                                        <h6>
+                                                            {{ $review->is_anonymous ? 'Anonymous' : $review->user->name }}
+                                                            <span class="text-secondary" style="font-size: 0.8em; margin-left:15px;">{{ \Carbon\Carbon::parse($review->created_at)->format('d M Y') }}</span>
+                                                        </h6>
                                                     </div>
                                                     <div class="user-rating">
                                                         <span class="me-1">{{ $review->rating }}.0</span>
                                                         <span class="rating text-warning">
                                                             @for($i = 1; $i <= 5; $i++)
-                                                                @if($i <= $averageRating)
+                                                                @if($i <= $review->rating)
                                                                     <i class="fa fa-star"></i>
-                                                                @elseif($i - $averageRating < 1)
+                                                                @elseif($i - $review->rating < 1)
                                                                     <i class="fas fa-star-half-alt"></i>
                                                                 @else
                                                                     <i class="fa fa-star-o"></i>
@@ -437,7 +443,7 @@
                                                     <div class="review-images mt-2 d-flex flex-wrap">
                                                         @if($review->images->isNotEmpty())
                                                             @foreach($review->images as $image)
-                                                                <img src="{{ asset('storage/' . $image->media_path) }}" alt="Review image" class="review-img">
+                                                                <img src="{{ asset('storage/' . $image->media_path) }}" alt="Review image" class="review-img" width="100" onclick="showReviewImage('{{ asset('storage/' . $image->media_path) }}', {{ $review->id }})">
                                                             @endforeach
                                                         @endif
                                                         @if($review->videos->isNotEmpty())
@@ -449,12 +455,19 @@
                                                             @endforeach
                                                         @endif
                                                     </div>
+                                                    <!-- Display Larger Image -->
+                                                    <div class="main-review-image mt-3">
+                                                        <img id="mainReviewImage-{{ $review->id }}" src="" alt="Larger Review Image" style="display:none; width:350px;">
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <hr /> 
                                         @endforeach
-                                    </div>                                
+                                    </div>
+
                                 </div>
                             </div>
+
 
 
                             <div class="tab-pane fade mb-2" id="ex1-pills-QA" role="tabpanel" aria-labelledby="ex1-tab-QA">
@@ -545,14 +558,27 @@ const lightbox = GLightbox({
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+
 $(document).ready(function() {
+    // Add to Cart click event
     $('.btn-custom-cart').on('click', function(e) {
         e.preventDefault();
 
         const productId = $(this).data('product-id');
         const isAuth = $(this).data('auth');
         const selectedSize = $('button.size-option.active').text();  
-        const selectedColor = $('button.color-option.active').data('color');  
+        const selectedColor = $('button.color-option.active').data('color');
+
+        // Check if size and color are selected
+        if ($('button.size-option').length > 0 && $('button.color-option').length > 0) {
+            if (!selectedSize || !selectedColor) {
+                toastr.warning('Please select both size and color options before adding this product to the cart.', 'Warning', {
+                    positionClass: 'toast-top-right',
+                    timeOut: 3000,
+                });
+                return;
+            }
+        }
 
         if (isAuth) {
             $.ajax({
@@ -561,8 +587,8 @@ $(document).ready(function() {
                 data: {
                     _token: "{{ csrf_token() }}",
                     product_id: productId,
-                    size: selectedSize,   
-                    color: selectedColor 
+                    size: selectedSize || null,   // Allow null if no size selected
+                    color: selectedColor || null    // Allow null if no color selected
                 },
                 success: function(response) {
                     $.get("{{ route('cart.count') }}", function(data) {
@@ -590,56 +616,70 @@ $(document).ready(function() {
         }
     });
 
+    // Size option click event
     $('.size-option').on('click', function() {
         $('.size-option').removeClass('active');
         $(this).addClass('active');
     });
 
+    // Color option click event
     $('.color-option').on('click', function() {
         $('.color-option').removeClass('active');
         $(this).addClass('active');
+        $('#selected-color-name').text($(this).data('color-name'));
     });
 
-
+    // Buy Now function
     window.buyNow = function() {
-    const productId = $('.btn-custom-buy').data('product-id');
-    const isAuth = $('.btn-custom-buy').data('auth');
+        const productId = $('.btn-custom-buy').data('product-id');
+        const isAuth = $('.btn-custom-buy').data('auth');
+        const selectedSize = $('button.size-option.active').text();  
+        const selectedColor = $('button.color-option.active').data('color');
 
-    const selectedSize = $('button.size-option.active').text();  
-    const selectedColor = $('button.color-option.active').data('color');  
-
-    if (isAuth) {
-        $.ajax({
-            url: "{{ route('cart.add') }}",
-            method: 'POST',
-            data: {
-                _token: "{{ csrf_token() }}",
-                product_id: productId,
-                size: selectedSize,  
-                color: selectedColor 
-            },
-            success: function(response) {
-                $.get("{{ route('cart.count') }}", function(data) {
-                    $('#cart-count').text(data.cart_count);
-                });
-                window.location.href = "{{ route('shopping_cart') }}";
-            },
-            error: function(xhr) {
-                toastr.error('Something went wrong. Please try again.', 'Error', {
+        // Check if size and color are selected
+        if ($('button.size-option').length > 0 && $('button.color-option').length > 0) {
+            if (!selectedSize || !selectedColor) {
+                toastr.warning('Please select both size and color options before proceeding with the purchase.', 'Warning', {
                     positionClass: 'toast-top-right',
                     timeOut: 3000,
                 });
+                return;
             }
-        });
-    } else {
-        toastr.warning('Please log in to proceed with your purchase.', 'Warning', {
-            positionClass: 'toast-top-right',
-            timeOut: 3000,
-        });
-    }
-}
+        }
 
+        if (isAuth) {
+            $.ajax({
+                url: "{{ route('cart.add') }}",
+                method: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    product_id: productId,
+                    size: selectedSize || null,  // Allow null if no size selected
+                    color: selectedColor || null   // Allow null if no color selected
+                },
+                success: function(response) {
+                    $.get("{{ route('cart.count') }}", function(data) {
+                        $('#cart-count').text(data.cart_count);
+                    });
+                    window.location.href = "{{ route('shopping_cart') }}";
+                },
+                error: function(xhr) {
+                    toastr.error('Something went wrong. Please try again.', 'Error', {
+                        positionClass: 'toast-top-right',
+                        timeOut: 3000,
+                    });
+                }
+            });
+        } else {
+            toastr.warning('Please log in to proceed with your purchase.', 'Warning', {
+                positionClass: 'toast-top-right',
+                timeOut: 3000,
+            });
+        }
+    }
 });
+
+
 
 $(document).ready(function() {
 
@@ -681,6 +721,19 @@ $(document).ready(function() {
 
 
 
+<!-- review image-->
+<script>
+    function showReviewImage(imagePath, reviewId) {
+        const mainImage = document.getElementById(`mainReviewImage-${reviewId}`);
 
-
+        if (mainImage.style.display === 'block' && mainImage.src === imagePath) {
+            // Hide the image
+            mainImage.style.display = 'none';
+            mainImage.src = '';
+        } else {
+            mainImage.src = imagePath;
+            mainImage.style.display = 'block';
+        }
+    }
+</script>
 @endsection

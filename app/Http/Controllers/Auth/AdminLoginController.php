@@ -34,7 +34,7 @@ class AdminLoginController extends Controller
                 'is_admin' => true, 
                 'name' => $admin->name, 
                 'email' => $admin->email,
-                'image_path' => 'storage/user_images/' . $admin->image_path, 
+                'image_path' => $admin->image_path, 
             ]);
             return redirect()->route('admin.index');
         }
@@ -46,6 +46,8 @@ class AdminLoginController extends Controller
                 'email' => $hardcodedAdminEmail,
                 'image_path' => null, 
             ]);
+
+            session()->flash('status', 'Successfully logged in as Admin.');
             return redirect()->route('admin.index'); 
         }
     

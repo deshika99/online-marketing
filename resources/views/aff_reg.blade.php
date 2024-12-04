@@ -160,7 +160,7 @@
                             <label for="gender" class="col-md-4 col-form-label text-md-start">Gender <span class="text-danger"> *</span></label>
                             <div class="col-md-7">
                                 <select class="form-select @error('gender') is-invalid @enderror" id="gender" name="gender">
-                                    <option selected disabled></option>
+                                    <option selected disabled>Select Gender</option>
                                     <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male</option>
                                     <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female</option>
                                     <option value="other" {{ old('gender') == 'other' ? 'selected' : '' }}>Other</option>
@@ -218,9 +218,9 @@
                             </div>
                         </div>
                         <div class="row mb-5">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-start">Confirm Password <span class="text-danger"> *</span></label>
+                            <label for="password_confirmation" class="col-md-4 col-form-label text-md-start">Confirm Password <span class="text-danger"> *</span></label>
                             <div class="col-md-7">
-                                <input id="password-confirm" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" required autocomplete="new-password">
+                                <input id="password_confirmation" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" required autocomplete="new-password">
                                 @error('password_confirmation')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

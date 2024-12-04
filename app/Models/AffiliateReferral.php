@@ -22,6 +22,7 @@ class AffiliateReferral extends Model
         'completed_at',
         'product_price',
         'affiliate_commission',
+        'total_affiliate_price',
     ];
 
     /**
@@ -39,6 +40,15 @@ class AffiliateReferral extends Model
     {
         return $this->belongsTo(RaffleTicket::class, 'raffle_ticket_id');
     }
+
+    public function affiliateProduct()
+    {
+        return $this->hasOne(AffiliateProduct::class, 'affiliate_link_id', 'raffle_ticket_id'); // Assuming raffle_ticket_id maps to affiliate_link_id
+    }
+
+    
+
+
 
    
 

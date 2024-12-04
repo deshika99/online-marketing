@@ -74,7 +74,7 @@
             </div>
 
             <ul class="navbar-nav ms-auto d-flex align-items-center flex-row">
-                <li class="nav-item dropdown me-4">
+            <li class="nav-item dropdown me-4">
                     <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#" id="notificationsDropdown"
                         role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-bell"></i>
@@ -113,6 +113,17 @@
                                         </div>
                                     </a>
                                     <i class="fas fa-times close-icon" data-user-id="{{ $notification->id }}" style="color: red;"></i>
+                                </li>
+                            @elseif($notification instanceof App\Models\Review)  <!-- Handle new review notifications -->
+                                <li class="notification-item d-flex justify-content-between align-items-center" data-review-id="{{ $notification->id }}">
+                                    <a class="dropdown-item d-flex align-items-center" href="#">
+                                        <i class="fas fa-star me-4" style="font-size: 18px;"></i>
+                                        <div>
+                                            <strong>New Review</strong><br>
+                                            <small>{{ $notification->is_anonymous ? 'Anonymous' : $notification->user->name }} reviewed on a product {{ $notification->created_at->format('Y-m-d') }}</small>
+                                        </div>
+                                    </a>
+                                    <i class="fas fa-times close-icon" data-review-id="{{ $notification->id }}" style="color: red;"></i>
                                 </li>
                             @endif
                         @endforeach

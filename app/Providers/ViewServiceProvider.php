@@ -5,7 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Session;
-use App\Models\Aff_Customer;
+use App\Models\Affiliate_User;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -28,7 +28,7 @@ class ViewServiceProvider extends ServiceProvider
     {
         View::composer('*', function ($view) {
             $affiliateId = Session::get('customer_id');
-            $affiliate = $affiliateId ? Aff_Customer::find($affiliateId) : null;
+            $affiliate = $affiliateId ? Affiliate_User::find($affiliateId) : null;
             $affiliateName = $affiliate ? $affiliate->name : 'Guest';
             
             $view->with(compact('affiliateName', 'affiliateId'));
