@@ -11,9 +11,8 @@ class Address extends Model
 
     protected $fillable = [
         'user_id',
-        'first_name',
-        'last_name',
-        'phone',
+        'full_name',
+        'phone_num',
         'email',
         'address',
         'apartment',
@@ -21,4 +20,12 @@ class Address extends Model
         'postal_code',
         'default'
     ];
+    
+
+    
+
+    // Define the relationship with the User model
+    
 }
+
+

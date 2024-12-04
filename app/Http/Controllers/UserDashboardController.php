@@ -434,6 +434,7 @@ class UserDashboardController extends Controller
 
         return redirect()->route('addresses')->with('status', 'Save is Successful');
     }
+<<<<<<< Updated upstream
 
 
     public function showAddresses()
@@ -441,15 +442,110 @@ class UserDashboardController extends Controller
         $user = Auth::user();
         $addresses = Address::where('user_id', $user->id)->get();
         return view('member_dashboard.addresses', compact('addresses'));
+=======
+}
+
+// In UserDashboardController.php
+
+
+public function showAddresses()
+{
+    // Get the currently logged-in user
+    $user = Auth::user();
+    $addresses = Address::where('user_id', $user->id)->get();
+    \Log::info('Fetched Addresses:', $addresses->toArray());
+    return view('member_dashboard.addresses', compact('addresses','user'));
+}
+
+
+public function updateAddress(Request $request)
+{
+    // Get the currently logged-in user
+    $user = Auth::user();
+
+    // Validate the request data
+    $validatedData = $request->validate([
+        'full_name' => 'required|string|max:255',
+        'phone_num' => 'required|string|max:15',
+        'email' => 'required|string|email|max:255',
+        'address' => 'required|string|max:255',
+        'apartment' => 'nullable|string|max:255',
+        'city' => 'required|string|max:255',
+        'postal_code' => 'required|string|max:10',
+    ]);
+
+    
+    // Update the user's details with the form input
+    $user->full_name = $request->input('full_name');
+    $user->phone_num = $request->input('phone_num');
+    $user->email = $request->input('email');
+    $user->address = $request->input('address');
+    $user->apartment = $request->input('apartment');
+    $user->city = $request->input('city');
+    $user->postal_code = $request->input('postal_code');
+
+    // Save the updated details to the database
+    if ($user->save()) {
+        return redirect()->route('addresses')->with('success', 'Address updated successfully!');
+    } else {
+        return redirect()->route('addresses')->with('error', 'Failed to update address.');
+>>>>>>> Stashed changes
     }
     
 
+<<<<<<< Updated upstream
     public function destroy($id)
     {
         $address = Address::findOrFail($id);
         $address->delete();
         return redirect()->route('addresses')->with('status', 'Address deleted successfully!');
     }
+=======
+public function storeAddress(Request $request)
+{
+    // Validate the request data
+    $validatedData = $request->validate([
+        'full_name' => 'required|string|max:255',
+        'phone_num' => 'required|string|max:15',
+        'email' => 'required|string|email|max:255',
+        'address' => 'required|string|max:255',
+        'apartment' => 'nullable|string|max:255',
+        'city' => 'required|string|max:255',
+        'postal_code' => 'required|string|max:10',
+    ]);
+
+    // Get the currently logged-in user
+    $user = Auth::user();
+
+    // Create a new address entry
+    $address = new Address();
+    $address->user_id = $user->id; // Set the user ID from the logged-in user
+    $address->full_name = $validatedData['full_name']; 
+    $address->phone_num = $validatedData['phone_num'];
+    $address->email = $validatedData['email'];
+    $address->address = $validatedData['address'];
+    $address->apartment = $validatedData['apartment'];
+    $address->city = $validatedData['city'];
+    $address->postal_code = $validatedData['postal_code'];
+
+    // Save the address to the database
+    $address->save();
+
+    // Redirect back to the addresses page with a success message
+    return redirect()->route('addresses')->with('success', 'Save is Successful');
+}
+
+public function deleteAddress(Request $request)
+{
+    return redirect()->route('addresses')->with('success', 'Address deleted successfully');
+}
+}
+
+
+
+
+
+>>>>>>> Stashed changes
 
 
 
@@ -466,5 +562,8 @@ class UserDashboardController extends Controller
 
 
 
+<<<<<<< Updated upstream
 
 }
+=======
+>>>>>>> Stashed changes

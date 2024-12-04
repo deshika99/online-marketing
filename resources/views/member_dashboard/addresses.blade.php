@@ -1,6 +1,4 @@
-
-
-@extends('layouts.user_sidebar') 
+@extends('layouts.user_sidebar')  
 
 @section('dashboard-content')
 
@@ -31,7 +29,7 @@
         position: relative;
         display: flex;
         flex-direction: column;
-        align-items: center; /* Center the content */
+        align-items: center;
     }
 
     .popup-content h2 {
@@ -44,7 +42,7 @@
         flex-wrap: wrap;
         gap: 15px;
         position: relative;
-        justify-content: center; /* Center form elements horizontally */
+        justify-content: center;
     }
 
     .form-container .icon-input {
@@ -85,7 +83,6 @@
         color: #333;
     }
 
-    /* Center form buttons */
     .form-buttons {
         display: flex;
         justify-content: center;
@@ -109,16 +106,6 @@
         color: white;
     }
 
-    .edit-btn {
-        background-color: #f0ad4e;
-        color: white;
-    }
-
-    .delete-btn {
-        background-color: #d9534f;
-        color: white;
-    }
-
     .open-popup-btn {
         display: inline-block;
         padding: 10px 20px;
@@ -129,6 +116,36 @@
         cursor: pointer;
         margin: 20px;
     }
+
+    .address-card {
+        background-color: #fff4f0;
+        border: 1px solid #f44336;
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    .address-card h4 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .address-card .info div {
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    .actions {
+        margin-top: 10px;
+    }
+
+    .actions a {
+        text-decoration: none;
+        color: #f44336;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+</style>
 
     .address-card{
         border: 1px solid #93c1fe;
@@ -165,6 +182,27 @@
                         <button class="btn btn-sm" onclick="showDeleteModal({{ $address->id }})" style="color:red">
                             Delete
                         </button>
+<!-- Display saved addresses -->
+<div class="row">
+    @if(isset($addresses) && $addresses->count())
+        @foreach($addresses as $address)
+        <div class="col-md-4">
+            <div class="card mb-3 address-card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ $address->full_name }}</h5>
+                    <p class="card-text">
+                        <strong>Phone:</strong> {{ $address->phone_num }}<br>
+                        <strong>Email:</strong> {{ $address->email }}<br>
+                        <strong>Address:</strong> {{ $address->address }}<br>
+                        {{ $address->apartment }}, {{ $address->city }}, {{ $address->postal_code }}
+                    </p>
+                    <div class="actions">
+                        <a href="{{ route('editAddress', $address->id) }}">Edit</a>
+                        <form action="{{ route('deleteAddress', $address->id) }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-link text-danger">Delete</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -300,6 +338,61 @@
 
 
 
+        @endforeach
+    @else
+        <p>No addresses found.</p>
+    @endif
+</div>
+
+<!-- Popup container for adding address -->
+<div class="popup" id="popup">
+    <div class="popup-content">
+        <span class="close-popup" onclick="closePopup()">&times;</span>
+        <h2>Add Address</h2>
+        <form action="{{ route('storeAddress') }}" method="POST">
+            @csrf
+            <div class="form-container">
+                <div class="icon-input">
+                    <i class="fas fa-user"></i>
+                    <input type="text" name="full_name" placeholder="Full name" value="{{ old('full_name', auth()->user()->name) }}" required>
+                </div>
+                <div class="icon-input">
+                    <i class="fas fa-phone"></i>
+                    <input type="text" name="phone_num" placeholder="Phone" value="{{ old('phone_num', auth()->user()->phone_num) }}" required>
+                </div>
+                <div class="icon-input">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" name="email" placeholder="Email" value="{{ old('email', auth()->user()->email) }}" required>
+                </div>
+                <div class="icon-input">
+                    <i class="fas fa-home"></i>
+                    <input type="text" name="address" placeholder="Street Address" value="{{ old('address') }}" required>
+                </div>
+                <div class="icon-input">
+                    <i class="fas fa-home"></i>
+                    <input type="text" name="apartment" placeholder="Apartment, Suite, Unit (Optional)">
+                </div>
+                <div class="icon-input">
+                    <i class="fas fa-city"></i>
+                    <input type="text" name="city" placeholder="City" value="{{ old('city') }}" required>
+                </div>
+                <div class="icon-input">
+                    <i class="fas fa-mail-bulk"></i>
+                    <input type="text" name="postal_code" placeholder="Postal code" value="{{ old('postal_code') }}" required>
+                </div>
+            </div>
+            <div class="form-buttons">
+                <button type="submit" class="save-btn"><i class="fas fa-check"></i> Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 
 <script>
     function openPopup() {
@@ -341,4 +434,4 @@ function closeEditPopup() {
 
 </script>
 
-@endsection                                             
+@endsection

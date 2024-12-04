@@ -23,7 +23,9 @@
                 <div class="signup-content">
                     <h2>Create an Account</h2>
 
-                    <form class="signup-form">
+                    <form class="signup-form" method="POST" action="{{ route('signup') }}">
+                     @csrf
+
                         <div class="form-group">
                             <label>First Name</label>
                             <input type="text" class="form-control" placeholder="Enter your name" id="fname" name="fname">
@@ -36,13 +38,19 @@
 
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" class="form-control" placeholder="Enter your name" id="name" name="name">
+                            <input type="email" class="form-control" placeholder="Enter your name" id="email" name="email">
                         </div>
 
                         <div class="form-group">
                             <label>Password</label>
                             <input type="password" class="form-control" placeholder="Enter your password" id="password" name="password">
                         </div>
+
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" class="form-control" placeholder="Confirm your password" id="password_confirmation" name="password_confirmation">
+                        </div>
+
 
                         <button type="submit" class="default-btn">Signup</button>
 
