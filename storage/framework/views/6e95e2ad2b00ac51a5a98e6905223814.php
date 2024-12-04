@@ -31,7 +31,7 @@
     }
 
     .card-front {
-        background: linear-gradient(to right, #48629c, #237ccc);
+        background: linear-gradient(to right, blue, #237ccc);
         color: #fff;
         display: flex;
         align-items: center;
