@@ -338,9 +338,7 @@ Route::get('/about', function () {
     return view('frontend.About-us');
 })->name('about');
 
-Route::get('/aboutus', function () {
-    return view('about');
-});
+
 
 //contac
 Route::get('/contac', function () {
@@ -372,11 +370,6 @@ Route::get('/main',[FrontendTemplateController::class, 'main'])->name('main');
 Route::get('/home', function () {
     return view('frontend.home');
 })->name('home');
-
-
-Route::get('/About-us', function () {
-    return view('frontend.About-us');
-})->name('About-us');
 
 Route::get('/cart', function () {
     return view('frontend.cart');
