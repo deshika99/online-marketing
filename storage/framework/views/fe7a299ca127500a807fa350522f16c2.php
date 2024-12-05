@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <!-- Include Toastr CSS -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 
@@ -161,20 +159,20 @@
 </style>
 
 
-@if (session('status'))
+<?php if(session('status')): ?>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            toastr.success("{{ session('status') }}", 'Success', {
+            toastr.success("<?php echo e(session('status')); ?>", 'Success', {
                 positionClass: 'toast-top-right'
             });
         });
     </script>
-@endif
+<?php endif; ?>
 <nav class="navbar navbar-expand-lg navbar-light fixed-top p-0 m-0">
     <div class="container mb-3"  style="display: flex; flex-direction: column;">
         <div class="row w-100">
             <div class="col-md-4 d-flex justify-content-center justify-content-md-start align-items-center mb-md-0">
-                <a href="{{ url('/') }}" class="d-flex align-items-center" style="text-decoration: none">
+                <a href="<?php echo e(url('/')); ?>" class="d-flex align-items-center" style="text-decoration: none">
                     <div class="navbar-brand">
                         <img src="/assets/images/logo2.png" height="70" width="40" alt="Logo"/>
                     </div>
@@ -197,12 +195,12 @@
                             <i class="fas fa-bars"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="{{ route('all_items') }}">All Items</a></li>
-                            <li><a class="dropdown-item" href="{{ route('helpcenter') }}">Help Center</a></li>
+                            <li><a class="dropdown-item" href="<?php echo e(route('all_items')); ?>">All Items</a></li>
+                            <li><a class="dropdown-item" href="<?php echo e(route('helpcenter')); ?>">Help Center</a></li>
                         </ul>
                     </div>
                     <span class="me-3">|</span>
-                    <a class="text-reset me-5" href="{{ route('shopping_cart') }}" style="position: relative;">
+                    <a class="text-reset me-5" href="<?php echo e(route('shopping_cart')); ?>" style="position: relative;">
                         <span style="font-size: 19px; position: relative;">
                             <i class="fas fa-shopping-cart"></i>
                         </span>
@@ -210,41 +208,43 @@
                             0
                         </span>
                     </a>
-                    @guest
-                        @if (Route::has('login'))
+                    <?php if(auth()->guard()->guest()): ?>
+                        <?php if(Route::has('login')): ?>
                             <a class="text-reset me-3" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
                                 <div style="font-weight:500">LOGIN</div>
-                                @if (Route::has('register'))
-                                    <a class="signup-btn p-2" href="{{ route('register') }}" style="">SIGN UP</a>
-                                @endif
+                                <?php if(Route::has('register')): ?>
+                                    <a class="signup-btn p-2" href="<?php echo e(route('register')); ?>" style="">SIGN UP</a>
+                                <?php endif; ?>
                             </a>
-                        @endif
-                        @else
+                        <?php endif; ?>
+                        <?php else: ?>
                         <div class="dropdown me-3">  
                          <a id="navbarDropdown" class="text-reset dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                           <div class="icon-circle">
-                          @if(Auth::user()->profile_image)
-                            <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" style="width: 33px; height: 33px; border-radius: 50%; object-fit: cover;" class="profile_image">
-                          @else
-                          
-                          @endif
+                          <?php if(Auth::user()->profile_image): ?>
+                            <img src="<?php echo e(asset('storage/' . Auth::user()->profile_image)); ?>" style="width: 33px; height: 33px; border-radius: 50%; object-fit: cover;" class="profile_image">
+                          <?php else: ?>
+                            <span style="font-size: 17px;"><?php echo e(Auth::user()->name[0]); ?></span>
+                          <?php endif; ?>
                         </div>
-                            <span class="ms-2">{{ Auth::user()->name }}</span>
+                            <span class="ms-2"><?php echo e(Auth::user()->name); ?></span>
                          </a>
                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('dashboard') }}" style="font-size: 15px;">
-                          {{ __('My Profile') }}
+                        <a class="dropdown-item" href="<?php echo e(route('dashboard')); ?>" style="font-size: 15px;">
+                          <?php echo e(__('My Profile')); ?>
+
                         </a>
-                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="font-size: 15px;">
-                          {{ __('Logout') }}
+                        <a class="dropdown-item" href="<?php echo e(route('logout')); ?>" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="font-size: 15px;">
+                          <?php echo e(__('Logout')); ?>
+
                         </a>
-                      <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                       @csrf
+                      <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" class="d-none">
+                       <?php echo csrf_field(); ?>
                        </form>
                      </div>
                     </div>
 
-                   @endguest
+                   <?php endif; ?>
 
                 </div>
             </div>
@@ -263,40 +263,42 @@
                     <i class="fas fa-bars me-2"></i> All Categories
                 </div>
                 <div class="dropdown-menu">
-                    @foreach ($categories as $category)
+                    <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="dropdown-item dropdown-submenu">
-                            <a href="{{ route('user_products', ['category' => $category->parent_category]) }}">
-                                <img src="{{ asset('storage/category_images/' . $category->image) }}" alt="{{ $category->parent_category }} icon" class="category-icon">
-                                {{ $category->parent_category }}
+                            <a href="<?php echo e(route('user_products', ['category' => $category->parent_category])); ?>">
+                                <img src="<?php echo e(asset('storage/category_images/' . $category->image)); ?>" alt="<?php echo e($category->parent_category); ?> icon" class="category-icon">
+                                <?php echo e($category->parent_category); ?>
+
                             </a>
-                            @if ($category->subcategories->isNotEmpty()) 
+                            <?php if($category->subcategories->isNotEmpty()): ?> 
                                 <div class="dropdown-menu multi-column">
-                                    @foreach ($category->subcategories as $subcategory)
+                                    <?php $__currentLoopData = $category->subcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="dropdown-column">
-                                            <a href="{{ route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory]) }}">
-                                                <strong style="font-size:16px;">{{ $subcategory->subcategory }}</strong>
+                                            <a href="<?php echo e(route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory])); ?>">
+                                                <strong style="font-size:16px;"><?php echo e($subcategory->subcategory); ?></strong>
                                             </a>
-                                            @if ($subcategory->subSubcategories->isNotEmpty())
-                                                @foreach ($subcategory->subSubcategories as $subSubcategory)
-                                                    <a href="{{ route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory, 'subsubcategory' => $subSubcategory->sub_subcategory]) }}">
-                                                        {{ $subSubcategory->sub_subcategory }}
+                                            <?php if($subcategory->subSubcategories->isNotEmpty()): ?>
+                                                <?php $__currentLoopData = $subcategory->subSubcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subSubcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <a href="<?php echo e(route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory, 'subsubcategory' => $subSubcategory->sub_subcategory])); ?>">
+                                                        <?php echo e($subSubcategory->sub_subcategory); ?>
+
                                                     </a>
-                                                @endforeach
-                                            @endif
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            <?php endif; ?>
                                         </div>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
-                            @endif
+                            <?php endif; ?>
                         </div>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
             </div>
 
             <div class="d-flex ms-4 d-none d-md-flex otherlinks">
-                <a href="{{ route('all_items') }}" class="mx-3">All Items</a>
-                <a href="{{ route('special_offerproducts') }}" class="mx-3">Special Offers</a>
-                <a href="{{ route('sale_products') }}" class="mx-3">Flash Sale</a>
-                <a href="{{ route('best_sellers') }}" class="mx-3">Bestsellers</a>
+                <a href="<?php echo e(route('all_items')); ?>" class="mx-3">All Items</a>
+                <a href="<?php echo e(route('special_offerproducts')); ?>" class="mx-3">Special Offers</a>
+                <a href="<?php echo e(route('sale_products')); ?>" class="mx-3">Flash Sale</a>
+                <a href="<?php echo e(route('best_sellers')); ?>" class="mx-3">Bestsellers</a>
             </div>
 
             <!-- Visible only on screens smaller than 660px -->
@@ -305,10 +307,10 @@
                     Other
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="otherLinksDropdown">
-                    <li><a class="dropdown-item" href="{{ route('all_items') }}">All Items</a></li>
-                    <li><a class="dropdown-item" href="{{ route('special_offerproducts') }}">Special Offers</a></li>
-                    <li><a class="dropdown-item" href="{{ route('sale_products') }}">Flash Sale</a></li>
-                    <li><a class="dropdown-item" href="{{ route('best_sellers') }}">Bestsellers</a></li>
+                    <li><a class="dropdown-item" href="<?php echo e(route('all_items')); ?>">All Items</a></li>
+                    <li><a class="dropdown-item" href="<?php echo e(route('special_offerproducts')); ?>">Special Offers</a></li>
+                    <li><a class="dropdown-item" href="<?php echo e(route('sale_products')); ?>">Flash Sale</a></li>
+                    <li><a class="dropdown-item" href="<?php echo e(route('best_sellers')); ?>">Bestsellers</a></li>
                 </ul>
             </div>
         </div>
@@ -386,36 +388,64 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+                    <form method="POST" action="<?php echo e(route('login')); ?>">
+                        <?php echo csrf_field(); ?>
                         <div class="mb-3">
-                            <label for="email" class="form-label">{{ __('Email Address') }}<i class="text-danger">*</i></label>
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                            @error('email')
+                            <label for="email" class="form-label"><?php echo e(__('Email Address')); ?><i class="text-danger">*</i></label>
+                            <input id="email" type="email" class="form-control <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="email" value="<?php echo e(old('email')); ?>" required autocomplete="email" autofocus>
+                            <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong><?php echo e($message); ?></strong>
                                 </span>
-                            @enderror
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
                         <div class="mb-3">
-                            <label for="password" class="form-label">{{ __('Password') }} <i class="text-danger">*</i></label>
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-                            @error('password')
+                            <label for="password" class="form-label"><?php echo e(__('Password')); ?> <i class="text-danger">*</i></label>
+                            <input id="password" type="password" class="form-control <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="password" required autocomplete="current-password">
+                            <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong><?php echo e($message); ?></strong>
                                 </span>
-                            @enderror
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                            <label class="form-check-label" for="remember">{{ __('Remember Me') }}</label>
+                            <input class="form-check-input" type="checkbox" name="remember" id="remember" <?php echo e(old('remember') ? 'checked' : ''); ?>>
+                            <label class="form-check-label" for="remember"><?php echo e(__('Remember Me')); ?></label>
                         </div>
-                        @if (Route::has('password.request'))
+                        <?php if(Route::has('password.request')): ?>
                             <div>
-                                <a class="btn btn-link" href="{{ route('password.request') }}">{{ __('Forgot Your Password?') }}</a>
+                                <a class="btn btn-link" href="<?php echo e(route('password.request')); ?>"><?php echo e(__('Forgot Your Password?')); ?></a>
                             </div>
-                        @endif
-                        <button type="submit" class="btn btn-primary w-100 mt-4 mb-3">{{ __('Login') }}</button>
+                        <?php endif; ?>
+                        <button type="submit" class="btn btn-primary w-100 mt-4 mb-3"><?php echo e(__('Login')); ?></button>
                     </form>
                     <div class="text-center mt-1">
                         <div class="d-flex align-items-center justify-content-center mb-1">
@@ -435,27 +465,27 @@
         </div>
     </div>
     <!-- End Login Modal -->
-    @if ($errors->has('email') || $errors->has('password'))
+    <?php if($errors->has('email') || $errors->has('password')): ?>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
             var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
             loginModal.show();
             });
         </script>
-    @endif
+    <?php endif; ?>
 
 
 <!-- categories view -->
 <div class="container shopping-titles mt-4 mb-3" style="width: 80%;">
     <div class="row mt-5 row-cols-2 row-cols-md-3 row-cols-lg-6 g-2">
-        @foreach ($categories as $category)
+        <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="col text-center category-circle">
-            <a href="{{ route('user_products', ['category' => $category->parent_category]) }}">
-                <img src="{{ asset('storage/category_images/' . $category->image) }}" alt="{{ $category->parent_category }}" class="rounded-circle">
-                <p class="mt-2">{{ $category->parent_category }}</p>
+            <a href="<?php echo e(route('user_products', ['category' => $category->parent_category])); ?>">
+                <img src="<?php echo e(asset('storage/category_images/' . $category->image)); ?>" alt="<?php echo e($category->parent_category); ?>" class="rounded-circle">
+                <p class="mt-2"><?php echo e($category->parent_category); ?></p>
             </a>
             </div>
-        @endforeach
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </div>
 </div>
 
@@ -466,26 +496,26 @@
 
 <!-- Special Offers -->
 <div class="container mt-5 mb-4 special-offers" style="width:76%;">
-    <a href="{{ route('special_offerproducts') }}" style="text-decoration: none; color:black;"><h4>Special Offers</h4></a>
+    <a href="<?php echo e(route('special_offerproducts')); ?>" style="text-decoration: none; color:black;"><h4>Special Offers</h4></a>
     <div class="row justify-content-between">
-        @foreach ($specialOffers as $offer)
+        <?php $__currentLoopData = $specialOffers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $offer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="col-md-2 col-sm-5 col-6 mb-2">
                 <div class="special-offer-item mb-2">
-                    <a href="{{ route('single_product_page', ['product_id' => $offer->product_id]) }}">
-                        @if ($offer->product->images->isNotEmpty())
-                            <img src="{{ asset('storage/' . $offer->product->images->first()->image_path) }}" class="card-img-top" alt="{{ $offer->product->product_name }}"/>
-                        @else
+                    <a href="<?php echo e(route('single_product_page', ['product_id' => $offer->product_id])); ?>">
+                        <?php if($offer->product->images->isNotEmpty()): ?>
+                            <img src="<?php echo e(asset('storage/' . $offer->product->images->first()->image_path)); ?>" class="card-img-top" alt="<?php echo e($offer->product->product_name); ?>"/>
+                        <?php else: ?>
                             <img src="" class="card-img-top" alt="Default Image"/>
-                        @endif
+                        <?php endif; ?>
                         <div class="card-body">
-                            <h5>{{ $offer->product->product_name }}</h5>
-                            <div class="price">Rs.{{ number_format($offer->offer_price, 2) }} <s style="font-size:12px; color: #989595; font-weight:500">Rs.{{ number_format($offer->normal_price, 2) }}</s></div>
-                            <div class="discount">{{ $offer->offer_rate }}% off</div>
+                            <h5><?php echo e($offer->product->product_name); ?></h5>
+                            <div class="price">Rs.<?php echo e(number_format($offer->offer_price, 2)); ?> <s style="font-size:12px; color: #989595; font-weight:500">Rs.<?php echo e(number_format($offer->normal_price, 2)); ?></s></div>
+                            <div class="discount"><?php echo e($offer->offer_rate); ?>% off</div>
                         </div>
                     </a>
                 </div>
             </div>
-        @endforeach
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </div>
 </div>
 
@@ -495,34 +525,34 @@
 <div class="container mt-5 flash-sale" style="width:76%; background: linear-gradient(to top, #f0f0f0, #ffffff);">
     <h4><i class="fas fa-bolt" style="color: #FFD43B;"></i> Flash Sale</h4>
     <div class="row mt-3" id="product-list">
-            @foreach ($flashSales as $sale)
+            <?php $__currentLoopData = $flashSales; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sale): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <div class="col-6 col-sm-4 col-md-2 col-lg- mb-3">
                         <div class="sale-item position-relative">
-                            <a href="{{ route('single_product_page', ['product_id' => $sale->product->product_id]) }}" class="d-block text-decoration-none">
+                            <a href="<?php echo e(route('single_product_page', ['product_id' => $sale->product->product_id])); ?>" class="d-block text-decoration-none">
                                 <div class="sale-image-wrapper position-relative">
-                                    @if ($sale->product->images->isNotEmpty())
-                                        <img src="{{ asset('storage/' . $sale->product->images->first()->image_path) }}" alt="Product Image" class="img-fluid">
-                                    @else
-                                        <img src="{{ asset('storage/default-image.jpg') }}" alt="Default Image" class="img-fluid">
-                                    @endif
+                                    <?php if($sale->product->images->isNotEmpty()): ?>
+                                        <img src="<?php echo e(asset('storage/' . $sale->product->images->first()->image_path)); ?>" alt="Product Image" class="img-fluid">
+                                    <?php else: ?>
+                                        <img src="<?php echo e(asset('storage/default-image.jpg')); ?>" alt="Default Image" class="img-fluid">
+                                    <?php endif; ?>
 
                                     <!-- Flash Sale Icon -->
                                     <div class="flash-sale-icon position-absolute top-0 start-0 m-0 my-1">
                                         <span style="background-color: #FFD43B; color: black; padding: 5px; border-radius:none">
-                                            <i class="fas fa-bolt"></i> {{ floor($sale->sale_rate) }}% 
+                                            <i class="fas fa-bolt"></i> <?php echo e(floor($sale->sale_rate)); ?>% 
                                         </span>
                                     </div>
                                 </div>
-                                <h6 class="product-name">{{ \Illuminate\Support\Str::limit($sale->product->product_name, 20, '...') }}</h6>
+                                <h6 class="product-name"><?php echo e(\Illuminate\Support\Str::limit($sale->product->product_name, 20, '...')); ?></h6>
                                 <div class="price">
-                                    <span class="offer-price">Rs. {{ number_format($sale->sale_price, 2) }}</span><br>
-                                    <s style="font-size: 14px; color: #989595; font-weight:500">Rs. {{ number_format($sale->normal_price, 2) }}</s>
+                                    <span class="offer-price">Rs. <?php echo e(number_format($sale->sale_price, 2)); ?></span><br>
+                                    <s style="font-size: 14px; color: #989595; font-weight:500">Rs. <?php echo e(number_format($sale->normal_price, 2)); ?></s>
                                 </div>
                             </a>
                         </div>
                     </div>
 
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
 </div>
 
@@ -590,7 +620,7 @@
             // Check if the query length is more than 2 characters
             if (query.length > 2) {
                 $.ajax({
-                    url: "{{ route('searchProducts') }}", // Route to handle search
+                    url: "<?php echo e(route('searchProducts')); ?>", // Route to handle search
                     type: "GET",
                     data: { search: query },
                     success: function(data) {
@@ -648,4 +678,6 @@
 
 
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\esupport_systems\online-marketing\resources\views/home.blade.php ENDPATH**/ ?>

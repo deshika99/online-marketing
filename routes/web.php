@@ -31,7 +31,7 @@ use App\Http\Controllers\FrontendTemplateController;
 
 use Illuminate\Http\Request;     //contact form
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 
 

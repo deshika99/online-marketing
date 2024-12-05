@@ -129,7 +129,7 @@
             <div class="row">
                 <!-- Logo Section -->
                 <div class="col-md-4 d-flex justify-content-center justify-content-md-start align-items-center mb-md-0">
-                    <a href="{{ url('/') }}" class="d-flex align-items-center" style="text-decoration: none">
+                    <a href="<?php echo e(url('/')); ?>" class="d-flex align-items-center" style="text-decoration: none">
                         <div class="navbar-brand">
                             <img src="/assets/images/logo.png" height="60" width="40" alt="Logo" />
                         </div>
@@ -163,8 +163,8 @@
                                 <i class="fas fa-bars"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                                <li><a class="dropdown-item" href="{{ route('all_items') }}">All Items</a></li>
-                                <li><a class="dropdown-item" href="{{ route('helpcenter') }}">Help Center</a></li>
+                                <li><a class="dropdown-item" href="<?php echo e(route('all_items')); ?>">All Items</a></li>
+                                <li><a class="dropdown-item" href="<?php echo e(route('helpcenter')); ?>">Help Center</a></li>
                             </ul>
                         </div>
 
@@ -172,7 +172,7 @@
                         <span class="me-3">|</span>
 
                         <!-- Shopping Cart -->
-                        <a class="text-reset me-5" href="{{ route('shopping_cart') }}" style="position: relative;">
+                        <a class="text-reset me-5" href="<?php echo e(route('shopping_cart')); ?>" style="position: relative;">
                             <span style="font-size: 19px; position: relative;">
                                 <i class="fas fa-shopping-cart"></i>
                             </span>
@@ -181,42 +181,44 @@
                         </a>
 
                         <!-- User Authentication Links -->
-                        @guest
-                        @if (Route::has('login'))
+                        <?php if(auth()->guard()->guest()): ?>
+                        <?php if(Route::has('login')): ?>
                             <a class="text-reset me-3" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
                                 <div style="font-weight:500">LOGIN</div>
-                                @if (Route::has('register'))
-                                    <a class="signup-btn p-2" href="{{ route('register') }}" style="">SIGN UP</a>
-                                @endif
+                                <?php if(Route::has('register')): ?>
+                                    <a class="signup-btn p-2" href="<?php echo e(route('register')); ?>" style="">SIGN UP</a>
+                                <?php endif; ?>
                             </a>
-                        @endif
+                        <?php endif; ?>
 
-                        @else
+                        <?php else: ?>
                             <div class="dropdown me-3">
                                 <a id="navbarDropdown" class="text-reset dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     <div class="icon-circle">
 
-                                        @if (Auth::user()->profile_image)
+                                        <?php if(Auth::user()->profile_image): ?>
 
-                                            <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;" class="profile_image">
-                                        @else
-                                            <span style="font-size: 17px;">{{ Auth::user()->name[0] }}</span>
-                                       
+                                            <img src="<?php echo e(asset('storage/' . Auth::user()->profile_image)); ?>" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;" class="profile_image">
+                                        <?php else: ?>
+                                            <span style="font-size: 17px;"><?php echo e(Auth::user()->name[0]); ?></span>
+                                        <?php endif; ?>
                                     </div>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('dashboard') }}" style="font-size: 15px;">
-                                        {{ __('My Profile') }}
+                                    <a class="dropdown-item" href="<?php echo e(route('dashboard')); ?>" style="font-size: 15px;">
+                                        <?php echo e(__('My Profile')); ?>
+
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="font-size: 15px;">
-                                        {{ __('Logout') }}
+                                    <a class="dropdown-item" href="<?php echo e(route('logout')); ?>" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="font-size: 15px;">
+                                        <?php echo e(__('Logout')); ?>
+
                                     </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
+                                    <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" class="d-none">
+                                        <?php echo csrf_field(); ?>
                                     </form>
                                 </div>
                             </div>
-                        @endguest
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -236,34 +238,36 @@
                     <i class="fas fa-bars me-2"></i> All Categories
                 </div>
                 <div class="dropdown-menu">
-                    @foreach ($categories as $category)
+                    <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="dropdown-item dropdown-submenu">
-                            <a href="{{ route('user_products', ['category' => $category->parent_category]) }}">
-                                <img src="{{ asset('storage/category_images/' . $category->image) }}" alt="{{ $category->parent_category }} icon" class="category-icon">
-                                {{ $category->parent_category }}
+                            <a href="<?php echo e(route('user_products', ['category' => $category->parent_category])); ?>">
+                                <img src="<?php echo e(asset('storage/category_images/' . $category->image)); ?>" alt="<?php echo e($category->parent_category); ?> icon" class="category-icon">
+                                <?php echo e($category->parent_category); ?>
+
                             </a>
-                            @if ($category->subcategories->isNotEmpty()) 
+                            <?php if($category->subcategories->isNotEmpty()): ?> 
 
                                 <div class="dropdown-menu multi-column">
-                                    @foreach ($category->subcategories as $subcategory)
+                                    <?php $__currentLoopData = $category->subcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="dropdown-column">
-                                            <a href="{{ route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory]) }}">
+                                            <a href="<?php echo e(route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory])); ?>">
 
-                                                <strong style="font-size:16px;">{{ $subcategory->subcategory }}</strong>
+                                                <strong style="font-size:16px;"><?php echo e($subcategory->subcategory); ?></strong>
                                             </a>
-                                            @if ($subcategory->subSubcategories->isNotEmpty()) 
-                                                @foreach ($subcategory->subSubcategories as $subSubcategory)
-                                                    <a href="{{ route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory, 'subsubcategory' => $subSubcategory->sub_subcategory]) }}">
-                                                        {{ $subSubcategory->sub_subcategory }}
+                                            <?php if($subcategory->subSubcategories->isNotEmpty()): ?> 
+                                                <?php $__currentLoopData = $subcategory->subSubcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subSubcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <a href="<?php echo e(route('user_products', ['category' => $category->parent_category, 'subcategory' => $subcategory->subcategory, 'subsubcategory' => $subSubcategory->sub_subcategory])); ?>">
+                                                        <?php echo e($subSubcategory->sub_subcategory); ?>
+
                                                     </a>
-                                                @endforeach
-                                            @endif
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            <?php endif; ?>
                                         </div>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
-                            @endif
+                            <?php endif; ?>
                         </div>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                 </div>
             </div>
@@ -272,10 +276,10 @@
 
             <div class="d-flex ms-4 d-none d-md-flex otherlinks" style="font-size:15px;">
 
-                <a href="{{ route('all_items') }}" class="mx-3">All Items</a>
-                <a href="{{ route('special_offerproducts') }}" class="mx-3">Special Offers</a>
-                <a href="{{ route('sale_products') }}" class="mx-3">Flash Sale</a>
-                <a href="{{ route('best_sellers') }}" class="mx-3">Bestsellers</a>
+                <a href="<?php echo e(route('all_items')); ?>" class="mx-3">All Items</a>
+                <a href="<?php echo e(route('special_offerproducts')); ?>" class="mx-3">Special Offers</a>
+                <a href="<?php echo e(route('sale_products')); ?>" class="mx-3">Flash Sale</a>
+                <a href="<?php echo e(route('best_sellers')); ?>" class="mx-3">Bestsellers</a>
 
             </div>
 
@@ -286,10 +290,10 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="otherLinksDropdown">
 
-                    <li><a class="dropdown-item" href="{{ route('all_items') }}">All Items</a></li>
-                    <li><a class="dropdown-item" href="{{ route('special_offerproducts') }}">Special Offers</a></li>
-                    <li><a class="dropdown-item" href="{{ route('sale_products') }}">Flash Sale</a></li>
-                    <li><a class="dropdown-item" href="{{ route('best_sellers') }}">Bestsellers</a></li>
+                    <li><a class="dropdown-item" href="<?php echo e(route('all_items')); ?>">All Items</a></li>
+                    <li><a class="dropdown-item" href="<?php echo e(route('special_offerproducts')); ?>">Special Offers</a></li>
+                    <li><a class="dropdown-item" href="<?php echo e(route('sale_products')); ?>">Flash Sale</a></li>
+                    <li><a class="dropdown-item" href="<?php echo e(route('best_sellers')); ?>">Bestsellers</a></li>
 
                 </ul>
             </div>
@@ -316,41 +320,69 @@
             </div>
             <!-- Modal Body -->
             <div class="modal-body">
-                <form method="POST" action="{{ route('login') }}">
-                    @csrf
+                <form method="POST" action="<?php echo e(route('login')); ?>">
+                    <?php echo csrf_field(); ?>
                     <!-- Email Field -->
                     <div class="mb-3">
-                        <label for="email" class="form-label">{{ __('Email Address') }}<i class="text-danger">*</i></label>
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                        @error('email')
+                        <label for="email" class="form-label"><?php echo e(__('Email Address')); ?><i class="text-danger">*</i></label>
+                        <input id="email" type="email" class="form-control <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="email" value="<?php echo e(old('email')); ?>" required autocomplete="email" autofocus>
+                        <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                             <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
+                                <strong><?php echo e($message); ?></strong>
                             </span>
-                        @enderror
+                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                     </div>
                     <!-- Password Field -->
                     <div class="mb-3">
-                        <label for="password" class="form-label">{{ __('Password') }} <i class="text-danger">*</i></label>
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-                        @error('password')
+                        <label for="password" class="form-label"><?php echo e(__('Password')); ?> <i class="text-danger">*</i></label>
+                        <input id="password" type="password" class="form-control <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="password" required autocomplete="current-password">
+                        <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                             <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
+                                <strong><?php echo e($message); ?></strong>
                             </span>
-                        @enderror
+                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                     </div>
                     <!-- Remember Me Checkbox -->
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                        <label class="form-check-label" for="remember">{{ __('Remember Me') }}</label>
+                        <input class="form-check-input" type="checkbox" name="remember" id="remember" <?php echo e(old('remember') ? 'checked' : ''); ?>>
+                        <label class="form-check-label" for="remember"><?php echo e(__('Remember Me')); ?></label>
                     </div>
                     <!-- Forgot Password Link -->
-                    @if (Route::has('password.request'))
+                    <?php if(Route::has('password.request')): ?>
                         <div>
-                            <a class="btn btn-link" href="{{ route('password.request') }}">{{ __('Forgot Your Password?') }}</a>
+                            <a class="btn btn-link" href="<?php echo e(route('password.request')); ?>"><?php echo e(__('Forgot Your Password?')); ?></a>
                         </div>
-                    @endif
+                    <?php endif; ?>
                     <!-- Submit Button -->
-                    <button type="submit" class="btn btn-primary w-100 mt-4 mb-3">{{ __('Login') }}</button>
+                    <button type="submit" class="btn btn-primary w-100 mt-4 mb-3"><?php echo e(__('Login')); ?></button>
                 </form>
                 <!-- Social Login Options -->
                 <div class="text-center mt-1">
@@ -373,7 +405,7 @@
 <!-- End Login Modal -->
 
 <!-- Show Login Modal if Errors Exist -->
-@if ($errors->has('email') || $errors->has('password'))
+<?php if($errors->has('email') || $errors->has('password')): ?>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
@@ -381,7 +413,7 @@
 
         });
     </script>
-@endif
+<?php endif; ?>
 
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -416,7 +448,7 @@
             if (query.length > 2) {
 
                 $.ajax({
-                    url: "{{ route('searchProducts') }}", // Route to handle search
+                    url: "<?php echo e(route('searchProducts')); ?>", // Route to handle search
                     type: "GET",
                     data: { search: query },
                     success: function(data) {
@@ -478,3 +510,4 @@
    
     
 
+<?php /**PATH C:\xampp\htdocs\esupport_systems\online-marketing\resources\views/includes/navbar.blade.php ENDPATH**/ ?>
