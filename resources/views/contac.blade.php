@@ -3,8 +3,6 @@
 @section('content')
 
 <style>
-    /* Main Section Styles */
-    /* From Uiverse.io by vamsidevendrakumar */
     .contact-card {
         width: 300px;
         height: 200px;
@@ -41,7 +39,6 @@
         justify-content: center;
         font-size: 24px;
         transform: rotateY(0deg);
-        /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
     }
 
     .card-back {
@@ -90,8 +87,7 @@
         justify-content: center;
         gap: 30px;
         margin-top: 20px;
-        flex-wrap: wrap;
-        /* Screen size smaller, items stack in multiple rows */
+        flex-wrap: wrap;        
     }
 
     .contact-item {
@@ -203,16 +199,6 @@
         padding-left: 5px;
         padding-right: 5px;
     }
-
-    /* .contact-form input,
-    .contact-form textarea {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        font-size: 1rem;
-    } */
-
     .contact-form button {
         font-family: inherit;
         font-size: 16px;
@@ -323,11 +309,11 @@
         <!-- Contact Form Section -->
         <div class="col-md-5 contact-form">
             <h3>Send Us a Message</h3>
-            <form action="{{ route('contact.submit') }}" method="POST">
+            <form novalidate=""  id="contactform" action="{{ route('contactus') }}" method="POST">
                 @csrf
                 <div class="form-group">
-                    <input type="text" name="name" class="input" required>
-                    <label for="name">Name</label>
+                    <input type="text" name="author" class="input" required>
+                    <label for="author">Name</label>
                 </div>
                 <div class="form-group">
                     <input type="email" name="email" required>

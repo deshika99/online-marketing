@@ -227,6 +227,7 @@ Route::post('/affiliate/dashboard/payment/realtime_tracking', [AffiliateReportCo
 //admin dashboard
 use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\ContactFormController;
 use App\Http\Middleware\AdminAuth;
 
 
@@ -341,20 +342,14 @@ Route::get('/about', function () {
 
 
 //contac
-Route::get('/contac', function () {
+Route::get('/contact-us', function () {
     return view('contac');
 })->name('contac');
 
 
 //contact form
 
-Route::post('/contact-submit', function (Request $request) {
-    // Form handling logic here (e.g., saving to database or sending email)
-    // Example:
-    // Mail::to('admin@example.com')->send(new ContactFormMail($request->all()));
-
-    return back()->with('success', 'Thank you for contacting us!');
-})->name('contact.submit');
+Route::post('/contact-us', [ContactFormController::class, 'send_contact_mail'])->name('contactus');
 
 //customer-inquiry
 //about
