@@ -1,6 +1,4 @@
-@extends ('frontend.master')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <style>
     .feature-description {
         display: none;
@@ -26,11 +24,10 @@
         <div class="page-title-content">
             <h2>About Us</h2>
             <ul>
-                <li><a href="{{route('home')}}">Home</a></li>
+                <li><a href="<?php echo e(route('home')); ?>">Home</a></li>
                 <li>About Us</li>
             </ul>
         </div>
-
     </div>
 </div>
 <!-- End Page Title -->
@@ -38,12 +35,11 @@
 <!-- Start About Area -->
 <section class="about-area ptb-100">
     <div class="container">
-        <div class="row align-items-center justify-content-center" style="margin-bottom: 4vh;">
+        <div class="row align-items-center justify-content-center" style="margin-bottom: 6vh;">
             <div class="col-lg-6 col-md-12">
                 <div class="about-image">
                     <img src="frontend/assets/img/about-img.png" class="shadow" alt="image">
                     <img src="frontend/assets/img/about-img-2.png" class="shadow" alt="image">
-
                 </div>
             </div>
 
@@ -72,7 +68,6 @@
                 <h3 style="margin-top: 10px;">Free Shipping Worldwide</h3>
             </div>
 
-
             <div class="single-facility-box">
                 <div class="icon">
                     <i class='flaticon-return'></i>
@@ -86,7 +81,6 @@
                 </div>
                 <h3 style="margin-top: 10px;">7 Day Exchange Policy</h3>
             </div>
-
 
             <div class="single-facility-box">
                 <div class="icon">
@@ -218,4 +212,5 @@
 
 
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('frontend.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\chint\OneDrive\Documents\GitHub\online-marketing\resources\views/frontend/About-us.blade.php ENDPATH**/ ?>
