@@ -1319,7 +1319,7 @@ Main Banner CSS
 }
 
 .banner-bg1 {
-  background-image: url(../../assets/img/main-banner1.jpg);
+  background-image: url(../../assets/img/main-banner1.png);
 }
 
 .banner-bg2 {
@@ -4737,12 +4737,12 @@ Blog Details CSS
   background-color: transparent;
 }
 .blog-details-desc .article-footer .article-share .social li a.instagram {
-  background-color: #c13584;
-  border-color: #c13584;
+  background-color: hsl(251, 92%, 45%);
+  border-color: hsl(251, 92%, 45%);
   color: #ffffff;
 }
 .blog-details-desc .article-footer .article-share .social li a.instagram:hover, .blog-details-desc .article-footer .article-share .social li a.instagram:focus {
-  color: #c13584;
+  color: hsl(251, 92%, 45%);
   background-color: transparent;
 }
 .blog-details-desc .article-author {
