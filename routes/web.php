@@ -402,3 +402,15 @@ Route::get('/signup', function () {
 Route::get('/track-order', function () {
     return view('frontend.track-order');
 })->name('track-order');
+
+Route::get('/all-items', function () {
+    return view('frontend.all-items');
+})->name('all-items');
+
+Route::get('/best-seller', function () {
+    return view('frontend.best-seller');
+})->name('best-seller');
+
+Route::get('/special-offers', function () {
+    return view('frontend.special-offers');
+})->name('special-offers');

@@ -22,7 +22,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="about-image">
                             <img src="frontend/assets/img/about/img1.jpg" class="shadow" alt="image">
-                            <img src="frontend/assets/img/about/img2.jpg" class="shadow" alt="image">
+                            <img src="frontend/assets/img/about/img2.jpg" class="shadow" alt="image" style="height: 330px;width:300px;">
                         </div>
                     </div>
 
@@ -30,7 +30,7 @@
                         <div class="about-content">
                             <span class="sub-title">About Us</span>
                             <h2>OMC Trusted Online Shopping Site in the World</h2>
-                            <h6>Xton.com offers you flexible and responsive shopping experience.</h6>
+                            <h6>omarketingcomplex.com offers you flexible and responsive shopping experience.</h6>
                             <p><strong>OMC</strong> is an eCommerce website which features millions of products, i.e. clothes, shoes, bags, electronic items and much more, with all at incredible prices.</p>
                             <p>One of the most popular on the web is shopping. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 
@@ -254,78 +254,6 @@
         </section>
         <!-- End Facility Area -->
 
-        <!-- Start Instagram Area -->
-        <div class="instagram-area">
-            <div class="container-fluid">
-                <div class="instagram-title">
-                    <a href="#" target="_blank"><i class='bx bxl-instagram'></i> Follow us on @xton</a>
-                </div>
-
-                <div class="instagram-slides owl-carousel owl-theme">
-                    <div class="single-instagram-post">
-                        <img src="frontend/assets/img/instagram/img1.jpg" alt="image">
-                        <i class='bx bxl-instagram'></i>
-                        <a href="https://www.instagram.com/" target="_blank" class="link-btn"></a>
-                    </div>
-
-                    <div class="single-instagram-post">
-                        <img src="frontend/assets/img/instagram/img2.jpg" alt="image">
-                        <i class='bx bxl-instagram'></i>
-                        <a href="https://www.instagram.com/" target="_blank" class="link-btn"></a>
-                    </div>
-
-                    <div class="single-instagram-post">
-                        <img src="frontend/assets/img/instagram/img3.jpg" alt="image">
-                        <i class='bx bxl-instagram'></i>
-                        <a href="https://www.instagram.com/" target="_blank" class="link-btn"></a>
-                    </div>
-                    
-                    <div class="single-instagram-post">
-                        <img src="frontend/assets/img/instagram/img4.jpg" alt="image">
-                        <i class='bx bxl-instagram'></i>
-                        <a href="https://www.instagram.com/" target="_blank" class="link-btn"></a>
-                    </div>
-                    
-                    <div class="single-instagram-post">
-                        <img src="frontend/assets/img/instagram/img10.jpg" alt="image">
-                        <i class='bx bxl-instagram'></i>
-                        <a href="https://www.instagram.com/" target="_blank" class="link-btn"></a>
-                    </div>
-                    
-                    <div class="single-instagram-post">
-                        <img src="frontend/assets/img/instagram/img6.jpg" alt="image">
-                        <i class='bx bxl-instagram'></i>
-                        <a href="https://www.instagram.com/" target="_blank" class="link-btn"></a>
-                    </div>
-                    
-                    <div class="single-instagram-post">
-                        <img src="frontend/assets/img/instagram/img7.jpg" alt="image">
-                        <i class='bx bxl-instagram'></i>
-                        <a href="https://www.instagram.com/" target="_blank" class="link-btn"></a>
-                    </div>
-                    
-                    <div class="single-instagram-post">
-                        <img src="frontend/assets/img/instagram/img8.jpg" alt="image">
-                        <i class='bx bxl-instagram'></i>
-                        <a href="https://www.instagram.com/" target="_blank" class="link-btn"></a>
-                    </div>
-                    
-                    <div class="single-instagram-post">
-                        <img src="frontend/assets/img/instagram/img9.jpg" alt="image">
-                        <i class='bx bxl-instagram'></i>
-                        <a href="https://www.instagram.com/" target="_blank" class="link-btn"></a>
-                    </div>
-                    
-                    <div class="single-instagram-post">
-                        <img src="frontend/assets/img/instagram/img5.jpg" alt="image">
-                        <i class='bx bxl-instagram'></i>
-                        <a href="https://www.instagram.com/" target="_blank" class="link-btn"></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Instagram Area -->
-
         <!-- Start Sidebar Modal -->
         <div class="modal right fade sidebarModal" id="sidebarModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -342,9 +270,9 @@
                                 <p>One of the most popular on the web is shopping. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                                 
                                 <ul class="sidebar-contact-info">
-                                    <li><i class='bx bx-map'></i> <a href="#" target="_blank">Wonder Street, USA, New York</a></li>
-                                    <li><i class='bx bx-phone-call'></i> <a href="tel:+01321654214">+01 321 654 214</a></li>
-                                    <li><i class='bx bx-envelope'></i> <a href="mailto:hello@xton.com">hello@xton.com</a></li>
+                                    <li><i class='bx bx-map'></i> <a href="#" target="_blank">No 425/2, Parakum Place, Kaduruwela, Polannaruwa.</a></li>
+                                    <li><i class='bx bx-phone-call'></i> <a href="tel:075 833 7141">075 833 7141</a></li>
+                                    <li><i class='bx bx-envelope'></i> <a href="mailto:omarketingcomplex@gmail.com">omarketingcomplex@gmail.com</a></li>
                                 </ul>
                             </div>
 
