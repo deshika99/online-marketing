@@ -43,7 +43,7 @@
                     <div class="d-table-cell">
                         <div class="container">
                             <div class="main-banner-content">
-                                <span class="sub-title">Buy Now From Xton!</span>
+                                <span class="sub-title">Buy Now From OMC!</span>
                                 <h1>New Season Canvas</h1>
                                 <p>Take 20% Off ‘Sale Must-Haves'</p>
                                 <div class="btn-box">
@@ -178,7 +178,7 @@
                                     <i class='bx bxs-star'></i>
                                     <i class='bx bxs-star'></i>
                                 </div>
-                                <a href="cart.html" class="add-to-cart">Add to Cart</a>
+                                <a href="/cart" class="add-to-cart">Add to Cart</a>
                             </div>
                         </div>
                     </div>
@@ -236,7 +236,7 @@
                                     <i class='bx bxs-star'></i>
                                     <i class='bx bxs-star'></i>
                                 </div>
-                                <a href="cart.html" class="add-to-cart">Add to Cart</a>
+                                <a href="/cart" class="add-to-cart">Add to Cart</a>
                             </div>
                         </div>
                     </div>
@@ -292,7 +292,7 @@
                                     <i class='bx bxs-star'></i>
                                     <i class='bx bxs-star'></i>
                                 </div>
-                                <a href="cart.html" class="add-to-cart">Add to Cart</a>
+                                <a href="/cart" class="add-to-cart">Add to Cart</a>
                             </div>
                         </div>
                     </div>
@@ -347,7 +347,7 @@
                                     <i class='bx bxs-star'></i>
                                     <i class='bx bxs-star'></i>
                                 </div>
-                                <a href="cart.html" class="add-to-cart">Add to Cart</a>
+                                <a href="/cart" class="add-to-cart">Add to Cart</a>
                             </div>
                         </div>
                     </div>
@@ -402,7 +402,7 @@
                                     <i class='bx bxs-star'></i>
                                     <i class='bx bxs-star'></i>
                                 </div>
-                                <a href="cart.html" class="add-to-cart">Add to Cart</a>
+                                <a href="/cart" class="add-to-cart">Add to Cart</a>
                             </div>
                         </div>
                     </div>
@@ -460,7 +460,7 @@
                                     <i class='bx bxs-star'></i>
                                     <i class='bx bxs-star'></i>
                                 </div>
-                                <a href="cart.html" class="add-to-cart">Add to Cart</a>
+                                <a href="/cart" class="add-to-cart">Add to Cart</a>
                             </div>
                         </div>
                     </div>
@@ -1351,78 +1351,6 @@
         </section>
         <!-- End Blog Area -->
 
-        <!-- Start Instagram Area -->
-        <div class="instagram-area">
-            <div class="container-fluid">
-                <div class="instagram-title">
-                    <a href="#" target="_blank"><i class='bx bxl-instagram'></i> Follow us on @xton</a>
-                </div>
-
-                <div class="instagram-slides owl-carousel owl-theme">
-                    <div class="single-instagram-post">
-                        <img src="frontend/assets/img/instagram/img1.jpg" alt="image">
-                        <i class='bx bxl-instagram'></i>
-                        <a href="https://www.instagram.com/" target="_blank" class="link-btn"></a>
-                    </div>
-
-                    <div class="single-instagram-post">
-                        <img src="frontend/assets/img/instagram/img2.jpg" alt="image">
-                        <i class='bx bxl-instagram'></i>
-                        <a href="https://www.instagram.com/" target="_blank" class="link-btn"></a>
-                    </div>
-
-                    <div class="single-instagram-post">
-                        <img src="frontend/assets/img/instagram/img3.jpg" alt="image">
-                        <i class='bx bxl-instagram'></i>
-                        <a href="https://www.instagram.com/" target="_blank" class="link-btn"></a>
-                    </div>
-                    
-                    <div class="single-instagram-post">
-                        <img src="frontend/assets/img/instagram/img4.jpg" alt="image">
-                        <i class='bx bxl-instagram'></i>
-                        <a href="https://www.instagram.com/" target="_blank" class="link-btn"></a>
-                    </div>
-                    
-                    <div class="single-instagram-post">
-                        <img src="frontend/assets/img/instagram/img10.jpg" alt="image">
-                        <i class='bx bxl-instagram'></i>
-                        <a href="https://www.instagram.com/" target="_blank" class="link-btn"></a>
-                    </div>
-                    
-                    <div class="single-instagram-post">
-                        <img src="assets/img/instagram/img6.jpg" alt="image">
-                        <i class='bx bxl-instagram'></i>
-                        <a href="https://www.instagram.com/" target="_blank" class="link-btn"></a>
-                    </div>
-                    
-                    <div class="single-instagram-post">
-                        <img src="frontend/assets/img/instagram/img7.jpg" alt="image">
-                        <i class='bx bxl-instagram'></i>
-                        <a href="https://www.instagram.com/" target="_blank" class="link-btn"></a>
-                    </div>
-                    
-                    <div class="single-instagram-post">
-                        <img src="frontend/assets/img/instagram/img8.jpg" alt="image">
-                        <i class='bx bxl-instagram'></i>
-                        <a href="https://www.instagram.com/" target="_blank" class="link-btn"></a>
-                    </div>
-                    
-                    <div class="single-instagram-post">
-                        <img src="frontend/assets/img/instagram/img9.jpg" alt="image">
-                        <i class='bx bxl-instagram'></i>
-                        <a href="https://www.instagram.com/" target="_blank" class="link-btn"></a>
-                    </div>
-                    
-                    <div class="single-instagram-post">
-                        <img src="frontend/assets/img/instagram/img5.jpg" alt="image">
-                        <i class='bx bxl-instagram'></i>
-                        <a href="https://www.instagram.com/" target="_blank" class="link-btn"></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Instagram Area -->
-
         <!-- Start Sidebar Modal -->
         <div class="modal right fade sidebarModal" id="sidebarModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -1639,8 +1567,8 @@
                         </div>
 
                         <div class="products-cart-btn">
-                            <a href="#" class="default-btn">Proceed to Checkout</a>
-                            <a href="#" class="optional-btn">View Shopping Cart</a>
+                            <a href="/checkout" class="default-btn">Proceed to Checkout</a>
+                            <a href="/cart" class="optional-btn">View Shopping Cart</a>
                         </div>
                     </div>
                 </div>
