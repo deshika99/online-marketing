@@ -68,13 +68,13 @@
                         <li class="nav-item"><a href="/About-us" class="nav-link ">About us </a>
                         </li>
 
-                        <li class="nav-item"><a href="#" class="nav-link">All items </a>
+                        <li class="nav-item"><a href="/all-items" class="nav-link">All items </a>
                         </li>
 
-                        <li class="nav-item "><a href="#" class="nav-link">Special offers </a>
+                        <li class="nav-item "><a href="/special-offers" class="nav-link">Special offers </a>
                         </li>
 
-                        <li class="nav-item "><a href="#" class="nav-link">Best sellers </a>
+                        <li class="nav-item "><a href="/best-seller" class="nav-link">Best sellers </a>
                             
                         </li>
 
