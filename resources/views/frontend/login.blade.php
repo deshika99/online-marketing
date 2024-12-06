@@ -24,13 +24,20 @@
                         <div class="login-content">
                             <h2>Login</h2>
 
-                            <form class="login-form">
+                            <form class="login-form" method="POST" action="{{ route('login') }}">
+                            @csrf
                                 <div class="form-group">
-                                    <input type="email" class="form-control" placeholder="Username or email address">
+                                    <input type="email" class="form-control" name="email" placeholder="Username or email address">      
+                                    @error('email')
+                                          <span class="text-danger">{{ $message }}</span>
+                                    @enderror                            
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="Password">
+                                    <input type="password" class="form-control" name="password" placeholder="Password">
+                                    @error('password')
+                                         <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <button type="submit" class="default-btn">Login</button>
@@ -46,7 +53,7 @@
 
                             <span>Create A Account</span>
                             <p>Sign up for a free account at our store. Registration is quick and easy. It allows you to be able to order from our shop. To start shopping click register.</p>
-                            <a href="/signup" class="optional-btn">Create A Account</a>
+                            <a href="{{ route('signup') }}" class="optional-btn">Create A Account</a>
                         </div>
                     </div>
                 </div>

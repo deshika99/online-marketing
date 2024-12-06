@@ -17,7 +17,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'fname',
+        'lname',
         'email',
         'password',
         'address',
@@ -73,6 +74,9 @@ class User extends Authenticatable
         return 'https://ui-avatars.com/api/?name=' . $firstLetter . '&size=100';
     }
 }
+
+
+
 
 
 }

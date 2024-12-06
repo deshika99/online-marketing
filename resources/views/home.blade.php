@@ -226,7 +226,7 @@
                           @if(Auth::user()->profile_image)
                             <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" style="width: 33px; height: 33px; border-radius: 50%; object-fit: cover;" class="profile_image">
                           @else
-                            <span style="font-size: 17px;">{{ Auth::user()->name[0] }}</span>
+                          
                           @endif
                         </div>
                             <span class="ms-2">{{ Auth::user()->name }}</span>

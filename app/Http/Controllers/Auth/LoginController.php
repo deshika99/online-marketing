@@ -1,27 +1,15 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers\Auth;
-use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use App\Models\User;
-use Carbon\Carbon; 
+use Carbon\Carbon;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
     use AuthenticatesUsers;
 
     /**
@@ -29,57 +17,62 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/home';  // This will redirect to the home page after login.
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
     }
 
-    protected function authenticated(Request $request, $user)
-    {
-        $user->last_login = Carbon::now();
-        $user->save();
-    }
-
-      /**
-     * Handle the authentication logic and check for the "Remember Me" option.
+    /**
+     * Handle authentication logic and check credentials.
      */
     public function login(Request $request)
     {
+        // Validate request data
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+
+        // Get credentials
         $credentials = $request->only('email', 'password');
         $remember = $request->has('remember'); 
-        
+
+        // Attempt to authenticate the user
         if (Auth::attempt($credentials, $remember)) {
-            // Update last login timestamp
+            // Update the last login timestamp
             $this->authenticated($request, Auth::user());
 
             // Redirect to the intended page or the default redirect path
             return redirect()->intended($this->redirectPath());
         }
 
+        // If authentication fails, return with an error
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->withInput();
     }
 
-
-
-    public function logout(Request $request)
+    /**
+     * Update the last login timestamp after authentication.
+     */
+    protected function authenticated(Request $request, $user)
     {
-        Auth::logout(); 
-
-        $request->session()->invalidate(); 
-        $request->session()->regenerateToken(); 
-
-        return redirect('/');
+        $user->last_login = Carbon::now();
+        $user->save();
     }
 
-    
+    /**
+     * Log out the user and invalidate the session.
+     */
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/home');  // Redirecting to home after logout
+    }
 }

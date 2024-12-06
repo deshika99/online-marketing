@@ -29,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = 'login';
 
     /**
      * Create a new controller instance.
@@ -50,7 +50,8 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'fname' => ['required', 'string', 'max:255'],
+            'lname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'address' => ['nullable', 'string', 'max:255'],
@@ -68,37 +69,38 @@ class RegisterController extends Controller
         ]);
     }
 
-    
-
+    public function showSignupForm()
+    {
+        return view('signup');
+    }
 
 
     public function register(Request $request)
-    {
-        $request->merge([
-            'DOB_day' => (int)$request->input('DOB_day'),
-            'DOB_month' => (int)$request->input('DOB_month'),
-            'DOB_year' => (int)$request->input('DOB_year'),
-        ]);
-        $this->validator($request->all())->validate();
-    
-            $user = User::create([
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-                'password' => Hash::make($request->input('password')),
-                'address' => $request->input('address'),
-                'district' => $request->input('district'),
-                'date_of_birth' => $request->input('DOB_year') . '-' . $request->input('DOB_month') . '-' . $request->input('DOB_day'),
-                'phone_num' => $request->input('phone_num'),
-                'acc_no' => $request->input('acc_no'),
-                'bank_name' => $request->input('bank_name'),
-                'branch' => $request->input('branch'),
-                'role' => 'customer',
-            ]);
-    
-            return redirect('/')->with('status', 'Successfully registered!');
-    }
-      
-    
+{
+    // Validate the request data
+    $validatedData = $request->validate([
+        'fname' => 'required|string|max:255',
+        'lname' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:8|confirmed',
+    ], [
+        'email.unique' => 'This email is already registered.',
+        'password.confirmed' => 'Passwords do not match.',
+    ]);
+
+    // Create the user in the database
+    User::create([
+        'fname' => $validatedData['fname'],
+        'lname' => $validatedData['lname'],
+        'email' => $validatedData['email'],
+        'password' => Hash::make($validatedData['password']),
+        'role' => 'customer', // Optional if your User model uses a default value
+    ]);
+
+    // Redirect to the login page with a success message
+    return redirect()->route('login')->with('status', 'Successfully registered! Please login to continue.');
+}
+
 
 }
     

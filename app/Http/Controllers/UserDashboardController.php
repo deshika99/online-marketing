@@ -441,30 +441,6 @@ class UserDashboardController extends Controller
         $user = Auth::user();
         $addresses = Address::where('user_id', $user->id)->get();
         return view('member_dashboard.addresses', compact('addresses'));
-    }
-    
-
-    public function destroy($id)
-    {
-        $address = Address::findOrFail($id);
-        $address->delete();
-        return redirect()->route('addresses')->with('status', 'Address deleted successfully!');
-    }
-
-
-
-
-    public function showInquiries()
-    {
-        // Get inquiries for the authenticated user
-        $inquiries = Inquiry::where('user_id', Auth::id())
-                            ->orderBy('updated_at', 'desc') 
-                            ->get();
-
-        return view('member_dashboard.myinquiries', compact('inquiries'));
-    }
-
-
-
+}
 
 }
