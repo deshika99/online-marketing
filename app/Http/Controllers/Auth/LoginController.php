@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers\Auth;
 
@@ -29,29 +29,31 @@ class LoginController extends Controller
      * Handle authentication logic and check credentials.
      */
     public function login(Request $request)
-{
-    // Validate request data
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required|string',
-    ]);
+    {
+        // Validate request data
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
 
-    $credentials = $request->only('email', 'password');
-    $remember = $request->has('remember'); 
+        // Get credentials
+        $credentials = $request->only('email', 'password');
+        $remember = $request->has('remember'); 
 
-    if (Auth::attempt($credentials, $remember)) {
-        // Update last login timestamp
-        $this->authenticated($request, Auth::user());
+        // Attempt to authenticate the user
+        if (Auth::attempt($credentials, $remember)) {
+            // Update the last login timestamp
+            $this->authenticated($request, Auth::user());
 
-        // Redirect to the intended page or the default redirect path
-        return redirect()->intended($this->redirectPath());
+            // Redirect to the intended page or the default redirect path
+            return redirect()->intended($this->redirectPath());
+        }
+
+        // If authentication fails, return with an error
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->withInput();
     }
-
-    return back()->withErrors([
-        'email' => 'The provided credentials do not match our records.',
-    ])->withInput();
-}
-
 
     /**
      * Update the last login timestamp after authentication.
@@ -71,6 +73,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/home');
+        return redirect('/home');  // Redirecting to home after logout
     }
 }

@@ -31,18 +31,18 @@ use App\Http\Controllers\FrontendTemplateController;
 
 use Illuminate\Http\Request;     //contact form
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
+Route::get('/home', [HomeController::class, 'index'])->name('frontend.home');
 
 
 Route::get('/signup', [RegisterController::class, 'showSignupForm'])->name('signupForm');
 Route::post('/signup', [RegisterController::class, 'register'])->name('signup');
 
-Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('login', [LoginController::class, 'login'])->name('login.submit');
+
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 
-Route::post('/register', [RegisterController::class, 'register'])->name('register');
+
 Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
 
