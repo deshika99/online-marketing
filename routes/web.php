@@ -370,6 +370,10 @@ Route::get('/home', function () {
     return view('frontend.home');
 })->name('home');
 
+Route::get('/About-us', function () {
+    return view('frontend.About-us');
+})->name('About-us');
+
 Route::get('/cart', function () {
     return view('frontend.cart');
 })->name('cart');

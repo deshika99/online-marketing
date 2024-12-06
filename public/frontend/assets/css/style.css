@@ -1319,7 +1319,7 @@ Main Banner CSS
 }
 
 .banner-bg1 {
-  background-image: url(../../assets/img/main-banner1.png);
+  background-image: url(../../assets/img/main-banner3.jpg);
 }
 
 .banner-bg2 {
@@ -1327,7 +1327,7 @@ Main Banner CSS
 }
 
 .banner-bg3 {
-  background-image: url(../../assets/img/main-banner3.jpg);
+  background-image: url(../../assets/img/main-banner1.jpg);
 }
 
 .banner-bg4 {
@@ -1372,14 +1372,17 @@ Main Banner CSS
   margin-bottom: 7px;
   font-size: 17.5px;
   font-weight: 600;
+  color:#d6c4c4;
 }
 .main-banner-content h1 {
   margin-bottom: 12px;
   font-size: 65px;
   font-weight: 700;
+  color: white;
+ 
 }
 .main-banner-content p {
-  color: #000000;
+  color: black;
   font-weight: 500;
   font-size: 17px;
 }
