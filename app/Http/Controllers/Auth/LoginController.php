@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers\Auth;
 
@@ -36,6 +36,7 @@ class LoginController extends Controller
             'password' => 'required|string',
         ]);
 
+        // Get credentials
         $credentials = $request->only('email', 'password');
         $remember = $request->has('remember'); 
 

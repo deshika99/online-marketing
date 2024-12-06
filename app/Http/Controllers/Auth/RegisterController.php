@@ -29,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = 'login';
 
     /**
      * Create a new controller instance.
@@ -69,7 +69,10 @@ class RegisterController extends Controller
         ]);
     }
 
-    
+    public function showSignupForm()
+    {
+        return view('signup');
+    }
 
 
     public function register(Request $request)
@@ -94,13 +97,10 @@ class RegisterController extends Controller
         'role' => 'customer', // Optional if your User model uses a default value
     ]);
 
-    // Redirect with a success message
-    return redirect('login')->with('status', 'Successfully registered!');
+    // Redirect to the login page with a success message
+    return redirect()->route('login')->with('status', 'Successfully registered! Please login to continue.');
 }
 
-
-      
-    
 
 }
     
