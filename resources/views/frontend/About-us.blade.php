@@ -30,6 +30,7 @@
                 <li>About Us</li>
             </ul>
         </div>
+
     </div>
 </div>
 <!-- End Page Title -->
@@ -42,6 +43,7 @@
                 <div class="about-image">
                     <img src="frontend/assets/img/about-img.png" class="shadow" alt="image">
                     <img src="frontend/assets/img/about-img-2.png" class="shadow" alt="image">
+
                 </div>
             </div>
 
@@ -70,6 +72,7 @@
                 <h3 style="margin-top: 10px;">Free Shipping Worldwide</h3>
             </div>
 
+
             <div class="single-facility-box">
                 <div class="icon">
                     <i class='flaticon-return'></i>
@@ -83,6 +86,7 @@
                 </div>
                 <h3 style="margin-top: 10px;">7 Day Exchange Policy</h3>
             </div>
+
 
             <div class="single-facility-box">
                 <div class="icon">
