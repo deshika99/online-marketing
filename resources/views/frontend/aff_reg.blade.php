@@ -1,4 +1,4 @@
-@extends('layouts.aff-master')
+@extends('layouts.app')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 
@@ -88,7 +88,7 @@
             <h2 class="text-center mb-4 mt-3">Create Your Affiliate Account</h2>
             <div class="card register-card mt-3">
                 <div class="card-body">
-                    <form method="POST" action="{{ route('frontend.aff_reg') }}">
+                    <form method="POST" action="{{ route('aff_reg') }}">
                         @csrf
 
                         <h4>Basic Information</h4>

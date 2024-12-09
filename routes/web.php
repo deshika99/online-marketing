@@ -422,6 +422,10 @@ Route::get('/special-offers', function () {
     return view('frontend.special-offers');
 })->name('special-offers');
 
+Route::get('/product-description', function () {
+    return view('frontend.product-description');
+})->name('product-description');
+
 Route::get('/aff_home', function () {
     return view('frontend.aff_home');
 })->name('aff_home');
@@ -431,6 +435,3 @@ Route::get('/aff_reg', function () {
 })->name('aff_reg');
 
 
-Route::get('/product-description', function () {
-    return view('frontend.product-description');
-})->name('product-description');

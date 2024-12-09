@@ -26,12 +26,7 @@
 
         <link rel="icon" type="image/png" href="frontend/assets/img/favicon.png">
     </head>
-    <body>
-        
-       
-        
-       
-
+    
         @yield('content')
         @include('includes.footer-new')
         

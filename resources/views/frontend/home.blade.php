@@ -1353,5 +1353,4 @@
         </section>
         <!-- End Blog Area -->
 
-       
- @endsection       
+@endsection       

@@ -34,8 +34,9 @@
         @yield('content')
         @include('includes.footer-new')
 
-         <!-- Start Sidebar Modal -->
-         <div class="modal right fade sidebarModal" id="sidebarModal" tabindex="-1" role="dialog">
+       
+          <!-- Start Sidebar Modal -->
+          <div class="modal right fade sidebarModal" id="sidebarModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
@@ -623,6 +624,7 @@
             </div>
         </div>
         <!-- End Products Filter Modal Area -->
+        
         
         
       <!-- Links of JS files -->
