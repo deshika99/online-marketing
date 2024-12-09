@@ -159,9 +159,9 @@ Route::post('/dashboard/password/update', [UserDashboardController::class, 'upda
 
 
 //affiliate dashboard
-Route::view('/home/affiliate/affiliate_home', 'aff_home')->name('aff_home');
-Route::post('/home/affiliate/register', [AffiliateCustomerController::class, 'register'])->name('aff_reg');
-Route::view('/home/affiliate/register/', 'aff_reg')->name('register_form');
+Route::view('/home/affiliate/affiliate_home', 'frontend.aff_home')->name('aff_home');
+Route::post('/home/affiliate/register', [AffiliateCustomerController::class, 'register'])->name('frontend.aff_reg');
+Route::view('/home/affiliate/register/', 'frontend.aff_reg')->name('register_form');
 Route::post('/home/affiliate/login', [AffiliateCustomerController::class, 'login'])->name('aff_login');
 Route::get('/affiliate/dashboard', [AffiliateCustomerController::class, 'index'])->name('index');
 Route::post('/affiliate/logout', [AffiliateCustomerController::class, 'logout'])->name('aff_logout');
@@ -421,3 +421,17 @@ Route::get('/best-seller', function () {
 Route::get('/special-offers', function () {
     return view('frontend.special-offers');
 })->name('special-offers');
+
+Route::get('/product-description', function () {
+    return view('frontend.product-description');
+})->name('product-description');
+
+Route::get('/aff_home', function () {
+    return view('frontend.aff_home');
+})->name('aff_home');
+
+Route::get('/aff_reg', function () {
+    return view('frontend.aff_reg');
+})->name('aff_reg');
+
+

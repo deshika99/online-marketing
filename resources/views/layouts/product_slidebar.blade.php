@@ -1,42 +1,225 @@
-<!DOCTYPE html>
-<html lang="zxx">
-    <head>
-        
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+@extends ('frontend.master')
 
-        <!-- Links of CSS files -->
-        <link rel="stylesheet" href="frontend/assets/css/bootstrap.min.css">
-        <link rel="stylesheet" href="frontend/assets/css/animate.min.css">
-        <link rel="stylesheet" href="frontend/assets/css/boxicons.min.css">
-        <link rel="stylesheet" href="frontend/assets/css/flaticon.css">
-        <link rel="stylesheet" href="frontend/assets/css/magnific-popup.min.css">
-        <link rel="stylesheet" href="frontend/assets/css/nice-select.min.css">
-        <link rel="stylesheet" href="frontend/assets/css/slick.min.css">
-        <link rel="stylesheet" href="frontend/assets/css/owl.carousel.min.css">
-        <link rel="stylesheet" href="frontend/assets/css/meanmenu.min.css">
-        <link rel="stylesheet" href="frontend/assets/css/rangeSlider.min.css">
-        <link rel="stylesheet" href="frontend/assets/css/style.css">
-        <!-- <link rel="stylesheet" href="frontend/assets/css/dark.css">-->
-        <link rel="stylesheet" href="frontend/assets/css/responsive.css">
+@section('content')
+  <!-- Start Products Area -->
 
-        <title>Xton - eCommerce HTML Template</title>
+  <section class="products-area pt-100 pb-70">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-12">
+                <div class="woocommerce-widget-area">
+                    <div class="woocommerce-widget filter-list-widget">
+                        <h3 class="woocommerce-widget-title">Current Selection</h3>
 
-        <link rel="icon" type="image/png" href="frontend/assets/img/favicon.png">
-    </head>
-    <body>
-        
-       
-        @include('includes.navbar-new')
-       
+                        <div class="selected-filters-wrap-list">
+                            <ul>
+                                <li><a href="#"><i class='bx bx-x'></i> 44</a></li>
+                                <li><a href="#"><i class='bx bx-x'></i> XI</a></li>
+                                <li><a href="#"><i class='bx bx-x'></i> Clothing</a></li>
+                                <li><a href="#"><i class='bx bx-x'></i> Shoes</a></li>
+                            </ul>
 
-        @yield('content')
-        @include('includes.footer-new')
+                            <a href="#" class="delete-selected-filters"><i class='bx bx-trash'></i> <span>Clear All</span></a>
+                        </div>
+                    </div>
 
-       
-          <!-- Start Sidebar Modal -->
-          <div class="modal right fade sidebarModal" id="sidebarModal" tabindex="-1" role="dialog">
+                    <div class="woocommerce-widget collections-list-widget">
+                        <h3 class="woocommerce-widget-title">Collections</h3>
+
+                        <ul class="collections-list-row">
+                            <li><a href="#">Men's</a></li>
+                            <li class="active"><a href="#" class="active">Women’s</a></li>
+                            <li><a href="#">Clothing</a></li>
+                            <li><a href="#">Shoes</a></li>
+                            <li><a href="#">Accessories</a></li>
+                            <li><a href="#">Uncategorized</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="woocommerce-widget price-list-widget">
+                        <h3 class="woocommerce-widget-title">Price</h3>
+
+                        <div class="collection-filter-by-price">
+                            <input class="js-range-of-price" type="text" data-min="0" data-max="1055" name="filter_by_price" data-step="10">
+                        </div>
+                    </div>
+
+                    <div class="woocommerce-widget size-list-widget">
+                        <h3 class="woocommerce-widget-title">Size</h3>
+
+                        <ul class="size-list-row">
+                            <li><a href="#">20</a></li>
+                            <li><a href="#">24</a></li>
+                            <li class="active"><a href="#">36</a></li>
+                            <li><a href="#">30</a></li>
+                            <li><a href="#">XS</a></li>
+                            <li><a href="#">S</a></li>
+                            <li><a href="#">M</a></li>
+                            <li><a href="#">L</a></li>
+                            <li><a href="#">L</a></li>
+                            <li><a href="#">XL</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="woocommerce-widget color-list-widget">
+                        <h3 class="woocommerce-widget-title">Color</h3>
+
+                        <ul class="color-list-row">
+                            <li class="active"><a href="#" title="Black" class="color-black"></a></li>
+                            <li><a href="#" title="Red" class="color-red"></a></li>
+                            <li><a href="#" title="Yellow" class="color-yellow"></a></li>
+                            <li><a href="#" title="White" class="color-white"></a></li>
+                            <li><a href="#" title="Blue" class="color-blue"></a></li>
+                            <li><a href="#" title="Green" class="color-green"></a></li>
+                            <li><a href="#" title="Yellow Green" class="color-yellowgreen"></a></li>
+                            <li><a href="#" title="Pink" class="color-pink"></a></li>
+                            <li><a href="#" title="Violet" class="color-violet"></a></li>
+                            <li><a href="#" title="Blue Violet" class="color-blueviolet"></a></li>
+                            <li><a href="#" title="Lime" class="color-lime"></a></li>
+                            <li><a href="#" title="Plum" class="color-plum"></a></li>
+                            <li><a href="#" title="Teal" class="color-teal"></a></li>
+                        </ul>
+                    </div>
+
+                    <div class="woocommerce-widget brands-list-widget">
+                        <h3 class="woocommerce-widget-title">Brands</h3>
+
+                        <ul class="brands-list-row">
+                            <li><a href="#">Gucci</a></li>
+                            <li><a href="#">Virgil Abloh</a></li>
+                            <li><a href="#">Balenciaga</a></li>
+                            <li class="active"><a href="#">Moncler</a></li>
+                            <li><a href="#">Fendi</a></li>
+                            <li><a href="#">Versace</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="woocommerce-widget aside-trending-widget">
+                        <div class="aside-trending-products">
+                            <img src="frontend/assets/img/offer-bg.jpg" alt="image">
+
+                            <div class="category">
+                                <h3>Top Trending</h3>
+                                <span>Spring/Summer 2024 Collection</span>
+                            </div>
+                            <a href="products-right-sidebar.html" class="link-btn"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8 col-md-12">
+                <div class="products-filter-options">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="d-lg-flex d-md-flex align-items-center">
+                                <span class="sub-title d-lg-none"><a href="#" data-bs-toggle="modal" data-bs-target="#productsFilterModal"><i class='bx bx-filter-alt'></i> Filter</a></span>
+                                
+                                <span class="sub-title d-none d-lg-block d-md-block">View:</span>
+
+                                <div class="view-list-row d-none d-lg-block d-md-block">
+                                    <div class="view-column">
+                                        <a href="#" class="icon-view-one">
+                                            <span></span>
+                                        </a>
+
+                                        <a href="#" class="icon-view-two active">
+                                            <span></span>
+                                            <span></span>
+                                        </a>
+
+                                        <a href="#" class="icon-view-three">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </a>
+
+                                        <a href="#" class="view-grid-switch">
+                                            <span></span>
+                                            <span></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <p>Showing 1 – 18 of 100</p>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <div class="products-ordering-list">
+                                <select>
+                                    <option>Sort by Price: Low to High</option>
+                                    <option>Default Sorting</option>
+                                    <option>Sort by Popularity</option>
+                                    <option>Sort by Average Rating</option>
+                                    <option>Sort by Latest</option>
+                                    <option>Sort by Price: High to Low</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Start Facility Area -->
+        <section class="facility-area pb-70">
+            <div class="container">
+                <div class="facility-slides owl-carousel owl-theme">
+                    <div class="single-facility-box">
+                        <div class="icon">
+                            <i class='flaticon-tracking'></i>
+                        </div>
+                        <h3>Free Shipping Worldwide</h3>
+                    </div>
+
+                    <div class="single-facility-box">
+                        <div class="icon">
+                            <i class='flaticon-return'></i>
+                        </div>
+                        <h3>Easy Return Policy</h3>
+                    </div>
+
+                    <div class="single-facility-box">
+                        <div class="icon">
+                            <i class='flaticon-shuffle'></i>
+                        </div>
+                        <h3>7 Day Exchange Policy</h3>
+                    </div>
+
+                    <div class="single-facility-box">
+                        <div class="icon">
+                            <i class='flaticon-sale'></i>
+                        </div>
+                        <h3>Weekend Discount Coupon</h3>
+                    </div>
+
+                    <div class="single-facility-box">
+                        <div class="icon">
+                            <i class='flaticon-credit-card'></i>
+                        </div>
+                        <h3>Secure Payment Methods</h3>
+                    </div>
+
+                    <div class="single-facility-box">
+                        <div class="icon">
+                            <i class='flaticon-location'></i>
+                        </div>
+                        <h3>Track Your Package</h3>
+                    </div>
+
+                    <div class="single-facility-box">
+                        <div class="icon">
+                            <i class='flaticon-customer-service'></i>
+                        </div>
+                        <h3>24/7 Customer Support</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End Facility Area -->
+
+        <!-- Start Sidebar Modal -->
+        <div class="modal right fade sidebarModal" id="sidebarModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
@@ -51,7 +234,7 @@
                                 <p>One of the most popular on the web is shopping. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                                 
                                 <ul class="sidebar-contact-info">
-                                    <li><i class='bx bx-map'></i> <a href="#" target="_blank"> No 425/2, Parakum Place, Kaduruwela, Polannaruwa.</a></li>
+                                    <li><i class='bx bx-map'></i> <a href="#" target="_blank">o 425/2, Parakum Place, Kaduruwela, Polannaruwa.</a></li>
                                     <li><i class='bx bx-phone-call'></i> <a href="tel:075 833 7141">075 833 7141</a></li>
                                     <li><i class='bx bx-envelope'></i> <a href="mailto:omarketingcomplex@gmail.com">omarketingcomplex@gmail.com</a></li>
                                 </ul>
@@ -88,7 +271,7 @@
                             </ul>
 
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                            <a href="/all-items" class="shop-now-btn">Shop Now</a>
+                            <a href="products-left-sidebar-with-categories-3.html" class="shop-now-btn">Shop Now</a>
                         </div>
                     </div>
                 </div>
@@ -116,8 +299,8 @@
                                 <h3><a href="#">Long Sleeve Leopard T-Shirt</a></h3>
 
                                 <div class="price">
-                                    <span class="old-price">RS 2500</span>
-                                    <span class="new-price">RS 1500</span>
+                                    <span class="old-price">$210.00</span>
+                                    <span class="new-price">$200.00</span>
                                 </div>
 
                                 <div class="products-review">
@@ -135,7 +318,6 @@
                                     <li><span>Vendor:</span> <a href="#">Lereve</a></li>
                                     <li><span>Availability:</span> <a href="#">In stock (7 items)</a></li>
                                     <li><span>Products Type:</span> <a href="#">T-Shirt</a></li>
-                                    <li><span>Products Description:</span> <a href="#">This is new meterial</a></li>
                                 </ul>
 
                                 <div class="products-color-switch">
@@ -195,7 +377,7 @@
                         <div class="products-cart-content">
                             <div class="products-cart">
                                 <div class="products-image">
-                                    <a href="#"><img src="frontend/assets/img/products/img1.jpg" alt="image"></a>
+                                    <a href="#"><img src="assets/img/products/img1.jpg" alt="image"></a>
                                 </div>
 
                                 <div class="products-content">
@@ -204,7 +386,7 @@
                                     <div class="products-price">
                                         <span>1</span>
                                         <span>x</span>
-                                        <span class="price">RS 3500</span>
+                                        <span class="price">$250.00</span>
                                     </div>
                                     <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
                                 </div>
@@ -221,7 +403,7 @@
                                     <div class="products-price">
                                         <span>1</span>
                                         <span>x</span>
-                                        <span class="price">RS 2000</span>
+                                        <span class="price">$200.00</span>
                                     </div>
                                     <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
                                 </div>
@@ -238,7 +420,7 @@
                                     <div class="products-price">
                                         <span>1</span>
                                         <span>x</span>
-                                        <span class="price">RS 3000</span>
+                                        <span class="price">$200.00</span>
                                     </div>
                                     <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
                                 </div>
@@ -248,12 +430,12 @@
                         <div class="products-cart-subtotal">
                             <span>Subtotal</span>
 
-                            <span class="subtotal">RS 8500</span>
+                            <span class="subtotal">$524.00</span>
                         </div>
 
                         <div class="products-cart-btn">
-                            <a href="/checkout" class="default-btn">Proceed to Checkout</a>
-                            <a href="/cart" class="optional-btn">View Shopping Cart</a>
+                            <a href="#" class="default-btn">Proceed to Checkout</a>
+                            <a href="#" class="optional-btn">View Shopping Cart</a>
                         </div>
                     </div>
                 </div>
@@ -284,7 +466,7 @@
                                     <div class="products-price">
                                         <span>1</span>
                                         <span>x</span>
-                                        <span class="price">RS 3500</span>
+                                        <span class="price">$250.00</span>
                                     </div>
                                     <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
                                 </div>
@@ -301,7 +483,7 @@
                                     <div class="products-price">
                                         <span>1</span>
                                         <span>x</span>
-                                        <span class="price">RS 2000</span>
+                                        <span class="price">$200.00</span>
                                     </div>
                                     <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
                                 </div>
@@ -318,7 +500,7 @@
                                     <div class="products-price">
                                         <span>1</span>
                                         <span>x</span>
-                                        <span class="price">RS 3000</span>
+                                        <span class="price">$200.00</span>
                                     </div>
                                     <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
                                 </div>
@@ -326,7 +508,7 @@
                         </div>
 
                         <div class="products-cart-btn">
-                            <a href="/cart" class="optional-btn">View Shopping Cart</a>
+                            <a href="#" class="optional-btn">View Shopping Cart</a>
                         </div>
                     </div>
                 </div>
@@ -624,26 +806,5 @@
             </div>
         </div>
         <!-- End Products Filter Modal Area -->
+ @endsection
         
-        
-        
-      <!-- Links of JS files -->
-      <script src="frontend/assets/js/jquery.min.js"></script>
-      <script src="frontend/assets/js/popper.min.js"></script>
-      <script src="frontend/assets/js/bootstrap.bundle.min.js"></script>
-      <script src="frontend/assets/js/owl.carousel.min.js"></script>
-      <script src="frontend/assets/js/magnific-popup.min.js"></script>
-      <script src="frontend/assets/js/parallax.min.js"></script>
-      <script src="frontend/assets/js/rangeSlider.min.js"></script>
-      <script src="frontend/assets/js/nice-select.min.js"></script>
-      <script src="frontend/assets/js/meanmenu.min.js"></script>
-      <script src="frontend/assets/js/isotope.pkgd.min.js"></script>
-      <script src="frontend/assets/js/slick.min.js"></script>
-      <script src="frontend/assets/js/sticky-sidebar.min.js"></script>
-      <script src="frontend/assets/js/wow.min.js"></script>
-      <script src="frontend/assets/js/form-validator.min.js"></script>
-      <script src="frontend/assets/js/contact-form-script.js"></script>
-      <script src="frontend/assets/js/ajaxchimp.min.js"></script>
-      <script src="frontend/assets/js/main.js"></script>
-  </body>
-</html>
