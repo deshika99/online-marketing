@@ -211,10 +211,5 @@
     </div>
 </section>
 <!-- End About Area -->
-
-
-
-
-
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('frontend.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\esupport_systems\online-marketing\resources\views/frontend/About-us.blade.php ENDPATH**/ ?>
