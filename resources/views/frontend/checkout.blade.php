@@ -9,7 +9,7 @@
                 <div class="page-title-content">
                     <h2>Checkout</h2>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="/home">Home</a></li>
                         <li>Checkout</li>
                     </ul>
                 </div>
@@ -22,7 +22,7 @@
             <div class="container">
                 <div class="user-actions">
                     <i class='bx bx-log-in'></i>
-                    <span>Returning customer? <a href="login.html">Click here to login</a></span>
+                    <span>Returning customer? <a href="/login">Click here to login</a></span>
                 </div>
 
                 <form>
@@ -38,6 +38,7 @@
 										
                                             <div class="select-box">
                                                 <select class="form-control">
+                                                    <option>Sri Lanka</option>
                                                     <option>United Arab Emirates</option>
                                                     <option>China</option>
                                                     <option>United Kingdom</option>
@@ -155,7 +156,7 @@
                                                 </td>
 
                                                 <td class="product-total">
-                                                    <span class="subtotal-amount">$250.00</span>
+                                                    <span class="subtotal-amount">RS 1500</span>
                                                 </td>
                                             </tr>
 
@@ -165,17 +166,7 @@
                                                 </td>
 
                                                 <td class="product-total">
-                                                    <span class="subtotal-amount">$200.00</span>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="product-name">
-                                                    <a href="#">Book Divas</a>
-                                                </td>
-
-                                                <td class="product-total">
-                                                    <span class="subtotal-amount">$140.50</span>
+                                                    <span class="subtotal-amount">RS 1300</span>
                                                 </td>
                                             </tr>
 
@@ -185,7 +176,17 @@
                                                 </td>
 
                                                 <td class="product-total">
-                                                    <span class="subtotal-amount">$200.00</span>
+                                                    <span class="subtotal-amount">RS 1300</span>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="product-name">
+                                                    <a href="#">Gildan Men's Crew T-Shirt</a>
+                                                </td>
+
+                                                <td class="product-total">
+                                                    <span class="subtotal-amount">RS 1000</span>
                                                 </td>
                                             </tr>
 
@@ -195,7 +196,7 @@
                                                 </td>
 
                                                 <td class="order-subtotal-price">
-                                                    <span class="order-subtotal-amount">$800.00</span>
+                                                    <span class="order-subtotal-amount">RS 5100</span>
                                                 </td>
                                             </tr>
 
@@ -205,7 +206,7 @@
                                                 </td>
 
                                                 <td class="shipping-price">
-                                                    <span>$30.00</span>
+                                                    <span>RS 300</span>
                                                 </td>
                                             </tr>
 
@@ -215,7 +216,7 @@
                                                 </td>
 
                                                 <td class="product-subtotal">
-                                                    <span class="subtotal-amount">$830.00</span>
+                                                    <span class="subtotal-amount">RS 5400</span>
                                                 </td>
                                             </tr>
                                         </tbody>

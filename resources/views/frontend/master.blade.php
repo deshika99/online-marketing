@@ -71,23 +71,23 @@
 
                             <ul class="products-list">
                                 <li>
-                                    <a href="products-one-row-2.html"><img src="frontend/assets/img/products/img1.jpg" alt="image"></a>
+                                    <a href="/all-items"><img src="frontend/assets/img/products/img1.jpg" alt="image"></a>
                                 </li>
 
                                 <li>
-                                    <a href="products-one-row-2.html"><img src="frontend/assets/img/products/img2.jpg" alt="image"></a>
+                                    <a href="/all-items"><img src="frontend/assets/img/products/img2.jpg" alt="image"></a>
                                 </li>
 
                                 <li>
-                                    <a href="products-one-row-2.html"><img src="frontend/assets/img/products/img3.jpg" alt="image"></a>
+                                    <a href="/all-items"><img src="frontend/assets/img/products/img3.jpg" alt="image"></a>
                                 </li>
 
                                 <li>
-                                    <a href="products-one-row-2.html"><img src="frontend/assets/img/products/img4.jpg" alt="image"></a>
+                                    <a href="/all-items"><img src="frontend/assets/img/products/img4.jpg" alt="image"></a>
                                 </li>
                             </ul>
 
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            <p>OMC is an e-commerce shopping website offering a wide range of products with a seamless online shopping experience.</p>
                             <a href="/all-items" class="shop-now-btn">Shop Now</a>
                         </div>
                     </div>
@@ -204,7 +204,7 @@
                                     <div class="products-price">
                                         <span>1</span>
                                         <span>x</span>
-                                        <span class="price">RS 3500</span>
+                                        <span class="price">RS 1500</span>
                                     </div>
                                     <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
                                 </div>
@@ -221,7 +221,7 @@
                                     <div class="products-price">
                                         <span>1</span>
                                         <span>x</span>
-                                        <span class="price">RS 2000</span>
+                                        <span class="price">RS 1300</span>
                                     </div>
                                     <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
                                 </div>
@@ -238,7 +238,7 @@
                                     <div class="products-price">
                                         <span>1</span>
                                         <span>x</span>
-                                        <span class="price">RS 3000</span>
+                                        <span class="price">RS 1300</span>
                                     </div>
                                     <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
                                 </div>
@@ -248,7 +248,7 @@
                         <div class="products-cart-subtotal">
                             <span>Subtotal</span>
 
-                            <span class="subtotal">RS 8500</span>
+                            <span class="subtotal">RS 4100</span>
                         </div>
 
                         <div class="products-cart-btn">

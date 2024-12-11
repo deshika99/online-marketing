@@ -9,7 +9,7 @@
                 <div class="page-title-content">
                     <h2>Cart</h2>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="/home">Home</a></li>
                         <li>Cart</li>
                     </ul>
                 </div>
@@ -37,7 +37,7 @@
                                 <tr>
                                     <td class="product-thumbnail">
                                         <a href="#">
-                                            <img src="assets/img/products/img1.jpg" alt="item">
+                                            <img src="frontend/assets/img/products/img1.jpg" alt="item">
                                         </a>
                                     </td>
 
@@ -47,11 +47,12 @@
                                             <li>Color: <span>Light Blue</span></li>
                                             <li>Size: <span>XL</span></li>
                                             <li>Material: <span>Cotton</span></li>
+                                            <li>Description: <span>It is new meterial</span></li>
                                         </ul>
                                     </td>
 
                                     <td class="product-price">
-                                        <span class="unit-amount">$250.00</span>
+                                        <span class="unit-amount">RS 1500</span>
                                     </td>
 
                                     <td class="product-quantity">
@@ -63,7 +64,7 @@
                                     </td>
 
                                     <td class="product-subtotal">
-                                        <span class="subtotal-amount">$250.00</span>
+                                        <span class="subtotal-amount">RS 1500</span>
 
                                         <a href="#" class="remove"><i class='bx bx-trash'></i></a>
                                     </td>
@@ -72,7 +73,7 @@
                                 <tr>
                                     <td class="product-thumbnail">
                                         <a href="#">
-                                            <img src="assets/img/products/img2.jpg" alt="item">
+                                            <img src="frontend/assets/img/products/img2.jpg" alt="item">
                                         </a>
                                     </td>
 
@@ -82,11 +83,12 @@
                                             <li>Color: <span>Light Blue</span></li>
                                             <li>Size: <span>XL</span></li>
                                             <li>Material: <span>Cotton</span></li>
+                                            <li>Description: <span>It is new meterial</span></li>
                                         </ul>
                                     </td>
 
                                     <td class="product-price">
-                                        <span class="unit-amount">$200.00</span>
+                                        <span class="unit-amount">RS 1300</span>
                                     </td>
 
                                     <td class="product-quantity">
@@ -98,7 +100,7 @@
                                     </td>
 
                                     <td class="product-subtotal">
-                                        <span class="subtotal-amount">$200.00</span>
+                                        <span class="subtotal-amount">RS 1300</span>
 
                                         <a href="#" class="remove"><i class='bx bx-trash'></i></a>
                                     </td>
@@ -107,7 +109,7 @@
                                 <tr>
                                     <td class="product-thumbnail">
                                         <a href="#">
-                                            <img src="assets/img/products/img3.jpg" alt="item">
+                                            <img src="frontend/assets/img/products/img3.jpg" alt="item">
                                         </a>
                                     </td>
 
@@ -117,11 +119,12 @@
                                             <li>Color: <span>Light Blue</span></li>
                                             <li>Size: <span>XL</span></li>
                                             <li>Material: <span>Cotton</span></li>
+                                            <li>Description: <span>It is new meterial</span></li>
                                         </ul>
                                     </td>
 
                                     <td class="product-price">
-                                        <span class="unit-amount">$200.00</span>
+                                        <span class="unit-amount">RS 1300</span>
                                     </td>
 
                                     <td class="product-quantity">
@@ -133,7 +136,7 @@
                                     </td>
 
                                     <td class="product-subtotal">
-                                        <span class="subtotal-amount">$200.00</span>
+                                        <span class="subtotal-amount">RS 1300</span>
 
                                         <a href="#" class="remove"><i class='bx bx-trash'></i></a>
                                     </td>
@@ -142,7 +145,7 @@
                                 <tr>
                                     <td class="product-thumbnail">
                                         <a href="#">
-                                            <img src="assets/img/products/img4.jpg" alt="item">
+                                            <img src="frontend/assets/img/products/img4.jpg" alt="item">
                                         </a>
                                     </td>
 
@@ -152,11 +155,12 @@
                                             <li>Color: <span>Light Blue</span></li>
                                             <li>Size: <span>XL</span></li>
                                             <li>Material: <span>Cotton</span></li>
+                                            <li>Description: <span>It is new meterial</span></li>
                                         </ul>
                                     </td>
 
                                     <td class="product-price">
-                                        <span class="unit-amount">$150.00</span>
+                                        <span class="unit-amount">RS 1000</span>
                                     </td>
 
                                     <td class="product-quantity">
@@ -168,7 +172,7 @@
                                     </td>
 
                                     <td class="product-subtotal">
-                                        <span class="subtotal-amount">$150.00</span>
+                                        <span class="subtotal-amount">RS 1000</span>
 
                                         <a href="#" class="remove"><i class='bx bx-trash'></i></a>
                                     </td>
@@ -193,9 +197,9 @@
                         <h3>Cart Totals</h3>
 
                         <ul>
-                            <li>Subtotal <span>$800.00</span></li>
-                            <li>Shipping <span>$30.00</span></li>
-                            <li>Total <span>$830.00</span></li>
+                            <li>Subtotal <span>RS 5100</span></li>
+                            <li>Shipping <span>RS 300</span></li>
+                            <li>Total <span>RS 5400</span></li>
                         </ul>
                         
                         <a href="/checkout" class="default-btn">Proceed to Checkout</a>

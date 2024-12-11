@@ -261,10 +261,10 @@
  
         <!-- Main Section -->
         <div class="main-css">
-            <h1>Promote, earn and grow with the Affiliate Program</h1>
-            <p>Earn commission from orders you bring to Online marketing complex by joining the Affiliate Program.</p>
+            <h1 style="text-align:center;margin-top:30px;">Promote, earn and grow with the Affiliate Program</h1>
+            <p style="text-align:center;">Earn commission from orders you bring to Online marketing complex by joining the Affiliate Program.</p>
 
-            <div class="button">
+            <div class="button"style="text-align:center;">
                 <a href="#">Start earning</a>
             </div>
         </div>

@@ -8,7 +8,7 @@
                 <div class="page-title-content">
                     <h2>Best Sellers</h2>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="/home">Home</a></li>
                         <li>Products</li>
                     </ul>
                 </div>

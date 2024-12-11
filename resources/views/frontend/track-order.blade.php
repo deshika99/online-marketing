@@ -9,7 +9,7 @@
                 <div class="page-title-content">
                     <h2>Tracking Order</h2>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="/home">Home</a></li>
                         <li>Tracking Order</li>
                     </ul>
                 </div>

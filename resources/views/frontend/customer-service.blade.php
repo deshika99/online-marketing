@@ -9,7 +9,7 @@
                 <div class="page-title-content">
                     <h2>Customer Service</h2>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="/home">Home</a></li>
                         <li>Customer Service</li>
                     </ul>
                 </div>
@@ -30,10 +30,10 @@
                         <li>See the delivery FAQs for details on shipping methods, costs and delivery times</li>
                     </ul>
                     <h3><i class='bx bx-credit-card-front'></i> Payment Methods</h3>
-                    <p>Xton accepts the following payment methods:</p>
+                    <p>Omc accepts the following payment methods:</p>
                     <ul>
                         <li>Credit Card: Visa, MasterCard, Discover, American Express, JCB, Visa Electron. The total will be charged to your card when the order is shipped.</li>
-                        <li>Xton features a Fast Checkout option, allowing you to securely save your credit card details so that you don't have to re-enter them for future purchases.</li>
+                        <li>Omc features a Fast Checkout option, allowing you to securely save your credit card details so that you don't have to re-enter them for future purchases.</li>
                         <li>PayPal: Shop easily online without having to enter your credit card details on the website.Your account will be charged once the order is completed. To register for a PayPal account, visit the website <a href="#">paypal.com.</a></li>
                     </ul>
                     <h3><i class='bx bx-sync'></i> Exchanges, Returns and Refunds</h3>
