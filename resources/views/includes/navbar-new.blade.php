@@ -15,8 +15,6 @@
                     <li><a href="#" data-bs-toggle="modal" data-bs-target="#shoppingWishlistModal"><i class='bx bx-heart'></i> Wishlist</a></li>
                     <li><a href="/compare"><i class='bx bx-shuffle'></i> Compare</a></li>
                     <li><a href="/login"><i class='bx bx-log-in'></i> Login</a></li>
-                    
-                </ul>
 
                 <ul class="header-top-others-option">
                     <div class="option-item">

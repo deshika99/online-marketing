@@ -27,6 +27,7 @@ use App\Http\Controllers\SalesController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\AffiliateDashboardController;
 use App\Http\Controllers\FrontendTemplateController;
+use App\Http\Controllers\Auth\LoginController;
 
 
 use Illuminate\Http\Request;     //contact form
@@ -39,18 +40,18 @@ Route::post('/signup', [RegisterController::class, 'register'])->name('signup');
 
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('frontend.home');
 
 
 
-Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
 Route::view('/home/help-center', 'helpcenter')->name('helpcenter');
 Route::get('/home/products/{category?}/{subcategory?}/{subsubcategory?}', [ProductController::class, 'showProductsByCategory'])
     ->name('user_products');
 Route::get('/product/{product_id?}', [ProductController::class, 'show'])->name('single_product_page');
-Route::get('/home/all_items', [ProductController::class, 'show_all_items'])->name('all_items');
+Route::get('/all-items', [ProductController::class, 'show_all_items'])->name('all-items');
 Route::get('/home/special_offer_products', [SpecialOffersController::class, 'showProductsWithSpecialOffers'])->name('special_offerproducts');
 Route::post('/filter-products', [ProductController::class, 'filterProducts']);
 Route::get('/best-sellers', [SpecialOffersController::class, 'bestSellers'])->name('best_sellers');

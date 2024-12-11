@@ -69,7 +69,7 @@ class ProductController extends Controller
     
         $colors = Variation::where('type', 'color')->distinct()->get(['value', 'hex_value']);
         
-        return view('all_items', compact('products', 'colors'));
+        return view('frontend.all-items', compact('products', 'colors'));
     }
     
     
