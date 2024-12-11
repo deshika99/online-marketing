@@ -422,3 +422,7 @@ Route::get('/best-seller', function () {
 Route::get('/special-offers', function () {
     return view('frontend.special-offers');
 })->name('special-offers');
+
+Route::get('/privacy_policy', function () {
+    return view('frontend.privacy_policy');
+})->name('privacy_policy');
