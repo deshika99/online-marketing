@@ -27,13 +27,54 @@
                      @csrf
 
                         <div class="form-group">
-                            <label>First Name</label>
-                            <input type="text" class="form-control" placeholder="Enter your name" id="fname" name="fname">
+                            <label>Full Name</label>
+                            <input type="text" class="form-control" placeholder="Enter your name" id="name" name="name">
                         </div>
 
                         <div class="form-group">
-                            <label>Last Name</label>
-                            <input type="text" class="form-control" placeholder="Enter your name" id="lname" name="lname">
+                            <label>Address</label>
+                            <input type="address" class="form-control" placeholder="Enter your address" id="address" name="address">
+                        </div>
+
+                        <div class="form-group">
+                            <label>District</label>
+                            <input type="district" class="form-control" placeholder="Enter your district" id="district" name="district">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Date Of Birth</label>
+                            <div class="col-md-12 d-flex">
+                                <input id="DOB-day" type="number" class="form-control me-2 @error('DOB_day') is-invalid @enderror" name="DOB_day" placeholder="Day" value="{{ old('DOB_day') }}" required min="1" max="31">                     
+                                @error('DOB_day')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                                <input id="DOB-month" type="number" class="form-control me-2 @error('DOB_month') is-invalid @enderror" name="DOB_month" placeholder="Month" value="{{ old('DOB_month') }}" required min="1" max="12">
+                                @error('DOB_month')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                                <input id="DOB-year" type="number" class="form-control @error('DOB_year') is-invalid @enderror" name="DOB_year" placeholder="Year" value="{{ old('DOB_year') }}" required min="1900" max="{{ date('Y') }}">
+                                @error('DOB_year')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div> 
+
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="phone_num" class="form-control" placeholder="Enter your phone number" id="phone_num" name="phone_num">
+                            <div class="col-md-7">
+                                @error('phone_num')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                         </div>
 
                         <div class="form-group">
