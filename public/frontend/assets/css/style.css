@@ -5788,7 +5788,7 @@ Modal CSS
   content: "";
   position: absolute;
   left: 0;
-  background-color: #f53f85;
+  background-color: #1e90ff;
 }
 .sidebarModal .modal-content .modal-body .sidebar-about-content .about-the-store .sidebar-contact-info {
   padding-left: 0;
@@ -5844,7 +5844,7 @@ Modal CSS
   width: 30px;
   height: 30px;
   text-align: center;
-  color: #f53f85;
+  color:#1e90ff;
   background-color: #f4f4f4;
   font-size: 18px;
   position: relative;
@@ -5904,7 +5904,7 @@ Modal CSS
 .sidebarModal .modal-content .modal-body .sidebar-new-in-store .shop-now-btn {
   display: inline-block;
   text-transform: uppercase;
-  border-bottom: 1px solid #f53f85;
+  border-bottom: 1px solid #1e90ff;
   font-weight: 600;
   font-size: 14px;
 }
@@ -6054,7 +6054,7 @@ Modal CSS
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #f53f85;
+  background: #1e90ff;
 }
 .productsShippingModal .modal-content .shipping-content ul li:last-child {
   margin-bottom: 0;
