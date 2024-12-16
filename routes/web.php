@@ -31,18 +31,18 @@ use App\Http\Controllers\FrontendTemplateController;
 
 use Illuminate\Http\Request;     //contact form
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
+Route::get('/home', [HomeController::class, 'index'])->name('frontend.home');
 
 
 Route::get('/signup', [RegisterController::class, 'showSignupForm'])->name('signupForm');
 Route::post('/signup', [RegisterController::class, 'register'])->name('signup');
 
-Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('login', [LoginController::class, 'login'])->name('login.submit');
+
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 
-Route::post('/register', [RegisterController::class, 'register'])->name('register');
+
 Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
 
@@ -405,3 +405,15 @@ Route::get('/signup', function () {
 Route::get('/track-order', function () {
     return view('frontend.track-order');
 })->name('track-order');
+
+Route::get('/all-items', function () {
+    return view('frontend.all-items');
+})->name('all-items');
+
+Route::get('/best-seller', function () {
+    return view('frontend.best-seller');
+})->name('best-seller');
+
+Route::get('/special-offers', function () {
+    return view('frontend.special-offers');
+})->name('special-offers');
