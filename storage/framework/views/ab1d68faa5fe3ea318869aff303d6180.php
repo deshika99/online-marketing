@@ -25,13 +25,103 @@
                      <?php echo csrf_field(); ?>
 
                         <div class="form-group">
-                            <label>First Name</label>
-                            <input type="text" class="form-control" placeholder="Enter your name" id="fname" name="fname">
+                            <label>Full Name</label>
+                            <input type="text" class="form-control" placeholder="Enter your name" id="name" name="name">
                         </div>
 
                         <div class="form-group">
-                            <label>Last Name</label>
-                            <input type="text" class="form-control" placeholder="Enter your name" id="lname" name="lname">
+                            <label>Address</label>
+                            <input type="address" class="form-control" placeholder="Enter your address" id="address" name="address">
+                        </div>
+
+                        <div class="form-group">
+                            <label>District</label>
+                            <input type="district" class="form-control" placeholder="Enter your district" id="district" name="district">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Date Of Birth</label>
+                            <div class="col-md-12 d-flex">
+                                <input id="DOB-day" type="number" class="form-control me-2 <?php $__errorArgs = ['DOB_day'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="DOB_day" placeholder="Day" value="<?php echo e(old('DOB_day')); ?>" required min="1" max="31">                     
+                                <?php $__errorArgs = ['DOB_day'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong><?php echo e($message); ?></strong>
+                                    </span>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                <input id="DOB-month" type="number" class="form-control me-2 <?php $__errorArgs = ['DOB_month'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="DOB_month" placeholder="Month" value="<?php echo e(old('DOB_month')); ?>" required min="1" max="12">
+                                <?php $__errorArgs = ['DOB_month'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong><?php echo e($message); ?></strong>
+                                    </span>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                <input id="DOB-year" type="number" class="form-control <?php $__errorArgs = ['DOB_year'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" name="DOB_year" placeholder="Year" value="<?php echo e(old('DOB_year')); ?>" required min="1900" max="<?php echo e(date('Y')); ?>">
+                                <?php $__errorArgs = ['DOB_year'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong><?php echo e($message); ?></strong>
+                                    </span>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
+                        </div> 
+
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="phone_num" class="form-control" placeholder="Enter your phone number" id="phone_num" name="phone_num">
+                            <div class="col-md-7">
+                                <?php $__errorArgs = ['phone_num'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong><?php echo e($message); ?></strong>
+                                    </span>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
                         </div>
 
                         <div class="form-group">

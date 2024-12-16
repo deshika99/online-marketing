@@ -127,7 +127,7 @@ Route::get('/affiliate/dashboard/payment/bank_acc', function () {
 });
 
 
-Auth::routes();
+// Auth::routes();
 
 
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
