@@ -26,6 +26,7 @@ use App\Http\Controllers\AffiliateRulesController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\AffiliateDashboardController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FrontendTemplateController;
 
 
@@ -402,9 +403,7 @@ Route::get('/login', function () {
     return view('frontend.login');
 })->name('login');
 
-Route::get('/signup', function () {
-    return view('frontend.signup');
-})->name('signup');
+
 
 Route::get('/track-order', function () {
     return view('frontend.track-order');
