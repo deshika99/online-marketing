@@ -213,9 +213,4 @@
     </div>
 </section>
 <!-- End About Area -->
-
-
-
-
-
 @endsection

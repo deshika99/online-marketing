@@ -1319,7 +1319,7 @@ Main Banner CSS
 }
 
 .banner-bg1 {
-  background-image: url(../../assets/img/main-banner1.png);
+  background-image: url(../../assets/img/main-banner3.jpg);
 }
 
 .banner-bg2 {
@@ -1327,7 +1327,7 @@ Main Banner CSS
 }
 
 .banner-bg3 {
-  background-image: url(../../assets/img/main-banner3.jpg);
+  background-image: url(../../assets/img/main-banner1.jpg);
 }
 
 .banner-bg4 {
@@ -1372,14 +1372,17 @@ Main Banner CSS
   margin-bottom: 7px;
   font-size: 17.5px;
   font-weight: 600;
+  color:#d6c4c4;
 }
 .main-banner-content h1 {
   margin-bottom: 12px;
   font-size: 65px;
   font-weight: 700;
+  color: white;
+ 
 }
 .main-banner-content p {
-  color: #000000;
+  color: black;
   font-weight: 500;
   font-size: 17px;
 }
@@ -5566,7 +5569,7 @@ Modal CSS
   right: 0;
 }
 .productsQuickView .modal-content .products-content .products-add-to-cart .input-counter span:hover {
-  color: #f53f85;
+  color: #1e90ff;
 }
 .productsQuickView .modal-content .products-content .products-add-to-cart .input-counter input {
   height: 45px;
@@ -5785,7 +5788,7 @@ Modal CSS
   content: "";
   position: absolute;
   left: 0;
-  background-color: #f53f85;
+  background-color: #1e90ff;
 }
 .sidebarModal .modal-content .modal-body .sidebar-about-content .about-the-store .sidebar-contact-info {
   padding-left: 0;
@@ -5819,7 +5822,7 @@ Modal CSS
   width: 0;
   height: 1px;
   transition: 0.5s;
-  background-color: #f53f85;
+  background-color: #1e90ff;
 }
 .sidebarModal .modal-content .modal-body .sidebar-about-content .about-the-store .sidebar-contact-info li:last-child {
   margin-bottom: 0;
@@ -5841,7 +5844,7 @@ Modal CSS
   width: 30px;
   height: 30px;
   text-align: center;
-  color: #f53f85;
+  color:#1e90ff;
   background-color: #f4f4f4;
   font-size: 18px;
   position: relative;
@@ -5855,7 +5858,7 @@ Modal CSS
   transform: translateY(-49%);
 }
 .sidebarModal .modal-content .modal-body .sidebar-about-content .social-link li a:hover {
-  background-color: #f53f85;
+  background-color: #1e90ff;
   color: #ffffff;
 }
 .sidebarModal .modal-content .modal-body .sidebar-new-in-store {
@@ -5901,13 +5904,13 @@ Modal CSS
 .sidebarModal .modal-content .modal-body .sidebar-new-in-store .shop-now-btn {
   display: inline-block;
   text-transform: uppercase;
-  border-bottom: 1px solid #f53f85;
+  border-bottom: 1px solid #1e90ff;
   font-weight: 600;
   font-size: 14px;
 }
 .sidebarModal .modal-content .modal-body .sidebar-new-in-store .shop-now-btn:hover {
-  color: #f53f85;
-  border-color: #f53f85;
+  color: #1e90ff;
+  border-color: #1e90ff;
 }
 .sidebarModal .close {
   color: #000000;
@@ -6051,7 +6054,7 @@ Modal CSS
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #f53f85;
+  background: #1e90ff;
 }
 .productsShippingModal .modal-content .shipping-content ul li:last-child {
   margin-bottom: 0;
@@ -6433,7 +6436,7 @@ Woocommerce Widget Sidebar CSS
   width: 50px;
   height: 1px;
   bottom: -1px;
-  background-color: #f53f85;
+  background-color: #1e90ff;
 }
 .woocommerce-widget-area .woocommerce-widget:last-child {
   margin-bottom: 0;
@@ -6509,7 +6512,7 @@ Woocommerce Widget Sidebar CSS
   border: 1px solid #000000;
 }
 .woocommerce-widget-area .collections-list-widget .collections-list-row li a:hover {
-  color: #f53f85;
+  color: #1e90ff;
 }
 .woocommerce-widget-area .collections-list-widget .collections-list-row li a:hover::before {
   border-color: #1e90ff;
@@ -6532,11 +6535,11 @@ Woocommerce Widget Sidebar CSS
   cursor: pointer;
 }
 .woocommerce-widget-area .price-list-widget .collection-filter-by-price .irs--flat .irs-from, .woocommerce-widget-area .price-list-widget .collection-filter-by-price .irs--flat .irs-to, .woocommerce-widget-area .price-list-widget .collection-filter-by-price .irs--flat .irs-single {
-  background-color: #f53f85;
+  background-color: #1e90ff;
   padding: 1px 5px 1px 11.5px;
 }
 .woocommerce-widget-area .price-list-widget .collection-filter-by-price .irs--flat .irs-from::before, .woocommerce-widget-area .price-list-widget .collection-filter-by-price .irs--flat .irs-to::before, .woocommerce-widget-area .price-list-widget .collection-filter-by-price .irs--flat .irs-single::before {
-  border-top-color: #f53f85;
+  border-top-color: #1e90ff;
 }
 .woocommerce-widget-area .price-list-widget .collection-filter-by-price .irs--flat .irs-from::after, .woocommerce-widget-area .price-list-widget .collection-filter-by-price .irs--flat .irs-to::after, .woocommerce-widget-area .price-list-widget .collection-filter-by-price .irs--flat .irs-single::after {
   content: "$";
@@ -6989,7 +6992,7 @@ Checkout CSS
   box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
   background: #ffffff;
   padding: 15px 20px;
-  border-top: 3px solid #f53f85;
+  border-top: 3px solid #1e90ff;
   position: relative;
   margin-bottom: 40px;
 }
@@ -7233,11 +7236,11 @@ FAQ CSS
   margin-top: 8px;
 }
 .faq-accordion-tab .tabs li a:hover {
-  background-color: #f53f85;
+  background-color: #1e90ff;
   color: #ffffff;
 }
 .faq-accordion-tab .tabs li.current a {
-  background-color: #f53f85;
+  background-color: #1e90ff;
   color: #ffffff;
 }
 
@@ -7546,7 +7549,7 @@ Widget Sidebar CSS
 }
 .widget-area .widget_search form button {
   border: none;
-  background-color: #f53f85;
+  background-color: #1e90ff;
   color: #ffffff;
   height: 40px;
   width: 40px;
