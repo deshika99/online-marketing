@@ -57,20 +57,64 @@ class ProductController extends Controller
 
     
 
-    public function show_all_items()
+    public function show_all_items(Request $request)
     {
         $perPage = 16; 
+        // Get categories for the filter
+        $categories = Category::all();
+
         $query = Products::with('images', 'specialOffer', 'Sale'); 
         $products = $query->paginate($perPage)->through(function ($product) {
             $product->average_rating = $product->reviews()->where('status', 'published')->avg('rating');
             $product->rating_count = $product->reviews()->where('status', 'published')->count();
             return $product;
         });
-    
+
+        $sizes = Variation::where('type', 'size')->distinct()->get(['value']);
         $colors = Variation::where('type', 'color')->distinct()->get(['value', 'hex_value']);
         
-        return view('frontend.all-items', compact('products', 'colors'));
+       // Apply category filter
+        if ($request->has('category')) {
+            $category = $request->input('category');
+            $query->where('product_category', $category); 
+        }
+
+        
+        // Apply color filter
+        if ($request->has('color')) {
+            $color = $request->input('color');
+            $query->whereHas('variations', function ($q) use ($color) {
+                $q->where('type', 'color')->where('value', $color);
+            });
+        }
+        
+        // Apply size filter
+        if ($request->has('size')) {
+            $size = $request->input('size');
+            $query->whereHas('variations', function ($q) use ($size) {
+                $q->where('type', 'size')->where('value', $size);
+            });
+        }
+
+        // Apply price filter
+        if ($request->has('price')) {
+            $priceRange = explode('-', $request->input('price'));
+            $minPrice = $priceRange[0];
+            $maxPrice = $priceRange[1];
+            $query->whereBetween('normal_price', [$minPrice, $maxPrice]);
+        }
+
+        // Paginate the results
+        $products = $query->paginate($perPage)->through(function ($product) {
+            $product->average_rating = $product->reviews()->where('status', 'published')->avg('rating');
+            $product->rating_count = $product->reviews()->where('status', 'published')->count();
+            return $product;
+        });
+        
+        return view('frontend.all_items', compact('products', 'categories', 'sizes', 'colors'));
     }
+
+    
     
     
 
@@ -151,20 +195,20 @@ class ProductController extends Controller
     public function show($product_id)
     {
         $product = Products::with('images')->where('product_id', $product_id)->firstOrFail();
-        
+    
         $specialOffer = SpecialOffers::where('product_id', $product_id)
-        ->where('status', 'active') 
-        ->first();
-
+            ->where('status', 'active') 
+            ->first();
+    
         $sale = Sale::where('product_id', $product_id)
-        ->where('status', 'active') 
-        ->first();
-        
+            ->where('status', 'active') 
+            ->first();
+    
         $relatedProducts = Products::where('product_category', $product->product_category)
             ->where('product_id', '!=', $product->product_id)
             ->take(15)
             ->get();
-
+    
         foreach ($relatedProducts as $relatedProduct) {
             $offer = SpecialOffers::where('product_id', $relatedProduct->product_id)
                 ->where('status', 'active')
@@ -188,8 +232,9 @@ class ProductController extends Controller
             '1' => Review::where('product_id', $product_id)->where('rating', 1)->count(),
         ];
     
-        return view('single_product_page', compact('product', 'relatedProducts', 'reviews', 'averageRating', 'totalReviews', 'ratingsCount', 'specialOffer', 'sale'));
+        return view('frontend.product-description', compact('product', 'relatedProducts', 'reviews', 'averageRating', 'totalReviews', 'ratingsCount', 'specialOffer', 'sale'));
     }
+    
     
 
     

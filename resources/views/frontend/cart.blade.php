@@ -18,249 +18,207 @@
         <!-- End Page Title -->
 
         <!-- Start Cart Area -->
-		<section class="cart-area ptb-100">
-            <div class="container">
-                <form>
-                    <div class="cart-table table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Product</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Unit Price</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Total</th>
-                                </tr>
-                            </thead>
+<section class="cart-area ptb-100">
+    <div class="container">
+        
+            <div class="cart-table table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Unit Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
 
-                            <tbody>
-                                <tr>
-                                    <td class="product-thumbnail">
-                                        <a href="#">
-                                            <img src="assets/img/products/img1.jpg" alt="item">
-                                        </a>
-                                    </td>
+                    <tbody>
+                        @forelse ($cart as $item)
+                            <tr>
+                                <td class="product-thumbnail">
+                                    <a href="{{ route('product-description', ['product_id' => $item->product_id]) }}">
+                                        <img src="{{ asset('storage/' . $item->product->images->first()->image_path) }}" alt="item">
+                                    </a>
+                                </td>
 
-                                    <td class="product-name">
-                                        <a href="#">Long Sleeve Leopard T-Shirt</a>
-                                        <ul>
-                                            <li>Color: <span>Light Blue</span></li>
-                                            <li>Size: <span>XL</span></li>
-                                            <li>Material: <span>Cotton</span></li>
-                                        </ul>
-                                    </td>
+                                <td class="product-name">
+                                    <a href="{{ route('product-description', ['product_id' => $item->product_id]) }}">{{ $item->product->product_name }}</a>
+                                    <ul>
+                                        <li>Color: <span style="background-color: {{ $item->color }}; width: 15px; height: 15px; display: inline-block; border-radius: 50%; margin-left: 5px; vertical-align: middle;"></span></li>
+                                        <li>Size: <span>{{ $item->size }}</span></li>
+                                    </ul>
+                                </td>
 
-                                    <td class="product-price">
-                                        <span class="unit-amount">$250.00</span>
-                                    </td>
+                                <td class="product-price">
+                                    <span class="unit-amount">
+                                        @php
+                                            // Check if there's an active special offer, otherwise check for sale, else use normal price
+                                            $price = $item->product->specialOffer && $item->product->specialOffer->status === 'active' 
+                                                ? $item->product->specialOffer->offer_price 
+                                                : ($item->product->sale && $item->product->sale->status === 'active' 
+                                                    ? $item->product->sale->sale_price 
+                                                    : $item->product->normal_price);
+                                        @endphp
+                                        LKR {{ number_format($price, 2) }}
+                                    </span>
+                                </td>
 
-                                    <td class="product-quantity">
-                                        <div class="input-counter">
-                                            <span class="minus-btn"><i class='bx bx-minus'></i></span>
-                                            <input type="text" min="1" value="1">
-                                            <span class="plus-btn"><i class='bx bx-plus'></i></span>
-                                        </div>
-                                    </td>
 
-                                    <td class="product-subtotal">
-                                        <span class="subtotal-amount">$250.00</span>
+                                <td class="product-quantity">
+                                    <div class="input-counter">
+                                        <span class="minus-btn" data-product-id="{{ $item->product_id }}"><i class='bx bx-minus'></i></span>
+                                        <input type="text" min="1" value="{{ $item->quantity }}" name="quantity[{{ $item->id }}]" class="quantity-input">
+                                        <span class="plus-btn" data-product-id="{{ $item->product_id }}"><i class='bx bx-plus'></i></span>
+                                    </div>
+                                </td>
 
-                                        <a href="#" class="remove"><i class='bx bx-trash'></i></a>
-                                    </td>
-                                </tr>
 
-                                <tr>
-                                    <td class="product-thumbnail">
-                                        <a href="#">
-                                            <img src="assets/img/products/img2.jpg" alt="item">
-                                        </a>
-                                    </td>
+                                <td class="product-subtotal">
+                                    <span class="subtotal-amount">LKR {{ number_format($price * $item->quantity, 2) }}</span>
+                                    <a href="javascript:void(0);" class="btn-delete-item remove" data-product-id="{{ $item->product_id }}">
+                                        <i class='bx bx-trash'></i>
+                                    </a>
+                                   
 
-                                    <td class="product-name">
-                                        <a href="#">Causal V-Neck Soft Raglan</a>
-                                        <ul>
-                                            <li>Color: <span>Light Blue</span></li>
-                                            <li>Size: <span>XL</span></li>
-                                            <li>Material: <span>Cotton</span></li>
-                                        </ul>
-                                    </td>
-
-                                    <td class="product-price">
-                                        <span class="unit-amount">$200.00</span>
-                                    </td>
-
-                                    <td class="product-quantity">
-                                        <div class="input-counter">
-                                            <span class="minus-btn"><i class='bx bx-minus'></i></span>
-                                            <input type="text" min="1" value="1">
-                                            <span class="plus-btn"><i class='bx bx-plus'></i></span>
-                                        </div>
-                                    </td>
-
-                                    <td class="product-subtotal">
-                                        <span class="subtotal-amount">$200.00</span>
-
-                                        <a href="#" class="remove"><i class='bx bx-trash'></i></a>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="product-thumbnail">
-                                        <a href="#">
-                                            <img src="assets/img/products/img3.jpg" alt="item">
-                                        </a>
-                                    </td>
-
-                                    <td class="product-name">
-                                        <a href="#">Hanes Men's Pullover</a>
-                                        <ul>
-                                            <li>Color: <span>Light Blue</span></li>
-                                            <li>Size: <span>XL</span></li>
-                                            <li>Material: <span>Cotton</span></li>
-                                        </ul>
-                                    </td>
-
-                                    <td class="product-price">
-                                        <span class="unit-amount">$200.00</span>
-                                    </td>
-
-                                    <td class="product-quantity">
-                                        <div class="input-counter">
-                                            <span class="minus-btn"><i class='bx bx-minus'></i></span>
-                                            <input type="text" min="1" value="1">
-                                            <span class="plus-btn"><i class='bx bx-plus'></i></span>
-                                        </div>
-                                    </td>
-
-                                    <td class="product-subtotal">
-                                        <span class="subtotal-amount">$200.00</span>
-
-                                        <a href="#" class="remove"><i class='bx bx-trash'></i></a>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="product-thumbnail">
-                                        <a href="#">
-                                            <img src="assets/img/products/img4.jpg" alt="item">
-                                        </a>
-                                    </td>
-
-                                    <td class="product-name">
-                                        <a href="#">Gildan Men's Crew T-Shirt</a>
-                                        <ul>
-                                            <li>Color: <span>Light Blue</span></li>
-                                            <li>Size: <span>XL</span></li>
-                                            <li>Material: <span>Cotton</span></li>
-                                        </ul>
-                                    </td>
-
-                                    <td class="product-price">
-                                        <span class="unit-amount">$150.00</span>
-                                    </td>
-
-                                    <td class="product-quantity">
-                                        <div class="input-counter">
-                                            <span class="minus-btn"><i class='bx bx-minus'></i></span>
-                                            <input type="text" min="1" value="1">
-                                            <span class="plus-btn"><i class='bx bx-plus'></i></span>
-                                        </div>
-                                    </td>
-
-                                    <td class="product-subtotal">
-                                        <span class="subtotal-amount">$150.00</span>
-
-                                        <a href="#" class="remove"><i class='bx bx-trash'></i></a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="cart-buttons">
-                        <div class="row align-items-center justify-content-center">
-                            <div class="col-lg-7 col-sm-7 col-md-7">
-                                <a href="#" class="optional-btn">Continue Shopping</a>
-                            </div>
-
-                            <div class="col-lg-5 col-sm-5 col-md-5 text-end">
-                                <a href="#" class="default-btn">Update Cart</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="cart-totals">
-                        <h3>Cart Totals</h3>
-
-                        <ul>
-                            <li>Subtotal <span>$800.00</span></li>
-                            <li>Shipping <span>$30.00</span></li>
-                            <li>Total <span>$830.00</span></li>
-                        </ul>
-                        
-                        <a href="/checkout" class="default-btn">Proceed to Checkout</a>
-                    </div>
-                </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5">No items in the cart</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
-        </section>
-        <!-- End Cart Area -->
 
-        <!-- Start Facility Area -->
-        <section class="facility-area pb-70">
-            <div class="container">
-                <div class="facility-slides owl-carousel owl-theme">
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-tracking'></i>
-                        </div>
-                        <h3>Free Shipping Worldwide</h3>
-                    </div>
 
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-return'></i>
-                        </div>
-                        <h3>Easy Return Policy</h3>
-                    </div>
+            <div class="cart-totals">
+                <h3>Cart Totals</h3>
+                <ul>
+                    <li>Subtotal <span>LKR {{ number_format($cart->sum(function($item) {
+                        // Check for active special offer, then sale, otherwise normal price
+                        $price = $item->product->specialOffer && $item->product->specialOffer->status === 'active' 
+                            ? $item->product->specialOffer->offer_price 
+                            : ($item->product->sale && $item->product->sale->status === 'active' 
+                                ? $item->product->sale->sale_price 
+                                : $item->product->normal_price);
+                        return $price * $item->quantity;
+                    }), 2) }}</span></li>
+                    
+                    <li>Shipping <span>LKR 300.00</span></li>
+                    
+                    <li>Total <span>LKR {{ number_format($cart->sum(function($item) {
+                        // Check for active special offer, then sale, otherwise normal price
+                        $price = $item->product->specialOffer && $item->product->specialOffer->status === 'active' 
+                            ? $item->product->specialOffer->offer_price 
+                            : ($item->product->sale && $item->product->sale->status === 'active' 
+                                ? $item->product->sale->sale_price 
+                                : $item->product->normal_price);
+                        return $price * $item->quantity;
+                    }) + 300, 2) }}</span></li>
+                </ul>
 
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-shuffle'></i>
-                        </div>
-                        <h3>7 Day Exchange Policy</h3>
-                    </div>
-
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-sale'></i>
-                        </div>
-                        <h3>Weekend Discount Coupon</h3>
-                    </div>
-
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-credit-card'></i>
-                        </div>
-                        <h3>Secure Payment Methods</h3>
-                    </div>
-
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-location'></i>
-                        </div>
-                        <h3>Track Your Package</h3>
-                    </div>
-
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-customer-service'></i>
-                        </div>
-                        <h3>24/7 Customer Support</h3>
-                    </div>
-                </div>
+                <a href="/checkout" class="default-btn">Proceed to Checkout</a>
             </div>
-        </section>
-        <!-- End Facility Area -->
+
+    </div>
+</section>
+<!-- End Cart Area -->
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    // Update quantity and price when plus or minus button is clicked
+    $('.plus-btn, .minus-btn').on('click', function() {
+        const quantityInput = $(this).siblings('.quantity-input');  // Get the corresponding input field
+        let currentValue = parseInt(quantityInput.val());
+
+        // Ensure the current value is a number and avoid multiple triggers
+        if (!isNaN(currentValue)) {
+            // For the plus button, increase the value by 1
+            if ($(this).hasClass('plus-btn')) {
+                quantityInput.val(currentValue + 1);
+            }
+            // For the minus button, decrease the value by 1 (avoid going below 1)
+            else if ($(this).hasClass('minus-btn') && currentValue > 1) {
+                quantityInput.val(currentValue - 1);
+            }
+
+            // Now update the price immediately after changing the value
+            updatePrice($(this).closest('tr'));  // Update the price and total after quantity change
+        }
+    });
+
+    // Function to update the price when quantity changes
+    function updatePrice(itemRow) {
+        let quantity = parseInt(itemRow.find('.quantity-input').val());  // Get the updated quantity
+        let price = parseFloat(itemRow.find('.product-price span').text().replace('Rs.', '').trim());  // Get the price from product-price
+
+        // Update subtotal for the item
+        let subtotal = quantity * price;
+        itemRow.find('.product-subtotal span').text('Rs. ' + subtotal.toFixed(2));  // Update the item subtotal
+
+        // Update the total price
+        let total = 0;
+        $('.cart-table .product-subtotal span').each(function() {
+            total += parseFloat($(this).text().replace('Rs.', '').trim());
+        });
+
+        // Update subtotal and total values
+        $('#subtotal').text('Rs. ' + total.toFixed(2));
+        $('#total').text('Rs. ' + (total + 300).toFixed(2));  // Adding shipping (if applicable)
+
+        // AJAX request to update the cart in the backend
+        const productId = itemRow.find('.plus-btn').data('product-id');
+        const updatedQuantity = itemRow.find('.quantity-input').val();
+
+        $.ajax({
+            url: '{{ route('cart.update') }}',
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                product_id: productId,
+                quantity: updatedQuantity
+            },
+            success: function(response) {
+                if (response.success) {
+                    console.log(response.message);  // Log the success message
+                    location.reload();  // Refresh the page after a successful update
+                }
+            },
+            error: function(xhr) {
+                console.log('Error updating quantity', xhr);  // Log error if AJAX fails
+            }
+        });
+    }
+
+
+    $('.btn-delete-item').on('click', function(e) {
+        e.preventDefault();
+
+        const productId = $(this).data('product-id'); 
+
+        $.ajax({
+            url: `{{ route('cart.remove', '') }}/${productId}`,
+            method: 'DELETE',
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                location.reload(); 
+            },
+            error: function(xhr) {
+                console.log(xhr.responseText); 
+                alert('Something went wrong. Please try again.');
+            }
+        });
+    });
+});
+
+</script>
         
 @endsection
            

@@ -50,8 +50,8 @@ Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logou
 Route::view('/home/help-center', 'helpcenter')->name('helpcenter');
 Route::get('/home/products/{category?}/{subcategory?}/{subsubcategory?}', [ProductController::class, 'showProductsByCategory'])
     ->name('user_products');
-Route::get('/product/{product_id?}', [ProductController::class, 'show'])->name('single_product_page');
-Route::get('/home/all_items', [ProductController::class, 'show_all_items'])->name('all_items');
+
+
 Route::get('/home/special_offer_products', [SpecialOffersController::class, 'showProductsWithSpecialOffers'])->name('special_offerproducts');
 Route::post('/filter-products', [ProductController::class, 'filterProducts']);
 Route::get('/best-sellers', [SpecialOffersController::class, 'bestSellers'])->name('best_sellers');
@@ -131,12 +131,7 @@ Route::get('/affiliate/dashboard/payment/bank_acc', function () {
 // Auth::routes();
 
 
-Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
-Route::get('/shopping-cart', [CartController::class, 'showCart'])->name('shopping_cart');
-Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
 
-Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
-Route::delete('/cart/remove/{index}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 
 Route::get('/payment/{order_code}', [PaymentController::class, 'payment'])->name('payment');
 
@@ -147,8 +142,7 @@ Route::get('/order/order_received/{order_code}', [PaymentController::class, 'get
 Route::get('/search-products', [ProductController::class, 'searchProducts'])->name('searchProducts');
 
 
-Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
-Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('order.store');
+
 
 
 
@@ -375,13 +369,10 @@ Route::get('/About-us', function () {
     return view('frontend.About-us');
 })->name('About-us');
 
-Route::get('/cart', function () {
-    return view('frontend.cart');
-})->name('cart');
 
-Route::get('/checkout', function () {
-    return view('frontend.checkout');
-})->name('checkout');
+Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('order.store');
+
 
 Route::get('/compare', function () {
     return view('frontend.compare');
@@ -409,9 +400,13 @@ Route::get('/track-order', function () {
     return view('frontend.track-order');
 })->name('track-order');
 
-Route::get('/all-items', function () {
-    return view('frontend.all-items');
-})->name('all-items');
+Route::get('/all-items', [ProductController::class, 'show_all_items'])->name('all-items');
+Route::get('/cart', [CartController::class, 'showCart'])->name('cart');
+Route::post('cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
+Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/remove/{index}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
 
 Route::get('/best-seller', function () {
     return view('frontend.best-seller');
@@ -421,9 +416,8 @@ Route::get('/special-offers', function () {
     return view('frontend.special-offers');
 })->name('special-offers');
 
-Route::get('/product-description', function () {
-    return view('frontend.product-description');
-})->name('product-description');
+Route::get('/product-description/{product_id?}', [ProductController::class, 'show'])->name('product-description');
+
 
 Route::get('/aff_home', function () {
     return view('frontend.aff_home');
