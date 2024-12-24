@@ -4,14 +4,26 @@
 <style>
 /* Style for selected color */
 .color-option.selected {
-    border: 2px solid #000; /* Change border color when selected */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a shadow effect */
+    border: 2px solid #000; 
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
 }
 
 /* Style for selected size */
 .products-size-wrapper a.selected {
-    color: #000; /* Change the color of the selected size */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a shadow effect */
+    color: #000; 
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
+}
+
+.review-media {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.review-media img,
+.review-media video {
+    height: 100px;
+    object-fit: cover;
 }
 
 </style>
@@ -91,20 +103,17 @@
             </div>
 
             <div class="products-review">
-            <div class="rating">
-                @for($i = 1; $i <= 5; $i++)
-                    @if($i <= floor($averageRating)) 
-                        <!-- Full star -->
-                        <i class='bx bx-star'></i>
-                    @elseif($i - $averageRating < 1)
-                        <!-- Half star -->
-                        <i class='bx bx-star-half'></i>
-                    @else
-                        <!-- Empty star -->
-                        <i class='bx bx-star'></i>
-                    @endif
-                @endfor
-            </div>
+                <div class="rating">
+                    @for ($i = 1; $i <= 5; $i++)
+                        @if ($averageRating >= $i)
+                            <i class='bx bxs-star'></i> <!-- Full star -->
+                        @elseif ($averageRating >= ($i - 0.5))
+                            <i class='bx bxs-star-half'></i> <!-- Half star -->
+                        @else
+                            <i class='bx bx-star'></i> <!-- Empty star -->
+                        @endif
+                    @endfor
+                </div>
 
                 <a href="#" class="rating-count">{{ $totalReviews }} Ratings</a>
             </div>
@@ -269,31 +278,64 @@
 
                             <div class="review-title">
                                 <div class="rating">
-                                    <i class='bx bxs-star'></i>
-                                    <i class='bx bxs-star'></i>
-                                    <i class='bx bxs-star'></i>
-                                    <i class='bx bxs-star'></i>
-                                    <i class='bx bx-star'></i>
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        @if ($averageRating >= $i)
+                                            <i class='bx bxs-star'></i> <!-- Full star -->
+                                        @elseif ($averageRating >= ($i - 0.5))
+                                            <i class='bx bxs-star-half'></i> <!-- Half star -->
+                                        @else
+                                            <i class='bx bx-star'></i> <!-- Empty star -->
+                                        @endif
+                                    @endfor
                                 </div>
                                 <p>Based on {{ $totalReviews }} reviews</p>
                             </div>
 
-                            <div class="review-comments">
-                                <div class="review-item">
-                                    <div class="rating">
-                                        <i class='bx bxs-star'></i>
-                                        <i class='bx bxs-star'></i>
-                                        <i class='bx bxs-star'></i>
-                                        <i class='bx bxs-star'></i>
-                                        <i class='bx bx-star'></i>
-                                    </div>
-                                    <h3>Good</h3>
-                                    <span><strong>Admin</strong> on <strong>Sep 21, 2024</strong></span>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-                                </div>
 
-                             
+                            <div class="review-comments">
+                                @foreach ($reviews as $review)
+                                    <div class="review-item">
+                                        <div class="rating">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($review->rating >= $i)
+                                                    <i class='bx bxs-star'></i>
+                                                @elseif ($review->rating >= ($i - 0.5))
+                                                    <i class='bx bxs-star-half'></i>
+                                                @else
+                                                    <i class='bx bx-star'></i>
+                                                @endif
+                                            @endfor
+                                        </div>
+                                        <h3>{{ $review->comment_title ?? 'Review' }}</h3>
+                                        <span>
+                                            @if ($review->is_anonymous)
+                                                <strong>Anonymous</strong>
+                                            @else
+                                                <strong>{{ $review->user->name ?? 'User' }}</strong>
+                                            @endif
+                                            on <strong>{{ $review->created_at->format('M d, Y') }}</strong>
+                                        </span>
+                                        <p>{{ $review->comment }}</p>
+
+                                        @if ($review->media->isNotEmpty())
+                                        <div class="review-media" style="display: flex; gap: 10px; align-items: center;">
+    @foreach ($review->media as $media)
+        @if ($media->media_type === 'image')
+            <img src="{{ asset('storage/' . $media->media_path) }}" alt="Review Media" class="review-image" style="height: 100px; object-fit: cover;">
+        @elseif ($media->media_type === 'video')
+            <video controls style="height: 100px; object-fit: cover;">
+                <source src="{{ asset('storage/' . $media->media_path) }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        @endif
+    @endforeach
+</div>
+
+                                        @endif
+                                    </div>
+                                @endforeach
                             </div>
+
 
                            
                         </div>

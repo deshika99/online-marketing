@@ -20,10 +20,11 @@
         <!-- <link rel="stylesheet" href="<?php echo e(asset('frontend/assets/css/dark.css')); ?>">-->
         <link rel="stylesheet" href="<?php echo e(asset('frontend/assets/css/responsive.css')); ?>">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+        <title>OMC - Online Marketing Complex</title>
 
-        <title>OMC</title>
-
-        <link rel="icon" type="image/png" href="frontend/assets/img/favicon.png">
+        <link rel="icon" type="image/png" href="assets/images/logo1.png" style="">
+       
     </head>
     <body>
         
@@ -87,7 +88,7 @@
                                 </li>
                             </ul>
 
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            <p></p>
                             <a href="/all-items" class="shop-now-btn">Shop Now</a>
                         </div>
                     </div>
@@ -270,60 +271,43 @@
                     </button>
 
                     <div class="modal-body">
-                        <h3>My Wish List (3)</h3>
+                        <h3>My Wish List (<?php echo e($wishlistCount); ?>)</h3>
 
+                        <?php if(auth()->check()): ?> 
+                        <?php $__empty_1 = true; $__currentLoopData = $wishlistItems; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                         <div class="products-cart-content">
                             <div class="products-cart">
                                 <div class="products-image">
-                                    <a href="#"><img src="frontend/assets/img/products/img1.jpg" alt="image"></a>
+                                    <a href="<?php echo e(route('product-description', ['product_id' => $item->product_id])); ?>">
+                                        <img src="<?php echo e(asset('storage/' . $item->product->images->first()->image_path)); ?>" alt="image" style="width:50px">
+                                    </a>
                                 </div>
 
                                 <div class="products-content">
-                                    <h3><a href="#">Long Sleeve Leopard T-Shirt</a></h3>
-                                    <span>Blue / XS</span>
+                                    <h3><a href="<?php echo e(route('product-description', ['product_id' => $item->product_id])); ?>">
+                                    <?php echo e($item->product->product_name); ?></a></h3>
                                     <div class="products-price">
-                                        <span>1</span>
-                                        <span>x</span>
-                                        <span class="price">RS 3500</span>
+                                        <span class="price">Rs <?php echo e(number_format($item->product->sale->sale_price ?? $item->product->specialOffer->offer_price ?? $item->product->normal_price, 2)); ?>
+
+                                        </span>
                                     </div>
-                                    <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
+                                    <form action="<?php echo e(route('wishlist.remove', $item->id)); ?>" method="POST" style="display: inline; border:none">
+                                        <?php echo csrf_field(); ?>
+                                        <?php echo method_field('DELETE'); ?>
+                                        <button type="submit" class="remove-btn" style="border:none">
+                                            <i class='bx bx-trash'></i>
+                                        </button>
+                                    </form>
+
                                 </div>
                             </div>
-
-                            <div class="products-cart">
-                                <div class="products-image">
-                                    <a href="#"><img src="frontend/assets/img/products/img2.jpg" alt="image"></a>
-                                </div>
-
-                                <div class="products-content">
-                                    <h3><a href="#">Causal V-Neck Soft Raglan</a></h3>
-                                    <span>Blue / XS</span>
-                                    <div class="products-price">
-                                        <span>1</span>
-                                        <span>x</span>
-                                        <span class="price">RS 2000</span>
-                                    </div>
-                                    <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
-                                </div>
-                            </div>
-
-                            <div class="products-cart">
-                                <div class="products-image">
-                                    <a href="#"><img src="frontend/assets/img/products/img3.jpg" alt="image"></a>
-                                </div>
-
-                                <div class="products-content">
-                                    <h3><a href="#">Hanes Men's Pullover</a></h3>
-                                    <span>Blue / XS</span>
-                                    <div class="products-price">
-                                        <span>1</span>
-                                        <span>x</span>
-                                        <span class="price">RS 3000</span>
-                                    </div>
-                                    <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
-                                </div>
-                            </div>
-                        </div>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                <p>Your wishlist is empty.</p>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <p>Please <a href="<?php echo e(route('login')); ?>">login</a> to view your wishlist.</p>
+                        <?php endif; ?>
+                        
 
                         <div class="products-cart-btn">
                             <a href="/cart" class="optional-btn">View Shopping Cart</a>

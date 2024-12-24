@@ -18,7 +18,7 @@
         <!-- Start Cart Area -->
 <section class="cart-area ptb-100">
     <div class="container">
-        
+    <?php if(auth()->guard()->check()): ?>
             <div class="cart-table table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -120,7 +120,16 @@
 
                 <a href="/checkout" class="default-btn">Proceed to Checkout</a>
             </div>
-
+            <?php else: ?>
+            <div class="col-lg-12">
+                <div class="card p-4 text-center">
+                    <img src="assets/images/cart.png" style="width: 100px; display: block; margin: 0 auto;">
+                    <h4 class="mt-3">Your cart is empty</h4>
+                    <p>Sign in to view your cart and start shopping.</p>
+                    <a href="<?php echo e(route('signup')); ?>" class="btn btn-primary mx-auto d-block" style="width: 10%; background-color: black; border: black;">SIGN UP</a>
+                </div>
+            </div>
+            <?php endif; ?>
     </div>
 </section>
 <!-- End Cart Area -->

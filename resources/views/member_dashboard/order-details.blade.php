@@ -1,4 +1,4 @@
-@extends('layouts.user_sidebar')
+@extends('member_dashboard.user_sidebar')
 
 @section('dashboard-content')
 
@@ -124,7 +124,7 @@
             <div class="order-item" style="display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #eaeaea;">
                 <div style="margin-right: 15px;">
                     @if($item->product->images->isNotEmpty())
-                        <a href="{{ route('single_product_page', ['product_id' =>  $item->product->product_id]) }}"><img src="{{ asset('storage/' . $item->product->images->first()->image_path) }}" alt="Product Image" width="70" height="auto"></a>
+                        <a href="{{ route('product-description', ['product_id' =>  $item->product->product_id]) }}"><img src="{{ asset('storage/' . $item->product->images->first()->image_path) }}" alt="Product Image" width="70" height="auto"></a>
                     @endif
                 </div>
                 <div style="line-height: 1.5;">

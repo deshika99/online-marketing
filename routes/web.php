@@ -19,6 +19,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NavbarController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\WishListController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AffiliateWithdrawalsController;
 use App\Http\Controllers\AffiliateLinkController;
@@ -32,7 +33,7 @@ use App\Http\Controllers\FrontendTemplateController;
 
 use Illuminate\Http\Request;     //contact form
 
-Route::get('/home', [HomeController::class, 'index'])->name('frontend.home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
 Route::get('/signup', [RegisterController::class, 'showSignupForm'])->name('signupForm');
@@ -361,17 +362,10 @@ Route::get('/customer-inquiry', function () {
 
 Route::get('/main',[FrontendTemplateController::class, 'main'])->name('main');
 
-Route::get('/home', function () {
-    return view('frontend.home');
-})->name('home');
 
 Route::get('/About-us', function () {
     return view('frontend.About-us');
 })->name('About-us');
-
-
-Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
-Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('order.store');
 
 
 Route::get('/compare', function () {
@@ -400,6 +394,9 @@ Route::get('/track-order', function () {
     return view('frontend.track-order');
 })->name('track-order');
 
+Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('order.store');
+
 Route::get('/all-items', [ProductController::class, 'show_all_items'])->name('all-items');
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart');
 Route::post('cart/add', [CartController::class, 'addToCart'])->name('cart.add');
@@ -407,17 +404,17 @@ Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.c
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/remove/{index}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 
-
-Route::get('/best-seller', function () {
-    return view('frontend.best-seller');
-})->name('best-seller');
-
-Route::get('/special-offers', function () {
-    return view('frontend.special-offers');
-})->name('special-offers');
-
 Route::get('/product-description/{product_id?}', [ProductController::class, 'show'])->name('product-description');
 
+
+Route::get('/best-seller', [SpecialOffersController::class, 'bestSellers'])->name('best-seller');
+Route::get('/special-offers', [SpecialOffersController::class, 'showProductsWithSpecialOffers'])->name('special-offers');
+
+Route::get('/wishlist', [WishListController::class, 'showWishlist'])->name('wishlist');
+Route::delete('/wishlist/{id}', [WishListController::class, 'remove'])->name('wishlist.remove');
+Route::get('/wishlist/count', [WishListController::class, 'getWishlistCount'])->name('wishlist.count');
+Route::post('/wishlist/toggle', [WishListController::class, 'toggleWishlist'])->name('wishlist.toggle');
+Route::post('/wishlist/check-multiple', [WishListController::class, 'checkMultipleWishlist'])->name('wishlist.checkMultiple');
 
 Route::get('/aff_home', function () {
     return view('frontend.aff_home');

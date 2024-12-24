@@ -176,21 +176,19 @@
                                                     @endif
                                                 </a>
 
-
-                                                <div class="products-button">
-                                                    <ul>
-                                                        <li>
-                                                            <div class="wishlist-btn">
-                                                                <a href="#" data-bs-toggle="modal" data-bs-target="#shoppingWishlistModal">
-                                                                    <i class='bx bx-heart'></i>
-                                                                    <span class="tooltip-label">Add to Wishlist</span>
-                                                                </a>
-                                                            </div>
-                                                        </li>
-                                                        
-                                                        
-                                                    </ul>
-                                                </div>
+                                                    <div class="products-button">
+                                                        <ul>
+                                                            <li>
+                                                                <div class="wishlist-btn">
+                                                                    <a href="#" class="wishlist-toggle" data-product-id="{{ $product->product_id }}" id="wishlist-{{ $product->product_id }}">
+                                                                        <i class="bx bx-heart {{ in_array($product->product_id, $wishlistProductIds) ? 'filled' : '' }}"></i> 
+                                                                        <span class="tooltip-label">Add to Wishlist</span>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                            
                                                
                                                 @if(($product->sale && $product->sale->status === 'active') || ($product->specialOffer && $product->specialOffer->status === 'active'))
                                                     <div class="sale-tag">
@@ -226,12 +224,15 @@
                                                 </div>
                                                 <div class="star-rating">
                                                     @for ($i = 1; $i <= 5; $i++)
-                                                        @if ($i <= $product->average_rating)
-                                                            <i class='bx bxs-star'></i> <!-- Full star -->
+                                                        @if ($i <= floor($product->average_rating)) 
+                                                            <i class='bx bxs-star'></i> 
+                                                        @elseif ($i == ceil($product->average_rating) && fmod($product->average_rating, 1) >= 0.5)
+                                                            <i class='bx bxs-star-half'></i> 
                                                         @else
-                                                            <i class='bx bx-star'></i> <!-- Empty star -->
+                                                            <i class='bx bx-star'></i>
                                                         @endif
                                                     @endfor
+
                                                 </div>
 
                                                 <a href="/cart" class="add-to-cart"  data-bs-toggle="modal" data-bs-target="#cartModal_{{ $product->product_id }}">Add to Cart</a>
@@ -319,14 +320,14 @@
                             </p>  
                             <div class="d-flex flex-row my-3">
                                 <div class="text-warning mb-1 me-2">
-                                    @for($i = 0; $i < floor($product->average_rating); $i++)
-                                        <i class="fa fa-star"></i>
-                                    @endfor
-                                    @if($product->average_rating - floor($product->average_rating) >= 0.5)
-                                        <i class="fas fa-star-half-alt"></i>
-                                    @endif
-                                    @for($i = 0; $i < (5 - ceil($product->average_rating)); $i++)
-                                        <i class="fa fa-star-o"></i>
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        @if ($i <= floor($product->average_rating)) 
+                                            <i class='bx bxs-star'></i> 
+                                        @elseif ($i == ceil($product->average_rating) && fmod($product->average_rating, 1) >= 0.5)
+                                            <i class='bx bxs-star-half'></i> 
+                                        @else
+                                            <i class='bx bx-star'></i>
+                                        @endif
                                     @endfor
                                     <span class="ms-1">{{ number_format($product->average_rating, 1) }}</span>
                                 </div>
@@ -416,6 +417,42 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.js"></script>
+
+
+<script>
+        $(document).ready(function() {
+    // Handle the click event on the heart icon
+    $('.wishlist-toggle').on('click', function(e) {
+        e.preventDefault(); 
+
+        var productId = $(this).data('product-id'); 
+        var heartIcon = $(this).find('i'); 
+
+        $.ajax({
+            url: '{{ route('wishlist.toggle') }}',
+            method: 'POST',
+            data: {
+                product_id: productId,
+                _token: $('meta[name="csrf-token"]').attr('content'),  // Ensure CSRF token is correct
+            },
+            success: function(response) {
+                if (response.message === 'Product added to wishlist') {
+                    heartIcon.addClass('filled');
+                    alert(response.message);
+                } else if (response.message === 'Product removed from wishlist') {
+                    heartIcon.removeClass('filled');
+                    alert(response.message);
+                }
+            },
+            error: function() {
+                alert('You must be logged in to add to wishlist');
+            }
+        });
+
+    });
+});
+
+</script>     
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.btn-cart').forEach(button => {

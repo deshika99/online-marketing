@@ -48,6 +48,46 @@
     display: block;
 }
 
+
+
+
+
+/* Initial style for the navbar */
+.navbar-area {
+    position: relative; 
+    width: 100%;
+    z-index: 1010;
+    transition: top 0.3s ease, position 0.3s ease;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Fixed style for the navbar when scrolling */
+.navbar-area.fixed {
+    position: fixed;
+    top: 0;
+}
+
+/* Ensure the navbar has a higher z-index when fixed */
+.navbar-area {
+    position: relative;
+    width: 100%;
+    z-index: 1010;
+    transition: top 0.3s ease, position 0.3s ease;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Fixed style for the navbar when scrolling */
+.navbar-area.fixed {
+    position: fixed;
+    top: 0;
+}
+
+/* Style for the xton-responsive-nav */
+.xton-responsive-nav {
+    background-color:white;
+}
+
+
   </style>  
 
 
@@ -75,7 +115,7 @@
                                 </span>
                                 My Account
                             </a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" style="z-index:1020">
                                 <li><a href="home/My-Account/dashboard">Dashboard</a></li>
                                 <li>
                                     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
@@ -107,10 +147,6 @@
                                 </a>
                             </div>
                         </div>
-
-
-
-
                       </ul>
               </div>
           </div>
@@ -119,18 +155,17 @@
   <!-- End Top Header Area -->
 
   <!-- Start Navbar Area -->
-  <div class="navbar-area">
+  <div class="navbar-area" >
       <div class="xton-responsive-nav">
           <div class="container">
               <div class="xton-responsive-menu">
-                  <div class="logo">
-                      <a href="index.html">
+                  <div class="logo" >
+                      <a href="/">
                       <img src="<?php echo e(asset('frontend/assets/img/logo.png')); ?>" height="50" width="35" class="main-logo" alt="logo">
                         <span>
                             <img src="<?php echo e(asset('frontend/assets/img/brand_name.png')); ?>" style="height:30px" width="285" alt="brand" />
                         </span>
                         <img src="<?php echo e(asset('frontend/assets/img/white-logo.png')); ?>" class="white-logo" alt="logo">
-
                       </a>
                   </div>
               </div>
@@ -140,7 +175,7 @@
       <div class="xton-nav">
           <div class="container">
               <nav class="navbar navbar-expand-md navbar-light">
-                  <a class="navbar-brand" href="index.html">
+                  <a class="navbar-brand" href="/">
                   <img src="<?php echo e(asset('frontend/assets/img/logo.png')); ?>" height="50" width="35" class="main-logo" alt="logo">
                     <span>
                         <img src="<?php echo e(asset('frontend/assets/img/brand_name.png')); ?>" style="height:30px" width="285" alt="brand" />
@@ -151,7 +186,7 @@
 
                   <div class="collapse navbar-collapse mean-menu">
                       <ul class="navbar-nav">
-                          <li class="nav-item"><a href="/home" class="nav-link ">Home </a>
+                          <li class="nav-item"><a href="/" class="nav-link ">Home </a>
                           </li>
 
                           <li class="nav-item"><a href="/About-us" class="nav-link ">About us </a>
@@ -204,27 +239,49 @@
   <!-- End Navbar Area -->
 
 
-  <!-- Start Search Overlay -->
-  <div class="search-overlay">
-      <div class="d-table">
-          <div class="d-table-cell">
-              <div class="search-overlay-layer"></div>
-              <div class="search-overlay-layer"></div>
-              <div class="search-overlay-layer"></div>
+            <!-- Start Search Overlay -->
+            <div class="search-overlay">
+                <div class="d-table">
+                    <div class="d-table-cell">
+                        <div class="search-overlay-layer"></div>
+                        <div class="search-overlay-layer"></div>
+                        <div class="search-overlay-layer"></div>
 
-              <div class="search-overlay-close">
-                  <span class="search-overlay-close-line"></span>
-                  <span class="search-overlay-close-line"></span>
-              </div>
+                        <div class="search-overlay-close">
+                            <span class="search-overlay-close-line"></span>
+                            <span class="search-overlay-close-line"></span>
+                        </div>
 
-              <div class="search-overlay-form">
-                  <form>
-                      <input type="text" class="input-search" placeholder="Search here...">
-                      <button type="submit"><i class='bx bx-search-alt'></i></button>
-                  </form>
-              </div>
+                        <div class="search-overlay-form">
+                <form action="<?php echo e(route('searchResults')); ?>" method="GET">
+                    <input 
+                        type="text" 
+                        class="input-search" 
+                        name="query" 
+                        placeholder="Search here..." 
+                        value="<?php echo e(request('query')); ?>"> <!-- Preserve input on search results -->
+                    <button type="submit"><i class='bx bx-search-alt'></i></button>
+                </form>
+            </div>
+
           </div>
       </div>
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const navbar = document.querySelector(".navbar-area");
+        const topHeader = document.querySelector(".top-header");
+        const topHeaderHeight = topHeader.offsetHeight;
+
+        window.addEventListener("scroll", function () {
+            if (window.scrollY > topHeaderHeight) {
+                navbar.classList.add("fixed");
+            } else {
+                navbar.classList.remove("fixed");
+            }
+        });
+    });
+</script>
 
   <!-- End Search Overlay --><?php /**PATH C:\xampp\htdocs\online-marketing\resources\views/frontend/navbar-new.blade.php ENDPATH**/ ?>

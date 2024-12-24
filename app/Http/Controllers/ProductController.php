@@ -572,31 +572,44 @@ class ProductController extends Controller
 
 
     public function showSearchResults(Request $request)
-    {
+{
+    $query = $request->get('query', '');
+    $products = [];
 
+    if (!empty($query)) {
+        $searchTerms = explode(' ', $query);
 
-        $query = $request->get('query', ''); 
-        $products = [];
-    
-        if (!empty($query)) {
-            $searchTerms = explode(' ', $query); 
-    
-            $products = Products::with(['Sale', 'specialOffer'])
-                ->where(function ($q) use ($searchTerms) {
-                    foreach ($searchTerms as $term) {
-                        $q->where('product_name', 'LIKE', '%' . $term . '%'); // Match individual terms in product name
-                    }
-                    
-                    foreach ($searchTerms as $term) {
-                        $q->orWhere('tags', 'LIKE', '%' . $term . '%'); // Match tags
-                    }
-                })
-                ->select('id', 'product_name', 'product_id', 'normal_price')
-                ->get();
-        }
-    
-        return view('search_results', compact('products', 'query'));
+        $products = Products::with(['Sale', 'specialOffer', 'images', 'category', 'category.subcategories', 'category.subcategories.subSubcategories'])
+            ->where(function ($q) use ($searchTerms) {
+                foreach ($searchTerms as $term) {
+                    $q->where('product_name', 'LIKE', '%' . $term . '%') // Search in product name
+                      ->orWhere('tags', 'LIKE', '%' . $term . '%')     // Search in tags
+                      ->orWhereHas('category', function ($categoryQuery) use ($term) {
+                          $categoryQuery->where('parent_category', 'LIKE', '%' . $term . '%'); // Search in parent category name
+                      })
+                      ->orWhereHas('category.subcategories', function ($subcategoryQuery) use ($term) {
+                          $subcategoryQuery->where('subcategory', 'LIKE', '%' . $term . '%'); // Search in subcategory name
+                      })
+                      ->orWhereHas('category.subcategories.subSubcategories', function ($subSubcategoryQuery) use ($term) {
+                          $subSubcategoryQuery->where('sub_subcategory', 'LIKE', '%' . $term . '%'); // Search in sub-subcategory name
+                      });
+                }
+            })
+            ->select('id', 'product_name', 'product_id', 'normal_price')
+            ->paginate(10) // Paginate the results
+            ->through(function ($product) {
+                // Add the average rating and rating count to each product
+                $product->average_rating = $product->reviews()->where('status', 'published')->avg('rating');
+                $product->rating_count = $product->reviews()->where('status', 'published')->count();
+                return $product;
+            });
     }
+
+    return view('frontend.search_results', compact('products', 'query'));
+}
+
+    
+    
     
 
     public function searchProducts(Request $request)
