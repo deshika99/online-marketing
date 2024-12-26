@@ -56,31 +56,33 @@ class ProductController extends Controller
     }
 
     
-
     public function show_all_items(Request $request)
     {
         $perPage = 16; 
         // Get categories for the filter
         $categories = Category::all();
-
+    
         $query = Products::with('images', 'specialOffer', 'Sale'); 
-        $products = $query->paginate($perPage)->through(function ($product) {
-            $product->average_rating = $product->reviews()->where('status', 'published')->avg('rating');
-            $product->rating_count = $product->reviews()->where('status', 'published')->count();
-            return $product;
-        });
-
-        $sizes = Variation::where('type', 'size')->distinct()->get(['value']);
-        $colors = Variation::where('type', 'color')->distinct()->get(['value', 'hex_value']);
         
-       // Apply category filter
+        // Apply category filter
         if ($request->has('category')) {
             $category = $request->input('category');
             $query->where('product_category', $category); 
         }
-
+    
+        // Apply subcategory filter
+        if ($request->has('subcategory')) {
+            $subcategory = $request->input('subcategory');
+            $query->where('subcategory', $subcategory); 
+        }
+    
+        // Apply subsubcategory filter
+        if ($request->has('subsubcategory')) {
+            $subsubcategory = $request->input('subsubcategory');
+            $query->where('sub_subcategory', $subsubcategory); 
+        }
         
-        // Apply color filter
+        // Apply other filters (color, size, price)
         if ($request->has('color')) {
             $color = $request->input('color');
             $query->whereHas('variations', function ($q) use ($color) {
@@ -88,22 +90,20 @@ class ProductController extends Controller
             });
         }
         
-        // Apply size filter
         if ($request->has('size')) {
             $size = $request->input('size');
             $query->whereHas('variations', function ($q) use ($size) {
                 $q->where('type', 'size')->where('value', $size);
             });
         }
-
-        // Apply price filter
+        
         if ($request->has('price')) {
             $priceRange = explode('-', $request->input('price'));
             $minPrice = $priceRange[0];
             $maxPrice = $priceRange[1];
             $query->whereBetween('normal_price', [$minPrice, $maxPrice]);
         }
-
+    
         // Paginate the results
         $products = $query->paginate($perPage)->through(function ($product) {
             $product->average_rating = $product->reviews()->where('status', 'published')->avg('rating');
@@ -111,9 +111,12 @@ class ProductController extends Controller
             return $product;
         });
         
+        $sizes = Variation::where('type', 'size')->distinct()->get(['value']);
+        $colors = Variation::where('type', 'color')->distinct()->get(['value', 'hex_value']);
+        
         return view('frontend.all_items', compact('products', 'categories', 'sizes', 'colors'));
     }
-
+    
     
     
     

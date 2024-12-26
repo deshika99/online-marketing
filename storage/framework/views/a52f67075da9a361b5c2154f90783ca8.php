@@ -88,6 +88,9 @@
 }
 
 
+
+
+
   </style>  
 
 
@@ -105,7 +108,7 @@
               <div class="col-lg-6 col-md-12">
                   <ul class="header-top-menu">
                       <li><a href="#" data-bs-toggle="modal" data-bs-target="#shoppingWishlistModal"><i class='bx bx-heart'></i> Wishlist</a></li>
-                      
+                       
                       <?php if(auth()->guard()->check()): ?>
                         <li class="dropdown">
                             <a href="#">
@@ -174,20 +177,49 @@
 
       <div class="xton-nav">
           <div class="container">
-              <nav class="navbar navbar-expand-md navbar-light">
+              <nav class="navbar navbar-expand-md navbar-light"  style="width:110%">
                   <a class="navbar-brand" href="/">
-                  <img src="<?php echo e(asset('frontend/assets/img/logo.png')); ?>" height="50" width="35" class="main-logo" alt="logo">
+                  <img src="<?php echo e(asset('frontend/assets/img/logo.png')); ?>" style="height:50px; width:30px" class="main-logo" alt="logo">
                     <span>
-                        <img src="<?php echo e(asset('frontend/assets/img/brand_name.png')); ?>" style="height:30px" width="285" alt="brand" />
+                        <img src="<?php echo e(asset('frontend/assets/img/brand_name.png')); ?>" style="height:25px; width:250px"  alt="brand" />
                     </span>
                     <img src="<?php echo e(asset('frontend/assets/img/white-logo.png')); ?>" class="white-logo" alt="logo">
 
                   </a>
 
-                  <div class="collapse navbar-collapse mean-menu">
+                  <div class="collapse navbar-collapse mean-menu" style="margin-right:80px">
                       <ul class="navbar-nav">
                           <li class="nav-item"><a href="/" class="nav-link ">Home </a>
                           </li>
+
+                          <li class="nav-item"><a href="#" class="nav-link">Categories </a>
+                                <ul class="dropdown-menu">
+                                    <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <li class="nav-item">
+                                            <a href="/all-items?category=<?php echo e(urlencode($category->parent_category)); ?>" 
+                                            class="nav-link"><?php echo e($category->parent_category); ?> <i class="bx bx-chevron-right"></i></a>
+                                            <ul class="dropdown-menu" style="position: absolute; top: 0; left: 100%; margin-top: 0;">
+                                                <?php $__currentLoopData = $category->subcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <li class="nav-item">
+                                                        <a href="/all-items?subcategory=<?php echo e(urlencode($subcategory->subcategory)); ?>" 
+                                                        class="nav-link" data-toggle="dropdown"><?php echo e($subcategory->subcategory); ?> 
+                                                        <i class="bx bx-chevron-right"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu" style="position: absolute; top: 0; left: 100%; margin-top: 0;">
+                                                            <?php $__currentLoopData = $subcategory->subSubcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subSubcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <li class="nav-item">
+                                                                    <a href="/all-items?subsubcategory=<?php echo e(urlencode($subSubcategory->sub_subcategory)); ?>" 
+                                                                    class="nav-link"><?php echo e($subSubcategory->sub_subcategory); ?></a>
+                                                                </li>
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                        </ul>
+                                                    </li>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            </ul>
+                                        </li>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </ul>
+                            </li>
 
                           <li class="nav-item"><a href="/About-us" class="nav-link ">About us </a>
                           </li>
@@ -202,8 +234,9 @@
 
                           </li>
 
-                          <li class="nav-item"><a href="/contact" class="nav-link">Contact us </a>
+                          <li class="nav-item"><a href="/contact" class="nav-link">Contact</a>
                           </li>
+                          
                       </ul>
 
                       <div class="others-option">
