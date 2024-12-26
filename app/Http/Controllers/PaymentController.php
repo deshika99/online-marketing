@@ -33,7 +33,7 @@ class PaymentController extends Controller
                 return (object) $item;
             });
         }
-        return view('payment', compact('cart', 'order_code'));
+        return view('frontend.payment', compact('cart', 'order_code'));
     }
 
 
@@ -74,7 +74,7 @@ class PaymentController extends Controller
         if (!$order) {
             return redirect()->back()->with('error', 'Order not found.');
         }
-        return view('order_received', [
+        return view('frontend.order_received', [
             'order_code' => $order_code,
             'total_cost' => $order->total_cost, 
         ]);

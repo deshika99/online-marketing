@@ -155,7 +155,7 @@
                             @if (!empty($aff_customer->promotion_method) && is_array($aff_customer->promotion_method))
                                 <ul class="promotion-methods">
                                     @foreach ($aff_customer->promotion_method as $method)
-                                        <li>{{ $method }}</li>
+                                        <li class="mt-1">{{ $method }}</li>
                                     @endforeach
                                 </ul>
                             @else

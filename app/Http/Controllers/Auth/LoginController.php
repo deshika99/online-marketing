@@ -17,7 +17,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = 'home'; // Redirects authenticated users to the home page.
+    protected $redirectTo = '/'; // Redirects authenticated users to the home page.
 
     public function __construct()
     {
@@ -72,6 +72,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('home'); // Redirect to home after logout
+        return redirect('/'); // Redirect to home after logout
     }
 }

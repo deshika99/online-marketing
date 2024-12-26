@@ -11,25 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('affiliate_referrals', function (Blueprint $table) {
-            $table->id();
-
-            // Foreign key to users table (affiliate)
-            $table->unsignedBigInteger('user_id');
-
-            // Foreign key to raffle tickets table (tracking ID)
-            $table->unsignedBigInteger('raffle_ticket_id');
-            $table->foreign('raffle_ticket_id')->references('id')->on('raffle_tickets')->onDelete('cascade');
-
-            // Store the product URL instead of product ID
-            $table->string('product_url'); // This will store the full product link
-
-            $table->integer('views_count')->default(0);
-            $table->integer('referral_count')->default(0);
-            $table->decimal('product_price', 10, 2)->default(0); // Initially set to 0
-            $table->decimal('affiliate_commission', 10, 2)->default(0); // Initially set to 0
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('affiliate_referrals')) {
+            Schema::create('affiliate_referrals', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('user_id');
+                $table->unsignedBigInteger('raffle_ticket_id');
+                $table->foreign('raffle_ticket_id')->references('id')->on('raffle_tickets')->onDelete('cascade');
+                $table->string('product_url');
+                $table->integer('views_count')->default(0);
+                $table->integer('referral_count')->default(0);
+                $table->decimal('product_price', 10, 2)->default(0);
+                $table->decimal('affiliate_commission', 10, 2)->default(0);
+                $table->timestamps();
+            });
+        }
+    
     }
 
     /**

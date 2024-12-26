@@ -1,4 +1,4 @@
-@extends('layouts.user_sidebar')
+@extends('member_dashboard.user_sidebar')
 
 @section('dashboard-content')
 <style>

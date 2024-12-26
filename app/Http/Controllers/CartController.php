@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class CartController extends Controller
 {
 
-
+    
     public function addToCart(Request $request)
     {
         $productId = $request->input('product_id');
@@ -65,10 +65,11 @@ class CartController extends Controller
     
             session()->put('cart', $cart);
         }
-
+    
         $cartCount = Auth::check() ? CartItem::where('user_id', Auth::id())->sum('quantity') : array_sum(array_column(session()->get('cart', []), 'quantity'));
         return response()->json(['cart_count' => $cartCount]);
     }
+    
     
 
 
@@ -84,9 +85,11 @@ class CartController extends Controller
             $cart = session()->get('cart', []);
             $cartCount = count($cart);
         }
+
     
         return response()->json(['cart_count' => $cartCount]);
     }
+    
     
 
 
@@ -102,7 +105,7 @@ class CartController extends Controller
             $cart = session()->get('cart', []);
         }
     
-        return view('shopping_cart', compact('cart'));
+        return view('frontend.cart', compact('cart'));
     }
     
     
@@ -124,7 +127,7 @@ class CartController extends Controller
             });
         }
 
-        return view('checkout', compact('cart', 'defaultAddress', 'user'));
+        return view('frontend.checkout', compact('cart', 'defaultAddress', 'user'));
     }
     
 
