@@ -27,25 +27,15 @@
 
                 <!-- First Name -->
                 <div class="form-group">
-                    <label for="fname">First Name</label>
-                    <input type="text" class="form-control @error('first-name') is-invalid @enderror" id="fname" name="fname" placeholder="Enter your first name" value="{{ old('fname') }}" required>
-                    @error('first-name')
+                    <label for="name">Full Name</label>
+                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Enter your name" value="{{ old('name') }}" required>
+                    @error('name')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
                     @enderror
                 </div>
 
-                <!-- Last Name -->
-                <div class="form-group">
-                    <label for="lname">Last Name</label>
-                    <input type="text" class="form-control @error('last-name') is-invalid @enderror" id="lname" name="lname" placeholder="Enter your last name" value="{{ old('lname') }}" required>
-                    @error('last-name')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
 
                 <!-- Address -->
                 <div class="form-group">
