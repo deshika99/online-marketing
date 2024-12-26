@@ -155,9 +155,10 @@ Route::post('/dashboard/password/update', [UserDashboardController::class, 'upda
 
 
 //affiliate dashboard
-Route::view('/home/affiliate/affiliate_home', 'frontend.aff_home')->name('aff_home');
-Route::post('/home/affiliate/register', [AffiliateCustomerController::class, 'register'])->name('frontend.aff_reg');
-Route::view('/home/affiliate/register/', 'frontend.aff_reg')->name('register_form');
+Route::view('/aff_home', 'frontend.aff_home')->name('aff_home');
+Route::view('/aff_reg', 'frontend.aff_reg')->name('aff_reg');
+Route::post('/aff_reg', [AffiliateCustomerController::class, 'register'])->name('register_form');
+
 Route::post('/home/affiliate/login', [AffiliateCustomerController::class, 'login'])->name('aff_login');
 Route::get('/affiliate/dashboard', [AffiliateCustomerController::class, 'index'])->name('index');
 Route::post('/affiliate/logout', [AffiliateCustomerController::class, 'logout'])->name('aff_logout');
@@ -415,13 +416,4 @@ Route::delete('/wishlist/{id}', [WishListController::class, 'remove'])->name('wi
 Route::get('/wishlist/count', [WishListController::class, 'getWishlistCount'])->name('wishlist.count');
 Route::post('/wishlist/toggle', [WishListController::class, 'toggleWishlist'])->name('wishlist.toggle');
 Route::post('/wishlist/check-multiple', [WishListController::class, 'checkMultipleWishlist'])->name('wishlist.checkMultiple');
-
-Route::get('/aff_home', function () {
-    return view('frontend.aff_home');
-})->name('aff_home');
-
-Route::get('/aff_reg', function () {
-    return view('frontend.aff_reg');
-})->name('aff_reg');
-
 

@@ -1,6 +1,4 @@
-@extends('layouts.affiliate_main.master')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <style>
     .table thead {
         background-color: #9FC5E8;
@@ -45,26 +43,28 @@
         
         <div class="card m-0 ">
             <div class="section">
-                @if($customer && $customer->account_number)
+                <?php if($customer && $customer->account_number): ?>
                     <!-- Show Payment Details -->
                     <h3>Bank Account Details</h3>
-                    <p>Bank Name: {{ $customer->bank_name }}</p>
-                    <p>Branch: {{ $customer->branch }}</p>
-                    <p>Account Halder Name: {{ $customer->account_name }}</p>
-                    <p>Account Number: {{ $customer->account_number }}</p>
-                @else
+                    <p>Bank Name: <?php echo e($customer->bank_name); ?></p>
+                    <p>Branch: <?php echo e($customer->branch); ?></p>
+                    <p>Account Halder Name: <?php echo e($customer->account_name); ?></p>
+                    <p>Account Number: <?php echo e($customer->account_number); ?></p>
+                <?php else: ?>
                     <!-- No Payment Information -->
                     <h3>Bank Account Not Linked</h3>
                     <p>You have not linked any bank account</p>
-                @endif
+                <?php endif; ?>
                 <br><br>
             </div>    
 
             <div style="display: flex; justify-content: center;">
-                <a href="{{ route('bank_acc') }}" class="btn btn-secondary btn-sm">UPDATE BANK ACCOUNT</a>
+                <a href="<?php echo e(route('bank_acc')); ?>" class="btn btn-secondary btn-sm">UPDATE BANK ACCOUNT</a>
             </div>
         </div>
     </div>
 </main>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.affiliate_main.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\online-marketing\resources\views/affiliate_dashboard/payment_info.blade.php ENDPATH**/ ?>

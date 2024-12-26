@@ -1,6 +1,6 @@
-@extends('layouts.admin_main.master')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
 
 
 
@@ -67,36 +67,36 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($aff_customer as $index => $customer)
+                                <?php $__currentLoopData = $aff_customer; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td>{{ $index + 1 }}</td>
-                                    <td>{{ $customer->name }}</td>
-                                    <td>{{ $customer->NIC }}</td>
-                                    <td>{{ $customer->address }}</td>
-                                    <td>{{ $customer->contactno }}</td>
-                                    <td>{{ $customer->email }}</td>
+                                    <td><?php echo e($index + 1); ?></td>
+                                    <td><?php echo e($customer->name); ?></td>
+                                    <td><?php echo e($customer->NIC); ?></td>
+                                    <td><?php echo e($customer->address); ?></td>
+                                    <td><?php echo e($customer->contactno); ?></td>
+                                    <td><?php echo e($customer->email); ?></td>
                                     <td class="status1">
-                                        @if ($customer->status == 'pending')
-                                            <form action="{{ route('aff_customers.updateStatus', $customer->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('PATCH')
+                                        <?php if($customer->status == 'pending'): ?>
+                                            <form action="<?php echo e(route('aff_customers.updateStatus', $customer->id)); ?>" method="POST" style="display:inline;">
+                                                <?php echo csrf_field(); ?>
+                                                <?php echo method_field('PATCH'); ?>
                                                 <button type="submit" name="status" value="approved" class="btn-approve btn btn-success mb-1">Approve</button>
                                                 <button type="submit" name="status" value="rejected" class="btn-reject btn btn-danger">Reject</button>
                                             </form>
-                                        @elseif ($customer->status == 'approved')
+                                        <?php elseif($customer->status == 'approved'): ?>
                                             <span class="status-approved">Approved</span>
-                                        @elseif ($customer->status == 'rejected')
+                                        <?php elseif($customer->status == 'rejected'): ?>
                                             <span class="status-rejected">Rejected</span>
-                                        @endif
+                                        <?php endif; ?>
                                     </td>
                                     <td class="action-buttons">
-                                        <a href="{{ route('aff_customer-details', $customer->id) }}" class="btn btn-info btn-sm view-btn" 
+                                        <a href="<?php echo e(route('aff_customer-details', $customer->id)); ?>" class="btn btn-info btn-sm view-btn" 
                                             style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                     </td>
                                 </tr>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </tbody>
                         </table>   
                     </div>
@@ -107,4 +107,6 @@
 </main>
 
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin_main.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\online-marketing\resources\views/admin_dashboard/aff_customers.blade.php ENDPATH**/ ?>

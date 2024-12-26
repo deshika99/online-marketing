@@ -90,7 +90,7 @@
 
                     <ul class="quick-links">
                         <li><a href="/About-us">About Us</a></li>
-                        <li><a href="">Shop Now</a></li>
+                        <li><a href="/all-items">Shop Now</a></li>
                         <li><a href="/privacy_policy">Privacy Policy</a></li>
                         <li><a href="/faq">FAQ's</a></li>
                         <li><a href="/contact">Contact Us</a></li>

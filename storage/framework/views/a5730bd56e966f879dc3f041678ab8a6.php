@@ -29,15 +29,15 @@
                         <div class="icon-circle">
                             <i class="fas fa-user-alt"></i>
                         </div>
-                        <span class="ms-2 text-muted">{{ $affiliateName }}</span>
+                        <span class="ms-2 text-muted"><?php echo e($affiliateName); ?></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                         
-                        <li><a class="dropdown-item" href="{{ route('mywebsites_page') }}">Account Settings</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('mywebsites_page')); ?>">Account Settings</a></li>
 
                         <li>
-                            <form id="logout-form" action="{{ route('aff_logout') }}" method="POST">
-                                @csrf
+                            <form id="logout-form" action="<?php echo e(route('aff_logout')); ?>" method="POST">
+                                <?php echo csrf_field(); ?>
                                 <button type="submit" class="dropdown-item">Logout</button>
                             </form>
                         </li>
@@ -49,3 +49,4 @@
         <!-- Container wrapper -->
     </nav>
 </header>
+<?php /**PATH C:\xampp\htdocs\online-marketing\resources\views/layouts/affiliate_main/navbar.blade.php ENDPATH**/ ?>

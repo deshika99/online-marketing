@@ -140,12 +140,12 @@
 
 <script>
 $(document).ready(function() {
-    // Update quantity and price when plus or minus button is clicked
-    $('.plus-btn, .minus-btn').on('click', function() {
+    // Ensure no duplicate event bindings
+    $('.plus-btn, .minus-btn').off('click').on('click', function() {
         const quantityInput = $(this).siblings('.quantity-input');  // Get the corresponding input field
         let currentValue = parseInt(quantityInput.val());
 
-        // Ensure the current value is a number and avoid multiple triggers
+        // Ensure the current value is a number
         if (!isNaN(currentValue)) {
             // For the plus button, increase the value by 1
             if ($(this).hasClass('plus-btn')) {
@@ -156,8 +156,8 @@ $(document).ready(function() {
                 quantityInput.val(currentValue - 1);
             }
 
-            // Now update the price immediately after changing the value
-            updatePrice($(this).closest('tr'));  // Update the price and total after quantity change
+            // Update price and totals after quantity change
+            updatePrice($(this).closest('tr'));
         }
     });
 
@@ -195,7 +195,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     console.log(response.message);  // Log the success message
-                    location.reload();  // Refresh the page after a successful update
+                    location.reload();  // Reload the page after a successful update
                 }
             },
             error: function(xhr) {
@@ -204,11 +204,10 @@ $(document).ready(function() {
         });
     }
 
-
-    $('.btn-delete-item').on('click', function(e) {
+    $('.btn-delete-item').off('click').on('click', function(e) {
         e.preventDefault();
 
-        const productId = $(this).data('product-id'); 
+        const productId = $(this).data('product-id');
 
         $.ajax({
             url: `{{ route('cart.remove', '') }}/${productId}`,
@@ -217,15 +216,16 @@ $(document).ready(function() {
                 _token: "{{ csrf_token() }}"
             },
             success: function(response) {
-                location.reload(); 
+                location.reload();  // Reload the page after deleting an item
             },
             error: function(xhr) {
-                console.log(xhr.responseText); 
+                console.log(xhr.responseText);
                 alert('Something went wrong. Please try again.');
             }
         });
     });
 });
+
 
 </script>
         

@@ -260,7 +260,7 @@ class AffiliateCustomerController extends Controller
         Session::forget('affiliate_customer_id');
         Session::forget('affiliate_customer_name');
         
-        return redirect()->route('register_form');
+        return redirect()->route('aff_home');
     }
     
 

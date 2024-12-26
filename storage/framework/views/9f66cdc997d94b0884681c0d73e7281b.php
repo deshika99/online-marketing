@@ -1,6 +1,4 @@
-@extends ('frontend.master')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
          <!-- Start Page Title -->
         <div class="page-title-area">
@@ -400,4 +398,5 @@
 
      
         
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('frontend.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\online-marketing\resources\views/frontend/faq.blade.php ENDPATH**/ ?>
