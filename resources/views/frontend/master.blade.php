@@ -6,33 +6,34 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <!-- Links of CSS files -->
-        <link rel="stylesheet" href="frontend/assets/css/bootstrap.min.css">
-        <link rel="stylesheet" href="frontend/assets/css/animate.min.css">
-        <link rel="stylesheet" href="frontend/assets/css/boxicons.min.css">
-        <link rel="stylesheet" href="frontend/assets/css/flaticon.css">
-        <link rel="stylesheet" href="frontend/assets/css/magnific-popup.min.css">
-        <link rel="stylesheet" href="frontend/assets/css/nice-select.min.css">
-        <link rel="stylesheet" href="frontend/assets/css/slick.min.css">
-        <link rel="stylesheet" href="frontend/assets/css/owl.carousel.min.css">
-        <link rel="stylesheet" href="frontend/assets/css/meanmenu.min.css">
-        <link rel="stylesheet" href="frontend/assets/css/rangeSlider.min.css">
-        <link rel="stylesheet" href="frontend/assets/css/style.css">
-        <!-- <link rel="stylesheet" href="frontend/assets/css/dark.css">-->
-        <link rel="stylesheet" href="frontend/assets/css/responsive.css">
+        <link rel="stylesheet" href="{{ asset('frontend/assets/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('frontend/assets/css/animate.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('frontend/assets/css/boxicons.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('frontend/assets/css/flaticon.css') }}">
+        <link rel="stylesheet" href="{{ asset('frontend/assets/css/magnific-popup.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('frontend/assets/css/nice-select.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('frontend/assets/css/slick.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('frontend/assets/css/owl.carousel.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('frontend/assets/css/meanmenu.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('frontend/assets/css/rangeSlider.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('frontend/assets/css/style.css') }}">
+        <!-- <link rel="stylesheet" href="{{ asset('frontend/assets/css/dark.css') }}">-->
+        <link rel="stylesheet" href="{{ asset('frontend/assets/css/responsive.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <title>OMC - Online Marketing Complex</title>
 
-        <title>Xton - eCommerce HTML Template</title>
-
-        <link rel="icon" type="image/png" href="frontend/assets/img/favicon.png">
+        <link rel="icon" type="image/png" href="assets/images/logo1.png" style="">
+       
     </head>
     <body>
         
        
-        @include('includes.navbar-new')
+        @include('frontend.navbar-new')
        
 
         @yield('content')
-        @include('includes.footer-new')
+        @include('frontend.footer-new')
 
        
           <!-- Start Sidebar Modal -->
@@ -87,7 +88,7 @@
                                 </li>
                             </ul>
 
-                            <p>OMC is an e-commerce shopping website offering a wide range of products with a seamless online shopping experience.</p>
+                            <p></p>
                             <a href="/all-items" class="shop-now-btn">Shop Now</a>
                         </div>
                     </div>
@@ -270,60 +271,42 @@
                     </button>
 
                     <div class="modal-body">
-                        <h3>My Wish List (3)</h3>
+                        <h3>My Wish List ({{ $wishlistCount }})</h3>
 
+                        @if(auth()->check()) 
+                        @forelse($wishlistItems as $item)
                         <div class="products-cart-content">
                             <div class="products-cart">
                                 <div class="products-image">
-                                    <a href="#"><img src="frontend/assets/img/products/img1.jpg" alt="image"></a>
+                                    <a href="{{ route('product-description', ['product_id' => $item->product_id]) }}">
+                                        <img src="{{ asset('storage/' . $item->product->images->first()->image_path) }}" alt="image" style="width:50px">
+                                    </a>
                                 </div>
 
                                 <div class="products-content">
-                                    <h3><a href="#">Long Sleeve Leopard T-Shirt</a></h3>
-                                    <span>Blue / XS</span>
+                                    <h3><a href="{{ route('product-description', ['product_id' => $item->product_id]) }}">
+                                    {{ $item->product->product_name }}</a></h3>
                                     <div class="products-price">
-                                        <span>1</span>
-                                        <span>x</span>
-                                        <span class="price">RS 3500</span>
+                                        <span class="price">Rs {{ number_format($item->product->sale->sale_price ?? $item->product->specialOffer->offer_price ?? $item->product->normal_price, 2) }}
+                                        </span>
                                     </div>
-                                    <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
+                                    <form action="{{ route('wishlist.remove', $item->id) }}" method="POST" style="display: inline; border:none">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="remove-btn" style="border:none">
+                                            <i class='bx bx-trash'></i>
+                                        </button>
+                                    </form>
+
                                 </div>
                             </div>
-
-                            <div class="products-cart">
-                                <div class="products-image">
-                                    <a href="#"><img src="frontend/assets/img/products/img2.jpg" alt="image"></a>
-                                </div>
-
-                                <div class="products-content">
-                                    <h3><a href="#">Causal V-Neck Soft Raglan</a></h3>
-                                    <span>Blue / XS</span>
-                                    <div class="products-price">
-                                        <span>1</span>
-                                        <span>x</span>
-                                        <span class="price">RS 2000</span>
-                                    </div>
-                                    <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
-                                </div>
-                            </div>
-
-                            <div class="products-cart">
-                                <div class="products-image">
-                                    <a href="#"><img src="frontend/assets/img/products/img3.jpg" alt="image"></a>
-                                </div>
-
-                                <div class="products-content">
-                                    <h3><a href="#">Hanes Men's Pullover</a></h3>
-                                    <span>Blue / XS</span>
-                                    <div class="products-price">
-                                        <span>1</span>
-                                        <span>x</span>
-                                        <span class="price">RS 3000</span>
-                                    </div>
-                                    <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
-                                </div>
-                            </div>
-                        </div>
+                            @empty
+                                <p>Your wishlist is empty.</p>
+                            @endforelse
+                        @else
+                            <p>Please <a href="{{ route('login') }}">login</a> to view your wishlist.</p>
+                        @endif
+                        
 
                         <div class="products-cart-btn">
                             <a href="/cart" class="optional-btn">View Shopping Cart</a>
@@ -626,24 +609,47 @@
         <!-- End Products Filter Modal Area -->
         
         
-        
-      <!-- Links of JS files -->
-      <script src="frontend/assets/js/jquery.min.js"></script>
-      <script src="frontend/assets/js/popper.min.js"></script>
-      <script src="frontend/assets/js/bootstrap.bundle.min.js"></script>
-      <script src="frontend/assets/js/owl.carousel.min.js"></script>
-      <script src="frontend/assets/js/magnific-popup.min.js"></script>
-      <script src="frontend/assets/js/parallax.min.js"></script>
-      <script src="frontend/assets/js/rangeSlider.min.js"></script>
-      <script src="frontend/assets/js/nice-select.min.js"></script>
-      <script src="frontend/assets/js/meanmenu.min.js"></script>
-      <script src="frontend/assets/js/isotope.pkgd.min.js"></script>
-      <script src="frontend/assets/js/slick.min.js"></script>
-      <script src="frontend/assets/js/sticky-sidebar.min.js"></script>
-      <script src="frontend/assets/js/wow.min.js"></script>
-      <script src="frontend/assets/js/form-validator.min.js"></script>
-      <script src="frontend/assets/js/contact-form-script.js"></script>
-      <script src="frontend/assets/js/ajaxchimp.min.js"></script>
-      <script src="frontend/assets/js/main.js"></script>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+        <script src="{{ asset('frontend/assets/js/jquery.min.js') }}"></script>
+        <script src="{{ asset('frontend/assets/js/popper.min.js') }}"></script>
+        <script src="{{ asset('frontend/assets/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('frontend/assets/js/owl.carousel.min.js') }}"></script>
+        <script src="{{ asset('frontend/assets/js/magnific-popup.min.js') }}"></script>
+        <script src="{{ asset('frontend/assets/js/parallax.min.js') }}"></script>
+        <script src="{{ asset('frontend/assets/js/rangeSlider.min.js') }}"></script>
+        <script src="{{ asset('frontend/assets/js/nice-select.min.js') }}"></script>
+        <script src="{{ asset('frontend/assets/js/meanmenu.min.js') }}"></script>
+        <script src="{{ asset('frontend/assets/js/isotope.pkgd.min.js') }}"></script>
+        <script src="{{ asset('frontend/assets/js/slick.min.js') }}"></script>
+        <script src="{{ asset('frontend/assets/js/sticky-sidebar.min.js') }}"></script>
+        <script src="{{ asset('frontend/assets/js/wow.min.js') }}"></script>
+        <script src="{{ asset('frontend/assets/js/form-validator.min.js') }}"></script>
+        <script src="{{ asset('frontend/assets/js/contact-form-script.js') }}"></script>
+        <script src="{{ asset('frontend/assets/js/ajaxchimp.min.js') }}"></script>
+        <script src="{{ asset('frontend/assets/js/main.js') }}"></script>
+
+
+
+<!-- Include Toastr.js after jQuery -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+       <script>
+        $(document).ready(function() {
+            console.log("Fetching cart count from: {{ route('cart.count') }}");
+            
+            $.get("{{ route('cart.count') }}", function(data) {
+                // Update both cart count elements
+                $('#cart-count-header').text(data.cart_count);
+                $('#cart-count-navbar').text(data.cart_count);
+            });
+
+            $(document).ready(function() {
+                console.log("jQuery is working!");
+            });
+        });
+    </script>
+
   </body>
 </html>

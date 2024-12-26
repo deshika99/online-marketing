@@ -1,9 +1,8 @@
-@extends('layouts.user_sidebar')  
+@extends('member_dashboard.user_sidebar')
 
 @section('dashboard-content')
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
 <style>
     /* Center popup container */
     .popup {
@@ -145,27 +144,27 @@
         font-weight: bold;
         margin-right: 10px;
     }
-</style>
+
 
     .address-card{
         border: 1px solid #93c1fe;
         background: #f8fbff;
     }
 </style>
+
+
 <h3 class="py-2 px-2">Address Book</h3>
 
 <button class="btn btn-primary mt-3" onclick="openPopup()">+ Add New</button>
 
-
-
 <!-- Displaying Address Cards -->
 <div class="row mt-4">
-    @foreach($addresses as $address)
-        <div class="col-md-4 mb-3"> 
+    @forelse($addresses as $address)
+        <div class="col-md-4 mb-3">
             <div class="card address-card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h6 class="card-title mb-0">{{ $address->full_name }}</h6> <!-- Remove bottom margin -->
+                        <h6 class="card-title mb-0">{{ $address->full_name }}</h6>
                         @if($address->default)
                             <span class="badge bg-primary">Default</span>
                         @endif
@@ -179,36 +178,26 @@
                     </p>
                     <div class="d-flex">
                         <button class="btn btn-sm" onclick="openEditPopup({{ json_encode($address) }})" style="color:red">Edit</button>
-                        <button class="btn btn-sm" onclick="showDeleteModal({{ $address->id }})" style="color:red">
-                            Delete
-                        </button>
-<!-- Display saved addresses -->
-<div class="row">
-    @if(isset($addresses) && $addresses->count())
-        @foreach($addresses as $address)
-        <div class="col-md-4">
-            <div class="card mb-3 address-card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ $address->full_name }}</h5>
-                    <p class="card-text">
-                        <strong>Phone:</strong> {{ $address->phone_num }}<br>
-                        <strong>Email:</strong> {{ $address->email }}<br>
-                        <strong>Address:</strong> {{ $address->address }}<br>
-                        {{ $address->apartment }}, {{ $address->city }}, {{ $address->postal_code }}
-                    </p>
-                    <div class="actions">
-                        <a href="{{ route('editAddress', $address->id) }}">Edit</a>
-                        <form action="{{ route('deleteAddress', $address->id) }}" method="POST" style="display: inline;">
+                        <form action="{{ route('address.delete', $address->id) }}" method="POST" class="ms-2">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-link text-danger">Delete</button>
+                            <button type="submit" class="btn btn-sm text-danger">Delete</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-    @endforeach
+    @empty
+        <p class="text-center">No addresses found.</p>
+    @endforelse
 </div>
+
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
 <!-- Add  modal -->
 <div class="popup" id="popup">
     <div class="popup-content">
@@ -338,11 +327,7 @@
 
 
 
-        @endforeach
-    @else
-        <p>No addresses found.</p>
-    @endif
-</div>
+   
 
 <!-- Popup container for adding address -->
 <div class="popup" id="popup">
@@ -388,12 +373,8 @@
     </div>
 </div>
 
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
 
+<!-- JavaScript -->
 <script>
     function openPopup() {
         document.getElementById("popup").style.display = "flex";
@@ -410,28 +391,23 @@
         $('#deleteModal').modal('show');
     }
 
+    function openEditPopup(address) {
+        document.getElementById('edit_address_id').value = address.id;
+        document.getElementById('edit_first_name').value = address.full_name;
+        document.getElementById('edit_phone').value = address.phone_num;
+        document.getElementById('edit_email').value = address.email;
+        document.getElementById('edit_address').value = address.address;
+        document.getElementById('edit_apartment').value = address.apartment;
+        document.getElementById('edit_city').value = address.city;
+        document.getElementById('edit_postal_code').value = address.postal_code;
+        document.getElementById('edit_default').checked = address.default;
 
-    // Function to open the Edit modal with pre-filled data
-function openEditPopup(address) {
-    document.getElementById('edit_address_id').value = address.id;
-    document.getElementById('edit_first_name').value = address.full_name;
-    document.getElementById('edit_phone').value = address.phone_num;
-    document.getElementById('edit_email').value = address.email;
-    document.getElementById('edit_address').value = address.address;
-    document.getElementById('edit_apartment').value = address.apartment;
-    document.getElementById('edit_city').value = address.city;
-    document.getElementById('edit_postal_code').value = address.postal_code;
-    document.getElementById('edit_default').checked = address.default;
+        document.getElementById('editPopup').style.display = 'flex';
+    }
 
-
-    document.getElementById('editPopup').style.display = 'flex';
-}
-
-
-function closeEditPopup() {
-    document.getElementById('editPopup').style.display = 'none';
-}
-
+    function closeEditPopup() {
+        document.getElementById('editPopup').style.display = 'none';
+    }
 </script>
 
 @endsection

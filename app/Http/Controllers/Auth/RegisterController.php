@@ -7,21 +7,11 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
     use RegistersUsers;
 
     /**
@@ -29,7 +19,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = 'login';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -42,72 +32,42 @@ class RegisterController extends Controller
     }
 
     /**
-     * Get a validator for an incoming registration request.
+     * Show the signup form.
      *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @return \Illuminate\View\View
      */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'fname' => ['required', 'string', 'max:255'],
-            'lname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'address' => ['nullable', 'string', 'max:255'],
-            'district' => ['nullable', 'string', 'max:255'],
-            'DOB_day' => ['nullable', 'integer', 'min:1', 'max:31'],
-            'DOB_month' => ['nullable', 'integer', 'min:1', 'max:12'],
-            'DOB_year' => ['nullable', 'integer', 'min:1900', 'max:' . date('Y')],
-            'phone_num' => ['nullable', 'string', 'max:15'],
-            'acc_no' => ['nullable', 'string', 'max:20'],
-            'bank_name' => ['nullable', 'string', 'max:255'],
-            'branch' => ['nullable', 'string', 'max:255'],
-        ], [
-            'DOB_month.min' => 'The month must be between 1 and 12.',
-            'DOB_month.max' => 'The month must be between 1 and 12.',
-        ]);
-    }
-
     public function showSignupForm()
     {
-        return view('signup');
+        return view('frontend.signup');
     }
 
-
     public function register(Request $request)
-{
-    // Validate the request data
-    $validatedData = $request->validate([
-        'fname' => 'required|string|max:255',
-        'lname' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users',
-        'password' => 'required|string|min:8|confirmed',
-    ], [
-        'email.unique' => 'This email is already registered.',
-        'password.confirmed' => 'Passwords do not match.',
-    ]);
+    {
+        // Validate the request data
+        $validatedData = $request->validate([
+            'fname' => 'required|string|max:255',
+            'lname' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'district' => 'required|string|max:255',
+            'DOB' => 'required|date|before:today',
+            'phone_num' => 'required|string|max:16|regex:/^\+?[0-9]{7,15}$/',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
 
-    // Create the user in the database
-    User::create([
-        'fname' => $validatedData['fname'],
-        'lname' => $validatedData['lname'],
-        'email' => $validatedData['email'],
-        'password' => Hash::make($validatedData['password']),
-        'role' => 'customer', // Optional if your User model uses a default value
-    ]);
+        // Store user data in the database
+        $user = new User();
+        $user->fname = $validatedData['fname'];
+        $user->lname = $validatedData['lname'];
+        $user->address = $validatedData['address'];
+        $user->district = $validatedData['district'];
+        $user->date_of_birth = $validatedData['DOB'];
+        $user->phone_num = $validatedData['phone_num'];
+        $user->email = $validatedData['email'];
+        $user->password = Hash::make($validatedData['password']);
+        $user->save();
 
-    // Redirect to the login page with a success message
-    return redirect()->route('login')->with('status', 'Successfully registered! Please login to continue.');
+        // Redirect to a success page or login
+        return redirect()->route('login')->with('success', 'Account created successfully! You can now log in.');
+    }
 }
-
-
-}
-    
-    
-       
-    
-
-
-
-

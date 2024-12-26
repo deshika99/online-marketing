@@ -33,7 +33,6 @@
                                     <th scope="col">Phone</th>
                                     <th scope="col">Registered Date</th>
                                     <th scope="col">Total Orders</th>
-                                    <th scope="col">Status</th>
                                     <th scope="col" style="width: 10%">Action</th>
                                 </tr>
                             </thead>
@@ -46,13 +45,7 @@
                                     <td>{{ $customer->phone_num }}</td>
                                     <td>{{ $customer->created_at->format('Y-m-d') }}</td>
                                     <td>{{ $customer->customer_orders_count }}</td>
-                                    <td>
-                                        @if ($customer->status == 'Active')
-                                            <span class="status-badge badge bg-success">Active</span>
-                                        @else
-                                            <span class="status-badge badge bg-danger">Inactive</span>
-                                        @endif
-                                    </td>
+                                  
                                     <td class="action-buttons">
                                         <a href="{{ route('customer-details', $customer->id) }}" class="btn btn-info btn-sm view-btn" 
                                             style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">

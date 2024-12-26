@@ -17,22 +17,21 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';  // This will redirect to the home page after login.
+    protected $redirectTo = '/'; // Redirects authenticated users to the home page.
 
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-        $this->middleware('auth')->only('logout');
     }
 
     /**
-     * Handle authentication logic and check credentials.
+     * Handle authentication logic and validate credentials.
      */
     public function login(Request $request)
     {
         // Validate request data
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required|email|exists:users,email', // Ensure email exists in the database
             'password' => 'required|string',
         ]);
 
@@ -42,7 +41,7 @@ class LoginController extends Controller
 
         // Attempt to authenticate the user
         if (Auth::attempt($credentials, $remember)) {
-            // Update the last login timestamp
+            // Update last login timestamp
             $this->authenticated($request, Auth::user());
 
             // Redirect to the intended page or the default redirect path
@@ -73,6 +72,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/home');  // Redirecting to home after logout
+        return redirect('/'); // Redirect to home after logout
     }
 }

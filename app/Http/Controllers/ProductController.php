@@ -56,21 +56,68 @@ class ProductController extends Controller
     }
 
     
-
-    public function show_all_items()
+    public function show_all_items(Request $request)
     {
         $perPage = 16; 
+        // Get categories for the filter
+        $categories = Category::all();
+    
         $query = Products::with('images', 'specialOffer', 'Sale'); 
+        
+        // Apply category filter
+        if ($request->has('category')) {
+            $category = $request->input('category');
+            $query->where('product_category', $category); 
+        }
+    
+        // Apply subcategory filter
+        if ($request->has('subcategory')) {
+            $subcategory = $request->input('subcategory');
+            $query->where('subcategory', $subcategory); 
+        }
+    
+        // Apply subsubcategory filter
+        if ($request->has('subsubcategory')) {
+            $subsubcategory = $request->input('subsubcategory');
+            $query->where('sub_subcategory', $subsubcategory); 
+        }
+        
+        // Apply other filters (color, size, price)
+        if ($request->has('color')) {
+            $color = $request->input('color');
+            $query->whereHas('variations', function ($q) use ($color) {
+                $q->where('type', 'color')->where('value', $color);
+            });
+        }
+        
+        if ($request->has('size')) {
+            $size = $request->input('size');
+            $query->whereHas('variations', function ($q) use ($size) {
+                $q->where('type', 'size')->where('value', $size);
+            });
+        }
+        
+        if ($request->has('price')) {
+            $priceRange = explode('-', $request->input('price'));
+            $minPrice = $priceRange[0];
+            $maxPrice = $priceRange[1];
+            $query->whereBetween('normal_price', [$minPrice, $maxPrice]);
+        }
+    
+        // Paginate the results
         $products = $query->paginate($perPage)->through(function ($product) {
             $product->average_rating = $product->reviews()->where('status', 'published')->avg('rating');
             $product->rating_count = $product->reviews()->where('status', 'published')->count();
             return $product;
         });
-    
+        
+        $sizes = Variation::where('type', 'size')->distinct()->get(['value']);
         $colors = Variation::where('type', 'color')->distinct()->get(['value', 'hex_value']);
         
-        return view('all_items', compact('products', 'colors'));
+        return view('frontend.all_items', compact('products', 'categories', 'sizes', 'colors'));
     }
+    
+    
     
     
 
@@ -151,20 +198,20 @@ class ProductController extends Controller
     public function show($product_id)
     {
         $product = Products::with('images')->where('product_id', $product_id)->firstOrFail();
-        
+    
         $specialOffer = SpecialOffers::where('product_id', $product_id)
-        ->where('status', 'active') 
-        ->first();
-
+            ->where('status', 'active') 
+            ->first();
+    
         $sale = Sale::where('product_id', $product_id)
-        ->where('status', 'active') 
-        ->first();
-        
+            ->where('status', 'active') 
+            ->first();
+    
         $relatedProducts = Products::where('product_category', $product->product_category)
             ->where('product_id', '!=', $product->product_id)
             ->take(15)
             ->get();
-
+    
         foreach ($relatedProducts as $relatedProduct) {
             $offer = SpecialOffers::where('product_id', $relatedProduct->product_id)
                 ->where('status', 'active')
@@ -188,8 +235,9 @@ class ProductController extends Controller
             '1' => Review::where('product_id', $product_id)->where('rating', 1)->count(),
         ];
     
-        return view('single_product_page', compact('product', 'relatedProducts', 'reviews', 'averageRating', 'totalReviews', 'ratingsCount', 'specialOffer', 'sale'));
+        return view('frontend.product-description', compact('product', 'relatedProducts', 'reviews', 'averageRating', 'totalReviews', 'ratingsCount', 'specialOffer', 'sale'));
     }
+    
     
 
     
@@ -527,31 +575,44 @@ class ProductController extends Controller
 
 
     public function showSearchResults(Request $request)
-    {
+{
+    $query = $request->get('query', '');
+    $products = [];
 
+    if (!empty($query)) {
+        $searchTerms = explode(' ', $query);
 
-        $query = $request->get('query', ''); 
-        $products = [];
-    
-        if (!empty($query)) {
-            $searchTerms = explode(' ', $query); 
-    
-            $products = Products::with(['Sale', 'specialOffer'])
-                ->where(function ($q) use ($searchTerms) {
-                    foreach ($searchTerms as $term) {
-                        $q->where('product_name', 'LIKE', '%' . $term . '%'); // Match individual terms in product name
-                    }
-                    
-                    foreach ($searchTerms as $term) {
-                        $q->orWhere('tags', 'LIKE', '%' . $term . '%'); // Match tags
-                    }
-                })
-                ->select('id', 'product_name', 'product_id', 'normal_price')
-                ->get();
-        }
-    
-        return view('search_results', compact('products', 'query'));
+        $products = Products::with(['Sale', 'specialOffer', 'images', 'category', 'category.subcategories', 'category.subcategories.subSubcategories'])
+            ->where(function ($q) use ($searchTerms) {
+                foreach ($searchTerms as $term) {
+                    $q->where('product_name', 'LIKE', '%' . $term . '%') // Search in product name
+                      ->orWhere('tags', 'LIKE', '%' . $term . '%')     // Search in tags
+                      ->orWhereHas('category', function ($categoryQuery) use ($term) {
+                          $categoryQuery->where('parent_category', 'LIKE', '%' . $term . '%'); // Search in parent category name
+                      })
+                      ->orWhereHas('category.subcategories', function ($subcategoryQuery) use ($term) {
+                          $subcategoryQuery->where('subcategory', 'LIKE', '%' . $term . '%'); // Search in subcategory name
+                      })
+                      ->orWhereHas('category.subcategories.subSubcategories', function ($subSubcategoryQuery) use ($term) {
+                          $subSubcategoryQuery->where('sub_subcategory', 'LIKE', '%' . $term . '%'); // Search in sub-subcategory name
+                      });
+                }
+            })
+            ->select('id', 'product_name', 'product_id', 'normal_price')
+            ->paginate(10) // Paginate the results
+            ->through(function ($product) {
+                // Add the average rating and rating count to each product
+                $product->average_rating = $product->reviews()->where('status', 'published')->avg('rating');
+                $product->rating_count = $product->reviews()->where('status', 'published')->count();
+                return $product;
+            });
     }
+
+    return view('frontend.search_results', compact('products', 'query'));
+}
+
+    
+    
     
 
     public function searchProducts(Request $request)
