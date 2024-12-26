@@ -88,8 +88,6 @@ class UserDashboardController extends Controller
     }
 
 
-
-
     public function orderDetails($order_code)
     {
         $order = CustomerOrder::with(['items.product'])->where('order_code', $order_code)->first();
@@ -98,6 +96,17 @@ class UserDashboardController extends Controller
         }
         return view('member_dashboard.order-details', compact('order'));
     }
+
+    public function showInquiries()
+    {
+        $userId = auth()->id();
+
+        $inquiries = Inquiry::where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return view('member_dashboard.myinquiries', compact('inquiries'));
+    }
+    
 
 
     public function cancelOrder(Request $request, $order_code)
@@ -441,6 +450,20 @@ class UserDashboardController extends Controller
         $user = Auth::user();
         $addresses = Address::where('user_id', $user->id)->get();
         return view('member_dashboard.addresses', compact('addresses'));
-}
+    }
+
+    public function destroy($id)
+    {
+        $user = Auth::user();
+
+        $address = Address::where('id', $id)->where('user_id', $user->id)->first();
+
+        if (!$address) {
+            return redirect()->back()->with('error', 'Address not found or unauthorized access.');
+        }
+
+        $address->delete();
+        return redirect()->route('addresses')->with('success', 'Address deleted successfully.');
+    }
 
 }
