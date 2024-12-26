@@ -9,7 +9,7 @@
                 <div class="page-title-content">
                     <h2>Checkout</h2>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="/home">Home</a></li>
                         <li>Checkout</li>
                     </ul>
                 </div>
@@ -20,228 +20,149 @@
         <!-- Start Checkout Area -->
 		<section class="checkout-area ptb-100">
             <div class="container">
-                <div class="user-actions">
-                    <i class='bx bx-log-in'></i>
-                    <span>Returning customer? <a href="login.html">Click here to login</a></span>
-                </div>
-
-                <form>
+         
+            <form action="{{ route('order.store') }}" method="POST">
+            @csrf
                     <div class="row justify-content-center">
                         <div class="col-lg-6 col-md-12">
-                            <div class="billing-details">
-                                <h3 class="title">Billing Details</h3>
-
-                                <div class="row justify-content-center">
-                                    <div class="col-lg-12 col-md-12">
-                                        <div class="form-group">
-										    <label>Country <span class="required">*</span></label>
-										
-                                            <div class="select-box">
-                                                <select class="form-control">
-                                                    <option>United Arab Emirates</option>
-                                                    <option>China</option>
-                                                    <option>United Kingdom</option>
-                                                    <option>Germany</option>
-                                                    <option>France</option>
-                                                    <option>Japan</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="form-group">
-                                            <label>First Name <span class="required">*</span></label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="form-group">
-                                            <label>Last Name <span class="required">*</span></label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-12 col-md-12">
-                                        <div class="form-group">
-                                            <label>Company Name</label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-12 col-md-6">
-                                        <div class="form-group">
-                                            <label>Address <span class="required">*</span></label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-12 col-md-6">
-                                        <div class="form-group">
-                                            <label>Town / City <span class="required">*</span></label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="form-group">
-                                            <label>State / County <span class="required">*</span></label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="form-group">
-                                            <label>Postcode / Zip <span class="required">*</span></label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="form-group">
-                                            <label>Email Address <span class="required">*</span></label>
-                                            <input type="email" class="form-control">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="form-group">
-                                            <label>Phone <span class="required">*</span></label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-12 col-md-12">
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" id="create-an-account">
-                                            <label class="form-check-label" for="create-an-account">Create an account?</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-12 col-md-12">
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" id="ship-different-address">
-                                            <label class="form-check-label" for="ship-different-address">Ship to a different address?</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-12 col-md-12">
-                                        <div class="form-group">
-                                            <textarea name="notes" id="notes" cols="30" rows="5" placeholder="Order Notes" class="form-control"></textarea>
-                                        </div>
+                        <div class="billing-details">
+                            <h3 class="title">Billing Details</h3>
+                            <div class="row justify-content-center">
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <label>Name <span class="required">*</span></label>
+                                        <input type="text" class="form-control" name="first_name" id="firstName" 
+                                            value="{{ old('first_name', optional($defaultAddress)->full_name ?? optional($user)->name) }}">
                                     </div>
                                 </div>
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <label>Company Name (Optional)</label>
+                                        <input type="text" class="form-control" name="company_name" 
+                                            value="{{ old('company_name', optional($defaultAddress)->company_name ?? '') }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-6">
+                                    <div class="form-group">
+                                        <label>Street Address <span class="required">*</span></label>
+                                        <input type="text" class="form-control" name="address" 
+                                            value="{{ old('address', optional($defaultAddress)->address ?? '') }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-6">
+                                    <div class="form-group">
+                                        <label>Apartment, Suite, unit etc.(Optional)</label>
+                                        <input type="text" class="form-control" name="apartment" 
+                                           value="{{ old('apartment', optional($defaultAddress)->apartment ?? '') }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        <label>City <span class="required">*</span></label>
+                                        <input type="text" class="form-control" name="city" 
+                                            value="{{ old('city', optional($defaultAddress)->city ?? '') }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        <label>Postcode / Zip <span class="required">*</span></label>
+                                        <input type="text" class="form-control" name="postal_code" 
+                                            value="{{ old('postal_code', optional($defaultAddress)->postal_code ?? '') }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        <label>Email Address <span class="required">*</span></label>
+                                        <input type="email" class="form-control" name="email" 
+                                            value="{{ old('email', optional($defaultAddress)->email ?? optional($user)->email) }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        <label>Phone <span class="required">*</span></label>
+                                        <input type="text" class="form-control" name="phone" 
+                                            value="{{ old('phone', optional($defaultAddress)->phone_num ?? optional($user)->phone_num) }}">
+                                    </div>
+                                </div>
+                              
                             </div>
                         </div>
 
+                        </div>
+
                         <div class="col-lg-6 col-md-12">
-                            <div class="order-details">
-                                <h3 class="title">Your Order</h3>
+                        <div class="order-details">
+                            <h3 class="title">Your Order</h3>
 
-                                <div class="order-table table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Product Name</th>
-                                                <th scope="col">Total</th>
-                                            </tr>
-                                        </thead>
+                            <div class="order-table table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Product Name</th>
+                                            <th scope="col">Total</th>
+                                        </tr>
+                                    </thead>
 
-                                        <tbody>
+                                    <tbody>
+                                        @forelse ($cart as $item)
                                             <tr>
                                                 <td class="product-name">
-                                                    <a href="#">Long Sleeve Leopard T-Shirt</a>
+                                                    <a href="#">{{ $item->product->product_name }} x {{ $item->quantity ?? 1 }}</a>
                                                 </td>
 
                                                 <td class="product-total">
-                                                    <span class="subtotal-amount">$250.00</span>
+                                                    <span class="subtotal-amount">
+                                                        Rs. {{ number_format($item->product->sale && $item->product->sale->status === 'active' 
+                                                            ? $item->product->sale->sale_price 
+                                                            : ($item->product->specialOffer && $item->product->specialOffer->status === 'active'
+                                                                ? $item->product->specialOffer->offer_price
+                                                                : $item->product->normal_price) * ($item->quantity ?? 1), 2) }}
+                                                    </span>
                                                 </td>
                                             </tr>
-
+                                        @empty
                                             <tr>
-                                                <td class="product-name">
-                                                    <a href="#">Causal V-Neck Soft Raglan</a>
-                                                </td>
-
-                                                <td class="product-total">
-                                                    <span class="subtotal-amount">$200.00</span>
-                                                </td>
+                                                <td colspan="2">No items in the cart</td>
                                             </tr>
-
-                                            <tr>
-                                                <td class="product-name">
-                                                    <a href="#">Book Divas</a>
-                                                </td>
-
-                                                <td class="product-total">
-                                                    <span class="subtotal-amount">$140.50</span>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="product-name">
-                                                    <a href="#">Hanes Men's Pullover</a>
-                                                </td>
-
-                                                <td class="product-total">
-                                                    <span class="subtotal-amount">$200.00</span>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="order-subtotal">
-                                                    <span>Cart Subtotal</span>
-                                                </td>
-
-                                                <td class="order-subtotal-price">
-                                                    <span class="order-subtotal-amount">$800.00</span>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="order-shipping">
-                                                    <span>Shipping</span>
-                                                </td>
-
-                                                <td class="shipping-price">
-                                                    <span>$30.00</span>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="total-price">
-                                                    <span>Order Total</span>
-                                                </td>
-
-                                                <td class="product-subtotal">
-                                                    <span class="subtotal-amount">$830.00</span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
 
                                 <div class="payment-box">
-                                    <div class="payment-method">
-                                        <p>
-                                            <input type="radio" id="direct-bank-transfer" name="radio-group" checked>
-                                            <label for="direct-bank-transfer">Direct Bank Transfer</label>
-                                            Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.
-                                        </p>
-                                        <p>
-                                            <input type="radio" id="paypal" name="radio-group">
-                                            <label for="paypal">PayPal</label>
-                                        </p>
-                                        <p>
-                                            <input type="radio" id="cash-on-delivery" name="radio-group">
-                                            <label for="cash-on-delivery">Cash on Delivery</label>
-                                        </p>
+                                    <div class="d-flex justify-content-between">
+                                        <p>Subtotal:</p>
+                                        <p>Rs. {{ number_format($cart->sum(function($item) {
+                                            return ($item->product->sale && $item->product->sale->status === 'active' 
+                                                    ? $item->product->sale->sale_price 
+                                                    : ($item->product->specialOffer && $item->product->specialOffer->status === 'active'
+                                                        ? $item->product->specialOffer->offer_price
+                                                        : $item->product->normal_price)) 
+                                                * ($item->quantity ?? 1);
+                                        }), 2) }}</p>
                                     </div>
-    
-                                    <a href="#" class="default-btn">Place Order</a>
+                                    <div class="d-flex justify-content-between">
+                                        <p>Delivery Fee:</p>
+                                        <p>Rs. 300.00</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <h5>Total:</h5>
+                                        <h5 class="fw-bold">
+                                            Rs. {{ number_format($cart->sum(function($item) {
+                                                return ($item->product->sale && $item->product->sale->status === 'active' 
+                                                        ? $item->product->sale->sale_price 
+                                                        : ($item->product->specialOffer && $item->product->specialOffer->status === 'active'
+                                                            ? $item->product->specialOffer->offer_price
+                                                            : $item->product->normal_price)) 
+                                                    * ($item->quantity ?? 1);
+                                            }) + 300, 2) }}
+                                        </h5>
+                                    </div>
+
+                                    <button type="submit" class="default-btn w-100">Proceed to Pay</button>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </form>
@@ -249,61 +170,6 @@
         </section>
 		<!-- End Checkout Area -->
 
-        <!-- Start Facility Area -->
-        <section class="facility-area pb-70">
-            <div class="container">
-                <div class="facility-slides owl-carousel owl-theme">
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-tracking'></i>
-                        </div>
-                        <h3>Free Shipping Worldwide</h3>
-                    </div>
-
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-return'></i>
-                        </div>
-                        <h3>Easy Return Policy</h3>
-                    </div>
-
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-shuffle'></i>
-                        </div>
-                        <h3>7 Day Exchange Policy</h3>
-                    </div>
-
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-sale'></i>
-                        </div>
-                        <h3>Weekend Discount Coupon</h3>
-                    </div>
-
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-credit-card'></i>
-                        </div>
-                        <h3>Secure Payment Methods</h3>
-                    </div>
-
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-location'></i>
-                        </div>
-                        <h3>Track Your Package</h3>
-                    </div>
-
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-customer-service'></i>
-                        </div>
-                        <h3>24/7 Customer Support</h3>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- End Facility Area -->
+       
         
 @endsection  

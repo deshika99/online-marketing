@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (!Schema::hasTable('affiliate_links')) {
+            Schema::create('affiliate_links', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('user_id');
+                $table->unsignedBigInteger('raffle_ticket_id');
+                $table->foreign('raffle_ticket_id')->references('id')->on('raffle_tickets')->onDelete('cascade');
+                $table->string('link');
+                $table->timestamps();
+            });
+        }
     
-        Schema::create('affiliate_links', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('raffle_ticket_id');
-            $table->foreign('raffle_ticket_id')->references('id')->on('raffle_tickets')->onDelete('cascade');
-            $table->string('link');
-            $table->timestamps();
-        });
     }
 
     /**

@@ -19,7 +19,6 @@
     }
     .card {
         padding: 10px;
-        margin-top: 20px;
         border: 20px;
         margin-left: 40px;
         margin-right: 40px;
@@ -39,12 +38,12 @@
     }
 </style>
 
-<main style="margin-top:  58px">
+<main style="">
     <div class="container pt-4 px-4">
         <h2 class="py-3">Payment Information</h2>
-        <br><br>
+    <br><br>
         
-        <div class="card">
+        <div class="card m-0 ">
             <div class="section">
                 @if($customer && $customer->account_number)
                     <!-- Show Payment Details -->

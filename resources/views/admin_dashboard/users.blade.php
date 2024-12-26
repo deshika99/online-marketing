@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <p><strong>Status:</strong> 
                                 ${data.status ? '<span class="badge status-badge bg-success">Active</span>' : '<span class="badge status-badge bg-danger">Inactive</span>'}
                             </p>
-                            <p><strong>Permissions:</strong> <span>${data.permissions || '-'}</span></p>
+                           
                         </div>
                     `;
                 })

@@ -9,7 +9,7 @@
                 <div class="page-title-content">
                     <h2>Compare Products</h2>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="/home">Home</a></li>
                         <li>Compare</li>
                     </ul>
                 </div>
@@ -32,17 +32,17 @@
 
                                     <div class="single-products-box">
                                         <div class="products-image">
-                                            <a href="products-type-1.html">
-                                                <img src="assets/img/products/img1.jpg" class="main-image" alt="image">
-                                                <img src="assets/img/products/img-hover1.jpg" class="hover-image" alt="image">
+                                            <a href="/product-description">
+                                                <img src="frontend/assets/img/products/img1.jpg" class="main-image" alt="image">
+                                                <img src="frontend/assets/img/products/img-hover1.jpg" class="hover-image" alt="image">
                                             </a>
                                         </div>
             
                                         <div class="products-content">
-                                            <h3><a href="products-type-2.html">Long Sleeve Leopard T-Shirt</a></h3>
+                                            <h3><a href="/product-description">Long Sleeve Leopard T-Shirt</a></h3>
                                             <div class="price">
-                                                <span class="old-price">$321</span>
-                                                <span class="new-price">$250</span>
+                                                <span class="old-price">RS 2500</span>
+                                                <span class="new-price">RS 1500</span>
                                             </div>
                                             <div class="star-rating">
                                                 <i class='bx bxs-star'></i>
@@ -51,7 +51,7 @@
                                                 <i class='bx bxs-star'></i>
                                                 <i class='bx bxs-star'></i>
                                             </div>
-                                            <a href="cart.html" class="add-to-cart">Add to Cart</a>
+                                            <a href="/cart" class="add-to-cart">Add to Cart</a>
                                         </div>
                                     </div>
                                 </td>
@@ -63,17 +63,17 @@
 
                                     <div class="single-products-box">
                                         <div class="products-image">
-                                            <a href="products-type-1.html">
-                                                <img src="assets/img/products/img2.jpg" class="main-image" alt="image">
-                                                <img src="assets/img/products/img-hover2.jpg" class="hover-image" alt="image">
+                                            <a href="/product-description">
+                                                <img src="frontend/assets/img/products/img2.jpg" class="main-image" alt="image">
+                                                <img src="frontend/assets/img/products/img-hover2.jpg" class="hover-image" alt="image">
                                             </a>
                                         </div>
             
                                         <div class="products-content">
-                                            <h3><a href="products-type-2.html">Causal V-Neck Soft Raglan</a></h3>
+                                            <h3><a href="/product-description">Causal V-Neck Soft Raglan</a></h3>
                                             <div class="price">
-                                                <span class="old-price">$210</span>
-                                                <span class="new-price">$200</span>
+                                                <span class="old-price">RS 1500</span>
+                                                <span class="new-price">RS 1300</span>
                                             </div>
                                             <div class="star-rating">
                                                 <i class='bx bxs-star'></i>
@@ -82,7 +82,7 @@
                                                 <i class='bx bxs-star'></i>
                                                 <i class='bx bxs-star'></i>
                                             </div>
-                                            <a href="cart.html" class="add-to-cart">Add to Cart</a>
+                                            <a href="/cart" class="add-to-cart">Add to Cart</a>
                                         </div>
                                     </div>
                                 </td>
@@ -94,17 +94,17 @@
 
                                     <div class="single-products-box">
                                         <div class="products-image">
-                                            <a href="products-type-1.html">
-                                                <img src="assets/img/products/img3.jpg" class="main-image" alt="image">
-                                                <img src="assets/img/products/img-hover3.jpg" class="hover-image" alt="image">
+                                            <a href="/product-description">
+                                                <img src="frontend/assets/img/products/img3.jpg" class="main-image" alt="image">
+                                                <img src="frontend/assets/img/products/img-hover3.jpg" class="hover-image" alt="image">
                                             </a>
                                         </div>
             
                                         <div class="products-content">
-                                            <h3><a href="products-type-2.html">Hanes Top Men's Pullover</a></h3>
+                                            <h3><a href="/product-description">Hanes Top Men's Pullover</a></h3>
                                             <div class="price">
-                                                <span class="old-price">$210</span>
-                                                <span class="new-price">$200</span>
+                                                <span class="old-price">RS 1500</span>
+                                                <span class="new-price">RS 1300</span>
                                             </div>
                                             <div class="star-rating">
                                                 <i class='bx bxs-star'></i>
@@ -113,7 +113,7 @@
                                                 <i class='bx bxs-star'></i>
                                                 <i class='bx bxs-star'></i>
                                             </div>
-                                            <a href="cart.html" class="add-to-cart">Add to Cart</a>
+                                            <a href="/cart" class="add-to-cart">Add to Cart</a>
                                         </div>
                                     </div>
                                 </td>

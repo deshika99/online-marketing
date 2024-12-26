@@ -60,7 +60,6 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">NIC</th>
                                     <th scope="col">Address</th>
-                                    <th scope="col">Gender</th>
                                     <th scope="col">Contact No</th>
                                     <th scope="col">Email</th>
                                     <th scope="col" style="width:5%">Status</th>
@@ -74,7 +73,6 @@
                                     <td>{{ $customer->name }}</td>
                                     <td>{{ $customer->NIC }}</td>
                                     <td>{{ $customer->address }}</td>
-                                    <td>{{ $customer->gender }}</td>
                                     <td>{{ $customer->contactno }}</td>
                                     <td>{{ $customer->email }}</td>
                                     <td class="status1">
