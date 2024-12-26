@@ -362,6 +362,7 @@
 
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
     document.querySelectorAll('.tab-button').forEach(button => {
@@ -408,7 +409,7 @@ function updateOrderStatus(orderCode, status) {
 
 </script>
 <script>
-    let selectedOrderCode;
+  let selectedOrderCode;
 
 function openConfirmDeliveryModal(orderCode) {
     selectedOrderCode = orderCode;
@@ -416,6 +417,8 @@ function openConfirmDeliveryModal(orderCode) {
 }
 
 $('#confirmDeliveryBtn').on('click', function() {
+    console.log("Confirm delivery button clicked!");
+    
     $.ajax({
         url: '<?php echo e(route("confirm-delivery")); ?>',
         type: 'POST',
@@ -424,6 +427,7 @@ $('#confirmDeliveryBtn').on('click', function() {
             order_code: selectedOrderCode
         },
         success: function(response) {
+            console.log(response); // Debug the response here
             if (response.success) {
                 $('#confirmDeliveryMessage').html(`
                     <p>Delivery confirmed! Would you like to leave a review?</p>
@@ -434,11 +438,13 @@ $('#confirmDeliveryBtn').on('click', function() {
                 alert('Failed to confirm delivery. Please try again.');
             }
         },
-        error: function() {
+        error: function(xhr, status, error) {
+            console.log(error); // Debug the error here
             alert('An error occurred. Please try again.');
         }
     });
 });
+
 
 
 document.addEventListener('DOMContentLoaded', function () {

@@ -83,14 +83,14 @@
                     <div class="products-details-desc">
                         <h3><?php echo e($product->product_name); ?></h3>
 
-                        <div class="price">
+                        <div class="price" style="font-size: 20px">
                             <?php if($sale): ?>
                                 <span class="new-price">Rs. <?php echo e(number_format($sale->sale_price, 2)); ?></span>
-                                <span class="old-price">Rs. <?php echo e(number_format($sale->normal_price, 2)); ?></span>
+                                <span class="old-price" style="font-size: 18px">Rs. <?php echo e(number_format($sale->normal_price, 2)); ?></span>
                                 <span class="discount"><?php echo e(number_format($sale->sale_rate, 0)); ?>% off</span>
                             <?php elseif($specialOffer): ?>
                                 <span class="new-price">Rs. <?php echo e(number_format($specialOffer->offer_price, 2)); ?></span>
-                                <span class="old-price">Rs. <?php echo e(number_format($specialOffer->normal_price, 2)); ?></span>
+                                <span class="old-price" style="font-size: 18px">Rs. <?php echo e(number_format($specialOffer->normal_price, 2)); ?></span>
                                 <span class="discount"><?php echo e(number_format($specialOffer->offer_rate, 0)); ?>% off</span>
                             <?php else: ?>
                                 <span class="new-price">Rs. <?php echo e(number_format($product->normal_price, 2)); ?></span>
@@ -158,11 +158,11 @@
                     </div>
 
 
-                            <div class="products-info-btn">
+                            <!--<div class="products-info-btn">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#sizeGuideModal"><i class='bx bx-crop'></i> Size guide</a>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#productsShippingModal"><i class='bx bxs-truck' ></i> Shipping</a>
                                 <a href="contact.html"><i class='bx bx-envelope'></i> Ask about this products</a>
-                            </div>
+                            </div>-->
 
                         
 
@@ -303,11 +303,12 @@
                                                     <i class='bx bx-star'></i>
                                                 <?php endif; ?>
                                             <?php endfor; ?>
+                                            
                                         </div>
                                         <h3><?php echo e($review->comment_title ?? 'Review'); ?></h3>
                                         <span>
                                             <?php if($review->is_anonymous): ?>
-                                                <strong>Anonymous</strong>
+                                                <strong> <?php echo e(ucfirst(substr($review->user->name, 0, 1))); ?>***</strong>
                                             <?php else: ?>
                                                 <strong><?php echo e($review->user->name ?? 'User'); ?></strong>
                                             <?php endif; ?>

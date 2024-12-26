@@ -104,13 +104,13 @@
 
                 <div class="row justify-content-center">
                 @foreach($recentProducts as $product)
-                    <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="single-products-box">
                             <div class="products-image">
                                 <a href="{{ route('product-description', ['product_id' => $product->product_id]) }}">
                                 @if($product->images->isNotEmpty())
-                                    <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" class="main-image" alt="image" style="width: 70%; height:270px">
-                                    <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" class="hover-image" alt="image"  style="width: 70%; height:270px">
+                                    <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" class="main-image" alt="image" style="width: 90%; height:270px">
+                                    <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" class="hover-image" alt="image"  style="width: 90%; height:270px">
                                 @else
                                     <img src="{{ asset('storage/default-image.jpg') }}" class="main-image" alt="image">
                                 @endif
@@ -135,7 +135,8 @@
                             </div>
 
                             <div class="products-content">
-                                <h3><a href="{{ route('product-description', ['product_id' => $product->product_id]) }}">{{ $product->product_name }}</a></h3>
+                            <h3><a href="{{ route('product-description', ['product_id' => $product->product_id]) }}">
+                                {{ \Illuminate\Support\Str::limit($product->product_name, 25) }}</a></h3>
                                 <div class="price">
                                     @if($product->sale && $product->sale->status === 'active')
                                         <span class="old-price">Rs. {{ number_format($product->normal_price, 2) }}</span>
@@ -205,13 +206,13 @@
 
                 <div class="row justify-content-center">
                 @foreach($orderedProducts as $product)
-                    <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="single-products-box">
                             <div class="products-image">
                                 <a href="{{ route('product-description', ['product_id' => $product->product_id]) }}">
                                 @if($product->images->isNotEmpty())
-                                    <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" class="main-image" alt="image" style="width: 70%; height:270px">
-                                    <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" class="hover-image" alt="image"  style="width: 70%; height:270px">
+                                    <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" class="main-image" alt="image" style="width: 90%; height:270px">
+                                    <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" class="hover-image" alt="image"  style="width: 90%; height:270px">
                                 @else
                                     <img src="{{ asset('storage/default-image.jpg') }}" class="main-image" alt="image">
                                 @endif
@@ -234,7 +235,8 @@
                             </div>
 
                             <div class="products-content">
-                                <h3><a href="{{ route('product-description', ['product_id' => $product->product_id]) }}">{{ $product->product_name }}</a></h3>
+                                <h3><a href="{{ route('product-description', ['product_id' => $product->product_id]) }}">
+                                {{ \Illuminate\Support\Str::limit($product->product_name, 25) }}</a></h3>
                                 <div class="price">
                                     @if($product->sale && $product->sale->status === 'active')
                                         <span class="old-price">Rs. {{ number_format($product->normal_price, 2) }}</span>
@@ -280,7 +282,7 @@
 
 
                <!-- Start Products Area -->
-               <section class="products-area pt-100 pb-70">
+               <section class="products-area pt-70 pb-70 mb-5"  style="background-color: #fafafa;">
                     <div class="container">
                         <div class="section-title text-start">
                             <span class="sub-title">See Our Collection</span>
@@ -317,7 +319,8 @@
                                 </div>
     
                                 <div class="products-content">
-                        <h3><a href="{{ route('product-description', ['product_id' => $offer->product->product_id]) }}">{{ $offer->product->product_name }}</a></h3>
+                        <h3><a href="{{ route('product-description', ['product_id' => $offer->product->product_id]) }}">
+                        {{ \Illuminate\Support\Str::limit($product->product_name, 25) }}</a></a></h3>
                         <div class="price">
                             @if($offer->product->specialOffer && $offer->product->specialOffer->status === 'active')
                                 <span class="old-price">Rs. {{ number_format($offer->product->normal_price, 2) }}</span>
@@ -354,22 +357,7 @@
                 <!-- End Products Area -->
 
 
-        <!-- Start Partner Area -->
-        <div class="partner-area ptb-70 mb-5">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Our Partners</h2>
-                </div>
-                
-                <div class="partner-slides owl-carousel owl-theme">
-                    
-                    <div class="partner-item">
-                        <a href="index.html"><img src="frontend/assets/img/partner/partner1.png" alt="image"></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Partner Area -->
+      
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>

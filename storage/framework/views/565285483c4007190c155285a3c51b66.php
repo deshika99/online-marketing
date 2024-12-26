@@ -1,6 +1,4 @@
-@extends('member_dashboard.user_sidebar')
-
-@section('dashboard-content')
+<?php $__env->startSection('dashboard-content'); ?>
 <style>
     /* Title and Content in a Single Box */
     .review-header {
@@ -124,15 +122,15 @@
 
 
 </style>
-@if (session('status'))
+<?php if(session('status')): ?>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            toastr.success("{{ session('status') }}", 'Success', {
+            toastr.success("<?php echo e(session('status')); ?>", 'Success', {
                 positionClass: 'toast-top-right'
             });
         });
     </script>
-@endif
+<?php endif; ?>
 
 
 <div class="review-container">
@@ -145,37 +143,37 @@
         <div class="col-md-1 d-flex align-items-center">
             <div style="margin-right: 15px;">
 
-                @if($product->images->isNotEmpty())
-                    <a href="#"><img src="{{ asset('storage/' . $product->images->first()->image_path) }}" alt="Product Image" width="70" height="auto"></a>
-                @endif
+                <?php if($product->images->isNotEmpty()): ?>
+                    <a href="#"><img src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" alt="Product Image" width="70" height="auto"></a>
+                <?php endif; ?>
             </div>
         </div>
 
         <div class="col-md-3 d-flex flex-column justify-content-center" style="font-size: 13px;">
-            <span style="font-weight: 600;">{{ $product->product_name }}</span>
+            <span style="font-weight: 600;"><?php echo e($product->product_name); ?></span>
             <div class="d-flex align-items-center">
-                @if($color)
+                <?php if($color): ?>
                     <span class="d-flex align-items-center me-2">
                         <strong>Color:</strong>
-                        <span style="display: inline-block; background-color: {{ $color }}; border: 1px solid #e8ebec; height: 15px; width: 15px; border-radius: 50%; margin-left: 0.5rem;" 
-                            title="{{ $color }}"></span>
+                        <span style="display: inline-block; background-color: <?php echo e($color); ?>; border: 1px solid #e8ebec; height: 15px; width: 15px; border-radius: 50%; margin-left: 0.5rem;" 
+                            title="<?php echo e($color); ?>"></span>
                     </span> | 
-                @endif
+                <?php endif; ?>
 
-                @if($size)
-                    <span class="me-2">Size: <span style="font-weight: 600;">{{ $size }}</span></span> |
-                @endif 
+                <?php if($size): ?>
+                    <span class="me-2">Size: <span style="font-weight: 600;"><?php echo e($size); ?></span></span> |
+                <?php endif; ?> 
 
-                <span class="ms-2">Qty: <span style="font-weight: 600;">{{ $quantity }}</span></span>
+                <span class="ms-2">Qty: <span style="font-weight: 600;"><?php echo e($quantity); ?></span></span>
             </div>
-            <h6 class="mt-2" style="font-size: 13px; font-weight: bold;">Rs {{ $cost }}</h6>  
+            <h6 class="mt-2" style="font-size: 13px; font-weight: bold;">Rs <?php echo e($cost); ?></h6>  
         </div>
     </div>
 
-    <form action="{{ route('reviews.store') }}" method="POST" enctype="multipart/form-data">
-    @csrf
-    <input type="hidden" name="product_id" value="{{ $product->product_id }}">
-    <input type="hidden" name="order_code" value="{{ $order_code }}"> <!-- Hidden input to store order code -->
+    <form action="<?php echo e(route('reviews.store')); ?>" method="POST" enctype="multipart/form-data">
+    <?php echo csrf_field(); ?>
+    <input type="hidden" name="product_id" value="<?php echo e($product->product_id); ?>">
+    <input type="hidden" name="order_code" value="<?php echo e($order_code); ?>"> <!-- Hidden input to store order code -->
     <input type="hidden" name="rating" id="rating-value"> <!-- Hidden input to store the rating -->
 
 
@@ -376,4 +374,5 @@ videoInput.addEventListener('change', function(event) {
 
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('member_dashboard.user_sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\online-marketing\resources\views/member_dashboard/write-reviews.blade.php ENDPATH**/ ?>

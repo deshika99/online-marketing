@@ -55,9 +55,9 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('myreviews') ? 'active' : '' }}" href="{{ route('myreviews') }}">My Reviews</a>
                     </li>
-                    <!-- <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('myinquiries') ? 'active' : '' }}" href="{{ route('myinquiries') }}">Inquiries</a>
-                    </li> -->
+                    </li> 
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('addresses') ? 'active' : '' }}" href="{{ route('addresses') }}">Address Book</a>
                     </li>

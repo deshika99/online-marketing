@@ -52,7 +52,7 @@
         <section class="products-area pt-100 pb-70">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-lg-4 col-md-12">
+                    <div class="col-lg-3 col-md-12">
                         <div class="woocommerce-widget-area">
                             <div class="woocommerce-widget filter-list-widget">
                               
@@ -112,14 +112,14 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-8 col-md-12">
+                    <div class="col-lg-9 col-md-12">
                         <div class="products-filter-options">
                             <div class="row align-items-center justify-content-center">
                                 <div class="col-lg-4 col-md-4">
                                     <div class="d-lg-flex d-md-flex align-items-center">
                                         <span class="sub-title d-lg-none"><a href="#" data-bs-toggle="modal" data-bs-target="#productsFilterModal"><i class='bx bx-filter-alt'></i> Filter</a></span>
                                         
-                                        <span class="sub-title d-none d-lg-block d-md-block">View:</span>
+                                        <!--<span class="sub-title d-none d-lg-block d-md-block">View:</span>
 
                                         <div class="view-list-row d-none d-lg-block d-md-block">
                                             <div class="view-column">
@@ -143,7 +143,7 @@
                                                     <span></span>
                                                 </a>
                                             </div>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
 
@@ -164,13 +164,13 @@
                                     </div>
                                 @else
                                     @foreach ($products as $product)
-                                        <div class="col-lg-6 col-md-6 col-sm-6 products-col-item">
+                                        <div class="col-lg-4 col-md-4 col-sm-6 products-col-item">
                                             <div class="single-products-box">
                                                 <div class="products-image">
                                                 <a href="{{ route('product-description', ['product_id' => $product->product_id]) }}">
                                                     @if($product->images->isNotEmpty())
-                                                        <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" class="main-image" alt="image" style="width: 60%; height:270px">
-                                                        <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" class="hover-image" alt="image"  style="width: 60%; height:270px">
+                                                        <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" class="main-image" alt="image" style="width: 90%; height:270px">
+                                                        <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" class="hover-image" alt="image"  style="width: 90%; height:270px">
                                                     @else
                                                         <img src="{{ asset('storage/default-image.jpg') }}" class="main-image" alt="image">
                                                     @endif
@@ -210,7 +210,8 @@
                                             </div>
 
                                             <div class="products-content">
-                                                <h3><a href="{{ route('product-description', ['product_id' => $product->product_id]) }}">{{ $product->product_name }}</a></h3>
+                                                <h3><a href="{{ route('product-description', ['product_id' => $product->product_id]) }}">
+                                                {{ \Illuminate\Support\Str::limit($product->product_name, 25) }}</a></h3>
                                                 <div class="price">
                                                     @if($product->sale && $product->sale->status === 'active')
                                                         <span class="old-price">Rs. {{ number_format($product->normal_price, 2) }}</span>

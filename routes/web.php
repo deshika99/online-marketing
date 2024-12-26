@@ -85,9 +85,10 @@ Route::get('home/My-Account/myorders', [UserDashboardController::class, 'myOrder
 Route::get('home/My-Account/order-details/{order_code}', [UserDashboardController::class, 'orderDetails'])->name('myorder-details');
 Route::post('/order/cancel/{order_code}', [UserDashboardController::class, 'cancelOrder']);
 Route::post('/confirm-delivery', [UserDashboardController::class, 'confirmDelivery'])->name('confirm-delivery');
+
 Route::get('home/My-Account/My-Reviews', [UserDashboardController::class, 'myReviews'])->name('myreviews');
 
-Route::get('home/My-Account/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
+Route::get('home/My-Account/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
 
 
 Route::get('home/My-Account/addresses', [UserDashboardController::class, 'showAddresses'])->name('addresses');
@@ -99,7 +100,7 @@ Route::get('/member-dashboard/write-reviews', [UserDashboardController::class, '
 Route::post('/member-dashboard/reviews', [UserDashboardController::class, 'storeReview'])->name('reviews.store');
 
 Route::get('home/My-Account/inquiries', [UserDashboardController::class, 'showInquiries'])->name('myinquiries');
-
+Route::view('home/My-Account/inquiries/write', 'member_dashboard.write_inquiries')->name('inquiry.create');
 
 Route::get('home/My-Account/change-password', function () {
     return view('member_dashboard.change-password');

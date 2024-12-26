@@ -30,7 +30,7 @@ class HomeController extends Controller
                 $query->where('status', 'published');
             }])
             ->where('created_at', '>=', now()->subWeek()) 
-            ->take(6) // Limit to 6 products
+            ->take(8) // Limit to 6 products
             ->get()
             ->map(function ($product) {
                 $product->average_rating = $product->reviews->avg('rating');

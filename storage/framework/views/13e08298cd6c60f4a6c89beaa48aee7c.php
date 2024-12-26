@@ -174,28 +174,6 @@
 
 
 
-<!--
-<div class="faq-section">
-    <h2 style="text-align:center; margin-bottom: 20px;">FAQs</h2>
-    <div class="faq-item">
-        <button class="faq-question">How do I join?</button>
-        <div class="faq-answer">
-            <p>You can join by signing up on our website.</p>
-        </div>
-    </div>
-    <div class="faq-item">
-        <button class="faq-question">What can I get if I join in?</button>
-        <div class="faq-answer">
-            <p>As a member, you will receive special offers and discounts.</p>
-        </div>
-    </div>
-    <div class="faq-item">
-        <button class="faq-question">How can I find out my level?</button>
-        <div class="faq-answer">
-            <p>Your level will be displayed on your profile page.</p>
-        </div>
-    </div>
-</div>-->
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

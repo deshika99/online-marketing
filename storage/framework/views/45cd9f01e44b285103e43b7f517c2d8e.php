@@ -103,13 +103,13 @@
 
                 <div class="row justify-content-center">
                 <?php $__currentLoopData = $recentProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="single-products-box">
                             <div class="products-image">
                                 <a href="<?php echo e(route('product-description', ['product_id' => $product->product_id])); ?>">
                                 <?php if($product->images->isNotEmpty()): ?>
-                                    <img src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" class="main-image" alt="image" style="width: 70%; height:270px">
-                                    <img src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" class="hover-image" alt="image"  style="width: 70%; height:270px">
+                                    <img src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" class="main-image" alt="image" style="width: 90%; height:270px">
+                                    <img src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" class="hover-image" alt="image"  style="width: 90%; height:270px">
                                 <?php else: ?>
                                     <img src="<?php echo e(asset('storage/default-image.jpg')); ?>" class="main-image" alt="image">
                                 <?php endif; ?>
@@ -134,7 +134,8 @@
                             </div>
 
                             <div class="products-content">
-                                <h3><a href="<?php echo e(route('product-description', ['product_id' => $product->product_id])); ?>"><?php echo e($product->product_name); ?></a></h3>
+                            <h3><a href="<?php echo e(route('product-description', ['product_id' => $product->product_id])); ?>">
+                                <?php echo e(\Illuminate\Support\Str::limit($product->product_name, 25)); ?></a></h3>
                                 <div class="price">
                                     <?php if($product->sale && $product->sale->status === 'active'): ?>
                                         <span class="old-price">Rs. <?php echo e(number_format($product->normal_price, 2)); ?></span>
@@ -204,13 +205,13 @@
 
                 <div class="row justify-content-center">
                 <?php $__currentLoopData = $orderedProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="single-products-box">
                             <div class="products-image">
                                 <a href="<?php echo e(route('product-description', ['product_id' => $product->product_id])); ?>">
                                 <?php if($product->images->isNotEmpty()): ?>
-                                    <img src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" class="main-image" alt="image" style="width: 70%; height:270px">
-                                    <img src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" class="hover-image" alt="image"  style="width: 70%; height:270px">
+                                    <img src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" class="main-image" alt="image" style="width: 90%; height:270px">
+                                    <img src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" class="hover-image" alt="image"  style="width: 90%; height:270px">
                                 <?php else: ?>
                                     <img src="<?php echo e(asset('storage/default-image.jpg')); ?>" class="main-image" alt="image">
                                 <?php endif; ?>
@@ -233,7 +234,8 @@
                             </div>
 
                             <div class="products-content">
-                                <h3><a href="<?php echo e(route('product-description', ['product_id' => $product->product_id])); ?>"><?php echo e($product->product_name); ?></a></h3>
+                                <h3><a href="<?php echo e(route('product-description', ['product_id' => $product->product_id])); ?>">
+                                <?php echo e(\Illuminate\Support\Str::limit($product->product_name, 25)); ?></a></h3>
                                 <div class="price">
                                     <?php if($product->sale && $product->sale->status === 'active'): ?>
                                         <span class="old-price">Rs. <?php echo e(number_format($product->normal_price, 2)); ?></span>
@@ -279,7 +281,7 @@
 
 
                <!-- Start Products Area -->
-               <section class="products-area pt-100 pb-70">
+               <section class="products-area pt-70 pb-70 mb-5"  style="background-color: #fafafa;">
                     <div class="container">
                         <div class="section-title text-start">
                             <span class="sub-title">See Our Collection</span>
@@ -316,7 +318,8 @@
                                 </div>
     
                                 <div class="products-content">
-                        <h3><a href="<?php echo e(route('product-description', ['product_id' => $offer->product->product_id])); ?>"><?php echo e($offer->product->product_name); ?></a></h3>
+                        <h3><a href="<?php echo e(route('product-description', ['product_id' => $offer->product->product_id])); ?>">
+                        <?php echo e(\Illuminate\Support\Str::limit($product->product_name, 25)); ?></a></a></h3>
                         <div class="price">
                             <?php if($offer->product->specialOffer && $offer->product->specialOffer->status === 'active'): ?>
                                 <span class="old-price">Rs. <?php echo e(number_format($offer->product->normal_price, 2)); ?></span>
@@ -353,22 +356,7 @@
                 <!-- End Products Area -->
 
 
-        <!-- Start Partner Area -->
-        <div class="partner-area ptb-70 mb-5">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Our Partners</h2>
-                </div>
-                
-                <div class="partner-slides owl-carousel owl-theme">
-                    
-                    <div class="partner-item">
-                        <a href="index.html"><img src="frontend/assets/img/partner/partner1.png" alt="image"></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Partner Area -->
+      
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>

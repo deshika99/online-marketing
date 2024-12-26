@@ -105,7 +105,6 @@
 
                     <ul class="customer-support">
                         <li><a href="/login">My Account</a></li>
-                        <li><a href="/checkout">Checkout</a></li>
                         <li><a href="/cart">Cart</a></li>
                         <li><a href="/aff_home">Affiliate program</a></li>
                         <li><a href="/track-order">Order Tracking</a></li>

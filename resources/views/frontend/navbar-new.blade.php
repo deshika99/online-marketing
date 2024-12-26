@@ -118,7 +118,7 @@
                                 My Account
                             </a>
                             <ul class="dropdown-menu" style="z-index:1020">
-                                <li><a href="home/My-Account/dashboard">Dashboard</a></li>
+                                <li><a href="{{ route('user.dashboard') }}">Dashboard</a></li>
                                 <li>
                                     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

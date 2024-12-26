@@ -135,8 +135,14 @@
                         <p class="m-0" style="font-weight: 500;">Feedback I left:</p>
                         <div class="rating text-warning mb-1" style="font-size: 20px;">
                             @for ($i = 1; $i <= 5; $i++)
-                                <i class="{{ $i <= $review->rating ? 'fas' : 'far' }} fa-star"></i>
-                            @endfor
+                                    @if ($review->rating >= $i)
+                                        <i class='bx bxs-star'></i> <!-- Full star -->
+                                    @elseif ($review->rating >= ($i - 0.5))
+                                        <i class='bx bxs-star-half'></i> <!-- Half star -->
+                                    @else
+                                        <i class='bx bx-star'></i> <!-- Empty star -->
+                                    @endif
+                                @endfor
                         </div>
                         <div class="review-description text-start">
                             <p style="font-size: 13px;">{{ $review->comment }}</p>

@@ -85,14 +85,14 @@
                     <div class="products-details-desc">
                         <h3>{{ $product->product_name }}</h3>
 
-                        <div class="price">
+                        <div class="price" style="font-size: 20px">
                             @if($sale)
                                 <span class="new-price">Rs. {{ number_format($sale->sale_price, 2) }}</span>
-                                <span class="old-price">Rs. {{ number_format($sale->normal_price, 2) }}</span>
+                                <span class="old-price" style="font-size: 18px">Rs. {{ number_format($sale->normal_price, 2) }}</span>
                                 <span class="discount">{{ number_format($sale->sale_rate, 0) }}% off</span>
                             @elseif($specialOffer)
                                 <span class="new-price">Rs. {{ number_format($specialOffer->offer_price, 2) }}</span>
-                                <span class="old-price">Rs. {{ number_format($specialOffer->normal_price, 2) }}</span>
+                                <span class="old-price" style="font-size: 18px">Rs. {{ number_format($specialOffer->normal_price, 2) }}</span>
                                 <span class="discount">{{ number_format($specialOffer->offer_rate, 0) }}% off</span>
                             @else
                                 <span class="new-price">Rs. {{ number_format($product->normal_price, 2) }}</span>
@@ -159,11 +159,11 @@
                     </div>
 
 
-                            <div class="products-info-btn">
+                            <!--<div class="products-info-btn">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#sizeGuideModal"><i class='bx bx-crop'></i> Size guide</a>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#productsShippingModal"><i class='bx bxs-truck' ></i> Shipping</a>
                                 <a href="contact.html"><i class='bx bx-envelope'></i> Ask about this products</a>
-                            </div>
+                            </div>-->
 
                         
 
@@ -304,11 +304,12 @@
                                                     <i class='bx bx-star'></i>
                                                 @endif
                                             @endfor
+                                            
                                         </div>
                                         <h3>{{ $review->comment_title ?? 'Review' }}</h3>
                                         <span>
                                             @if ($review->is_anonymous)
-                                                <strong>Anonymous</strong>
+                                                <strong> {{ ucfirst(substr($review->user->name, 0, 1)) }}***</strong>
                                             @else
                                                 <strong>{{ $review->user->name ?? 'User' }}</strong>
                                             @endif

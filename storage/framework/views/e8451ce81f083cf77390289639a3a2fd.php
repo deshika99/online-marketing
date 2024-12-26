@@ -1,248 +1,194 @@
 <?php $__env->startSection('content'); ?>
 <style>
-   
+.search-items {
+    text-align: center;
+    padding: 5px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    width: 110%; /* Changed from 110% to 100% */
+}
 
-    .btn-cart {
-        background-color: white; 
-        border: none;
-        border-radius: 50%;
-        width: 40px; 
-        height: 40px; 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background-color 0.3s, color 0.3s; 
-    }
+.search .row {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
 
-    .btn-cart i {
-        font-size: 1.5rem; 
-        color: black;
-    }
+.search-items:hover {
+    border: 1px solid #e1e1e1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
 
-    .btn-cart:hover {
-        background-color: black; 
-    }
+.search-items a {
+    text-decoration: none;
+    color: black;
+}
 
-    .btn-cart:hover i {
-        color: white; 
-    }
-    .color-option.selected-color {
+.search-items img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    margin-bottom: 5px;
+}
+
+.search-image-wrapper {
+    width: 100%;
+    height: 300px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.search-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+.search-items h6 {
+    text-align: left;
+    font-size: 15px; 
+    margin: 2px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.search-items .price {
+    text-align: left;
+    color: orange;
+    font-size: 15px; 
+    font-weight: bold;
+}
+.color-option.selected-color {
     border: 2px solid #007bff; /* Blue border for the selected color */
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Optional: adds a glow effect */
 }
-
 </style>
-        <!-- Start Page Title -->
-        <div class="page-title-area">
+
+
+<!-- Start Page Title -->
+<div class="page-title-area">
             <div class="container">
                 <div class="page-title-content">
-                    <h2>All Items</h2>
+                    <h2>Search Results for: "<?php echo e($query); ?>"
+                    </h2>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li>All Items</li>
+                        <li><a href="/">Home</a></li>
+                        <li>Items</li>
                     </ul>
                 </div>
             </div>
         </div>
         <!-- End Page Title -->
 
-        <!-- Start Products Area -->
+<!-- Start Products Area -->
         <section class="products-area pt-100 pb-70">
             <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-3 col-md-12">
-                        <div class="woocommerce-widget-area">
-                            <div class="woocommerce-widget filter-list-widget">
-                              
-                                    <a href="<?php echo e(route('all-items')); ?>" class="delete-selected-filters"><i class='bx bx-trash'></i> <span>Clear All</span></a>
-                               
-                            </div>
-
-                            <div class="woocommerce-widget collections-list-widget">
-                                <h3 class="woocommerce-widget-title">Categories</h3>
-
-                                <ul class="collections-list-row">
-                                <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <li>
-                                        <a href="<?php echo e(route('all-items')); ?>?category=<?php echo e($category->parent_category); ?>" 
-                                        class="<?php echo e(request('category') === $category->parent_category ? 'active' : ''); ?>">
-                                            <?php echo e($category->parent_category); ?>
-
-                                        </a>
-                                    </li>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                </ul>
-                            </div>
-
-                            <!-- Size Filter -->
-                            <div class="woocommerce-widget size-list-widget">
-                                <h3 class="woocommerce-widget-title">Size</h3>
-                                <ul class="size-list-row">
-                                    <?php $__currentLoopData = $sizes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $size): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <li>
-                                            <a href="<?php echo e(route('all-items')); ?>?size=<?php echo e($size->value); ?>" 
-                                            class="<?php echo e(request('size') === $size->value ? 'active' : ''); ?>">
-                                                <?php echo e($size->value); ?>
-
-                                            </a>
-                                        </li>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                       
-                                </ul>
-                              
-                            </div>
-
-                            
-
-                            <!-- Color Filter -->
-                            <div class="woocommerce-widget color-list-widget">
-                                <h3 class="woocommerce-widget-title">Color</h3>
-                                <ul class="color-list-row">
-                                    <?php $__currentLoopData = $colors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $color): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <li>
-                                            <a href="<?php echo e(route('all-items')); ?>?color=<?php echo e($color->value); ?>" 
-                                            style="background-color: <?php echo e($color->hex_value); ?>;" 
-                                            class="<?php echo e(request('color') === $color->value ? 'active' : ''); ?>" 
-                                            title="<?php echo e($color->value); ?>"></a>
-                                        </li>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                </ul>
-                            </div>
-                           
-                        </div>
-                    </div>
-
-                    <div class="col-lg-9 col-md-12">
+            
+                    <div class="col-lg-12 col-md-12">
+                        <!-- Check if products are paginated -->
                         <div class="products-filter-options">
                             <div class="row align-items-center justify-content-center">
                                 <div class="col-lg-4 col-md-4">
-                                    <div class="d-lg-flex d-md-flex align-items-center">
-                                        <span class="sub-title d-lg-none"><a href="#" data-bs-toggle="modal" data-bs-target="#productsFilterModal"><i class='bx bx-filter-alt'></i> Filter</a></span>
-                                        
-                                        <!--<span class="sub-title d-none d-lg-block d-md-block">View:</span>
-
-                                        <div class="view-list-row d-none d-lg-block d-md-block">
-                                            <div class="view-column">
-                                                <a href="#" class="icon-view-one">
-                                                    <span></span>
-                                                </a>
-
-                                                <a href="#" class="icon-view-two active">
-                                                    <span></span>
-                                                    <span></span>
-                                                </a>
-
-                                                <a href="#" class="icon-view-three">
-                                                    <span></span>
-                                                    <span></span>
-                                                    <span></span>
-                                                </a>
-
-                                                <a href="#" class="view-grid-switch">
-                                                    <span></span>
-                                                    <span></span>
-                                                </a>
-                                            </div>
-                                        </div>-->
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 col-md-4">
                                     <p>Showing <?php echo e($products->firstItem()); ?> – <?php echo e($products->lastItem()); ?> of <?php echo e($products->total()); ?></p>
                                 </div>
-
-
                             </div>
                         </div>
 
+
                         <div id="products-collections-filter" class="row">
-                                <?php if($products->isEmpty()): ?>
-                                    <div class="col-12">
-                                        <div class="no-products">
-                                            <p>No products found.</p>
-                                        </div>
-                                    </div>
-                                <?php else: ?>
-                                    <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <div class="col-lg-4 col-md-4 col-sm-6 products-col-item">
-                                            <div class="single-products-box">
-                                                <div class="products-image">
-                                                <a href="<?php echo e(route('product-description', ['product_id' => $product->product_id])); ?>">
-                                                    <?php if($product->images->isNotEmpty()): ?>
-                                                        <img src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" class="main-image" alt="image" style="width: 90%; height:270px">
-                                                        <img src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" class="hover-image" alt="image"  style="width: 90%; height:270px">
-                                                    <?php else: ?>
-                                                        <img src="<?php echo e(asset('storage/default-image.jpg')); ?>" class="main-image" alt="image">
-                                                    <?php endif; ?>
-                                                </a>
-
-                                                    <div class="products-button">
-                                                        <ul>
-                                                            <li>
-                                                                <div class="wishlist-btn">
-                                                                    <a href="#" class="wishlist-toggle" data-product-id="<?php echo e($product->product_id); ?>" id="wishlist-<?php echo e($product->product_id); ?>">
-                                                                        <i class="bx bx-heart <?php echo e(in_array($product->product_id, $wishlistProductIds) ? 'filled' : ''); ?>"></i> 
-                                                                        <span class="tooltip-label">Add to Wishlist</span>
-                                                                    </a>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                            
-                                               
-                                                <?php if(($product->sale && $product->sale->status === 'active') || ($product->specialOffer && $product->specialOffer->status === 'active')): ?>
-                                                    <div class="sale-tag">
-                                                        <?php if($product->sale && $product->sale->status === 'active'): ?>
-                                                            <?php
-                                                                $saleRate = (($product->normal_price - $product->sale->sale_price) / $product->normal_price) * 100;
-                                                            ?>
-                                                            - <?php echo e(round($saleRate)); ?>%
-                                                        <?php elseif($product->specialOffer && $product->specialOffer->status === 'active'): ?>
-                                                            <?php
-                                                                $offerRate = (($product->normal_price - $product->specialOffer->offer_price) / $product->normal_price) * 100;
-                                                            ?>
-                                                            - <?php echo e(round($offerRate)); ?>%
-                                                        <?php endif; ?>
-                                                    </div>
+                        <?php if($products->isEmpty()): ?>
+                            <div class="col-12">
+                                <div class="no-products">
+                                    <p>No products found.</p>
+                                </div>
+                            </div>
+                        <?php else: ?>
+                            <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <div class="col-lg-3 col-md-4 col-sm-6 products-col-item"> 
+                                    <div class="single-products-box">
+                                        <div class="products-image">
+                                            <a href="<?php echo e(route('product-description', ['product_id' => $product->product_id])); ?>">
+                                                <?php if($product->images->isNotEmpty()): ?>
+                                                    <img src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" class="main-image" alt="image" style="width: 90%; height:270px">
+                                                    <img src="<?php echo e(asset('storage/' . $product->images->first()->image_path)); ?>" class="hover-image" alt="image"  style="width: 90%; height:270px">
+                                                <?php else: ?>
+                                                    <img src="<?php echo e(asset('storage/default-image.jpg')); ?>" class="main-image" alt="image">
                                                 <?php endif; ?>
+                                            </a>
 
-
+                                            <div class="products-button">
+                                                <ul>
+                                                    <li>
+                                                        <div class="wishlist-btn">
+                                                            <a href="#" class="wishlist-toggle" data-product-id="<?php echo e($product->product_id); ?>" id="wishlist-<?php echo e($product->product_id); ?>">
+                                                                <i class="bx bx-heart <?php echo e(in_array($product->product_id, $wishlistProductIds) ? 'filled' : ''); ?>"></i> 
+                                                                <span class="tooltip-label">Add to Wishlist</span>
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                </ul>
                                             </div>
-
-                                            <div class="products-content">
-                                                <h3><a href="<?php echo e(route('product-description', ['product_id' => $product->product_id])); ?>">
-                                                <?php echo e(\Illuminate\Support\Str::limit($product->product_name, 25)); ?></a></h3>
-                                                <div class="price">
+                                        
+                                            <?php if(($product->sale && $product->sale->status === 'active') || ($product->specialOffer && $product->specialOffer->status === 'active')): ?>
+                                                <div class="sale-tag">
                                                     <?php if($product->sale && $product->sale->status === 'active'): ?>
-                                                        <span class="old-price">Rs. <?php echo e(number_format($product->normal_price, 2)); ?></span>
-                                                        <span class="new-price">Rs. <?php echo e(number_format($product->sale->sale_price, 2)); ?></span>
+                                                        <?php
+                                                            $saleRate = (($product->normal_price - $product->sale->sale_price) / $product->normal_price) * 100;
+                                                        ?>
+                                                        - <?php echo e(round($saleRate)); ?>%
                                                     <?php elseif($product->specialOffer && $product->specialOffer->status === 'active'): ?>
-                                                        <span class="old-price">Rs. <?php echo e(number_format($product->normal_price, 2)); ?></span>
-                                                        <span class="new-price">Rs. <?php echo e(number_format($product->specialOffer->offer_price, 2)); ?></span>
-                                                    <?php else: ?>
-                                                        <span class="new-price">Rs. <?php echo e(number_format($product->normal_price, 2)); ?></span>
+                                                        <?php
+                                                            $offerRate = (($product->normal_price - $product->specialOffer->offer_price) / $product->normal_price) * 100;
+                                                        ?>
+                                                        - <?php echo e(round($offerRate)); ?>%
                                                     <?php endif; ?>
                                                 </div>
-                                                <div class="star-rating">
-                                                    <?php for($i = 1; $i <= 5; $i++): ?>
-                                                        <?php if($i <= floor($product->average_rating)): ?> 
-                                                            <i class='bx bxs-star'></i> 
-                                                        <?php elseif($i == ceil($product->average_rating) && fmod($product->average_rating, 1) >= 0.5): ?>
-                                                            <i class='bx bxs-star-half'></i> 
-                                                        <?php else: ?>
-                                                            <i class='bx bx-star'></i>
-                                                        <?php endif; ?>
-                                                    <?php endfor; ?>
-
-                                                </div>
-
-                                                <a href="/cart" class="add-to-cart"  data-bs-toggle="modal" data-bs-target="#cartModal_<?php echo e($product->product_id); ?>">Add to Cart</a>
-                                            </div>
-                                            
+                                            <?php endif; ?>
                                         </div>
+
+                                        <div class="products-content">
+                                            <h3><a href="<?php echo e(route('product-description', ['product_id' => $product->product_id])); ?>"><?php echo e($product->product_name); ?></a></h3>
+                                            <div class="price">
+                                                <?php if($product->sale && $product->sale->status === 'active'): ?>
+                                                    <span class="old-price">Rs. <?php echo e(number_format($product->normal_price, 2)); ?></span>
+                                                    <span class="new-price">Rs. <?php echo e(number_format($product->sale->sale_price, 2)); ?></span>
+                                                <?php elseif($product->specialOffer && $product->specialOffer->status === 'active'): ?>
+                                                    <span class="old-price">Rs. <?php echo e(number_format($product->normal_price, 2)); ?></span>
+                                                    <span class="new-price">Rs. <?php echo e(number_format($product->specialOffer->offer_price, 2)); ?></span>
+                                                <?php else: ?>
+                                                    <span class="new-price">Rs. <?php echo e(number_format($product->normal_price, 2)); ?></span>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div class="star-rating">
+                                                <?php for($i = 1; $i <= 5; $i++): ?>
+                                                    <?php if($i <= floor($product->average_rating)): ?> 
+                                                        <i class='bx bxs-star'></i> 
+                                                    <?php elseif($i == ceil($product->average_rating) && fmod($product->average_rating, 1) >= 0.5): ?>
+                                                        <i class='bx bxs-star-half'></i> 
+                                                    <?php else: ?>
+                                                        <i class='bx bx-star'></i>
+                                                    <?php endif; ?>
+                                                <?php endfor; ?>
+                                            </div>
+
+                                            <a href="/cart" class="add-to-cart" data-bs-toggle="modal" data-bs-target="#cartModal_<?php echo e($product->product_id); ?>">Add to Cart</a>
+                                        </div>
+                                        
                                     </div>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <?php endif; ?>
+                                </div>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        <?php endif; ?>
+
+
                         </div>
 
 
@@ -273,11 +219,11 @@
 
 
                     </div>
-                </div>
+                
             </div>
         </section>
         <!-- End Products Area -->
-
+         
         <!-- cart modal-->
     <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
     <div class="modal fade" id="cartModal_<?php echo e($product->product_id); ?>" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
@@ -416,9 +362,6 @@
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
 </div>
-
-
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.js"></script>
 
@@ -596,5 +539,4 @@ $('.js-range-of-price').on('input', function() {
 
     </script>
 <?php $__env->stopSection(); ?>
-        
-<?php echo $__env->make('frontend.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\online-marketing\resources\views/frontend/all_items.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('frontend.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\online-marketing\resources\views/frontend/search_results.blade.php ENDPATH**/ ?>
