@@ -414,7 +414,79 @@
 
 </div>
 
+<!-- Start Products Filter Modal Area -->
+<div class="modal left fade productsFilterModal" id="productsFilterModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class='bx bx-x'></i> Close</span>
+                    </button>
 
+                    <div class="modal-body">
+                    <div class="woocommerce-widget-area">
+                            <div class="woocommerce-widget filter-list-widget">
+                              
+                                    <a href="<?php echo e(route('all-items')); ?>" class="delete-selected-filters"><i class='bx bx-trash'></i> <span>Clear All</span></a>
+                               
+                            </div>
+
+                            <div class="woocommerce-widget collections-list-widget">
+                                <h3 class="woocommerce-widget-title">Categories</h3>
+
+                                <ul class="collections-list-row">
+                                <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <li>
+                                        <a href="<?php echo e(route('all-items')); ?>?category=<?php echo e($category->parent_category); ?>" 
+                                        class="<?php echo e(request('category') === $category->parent_category ? 'active' : ''); ?>">
+                                            <?php echo e($category->parent_category); ?>
+
+                                        </a>
+                                    </li>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </ul>
+                            </div>
+
+                            <!-- Size Filter -->
+                            <div class="woocommerce-widget size-list-widget">
+                                <h3 class="woocommerce-widget-title">Size</h3>
+                                <ul class="size-list-row">
+                                    <?php $__currentLoopData = $sizes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $size): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <li>
+                                            <a href="<?php echo e(route('all-items')); ?>?size=<?php echo e($size->value); ?>" 
+                                            class="<?php echo e(request('size') === $size->value ? 'active' : ''); ?>">
+                                                <?php echo e($size->value); ?>
+
+                                            </a>
+                                        </li>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                       
+                                </ul>
+                              
+                            </div>
+
+                            
+
+                            <!-- Color Filter -->
+                            <div class="woocommerce-widget color-list-widget">
+                                <h3 class="woocommerce-widget-title">Color</h3>
+                                <ul class="color-list-row">
+                                    <?php $__currentLoopData = $colors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $color): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <li>
+                                            <a href="<?php echo e(route('all-items')); ?>?color=<?php echo e($color->value); ?>" 
+                                            style="background-color: <?php echo e($color->hex_value); ?>;" 
+                                            class="<?php echo e(request('color') === $color->value ? 'active' : ''); ?>" 
+                                            title="<?php echo e($color->value); ?>"></a>
+                                        </li>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </ul>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Products Filter Modal Area -->
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.js"></script>

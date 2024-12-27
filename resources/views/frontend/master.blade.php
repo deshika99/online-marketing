@@ -494,77 +494,7 @@
         </div>
         <!-- End Shipping Modal Area -->
 
-        <!-- Start Products Filter Modal Area -->
-        <div class="modal left fade productsFilterModal" id="productsFilterModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i class='bx bx-x'></i> Close</span>
-                    </button>
-
-                    <div class="modal-body">
-                    <div class="woocommerce-widget-area">
-                            <div class="woocommerce-widget filter-list-widget">
-                              
-                                    <a href="{{ route('all-items') }}" class="delete-selected-filters"><i class='bx bx-trash'></i> <span>Clear All</span></a>
-                               
-                            </div>
-
-                            <div class="woocommerce-widget collections-list-widget">
-                                <h3 class="woocommerce-widget-title">Categories</h3>
-
-                                <ul class="collections-list-row">
-                                @foreach($categories as $category)
-                                    <li>
-                                        <a href="{{ route('all-items') }}?category={{ $category->parent_category }}" 
-                                        class="{{ request('category') === $category->parent_category ? 'active' : '' }}">
-                                            {{ $category->parent_category }}
-                                        </a>
-                                    </li>
-                                @endforeach
-                                </ul>
-                            </div>
-
-                            <!-- Size Filter -->
-                            <div class="woocommerce-widget size-list-widget">
-                                <h3 class="woocommerce-widget-title">Size</h3>
-                                <ul class="size-list-row">
-                                    @foreach($sizes as $size)
-                                        <li>
-                                            <a href="{{ route('all-items') }}?size={{ $size->value }}" 
-                                            class="{{ request('size') === $size->value ? 'active' : '' }}">
-                                                {{ $size->value }}
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                       
-                                </ul>
-                              
-                            </div>
-
-                            
-
-                            <!-- Color Filter -->
-                            <div class="woocommerce-widget color-list-widget">
-                                <h3 class="woocommerce-widget-title">Color</h3>
-                                <ul class="color-list-row">
-                                    @foreach($colors as $color)
-                                        <li>
-                                            <a href="{{ route('all-items') }}?color={{ $color->value }}" 
-                                            style="background-color: {{ $color->hex_value }};" 
-                                            class="{{ request('color') === $color->value ? 'active' : '' }}" 
-                                            title="{{ $color->value }}"></a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                           
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Products Filter Modal Area -->
+        
         
         
 
