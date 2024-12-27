@@ -389,6 +389,10 @@ Route::get('/login', function () {
     return view('frontend.login');
 })->name('login');
 
+Route::get('/privacy_policy', function () {
+    return view('frontend.privacy_policy');
+})->name('privacy_policy');
+
 
 
 Route::get('/track-order', function () {
