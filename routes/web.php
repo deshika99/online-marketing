@@ -26,6 +26,7 @@ use App\Http\Controllers\AffiliateLinkController;
 use App\Http\Controllers\AffiliateRulesController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AffiliateDashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FrontendTemplateController;
@@ -417,4 +418,10 @@ Route::delete('/wishlist/{id}', [WishListController::class, 'remove'])->name('wi
 Route::get('/wishlist/count', [WishListController::class, 'getWishlistCount'])->name('wishlist.count');
 Route::post('/wishlist/toggle', [WishListController::class, 'toggleWishlist'])->name('wishlist.toggle');
 Route::post('/wishlist/check-multiple', [WishListController::class, 'checkMultipleWishlist'])->name('wishlist.checkMultiple');
+
+
+Route::post('/buynow_checkout', [CheckoutController::class, 'buyNowCheckout'])->name('buynow.checkout');
+Route::get('/checkout', [CheckoutController::class, 'showCheckoutPage'])->name('buynow.checkout.page');
+Route::post('/buynoworder', [CustomerOrderController::class, 'buynowstore'])->name('buynoworder.store');
+
 
