@@ -117,16 +117,16 @@
                                 <span class="me-2">Details not available</span>
                             @endif
                         @else
-                            <span class="me-2">Color: <span style="font-weight: 600;">N/A</span></span> | 
-                            <span class="me-2">Size: <span style="font-weight: 600;">N/A</span></span> |
-                            <span class="ms-2">Qty: <span style="font-weight: 600;">N/A</span></span>
+                            <span class="me-2">Color: <span style="font-weight: 600;"></span></span> | 
+                            <span class="me-2">Size: <span style="font-weight: 600;"></span></span> |
+                            <span class="ms-2">Qty: <span style="font-weight: 600;"></span></span>
                         @endif
 
                         </div>
                         @if ($review->orderItem)
                             <h6 class="mt-2" style="font-size: 13px; font-weight: bold;">Rs {{ $review->orderItem->cost }}</h6>
                         @else
-                            <h6 class="mt-2" style="font-size: 13px; font-weight: bold;">N/A</h6>
+                            <h6 class="mt-2" style="font-size: 13px; font-weight: bold;"></h6>
                         @endif
 
                     </div>

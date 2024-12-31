@@ -109,7 +109,7 @@ class SpecialOffersController extends Controller
 
     public function showProductsWithSpecialOffers(Request $request)
     {
-        $perPage = 24;
+        $perPage = 18;
     
         // Get categories for the filter
         $categories = Category::all();

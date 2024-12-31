@@ -49,18 +49,6 @@
 }
 
 
-
-
-
-/* Initial style for the navbar */
-.navbar-area {
-    position: relative; 
-    width: 100%;
-    z-index: 1010;
-    transition: top 0.3s ease, position 0.3s ease;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 /* Fixed style for the navbar when scrolling */
 .navbar-area.fixed {
     position: fixed;
@@ -76,19 +64,11 @@
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Fixed style for the navbar when scrolling */
-.navbar-area.fixed {
-    position: fixed;
-    top: 0;
-}
 
 /* Style for the xton-responsive-nav */
 .xton-responsive-nav {
     background-color:white;
 }
-
-
-
 
 
   </style>  
