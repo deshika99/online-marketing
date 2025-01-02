@@ -30,6 +30,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AffiliateDashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FrontendTemplateController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 
 use Illuminate\Http\Request;     //contact form
@@ -44,7 +45,10 @@ Route::post('/signup', [RegisterController::class, 'register'])->name('signup');
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
-
+Route::get('forgot-password', [ForgotPasswordController::class, 'showForgotPasswordForm'])->name('lost_password');
+Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('password.reset');
+Route::post('reset-password', [ForgotPasswordController::class, 'reset'])->name('password_update');
 
 Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
