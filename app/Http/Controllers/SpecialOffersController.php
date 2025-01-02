@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Products;
 use App\Models\CustomerOrderItems;
 use App\Models\SpecialOffers;
+use App\Models\Category;
+use App\Models\Variation;
 use App\Models\Sale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -105,28 +107,65 @@ class SpecialOffersController extends Controller
 
 
 
-
-    public function showProductsWithSpecialOffers()
+    public function showProductsWithSpecialOffers(Request $request)
     {
-        $perPage = 24;
-        $products = Products::with(['specialOffer' => function ($query) {
+        $perPage = 18;
+    
+        // Get categories for the filter
+        $categories = Category::all();
+    
+        // Initialize the base query
+        $query = Products::with(['specialOffer' => function ($query) {
             $query->where('status', 'active');
         }, 'images'])
         ->whereHas('specialOffer', function ($query) {
             $query->where('status', 'active');
-        })
-        ->paginate($perPage)
-        ->through(function ($product) {
+        });
+    
+        // Apply category filter
+        if ($request->has('category')) {
+            $category = $request->input('category');
+            $query->where('product_category', $category);
+        }
+    
+        // Apply color filter
+        if ($request->has('color')) {
+            $color = $request->input('color');
+            $query->whereHas('variations', function ($q) use ($color) {
+                $q->where('type', 'color')->where('value', $color);
+            });
+        }
+    
+        // Apply size filter
+        if ($request->has('size')) {
+            $size = $request->input('size');
+            $query->whereHas('variations', function ($q) use ($size) {
+                $q->where('type', 'size')->where('value', $size);
+            });
+        }
+    
+        // Apply price filter
+        if ($request->has('price')) {
+            $priceRange = explode('-', $request->input('price'));
+            $minPrice = $priceRange[0];
+            $maxPrice = $priceRange[1];
+            $query->whereBetween('normal_price', [$minPrice, $maxPrice]);
+        }
+    
+        // Paginate the results
+        $products = $query->paginate($perPage)->through(function ($product) {
             // Calculate average rating and rating count
             $product->average_rating = $product->reviews()->where('status', 'published')->avg('rating');
             $product->rating_count = $product->reviews()->where('status', 'published')->count();
             return $product;
         });
     
-        return view('special_offers', compact('products'));
+        $sizes = Variation::where('type', 'size')->distinct()->get(['value']);
+        $colors = Variation::where('type', 'color')->distinct()->get(['value', 'hex_value']);
+    
+        return view('frontend.special-offers', compact('products', 'categories', 'sizes', 'colors'));
     }
     
-
 
     public function bestSellers(Request $request)
     {
@@ -137,20 +176,61 @@ class SpecialOffersController extends Controller
             ->orderBy('total_quantity', 'desc')
             ->pluck('product_id'); 
     
-        $products = Products::with('images')
+        // Initialize the base query for products
+        $query = Products::with('images')
             ->whereIn('product_id', $orderedProducts)
             ->with(['reviews' => function($query) {
                 $query->where('status', 'published');
-            }])
-            ->paginate(18);
+            }]);
     
+        // Apply category filter
+        if ($request->has('category')) {
+            $category = $request->input('category');
+            $query->where('product_category', $category);
+        }
+    
+        // Apply color filter
+        if ($request->has('color')) {
+            $color = $request->input('color');
+            $query->whereHas('variations', function ($q) use ($color) {
+                $q->where('type', 'color')->where('value', $color);
+            });
+        }
+    
+        // Apply size filter
+        if ($request->has('size')) {
+            $size = $request->input('size');
+            $query->whereHas('variations', function ($q) use ($size) {
+                $q->where('type', 'size')->where('value', $size);
+            });
+        }
+    
+        // Apply price filter
+        if ($request->has('price')) {
+            $priceRange = explode('-', $request->input('price'));
+            $minPrice = $priceRange[0];
+            $maxPrice = $priceRange[1];
+            $query->whereBetween('normal_price', [$minPrice, $maxPrice]);
+        }
+    
+        // Paginate the filtered results
+        $perPage = 18; // Set the pagination limit
+        $products = $query->paginate($perPage);
+    
+        // Add ratings to each product
         foreach ($products as $product) {
             $product->average_rating = $product->reviews->avg('rating');
             $product->rating_count = $product->reviews->count();
         }
-        
-        return view('best_sellers', compact('products'));
+    
+        // Get categories for the filter
+        $categories = Category::all();
+        $sizes = Variation::where('type', 'size')->distinct()->get(['value']);
+        $colors = Variation::where('type', 'color')->distinct()->get(['value', 'hex_value']);
+    
+        return view('frontend.best-seller', compact('products', 'categories', 'sizes', 'colors'));
     }
+    
     
     
     

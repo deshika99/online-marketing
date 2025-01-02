@@ -23,7 +23,7 @@ class AdminLoginController extends Controller
         ]);
     
         $hardcodedAdminEmail = 'admin@example.com';
-        $hardcodedAdminPassword = 'password123'; 
+        $hardcodedAdminPassword = '12345678'; 
     
         $admin = \App\Models\SystemUser::where('email', $request->email)
             ->where('role', 'admin') 

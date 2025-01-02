@@ -18,8 +18,8 @@ class InquiryController extends Controller
         // Validate the form data
         $request->validate([
             'order_id' => 'required|string|max:255',
-            'email' => 'required|email',
-            'phone' => 'required|string',
+            'email' => 'nullable|email',
+            'phone' => 'nullable|string',
             'subject' => 'required|string|max:255',
             'message' => 'required|string',
         ]);

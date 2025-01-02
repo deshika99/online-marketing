@@ -1,4 +1,4 @@
-@extends('layouts.user_sidebar')
+@extends('member_dashboard.user_sidebar')
 
 @section('dashboard-content')
 <style>
@@ -182,11 +182,11 @@
     <div class="review-rating-container">
         <h6>Overall Rating</h6>
         <div class="review-rating">
-            <i class="far fa-star" data-value="1"></i>
-            <i class="far fa-star" data-value="2"></i>
-            <i class="far fa-star" data-value="3"></i>
-            <i class="far fa-star" data-value="4"></i>
-            <i class="far fa-star" data-value="5"></i>
+            <i class="bx bxs-star" data-value="1"></i>
+            <i class="bx bxs-star" data-value="2"></i>
+            <i class="bx bxs-star" data-value="3"></i>
+            <i class="bx bxs-star" data-value="4"></i>
+            <i class="bx bxs-star" data-value="5"></i>
         </div>
     </div>
 

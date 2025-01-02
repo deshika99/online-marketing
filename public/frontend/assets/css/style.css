@@ -2784,6 +2784,9 @@ Products CSS
   width: auto !important;
   display: inline-block !important;
 }
+.products-slides .owl-nav {
+    z-index: 10;
+}
 
 .products-slides.owl-theme .owl-nav {
   margin-top: 0;
@@ -4012,6 +4015,10 @@ Products Details CSS
   margin-top: 70px;
 }
 
+.bx-heart.filled {
+  color: red;
+}
+
 /*================================================
 Offer CSS
 =================================================*/
@@ -4023,7 +4030,7 @@ Offer CSS
   background-repeat: no-repeat;
 }
 .offer-area.bg-image1 {
-  background-image: url(../../assets/img/offer-bg.jpg);
+  background-image: url(../../assets/img/main-banner2-OLD.jpg);
 }
 .offer-area.bg-image2 {
   background-image: url(../../assets/img/offer-bg2.jpg);

@@ -19,12 +19,14 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NavbarController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\WishListController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AffiliateWithdrawalsController;
 use App\Http\Controllers\AffiliateLinkController;
 use App\Http\Controllers\AffiliateRulesController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AffiliateDashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FrontendTemplateController;
@@ -32,7 +34,7 @@ use App\Http\Controllers\FrontendTemplateController;
 
 use Illuminate\Http\Request;     //contact form
 
-Route::get('/home', [HomeController::class, 'index'])->name('frontend.home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
 Route::get('/signup', [RegisterController::class, 'showSignupForm'])->name('signupForm');
@@ -50,8 +52,8 @@ Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logou
 Route::view('/home/help-center', 'helpcenter')->name('helpcenter');
 Route::get('/home/products/{category?}/{subcategory?}/{subsubcategory?}', [ProductController::class, 'showProductsByCategory'])
     ->name('user_products');
-Route::get('/product/{product_id?}', [ProductController::class, 'show'])->name('single_product_page');
-Route::get('/home/all_items', [ProductController::class, 'show_all_items'])->name('all_items');
+
+
 Route::get('/home/special_offer_products', [SpecialOffersController::class, 'showProductsWithSpecialOffers'])->name('special_offerproducts');
 Route::post('/filter-products', [ProductController::class, 'filterProducts']);
 Route::get('/best-sellers', [SpecialOffersController::class, 'bestSellers'])->name('best_sellers');
@@ -84,9 +86,10 @@ Route::get('home/My-Account/myorders', [UserDashboardController::class, 'myOrder
 Route::get('home/My-Account/order-details/{order_code}', [UserDashboardController::class, 'orderDetails'])->name('myorder-details');
 Route::post('/order/cancel/{order_code}', [UserDashboardController::class, 'cancelOrder']);
 Route::post('/confirm-delivery', [UserDashboardController::class, 'confirmDelivery'])->name('confirm-delivery');
+
 Route::get('home/My-Account/My-Reviews', [UserDashboardController::class, 'myReviews'])->name('myreviews');
 
-Route::get('home/My-Account/dashboard', [UserDashboardController::class, 'index'])->name('member_dashboard');
+Route::get('home/My-Account/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
 
 
 Route::get('home/My-Account/addresses', [UserDashboardController::class, 'showAddresses'])->name('addresses');
@@ -98,7 +101,7 @@ Route::get('/member-dashboard/write-reviews', [UserDashboardController::class, '
 Route::post('/member-dashboard/reviews', [UserDashboardController::class, 'storeReview'])->name('reviews.store');
 
 Route::get('home/My-Account/inquiries', [UserDashboardController::class, 'showInquiries'])->name('myinquiries');
-
+Route::view('home/My-Account/inquiries/write', 'member_dashboard.write_inquiries')->name('inquiry.create');
 
 Route::get('home/My-Account/change-password', function () {
     return view('member_dashboard.change-password');
@@ -131,12 +134,7 @@ Route::get('/affiliate/dashboard/payment/bank_acc', function () {
 // Auth::routes();
 
 
-Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
-Route::get('/shopping-cart', [CartController::class, 'showCart'])->name('shopping_cart');
-Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
 
-Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
-Route::delete('/cart/remove/{index}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 
 Route::get('/payment/{order_code}', [PaymentController::class, 'payment'])->name('payment');
 
@@ -147,8 +145,7 @@ Route::get('/order/order_received/{order_code}', [PaymentController::class, 'get
 Route::get('/search-products', [ProductController::class, 'searchProducts'])->name('searchProducts');
 
 
-Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
-Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('order.store');
+
 
 
 
@@ -160,9 +157,10 @@ Route::post('/dashboard/password/update', [UserDashboardController::class, 'upda
 
 
 //affiliate dashboard
-Route::view('/home/affiliate/affiliate_home', 'frontend.aff_home')->name('aff_home');
-Route::post('/home/affiliate/register', [AffiliateCustomerController::class, 'register'])->name('frontend.aff_reg');
-Route::view('/home/affiliate/register/', 'frontend.aff_reg')->name('register_form');
+Route::view('/aff_home', 'frontend.aff_home')->name('aff_home');
+Route::view('/aff_reg', 'frontend.aff_reg')->name('aff_reg');
+Route::post('/aff_reg', [AffiliateCustomerController::class, 'register'])->name('register_form');
+
 Route::post('/home/affiliate/login', [AffiliateCustomerController::class, 'login'])->name('aff_login');
 Route::get('/affiliate/dashboard', [AffiliateCustomerController::class, 'index'])->name('index');
 Route::post('/affiliate/logout', [AffiliateCustomerController::class, 'logout'])->name('aff_logout');
@@ -367,21 +365,11 @@ Route::get('/customer-inquiry', function () {
 
 Route::get('/main',[FrontendTemplateController::class, 'main'])->name('main');
 
-Route::get('/home', function () {
-    return view('frontend.home');
-})->name('home');
 
 Route::get('/About-us', function () {
     return view('frontend.About-us');
 })->name('About-us');
 
-Route::get('/cart', function () {
-    return view('frontend.cart');
-})->name('cart');
-
-Route::get('/checkout', function () {
-    return view('frontend.checkout');
-})->name('checkout');
 
 Route::get('/compare', function () {
     return view('frontend.compare');
@@ -403,34 +391,39 @@ Route::get('/login', function () {
     return view('frontend.login');
 })->name('login');
 
-
+Route::get('/privacy_policy', function () {
+    return view('frontend.privacy_policy');
+})->name('privacy_policy');
 
 Route::get('/track-order', function () {
     return view('frontend.track-order');
 })->name('track-order');
 
-Route::get('/all-items', function () {
-    return view('frontend.all-items');
-})->name('all-items');
+Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('checkout');
+Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('order.store');
 
-Route::get('/best-seller', function () {
-    return view('frontend.best-seller');
-})->name('best-seller');
+Route::get('/all-items', [ProductController::class, 'show_all_items'])->name('all-items');
+Route::get('/cart', [CartController::class, 'showCart'])->name('cart');
+Route::post('cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
+Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/remove/{index}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 
-Route::get('/special-offers', function () {
-    return view('frontend.special-offers');
-})->name('special-offers');
+Route::get('/product-description/{product_id?}', [ProductController::class, 'show'])->name('product-description');
 
-Route::get('/product-description', function () {
-    return view('frontend.product-description');
-})->name('product-description');
 
-Route::get('/aff_home', function () {
-    return view('frontend.aff_home');
-})->name('aff_home');
+Route::get('/best-seller', [SpecialOffersController::class, 'bestSellers'])->name('best-seller');
+Route::get('/special-offers', [SpecialOffersController::class, 'showProductsWithSpecialOffers'])->name('special-offers');
 
-Route::get('/aff_reg', function () {
-    return view('frontend.aff_reg');
-})->name('aff_reg');
+Route::get('/wishlist', [WishListController::class, 'showWishlist'])->name('wishlist');
+Route::delete('/wishlist/{id}', [WishListController::class, 'remove'])->name('wishlist.remove');
+Route::get('/wishlist/count', [WishListController::class, 'getWishlistCount'])->name('wishlist.count');
+Route::post('/wishlist/toggle', [WishListController::class, 'toggleWishlist'])->name('wishlist.toggle');
+Route::post('/wishlist/check-multiple', [WishListController::class, 'checkMultipleWishlist'])->name('wishlist.checkMultiple');
+
+
+Route::post('/buynow_checkout', [CheckoutController::class, 'buyNowCheckout'])->name('buynow.checkout');
+Route::get('/checkout', [CheckoutController::class, 'showCheckoutPage'])->name('buynow.checkout.page');
+Route::post('/buynoworder', [CustomerOrderController::class, 'buynowstore'])->name('buynoworder.store');
 
 

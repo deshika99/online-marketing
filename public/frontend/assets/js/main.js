@@ -168,10 +168,10 @@
                 items: 2,
             },
             768: {
-                items: 2,
+                items: 3,
             },
             1200: {
-                items: 3,
+                items: 4,
             }
         }
     });
@@ -640,7 +640,7 @@
     });
 
     // Switch Btn
-	$('body').append("<div class='switch-box'><label id='switch' class='switch'><input type='checkbox' onchange='toggleTheme()' id='slider'><span class='slider round'></span></label></div>");
+	
 
 }(jQuery));
 

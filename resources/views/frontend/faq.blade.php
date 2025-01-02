@@ -43,7 +43,8 @@
                                         </a>
         
                                         <div class="accordion-content show">
-                                            <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                                            <p>Shipping times and costs depend on the shipping method and location. Standard shipping typically takes 5-7 business days, while express shipping takes 2-3 days. For same-day delivery, it's available in select areas for orders placed before 12 PM. Shipping costs are calculated at checkout, with free standard shipping on orders over LKR 5,000. Additional fees apply for express and international shipping.
+                                            </p>
                                         </div>
                                     </li>
 
@@ -54,7 +55,12 @@
                                         </a>
         
                                         <div class="accordion-content">
-                                            <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip. Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                                            <p>We offer several shipping methods to ensure your order arrives as quickly and securely as possible. Our available shipping options include:
+                                            Standard Shipping – Delivered within 5-7 business days.
+                                            Express Shipping – Delivered within 2-3 business days.
+                                            Same-Day Delivery – Available in select areas for orders placed before 12 PM.
+                                            International Shipping – We also offer international shipping to select countries, with delivery times varying based on location.
+                                            </p>
                                         </div>
                                     </li>
 
@@ -109,7 +115,8 @@
                                         </a>
         
                                         <div class="accordion-content show">
-                                            <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                                            <p>Shipping times and costs depend on the shipping method and location. Standard shipping typically takes 5-7 business days, while express shipping takes 2-3 days. For same-day delivery, it's available in select areas for orders placed before 12 PM. Shipping costs are calculated at checkout, with free standard shipping on orders over LKR 5,000. Additional fees apply for express and international shipping.
+                                            </p>
                                         </div>
                                     </li>
 
@@ -120,7 +127,12 @@
                                         </a>
         
                                         <div class="accordion-content">
-                                            <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip. Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                                            <p>We offer several shipping methods to ensure your order arrives as quickly and securely as possible. Our available shipping options include:
+                                            Standard Shipping – Delivered within 5-7 business days.
+                                            Express Shipping – Delivered within 2-3 business days.
+                                            Same-Day Delivery – Available in select areas for orders placed before 12 PM.
+                                            International Shipping – We also offer international shipping to select countries, with delivery times varying based on location.
+                                            </p>
                                         </div>
                                     </li>
 
@@ -175,7 +187,8 @@
                                         </a>
         
                                         <div class="accordion-content show">
-                                            <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                                            <p>Shipping times and costs depend on the shipping method and location. Standard shipping typically takes 5-7 business days, while express shipping takes 2-3 days. For same-day delivery, it's available in select areas for orders placed before 12 PM. Shipping costs are calculated at checkout, with free standard shipping on orders over LKR 5,000. Additional fees apply for express and international shipping.
+                                            </p>
                                         </div>
                                     </li>
 
@@ -186,7 +199,12 @@
                                         </a>
         
                                         <div class="accordion-content">
-                                            <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip. Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                                            <p>We offer several shipping methods to ensure your order arrives as quickly and securely as possible. Our available shipping options include:
+                                            Standard Shipping – Delivered within 5-7 business days.
+                                            Express Shipping – Delivered within 2-3 business days.
+                                            Same-Day Delivery – Available in select areas for orders placed before 12 PM.
+                                            International Shipping – We also offer international shipping to select countries, with delivery times varying based on location.
+                                            </p>
                                         </div>
                                     </li>
 
@@ -241,7 +259,8 @@
                                         </a>
         
                                         <div class="accordion-content show">
-                                            <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                                            <p>Shipping times and costs depend on the shipping method and location. Standard shipping typically takes 5-7 business days, while express shipping takes 2-3 days. For same-day delivery, it's available in select areas for orders placed before 12 PM. Shipping costs are calculated at checkout, with free standard shipping on orders over LKR 5,000. Additional fees apply for express and international shipping.
+                                            </p>
                                         </div>
                                     </li>
 
@@ -252,7 +271,12 @@
                                         </a>
         
                                         <div class="accordion-content">
-                                            <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip. Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                                            <p>We offer several shipping methods to ensure your order arrives as quickly and securely as possible. Our available shipping options include:
+                                            Standard Shipping – Delivered within 5-7 business days.
+                                            Express Shipping – Delivered within 2-3 business days.
+                                            Same-Day Delivery – Available in select areas for orders placed before 12 PM.
+                                            International Shipping – We also offer international shipping to select countries, with delivery times varying based on location.
+                                            </p>
                                         </div>
                                     </li>
 
@@ -307,7 +331,8 @@
                                         </a>
         
                                         <div class="accordion-content show">
-                                            <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                                            <p>Shipping times and costs depend on the shipping method and location. Standard shipping typically takes 5-7 business days, while express shipping takes 2-3 days. For same-day delivery, it's available in select areas for orders placed before 12 PM. Shipping costs are calculated at checkout, with free standard shipping on orders over LKR 5,000. Additional fees apply for express and international shipping.
+                                            </p>
                                         </div>
                                     </li>
 
@@ -318,7 +343,12 @@
                                         </a>
         
                                         <div class="accordion-content">
-                                            <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip. Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                                            <p>We offer several shipping methods to ensure your order arrives as quickly and securely as possible. Our available shipping options include:
+                                            Standard Shipping – Delivered within 5-7 business days.
+                                            Express Shipping – Delivered within 2-3 business days.
+                                            Same-Day Delivery – Available in select areas for orders placed before 12 PM.
+                                            International Shipping – We also offer international shipping to select countries, with delivery times varying based on location.
+                                            </p>
                                         </div>
                                     </li>
 
@@ -345,7 +375,7 @@
                                         </a>
         
                                         <div class="accordion-content">
-                                            <p>Absolutely! Simply point your domain directly to your new Xton. You do not need to use a subdomain or any other temporary domain name placeholder.</p>
+                                            <p>Absolutely! Simply point your domain directly to your new OMC. You do not need to use a subdomain or any other temporary domain name placeholder.</p>
                                         </div>
                                     </li>
 
@@ -368,61 +398,6 @@
         </section>
         <!-- End FAQ Area -->
 
-        <!-- Start Facility Area -->
-        <section class="facility-area pb-70">
-            <div class="container">
-                <div class="facility-slides owl-carousel owl-theme">
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-tracking'></i>
-                        </div>
-                        <h3>Free Shipping Worldwide</h3>
-                    </div>
-
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-return'></i>
-                        </div>
-                        <h3>Easy Return Policy</h3>
-                    </div>
-
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-shuffle'></i>
-                        </div>
-                        <h3>7 Day Exchange Policy</h3>
-                    </div>
-
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-sale'></i>
-                        </div>
-                        <h3>Weekend Discount Coupon</h3>
-                    </div>
-
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-credit-card'></i>
-                        </div>
-                        <h3>Secure Payment Methods</h3>
-                    </div>
-
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-location'></i>
-                        </div>
-                        <h3>Track Your Package</h3>
-                    </div>
-
-                    <div class="single-facility-box">
-                        <div class="icon">
-                            <i class='flaticon-customer-service'></i>
-                        </div>
-                        <h3>24/7 Customer Support</h3>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- End Facility Area -->
+     
         
 @endsection

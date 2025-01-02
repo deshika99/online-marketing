@@ -45,8 +45,7 @@ class RegisterController extends Controller
     {
         // Validate the request data
         $validatedData = $request->validate([
-            'fname' => 'required|string|max:255',
-            'lname' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'district' => 'required|string|max:255',
             'DOB' => 'required|date|before:today',
@@ -57,8 +56,7 @@ class RegisterController extends Controller
 
         // Store user data in the database
         $user = new User();
-        $user->fname = $validatedData['fname'];
-        $user->lname = $validatedData['lname'];
+        $user->name = $validatedData['name'];;
         $user->address = $validatedData['address'];
         $user->district = $validatedData['district'];
         $user->date_of_birth = $validatedData['DOB'];

@@ -1,11 +1,41 @@
 @extends ('frontend.master')
 
 @section('content')
+<style>
+/* Style for selected color */
+.color-option.selected {
+    border: 2px solid #000; 
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
+}
+
+
+/* Style for selected size */
+.products-size-wrapper a.selected {
+    color: #000; 
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
+}
+
+
+.review-media {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.review-media img,
+.review-media video {
+    height: 100px;
+    object-fit: cover;
+}
+
+</style>
+
+
 <!-- Start Page Title -->
 <div class="page-title-area">
     <div class="container">
         <div class="page-title-content">
-            <h2>Long Sleeve Leopard T-Shirt</h2>
+            <h2>{{ $product->product_name }}</h2>
             <ul>
                 <li><a href="/home">Home</a></li>
                 <li>Products Details</li>
@@ -21,120 +51,154 @@
         <div class="row justify-content-center">
             <div class="col-lg-5 col-md-12">
                 <div class="products-details-image">
-                    <ul class="products-details-image-slides">
-                        <li><img src="frontend/assets/img/products/img1.jpg" alt="image"></li>
-                        <!--<li><img src="frontend/assets/img/products/img4.jpg" alt="image"></li>
-                        <li><img src="frontend/assets/img/products/img-hover3.jpg" alt="image"></li>
-                        <li><img src="frontend/assets/img/products/img-hover4.jpg" alt="image"></li>
-                        <li><img src="frontend/assets/img/products/img7.jpg" alt="image"></li>-->
-                    </ul>
+                    <!-- Main Image -->
+                    <div class="main-image-container" style="margin-bottom: 20px; text-align: center;">
+                        @if($product->images->isNotEmpty())
+                            <a href="{{ asset('storage/' . $product->images->first()->image_path) }}" class="glightbox">
+                                <img 
+                                    src="{{ asset('storage/' . $product->images->first()->image_path) }}" 
+                                    alt="main image" 
+                                    style="width: 100%; max-height: 500px; object-fit: cover; border: 1px solid #ccc;"
+                                >
+                            </a>
+                        @endif
+                    </div>
 
-                   <!--<div class="slick-thumbs">
-                        <ul>
-                            <li><img src="frontend/assets/img/products/img3.jpg" alt="image"></li>
-                            <li><img src="frontend/assets/img/products/img4.jpg" alt="image"></li>
-                            <li><img src="frontend/assets/img/products/img-hover3.jpg" alt="image"></li>
-                            <li><img src="frontend/assets/img/products/img-hover4.jpg" alt="image"></li>
-                            <li><img src="frontend/assets/img/products/img7.jpg" alt="image"></li>
+                    <!-- Thumbnails -->
+                    <div class="slick-thumbs" style="margin-top: 20px; display: flex; justify-content: center; gap: 10px;">
+                        <ul style="list-style: none; padding: 0; display: flex; gap: 10px;">
+                            @foreach($product->images->slice(1) as $image) <!-- Skip the first image -->
+                                <li>
+                                    <a href="{{ asset('storage/' . $image->image_path) }}" class="glightbox">
+                                        <img 
+                                            src="{{ asset('storage/' . $image->image_path) }}" 
+                                            alt="thumbnail" 
+                                            style="width: 70px; height: 70px; object-fit: cover; border: 1px solid #ccc; border-radius: 5px;"
+                                        >
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
-                    </div>-->
+                    </div>
                 </div>
             </div>
 
-            <div class="col-lg-7 col-md-12">
-                <div class="products-details-desc">
-                    <h3>Long Sleeve Leopard T-Shirt</h3>
+                <div class="col-lg-7 col-md-12">
+                    <div class="products-details-desc">
+                        <h3>{{ $product->product_name }}</h3>
 
-                    <div class="price">
-                        <span class="new-price">RS 2500</span>
-                        <span class="old-price">RS 1500</span>
-                    </div>
-
-                    <div class="products-review">
-                        <div class="rating">
-                            <i class='bx bx-star'></i>
-                            <i class='bx bx-star'></i>
-                            <i class='bx bx-star'></i>
-                            <i class='bx bx-star'></i>
-                            <i class='bx bx-star'></i>
+                        <div class="price" style="font-size: 20px">
+                            @if($sale)
+                                <span class="new-price">Rs. {{ number_format($sale->sale_price, 2) }}</span>
+                                <span class="old-price" style="font-size: 18px">Rs. {{ number_format($sale->normal_price, 2) }}</span>
+                                <span class="discount">{{ number_format($sale->sale_rate, 0) }}% off</span>
+                            @elseif($specialOffer)
+                                <span class="new-price">Rs. {{ number_format($specialOffer->offer_price, 2) }}</span>
+                                <span class="old-price" style="font-size: 18px">Rs. {{ number_format($specialOffer->normal_price, 2) }}</span>
+                                <span class="discount">{{ number_format($specialOffer->offer_rate, 0) }}% off</span>
+                            @else
+                                <span class="new-price">Rs. {{ number_format($product->normal_price, 2) }}</span>
+                            @endif
                         </div>
-                        <a href="#" class="rating-count">3 reviews</a>
-                    </div>
 
-                    <ul class="products-info">
-                        <li><span>Vendor:</span> <a href="#">Lereve</a></li>
-                        <li><span>Availability:</span> <a href="#">In stock (7 items)</a></li>
-                        <li><span>Products Type:</span> <a href="#">T-Shirt</a></li>
-                        <li><span>Product description:</span> <a href="#">IT is new metirial items.</a></li>
-                    </ul>
+                        <div class="products-review">
+                            <div class="rating">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    @if ($averageRating >= $i)
+                                        <i class='bx bxs-star'></i> <!-- Full star -->
+                                    @elseif ($averageRating >= ($i - 0.5))
+                                        <i class='bx bxs-star-half'></i> <!-- Half star -->
+                                    @else
+                                        <i class='bx bx-star'></i> <!-- Empty star -->
+                                    @endif
+                                @endfor
+                            </div>
 
-                    <div class="products-color-switch">
-                        <span>Color:</span>
+                            <a href="#" class="rating-count">{{ $totalReviews }} Ratings</a>
+                        </div>
 
-                        <ul>
-                            <li><a href="#" title="Black" class="color-black"></a></li>
-                            <li><a href="#" title="White" class="color-white"></a></li>
-                            <li class="active"><a href="#" title="Green" class="color-green"></a></li>
-                            <li><a href="#" title="Yellow Green" class="color-yellowgreen"></a></li>
-                            <li><a href="#" title="Teal" class="color-teal"></a></li>
+                        <ul class="products-info">
+                            <li><span>Availability:</span> 
+                                @if($product->quantity > 1)
+                                    <span style="color: #4caf50;">In stock</span>
+                                @else
+                                    <span style="color: red;">Out of stock</span>
+                                @endif
+                            </li>
+                            <li><span>Product Description:</span> {{ strip_tags($product->product_description) }}</li>
                         </ul>
-                    </div>
 
-                    <div class="products-size-wrapper">
-                        <span>Size:</span>
+                   <!-- Color Options -->
+                            @if($product->variations->where('type', 'Color')->isNotEmpty())
+                                <div class="products-color-switch">
+                                    <span>Color:</span>
+                                    @foreach($product->variations->where('type', 'Color') as $color)
+                                        @if($color->quantity > 0)
+                                            <button class="btn btn-outline-secondary btn-sm color-option" 
+                                                    style="background-color: {{ $color->hex_value }}; border-color: #e8ebec; height: 20px; width: 20px; border-radius:50%" 
+                                                    data-color="{{ $color->hex_value }}" 
+                                                    data-color-name="{{ $color->value }}">
+                                            </button>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            @endif
 
-                        <ul>
-                            <li><a href="#">XS</a></li>
-                            <li class="active"><a href="#">S</a></li>
-                            <li><a href="#">M</a></li>
-                            <li><a href="#">XL</a></li>
-                            <li><a href="#">XXL</a></li>
-                        </ul>
-                    </div>
+                            <!-- Size Options -->
+                            @if($product->variations->where('type', 'Size')->isNotEmpty())
+                                <div class="products-size-wrapper">
+                                    <span>Size:</span>
+                                    <ul style="list-style: none; padding: 0; display: flex; gap: 10px;">
+                                        @foreach($product->variations->where('type', 'Size') as $size)
+                                            @if($size->quantity > 0)
+                                                <li>
+                                                    <a href="#" class="size-option" data-size="{{ $size->value }}">
+                                                        {{ $size->value }}
+                                                    </a>
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
 
-                    <div class="products-info-btn">
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#sizeGuideModal"><i class='bx bx-crop'></i> Size guide</a>
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#productsShippingModal"><i class='bx bxs-truck' ></i> Shipping</a>
-                        <a href="/contact"><i class='bx bx-envelope'></i> Ask about this products</a>
-                    </div>
 
-                    <div class="products-add-to-cart">
-                        <div class="input-counter">
-                            <span class="minus-btn"><i class='bx bx-minus'></i></span>
-                            <input type="text" value="1">
-                            <span class="plus-btn"><i class='bx bx-plus'></i></span>
-                        </div>
+                            <!--<div class="products-info-btn">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#sizeGuideModal"><i class='bx bx-crop'></i> Size guide</a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#productsShippingModal"><i class='bx bxs-truck' ></i> Shipping</a>
+                                <a href="contact.html"><i class='bx bx-envelope'></i> Ask about this products</a>
+                            </div>-->
 
-                        <button type="submit" class="default-btn"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-                    </div>
+                        
 
-                    <div class="wishlist-compare-btn">
-                        <a href="#" class="optional-btn"><i class='bx bx-heart'></i> Add to Wishlist</a>
-                        <a href="#" class="optional-btn"><i class='bx bx-refresh'></i> Add to Compare</a>
-                    </div>
+                            <div class="products-add-to-cart mt-4">
+                                <div class="input-counter">
+                                    <span class="minus-btn"><i class="bx bx-minus"></i></span>
+                                    <input type="text" id="quantity" value="1" min="1">
+                                    <span class="plus-btn"><i class="bx bx-plus"></i></span>
+                                </div>
 
-                    <div class="buy-checkbox-btn">
-                        <div class="item">
-                            <input class="inp-cbx" id="cbx" type="checkbox">
-                            <label class="cbx" for="cbx">
-                                <span>
-                                    <svg width="12px" height="10px" viewbox="0 0 12 10">
-                                        <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
-                                    </svg>
-                                </span>
-                                <span>I agree with the terms and conditions</span>
-                            </label>
-                        </div>
+                                @auth
+                                    <button class="default-btn" data-product-id="{{ $product->product_id }}" id="addToCartBtn">Add to Cart</button>
+                                    <button class="default-btn" id="buyNowBtn" data-product-id="{{ $product->product_id }}">Buy Now</button>
+                                @else
+                                    <button class="default-btn" onclick="alert('Please log in to add to cart.')">Add to Cart</button>
+                                    <button class="default-btn" onclick="alert('Please log in to proceed to checkout.')">Buy Now</button>
+                                @endauth <br>
 
-                        <div class="item">
-                            <a href="#" class="default-btn">Buy it now!</a>
+                                <a href="#" class="wishlist-toggle optional-btn mt-3" data-product-id="{{ $product->product_id }}" id="wishlist-{{ $product->product_id }}">
+                                    <i class="bx bx-heart {{ in_array($product->product_id, $wishlistProductIds) ? 'filled' : '' }}"></i> Add to Wishlist
+                                </a>
+
+                            </div>
+
+
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="tab products-details-tab">
+
+        <div class="tab products-details-tab mb-4">
             <ul class="tabs">
                 <li><a href="#">
                     <div class="dot"></div> Description
@@ -142,10 +206,6 @@
                 
                 <li><a href="#">
                     <div class="dot"></div> Additional Information
-                </a></li>
-
-                <li><a href="#">
-                    <div class="dot"></div> Shipping
                 </a></li>
 
                 <li><a href="#">
@@ -160,25 +220,9 @@
             <div class="tab-content">
                 <div class="tabs-item">
                     <div class="products-details-tab-content">
-                        <p>Design inspiration lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum.  Aliquam erat volutpat. Sed quis velit. Nulla facilisi. Nulla libero. Vivamus pharetra posuere sapien. Nam consectetuer. Sed aliquam, nunc eget euismod ullamcorper, lectus nunc ullamcorper orci, fermentum bibendum enim nibh eget ipsum. Nam consectetuer. Sed aliquam, nunc eget euismod ullamcorper, lectus nunc ullamcorper orci, fermentum bibendum enim nibh eget ipsum. Nulla libero. Vivamus pharetra posuere sapien.</p>
+                        <p>{{ strip_tags($product->product_description) }}</p>
 
-                        <div class="row justify-content-center">
-                            <div class="col-lg-6 col-md-6">
-                                <ul>
-                                    <li>Fabric 1: 100% Polyester</li>
-                                    <li>Fabric 2: 100% Polyester, Lining: 100% Polyester</li>
-                                    <li>Fabric 3: 75% Polyester, 20% Viscose, 5% Elastane</li>
-                                </ul>
-                            </div>
-
-                            <div class="col-lg-6 col-md-6">
-                                <ol>
-                                    <li>Fabric 3: 75% Polyester, 20% Viscose, 5% Elastane</li>
-                                    <li>Fabric 2: 100% Polyester, Lining: 100% Polyester</li>
-                                    <li>Fabric 1: 100% Polyester</li>
-                                </ol>
-                            </div>
-                        </div>
+                    
                     </div>
                 </div>
 
@@ -187,37 +231,30 @@
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <tbody>
-                                    <tr>
+                                <tr>
                                         <td>Color:</td>
-                                        <td>Blue, Purple, White</td>
+                                        <td>
+                                            @foreach($product->variations->where('type', 'Color') as $color)
+                                                @if($color->quantity > 0)
+                                                    <span style="background-color: {{ $color->hex_value }}; width: 20px; height: 20px; display: inline-block; border-radius: 50%;"></span>
+                                                
+                                                @endif
+                                            @endforeach
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Size:</td>
-                                        <td>20, 24</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Material:</td>
-                                        <td>100% Polyester</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Height:</td>
-                                        <td>180 cm - 5' 11”</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Bust:</td>
-                                        <td>83 cm - 32”</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Waist:</td>
-                                        <td>57 cm - 22”</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Hips:</td>
-                                        <td>88 cm - 35</td>
+                                        <td>
+                                            @foreach($product->variations->where('type', 'Size') as $size)
+                                                @if($size->quantity > 0)
+                                                    {{ $size->value }} 
+                                                @endif
+                                            @endforeach
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Shipping:</td>
-                                        <td>Free</td>
+                                        <td>LKR 300.00</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -225,39 +262,18 @@
                     </div>
                 </div>
 
-                <div class="tabs-item">
-                    <div class="products-details-tab-content">
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <tbody>
-                                    <tr>
-                                        <td>Shipping</td>
-                                        <td>This item Ship to USA</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Delivery</td>
-                                        <td>
-                                            Estimated between Wednesday 07/31/2024 and Monday 08/05/2024 <br>
-                                            Will usually ship within 1 bussiness day.
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+               
 
                 <div class="tabs-item">
                     <div class="products-details-tab-content">
                         <p>Here are 5 more great reasons to buy from us:</p>
 
                         <ol>
-                            <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</li>
-                            <li> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</li>
-                            <li>When an unknown printer took a galley of type and scrambled it to make a type specimen book.</li>
-                            <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</li>
-                            <li>When an unknown printer took a galley of type and scrambled it to make a type specimen book.</li>
+                            <li>Wide Range of Products – From electronics to fashion, we offer a vast selection of high-quality items for all your needs.</li>
+                            <li>Affordable Prices – Enjoy competitive pricing and amazing discounts on top-rated products..</li>
+                            <li>Convenient Shopping Experience – Our easy-to-navigate website ensures a seamless shopping experience from browsing to checkout.</li>
+                            <li>Secure Payment Options – Shop with confidence using our safe and reliable payment methods.</li>
+                            <li>Fast and Reliable Delivery – We guarantee quick delivery, ensuring your orders reach you on time, every time.</li>
                         </ol>
                     </div>
                 </div>
@@ -269,92 +285,67 @@
 
                             <div class="review-title">
                                 <div class="rating">
-                                    <i class='bx bxs-star'></i>
-                                    <i class='bx bxs-star'></i>
-                                    <i class='bx bxs-star'></i>
-                                    <i class='bx bxs-star'></i>
-                                    <i class='bx bx-star'></i>
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        @if ($averageRating >= $i)
+                                            <i class='bx bxs-star'></i> <!-- Full star -->
+                                        @elseif ($averageRating >= ($i - 0.5))
+                                            <i class='bx bxs-star-half'></i> <!-- Half star -->
+                                        @else
+                                            <i class='bx bx-star'></i> <!-- Empty star -->
+                                        @endif
+                                    @endfor
                                 </div>
-                                <p>Based on 3 reviews</p>
-                                <a href="#" class="default-btn">Write a Review</a>
+                                <p>Based on {{ $totalReviews }} reviews</p>
                             </div>
+
 
                             <div class="review-comments">
-                                <div class="review-item">
-                                    <div class="rating">
-                                        <i class='bx bxs-star'></i>
-                                        <i class='bx bxs-star'></i>
-                                        <i class='bx bxs-star'></i>
-                                        <i class='bx bxs-star'></i>
-                                        <i class='bx bx-star'></i>
-                                    </div>
-                                    <h3>Good</h3>
-                                    <span><strong>Admin</strong> on <strong>Sep 21, 2024</strong></span>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-                                </div>
+                                @foreach ($reviews as $review)
+                                    <div class="review-item">
+                                        <div class="rating">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($review->rating >= $i)
+                                                    <i class='bx bxs-star'></i>
+                                                @elseif ($review->rating >= ($i - 0.5))
+                                                    <i class='bx bxs-star-half'></i>
+                                                @else
+                                                    <i class='bx bx-star'></i>
+                                                @endif
+                                            @endfor
+                                            
+                                        </div>
+                                        <h3>{{ $review->comment_title ?? 'Review' }}</h3>
+                                        <span>
+                                            @if ($review->is_anonymous)
+                                                <strong> {{ ucfirst(substr($review->user->name, 0, 1)) }}***</strong>
+                                            @else
+                                                <strong>{{ $review->user->name ?? 'User' }}</strong>
+                                            @endif
+                                            on <strong>{{ $review->created_at->format('M d, Y') }}</strong>
+                                        </span>
+                                        <p>{{ $review->comment }}</p>
 
-                                <div class="review-item">
-                                    <div class="rating">
-                                        <i class='bx bxs-star'></i>
-                                        <i class='bx bxs-star'></i>
-                                        <i class='bx bxs-star'></i>
-                                        <i class='bx bxs-star'></i>
-                                        <i class='bx bx-star'></i>
-                                    </div>
-                                    <h3>Good</h3>
-                                    <span><strong>Admin</strong> on <strong>Sep 21, 2024</strong></span>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-                                </div>
+                                        @if ($review->media->isNotEmpty())
+                                        <div class="review-media" style="display: flex; gap: 10px; align-items: center;">
+                                            @foreach ($review->media as $media)
+                                                @if ($media->media_type === 'image')
+                                                    <img src="{{ asset('storage/' . $media->media_path) }}" alt="Review Media" class="review-image" style="height: 100px; object-fit: cover;">
+                                                @elseif ($media->media_type === 'video')
+                                                    <video controls style="height: 100px; object-fit: cover;">
+                                                        <source src="{{ asset('storage/' . $media->media_path) }}" type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                @endif
+                                            @endforeach
+                                        </div>
 
-                                <div class="review-item">
-                                    <div class="rating">
-                                        <i class='bx bxs-star'></i>
-                                        <i class='bx bxs-star'></i>
-                                        <i class='bx bxs-star'></i>
-                                        <i class='bx bxs-star'></i>
-                                        <i class='bx bx-star'></i>
+                                        @endif
                                     </div>
-                                    <h3>Good</h3>
-                                    <span><strong>Admin</strong> on <strong>Sep 21, 2024</strong></span>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-                                </div>
+                                @endforeach
                             </div>
 
-                            <div class="review-form">
-                                <h3>Write a Review</h3>
 
-                                <form>
-                                    <div class="row justify-content-center">
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="form-group">
-                                                <input type="text" id="name" name="name" placeholder="Enter your name" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="form-group">
-                                                <input type="email" id="email" name="email" placeholder="Enter your email" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-12 col-md-12">
-                                            <div class="form-group">
-                                                <input type="text" id="review-title" name="review-title" placeholder="Enter your review a title" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-12 col-md-12">
-                                            <div class="form-group">
-                                                <textarea name="review-body" id="review-body" cols="30" rows="6" placeholder="Write your comments here" class="form-control"></textarea>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-12 col-md-12">
-                                            <button type="submit" class="default-btn">Submit Review</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+                           
                         </div>
                     </div>
                 </div>
@@ -362,399 +353,259 @@
         </div>
     </div>
 
-   <!-- <div class="related-products">
-        <div class="container">
-            <div class="section-title">
-                <span class="sub-title">Our Shop</span>
-                <h2>Related Products</h2>
-            </div>
-
-            <div class="products-slides owl-carousel owl-theme">
-                <div class="single-products-box">
-                    <div class="products-image">
-                        <a href="#">
-                            <img src="assets/img/products/img1.jpg" class="main-image" alt="image">
-                            <img src="assets/img/products/img-hover1.jpg" class="hover-image" alt="image">
-                        </a>
-
-                        <div class="products-button">
-                            <ul>
-                                <li>
-                                    <div class="wishlist-btn">
-                                       <a href="#" data-bs-toggle="modal" data-bs-target="#shoppingWishlistModal">
-                                            <i class='bx bx-heart'></i>
-                                            <span class="tooltip-label">Add to Wishlist</span>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="compare-btn">
-                                        <a href="compare.html">
-                                            <i class='bx bx-refresh'></i>
-                                            <span class="tooltip-label">Compare</span>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="quick-view-btn">
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#productsQuickView">
-                                            <i class='bx bx-search-alt'></i>
-                                            <span class="tooltip-label">Quick View</span>
-                                        </a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="products-content">
-                        <h3><a href="#">Long Sleeve Leopard T-Shirt</a></h3>
-                        <div class="price">
-                            <span class="old-price">$321</span>
-                            <span class="new-price">$250</span>
-                        </div>
-                        <div class="star-rating">
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                        </div>
-                        <a href="cart.html" class="add-to-cart">Add to Cart</a>
-                    </div>
-                </div>
-
-                <div class="single-products-box">
-                    <div class="products-image">
-                        <a href="#">
-                            <img src="assets/img/products/img2.jpg" class="main-image" alt="image">
-                            <img src="assets/img/products/img-hover2.jpg" class="hover-image" alt="image">
-                        </a>
-
-                        <div class="products-button">
-                            <ul>
-                                <li>
-                                    <div class="wishlist-btn">
-                                       <a href="#" data-bs-toggle="modal" data-bs-target="#shoppingWishlistModal">
-                                            <i class='bx bx-heart'></i>
-                                            <span class="tooltip-label">Add to Wishlist</span>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="compare-btn">
-                                        <a href="compare.html">
-                                            <i class='bx bx-refresh'></i>
-                                            <span class="tooltip-label">Compare</span>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="quick-view-btn">
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#productsQuickView">
-                                            <i class='bx bx-search-alt'></i>
-                                            <span class="tooltip-label">Quick View</span>
-                                        </a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="sale-tag">Sale!</div>
-                    </div>
-
-                    <div class="products-content">
-                        <h3><a href="#">Causal V-Neck Soft Raglan</a></h3>
-                        <div class="price">
-                            <span class="old-price">$210</span>
-                            <span class="new-price">$200</span>
-                        </div>
-                        <div class="star-rating">
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                        </div>
-                        <a href="cart.html" class="add-to-cart">Add to Cart</a>
-                    </div>
-                </div>
-
-                <div class="single-products-box">
-                    <div class="products-image">
-                        <a href="#">
-                            <img src="assets/img/products/img3.jpg" class="main-image" alt="image">
-                            <img src="assets/img/products/img-hover3.jpg" class="hover-image" alt="image">
-                        </a>
-
-                        <div class="products-button">
-                            <ul>
-                                <li>
-                                    <div class="wishlist-btn">
-                                       <a href="#" data-bs-toggle="modal" data-bs-target="#shoppingWishlistModal">
-                                            <i class='bx bx-heart'></i>
-                                            <span class="tooltip-label">Add to Wishlist</span>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="compare-btn">
-                                        <a href="compare.html">
-                                            <i class='bx bx-refresh'></i>
-                                            <span class="tooltip-label">Compare</span>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="quick-view-btn">
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#productsQuickView">
-                                            <i class='bx bx-search-alt'></i>
-                                            <span class="tooltip-label">Quick View</span>
-                                        </a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="products-content">
-                        <h3><a href="#">Hanes Men's Pullover</a></h3>
-                        <div class="price">
-                            <span class="old-price">$210</span>
-                            <span class="new-price">$200</span>
-                        </div>
-                        <div class="star-rating">
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                        </div>
-                        <a href="cart.html" class="add-to-cart">Add to Cart</a>
-                    </div>
-                </div>
-
-                <div class="single-products-box">
-                    <div class="products-image">
-                        <a href="#">
-                            <img src="assets/img/products/img4.jpg" class="main-image" alt="image">
-                            <img src="assets/img/products/img-hover4.jpg" class="hover-image" alt="image">
-                        </a>
-
-                        <div class="products-button">
-                            <ul>
-                                <li>
-                                    <div class="wishlist-btn">
-                                       <a href="#" data-bs-toggle="modal" data-bs-target="#shoppingWishlistModal">
-                                            <i class='bx bx-heart'></i>
-                                            <span class="tooltip-label">Add to Wishlist</span>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="compare-btn">
-                                        <a href="compare.html">
-                                            <i class='bx bx-refresh'></i>
-                                            <span class="tooltip-label">Compare</span>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="quick-view-btn">
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#productsQuickView">
-                                            <i class='bx bx-search-alt'></i>
-                                            <span class="tooltip-label">Quick View</span>
-                                        </a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="products-content">
-                        <h3><a href="#">Gildan Men's Crew T-Shirt</a></h3>
-                        <div class="price">
-                            <span class="new-price">$150</span>
-                        </div>
-                        <div class="star-rating">
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                        </div>
-                        <a href="cart.html" class="add-to-cart">Add to Cart</a>
-                    </div>
-                </div>
-
-                <div class="single-products-box">
-                    <div class="products-image">
-                        <a href="#">
-                            <img src="assets/img/products/img5.jpg" class="main-image" alt="image">
-                            <img src="assets/img/products/img-hover5.jpg" class="hover-image" alt="image">
-                        </a>
-
-                        <div class="products-button">
-                            <ul>
-                                <li>
-                                    <div class="wishlist-btn">
-                                       <a href="#" data-bs-toggle="modal" data-bs-target="#shoppingWishlistModal">
-                                            <i class='bx bx-heart'></i>
-                                            <span class="tooltip-label">Add to Wishlist</span>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="compare-btn">
-                                        <a href="compare.html">
-                                            <i class='bx bx-refresh'></i>
-                                            <span class="tooltip-label">Compare</span>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="quick-view-btn">
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#productsQuickView">
-                                            <i class='bx bx-search-alt'></i>
-                                            <span class="tooltip-label">Quick View</span>
-                                        </a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="products-content">
-                        <h3><a href="#">Yidarton Women's Comfy</a></h3>
-                        <div class="price">
-                            <span class="new-price">$240</span>
-                        </div>
-                        <div class="star-rating">
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                        </div>
-                        <a href="cart.html" class="add-to-cart">Add to Cart</a>
-                    </div>
-                </div>
-
-                <div class="single-products-box">
-                    <div class="products-image">
-                        <a href="#">
-                            <img src="assets/img/products/img6.jpg" class="main-image" alt="image">
-                            <img src="assets/img/products/img-hover6.jpg" class="hover-image" alt="image">
-                        </a>
-
-                        <div class="products-button">
-                            <ul>
-                                <li>
-                                    <div class="wishlist-btn">
-                                       <a href="#" data-bs-toggle="modal" data-bs-target="#shoppingWishlistModal">
-                                            <i class='bx bx-heart'></i>
-                                            <span class="tooltip-label">Add to Wishlist</span>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="compare-btn">
-                                        <a href="compare.html">
-                                            <i class='bx bx-refresh'></i>
-                                            <span class="tooltip-label">Compare</span>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="quick-view-btn">
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#productsQuickView">
-                                            <i class='bx bx-search-alt'></i>
-                                            <span class="tooltip-label">Quick View</span>
-                                        </a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="new-tag">New!</div>
-                    </div>
-
-                    <div class="products-content">
-                        <h3><a href="#">Womens Tops Color</a></h3>
-                        <div class="price">
-                            <span class="old-price">$150</span>
-                            <span class="new-price">$100</span>
-                        </div>
-                        <div class="star-rating">
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                        </div>
-                        <a href="cart.html" class="add-to-cart">Add to Cart</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>-->
+  
 <!-- End Product Details Area -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+        $(document).ready(function() {
+    // Handle the click event on the heart icon
+    $('.wishlist-toggle').on('click', function(e) {
+        e.preventDefault(); 
 
-<!-- Start Facility Area -->
-<section class="facility-area pb-70">
-    <div class="container">
-        <div class="facility-slides owl-carousel owl-theme">
-            <div class="single-facility-box">
-                <div class="icon">
-                    <i class='flaticon-tracking'></i>
-                </div>
-                <h3>Free Shipping Worldwide</h3>
-            </div>
+        var productId = $(this).data('product-id'); 
+        var heartIcon = $(this).find('i'); 
 
-            <div class="single-facility-box">
-                <div class="icon">
-                    <i class='flaticon-return'></i>
-                </div>
-                <h3>Easy Return Policy</h3>
-            </div>
+        $.ajax({
+            url: '{{ route('wishlist.toggle') }}',
+            method: 'POST',
+            data: {
+                product_id: productId,
+                _token: $('meta[name="csrf-token"]').attr('content'),  // Ensure CSRF token is correct
+            },
+            success: function(response) {
+                if (response.message === 'Product added to wishlist') {
+                    heartIcon.addClass('filled');
+                    alert(response.message);
+                } else if (response.message === 'Product removed from wishlist') {
+                    heartIcon.removeClass('filled');
+                    alert(response.message);
+                }
+            },
+            error: function() {
+                alert('You must be logged in to add to wishlist');
+            }
+        });
 
-            <div class="single-facility-box">
-                <div class="icon">
-                    <i class='flaticon-shuffle'></i>
-                </div>
-                <h3>7 Day Exchange Policy</h3>
-            </div>
+    });
+});
 
-            <div class="single-facility-box">
-                <div class="icon">
-                    <i class='flaticon-sale'></i>
-                </div>
-                <h3>Weekend Discount Coupon</h3>
-            </div>
+</script>  
 
-            <div class="single-facility-box">
-                <div class="icon">
-                    <i class='flaticon-credit-card'></i>
-                </div>
-                <h3>Secure Payment Methods</h3>
-            </div>
 
-            <div class="single-facility-box">
-                <div class="icon">
-                    <i class='flaticon-location'></i>
-                </div>
-                <h3>Track Your Package</h3>
-            </div>
 
-            <div class="single-facility-box">
-                <div class="icon">
-                    <i class='flaticon-customer-service'></i>
-                </div>
-                <h3>24/7 Customer Support</h3>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- End Facility Area -->
+<script>
+$(document).ready(function() {
+    // Handle Color Selection
+    if ($('.color-option').length > 0) {
+        $('.color-option').on('click', function() {
+            // Remove 'selected' class from all color options
+            $('.color-option').removeClass('selected');
+            // Add 'selected' class to the clicked color
+            $(this).addClass('selected');
+        });
+    }
+
+    // Handle Size Selection
+    if ($('.size-option').length > 0) {
+        $('.size-option').on('click', function(e) {
+            e.preventDefault(); // Prevent default behavior
+            const size = $(this).data('size'); // Get the size value
+
+            // Remove 'selected' class from all size options
+            $('.size-option').removeClass('selected');
+            // Add 'selected' class to the clicked size
+            $(this).addClass('selected');
+        });
+
+    }
+
+    // Add to Cart Button
+    $('#addToCartBtn').on('click', function(e) {
+        e.preventDefault();
+
+        const productId = $(this).data('product-id');
+        const isAuth = "{{ Auth::check() ? 'true' : 'false' }}";
+        const selectedSize = $('.size-option.selected').data('size');
+        const selectedColor = $('.color-option.selected').data('color');
+
+        // Check if there are size or color options for this product
+        const hasSize = $('.size-option').length > 0;
+        const hasColor = $('.color-option').length > 0;
+
+        // Debugging: Log the selected size and color
+        console.log("Size selected:", selectedSize);
+        console.log("Has Size options:", hasSize);
+        console.log("Color selected:", selectedColor);
+        console.log("Has Color options:", hasColor);
+
+        // If the product has size options, check if size is selected
+        if (hasSize && !selectedSize) {
+            toastr.warning('Please select a size before adding this product to the cart.', 'Warning', {
+                positionClass: 'toast-top-right',
+                timeOut: 3000,
+            });
+            return;
+        }
+
+        // If the product has color options, check if color is selected
+        if (hasColor && !selectedColor) {
+            toastr.warning('Please select a color before adding this product to the cart.', 'Warning', {
+                positionClass: 'toast-top-right',
+                timeOut: 3000,
+            });
+            return;
+        }
+
+        // Proceed to add product to cart only once
+        if (isAuth === 'true') {
+            $.ajax({
+                url: "{{ route('cart.add') }}",
+                method: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    product_id: productId,
+                    size: selectedSize || null,
+                    color: selectedColor || null
+                },
+                success: function(response) {
+                    $.get("{{ route('cart.count') }}", function(data) {
+                        $('#cart-count').text(data.cart_count);
+                    });
+
+                    toastr.success('Item added to cart!', 'Success', {
+                        positionClass: 'toast-top-right',
+                        timeOut: 3000,
+                    });
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                    toastr.error('Something went wrong. Please try again.', 'Error', {
+                        positionClass: 'toast-top-right',
+                        timeOut: 3000,
+                    });
+                }
+            });
+        } else {
+            toastr.warning('Please log in to add items to your cart.', 'Warning', {
+                positionClass: 'toast-top-right',
+                timeOut: 3000,
+            });
+        }
+    });
+});
+
+</script>
+<script>
+$(document).ready(function() {
+    // Handle Color Selection
+    if ($('.color-option').length > 0) {
+        $('.color-option').on('click', function() {
+            // Remove 'selected' class from all color options
+            $('.color-option').removeClass('selected');
+            // Add 'selected' class to the clicked color
+            $(this).addClass('selected');
+        });
+    }
+
+    // Handle Size Selection
+    if ($('.size-option').length > 0) {
+        $('.size-option').on('click', function(e) {
+            e.preventDefault(); // Prevent default behavior
+            const size = $(this).data('size'); // Get the size value
+
+            // Remove 'selected' class from all size options
+            $('.size-option').removeClass('selected');
+            // Add 'selected' class to the clicked size
+            $(this).addClass('selected');
+        });
+    }
+
+    // Buy Now Button
+    $('#buyNowBtn').on('click', function(e) {
+        e.preventDefault();
+
+        const productId = $(this).data('product-id');
+        const isAuth = "{{ Auth::check() ? 'true' : 'false' }}";
+        const selectedSize = $('.size-option.selected').data('size');
+        const selectedColor = $('.color-option.selected').data('color');
+        const quantity = $('#quantity').val() || 1;
+
+        // Log the values for debugging
+        console.log("Product ID:", productId);
+        console.log("Authenticated:", isAuth);
+        console.log("Selected Size:", selectedSize);
+        console.log("Selected Color:", selectedColor);
+        console.log("Quantity:", quantity);
+
+        // Check if there are size or color options for this product
+        const hasSize = $('.size-option').length > 0;
+        const hasColor = $('.color-option').length > 0;
+
+        // If the product has size options, check if size is selected
+        if (hasSize && !selectedSize) {
+            toastr.warning('Please select a size before proceeding.', 'Warning', {
+                positionClass: 'toast-top-right',
+                timeOut: 3000,
+            });
+            return;
+        }
+
+        // If the product has color options, check if color is selected
+        if (hasColor && !selectedColor) {
+            toastr.warning('Please select a color before proceeding.', 'Warning', {
+                positionClass: 'toast-top-right',
+                timeOut: 3000,
+            });
+            return;
+        }
+
+        // Proceed to checkout
+        if (isAuth === 'true') {
+            $.ajax({
+            url: "{{ route('buynow.checkout') }}", // POST request
+            method: 'POST',
+            data: {
+                _token: "{{ csrf_token() }}",
+                product_id: productId,
+                size: selectedSize || null,
+                color: selectedColor || null,
+                quantity: quantity || 1
+            },
+            success: function(response) {
+                console.log("Response from server:", response);
+                window.location.href = response.redirect_url;
+            },
+            error: function(xhr) {
+                console.log("Error response:", xhr.responseText);
+                toastr.error('Something went wrong. Please try again.', 'Error', {
+                    positionClass: 'toast-top-right',
+                    timeOut: 3000,
+                });
+            }
+        });
+
+        } else {
+            toastr.warning('Please log in to proceed to checkout.', 'Warning', {
+                positionClass: 'toast-top-right',
+                timeOut: 3000,
+            });
+        }
+    });
+});
+</script>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.btn-cart').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.stopPropagation();
+                event.preventDefault();
+            });
+        });
+    });
+
+</script>
+
 @endsection

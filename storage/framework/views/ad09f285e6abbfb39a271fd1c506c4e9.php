@@ -1,1 +1,0 @@
-<?php /**PATH C:\Users\chint\OneDrive\Documents\GitHub\online-marketing\resources\views/includes/navbar.blade.php ENDPATH**/ ?>

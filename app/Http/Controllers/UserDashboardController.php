@@ -88,8 +88,6 @@ class UserDashboardController extends Controller
     }
 
 
-
-
     public function orderDetails($order_code)
     {
         $order = CustomerOrder::with(['items.product'])->where('order_code', $order_code)->first();
@@ -98,6 +96,17 @@ class UserDashboardController extends Controller
         }
         return view('member_dashboard.order-details', compact('order'));
     }
+
+    public function showInquiries()
+    {
+        $userId = auth()->id();
+
+        $inquiries = Inquiry::where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return view('member_dashboard.myinquiries', compact('inquiries'));
+    }
+    
 
 
     public function cancelOrder(Request $request, $order_code)
@@ -119,13 +128,13 @@ class UserDashboardController extends Controller
         if ($order) {
             $order->status = 'Delivered';
             $order->save();
-
+    
             return response()->json(['success' => true]);
         } else {
             return response()->json(['success' => false]);
         }
     }
-
+    
 
     
 
@@ -258,15 +267,22 @@ class UserDashboardController extends Controller
 
     public function index()
     {
-        if (Auth::check()) {
-            $user = Auth::user();
-            $activities = $this->getRecentActivities($user->id);
-            $notifications = $this->getRecentNotifications($user->id); // Fetch notifications
-            return view('member_dashboard.dashboard', compact('user', 'activities', 'notifications'));
-        } else {
+        if (!Auth::check()) {
             return redirect()->route('login');
         }
+    
+        $user = Auth::user();
+    
+        if (!$user || !isset($user->id)) {
+            return redirect()->route('login');
+        }
+    
+        $activities = $this->getRecentActivities($user->id);
+        $notifications = $this->getRecentNotifications($user->id);
+    
+        return view('member_dashboard.dashboard', compact('user', 'activities', 'notifications'));
     }
+    
     
 
     private function getRecentActivities($userId)
@@ -314,32 +330,31 @@ class UserDashboardController extends Controller
         // Fetch recent shipped orders for the user
         $orderNotifications = CustomerOrder::where('user_id', $userId)
             ->where('status', 'shipped')
-            ->orderBy('updated_at', 'desc') 
+            ->orderBy('updated_at', 'desc')
             ->limit(3)
             ->get(['order_code', 'updated_at'])
             ->map(function ($order) {
-                return "Your order #{$order->order_code} has been shipped! on <strong>" . $order->updated_at->format('F d, Y') . "</strong>";
+                return [
+                    'message' => "Your order #{$order->order_code} has been shipped! on <strong>" . $order->updated_at->format('F d, Y') . "</strong>",
+                    'updated_at' => $order->updated_at
+                ];
             });
     
-        // Fetch recent inquiries with replies for the user
-        $inquiryNotifications = Inquiry::where('user_id', $userId)
-            ->where('status', 'replied')
-            ->orderBy('updated_at', 'desc')
-            ->limit(3)
-            ->get(['subject', 'updated_at'])
-            ->map(function ($inquiry) {
-                return "Your inquiry about '{$inquiry->subject}' has been responded on <strong>" . $inquiry->updated_at->format('F d, Y') . "</strong>.";
-            });
     
-        $notifications = $orderNotifications->merge($inquiryNotifications);
-        $notifications = $notifications->sortByDesc('updated_at')->take(3);
+        $notifications = $orderNotifications;
     
+        // Take the top 3 notifications without sorting
+        $notifications = $notifications->take(3);
+    
+        // Extract messages for output
         if ($notifications->isEmpty()) {
             return ["No new notifications."];
         }
     
-        return $notifications; 
+        return $notifications->pluck('message')->toArray();
     }
+    
+    
     
 
     
@@ -441,6 +456,20 @@ class UserDashboardController extends Controller
         $user = Auth::user();
         $addresses = Address::where('user_id', $user->id)->get();
         return view('member_dashboard.addresses', compact('addresses'));
-}
+    }
+
+    public function destroy($id)
+    {
+        $user = Auth::user();
+
+        $address = Address::where('id', $id)->where('user_id', $user->id)->first();
+
+        if (!$address) {
+            return redirect()->back()->with('error', 'Address not found or unauthorized access.');
+        }
+
+        $address->delete();
+        return redirect()->route('addresses')->with('success', 'Address deleted successfully.');
+    }
 
 }

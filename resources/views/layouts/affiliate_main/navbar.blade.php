@@ -21,13 +21,7 @@
             <ul class="navbar-nav ms-auto d-flex align-items-center flex-row">
                 
 
-                <li class="nav-item dropdown me-4">
-                    <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#" id="notificationsDropdown"
-                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-bell"></i>
-                        <span class="badge rounded-pill badge-notification bg-danger">1</span>
-                    </a>
-                </li>
+               
 
                 <li class="nav-item dropdown me-2 d-flex align-items-center">
                     <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
