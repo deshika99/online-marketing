@@ -118,7 +118,7 @@
                     }) + 300, 2)); ?></span></li>
                 </ul>
 
-                <a href="/checkout" class="default-btn">Proceed to Checkout</a>
+                <a href="/cart/checkout" class="default-btn">Proceed to Checkout</a>
             </div>
             <?php else: ?>
             <div class="col-lg-12">
