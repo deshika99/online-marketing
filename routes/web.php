@@ -399,7 +399,7 @@ Route::get('/track-order', function () {
     return view('frontend.track-order');
 })->name('track-order');
 
-Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('order.store');
 
 Route::get('/all-items', [ProductController::class, 'show_all_items'])->name('all-items');

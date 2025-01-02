@@ -18,18 +18,11 @@
         <!-- Start Checkout Area -->
 		<section class="checkout-area ptb-100">
             <div class="container">
-            <form action="<?php echo e(route('buynoworder.store')); ?>" method="POST">
+         
+            <form action="<?php echo e(route('order.store')); ?>" method="POST">
             <?php echo csrf_field(); ?>
-            <input type="hidden" name="product_id" value="<?php echo e($productData['product_id']); ?>">
-    
-            <!-- Hidden fields for size, color, and quantity -->
-            <input type="hidden" name="size" id="size" value="<?php echo e(old('size', $productData['size'] ?? '')); ?>">
-            <input type="hidden" name="color" id="color" value="<?php echo e(old('color', $productData['color'] ?? '')); ?>">
-            <input type="hidden" name="quantity" id="quantity" value="<?php echo e(old('quantity', $productData['quantity'] ?? 1)); ?>">
-
-
-                <div class="row justify-content-center">
-                    <div class="col-lg-6 col-md-12">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6 col-md-12">
                         <div class="billing-details">
                             <h3 class="title">Billing Details</h3>
                             <div class="row justify-content-center">
@@ -58,7 +51,7 @@
                                     <div class="form-group">
                                         <label>Apartment, Suite, unit etc.(Optional)</label>
                                         <input type="text" class="form-control" name="apartment" 
-                                        value="<?php echo e(old('apartment', optional($defaultAddress)->apartment ?? '')); ?>">
+                                           value="<?php echo e(old('apartment', optional($defaultAddress)->apartment ?? '')); ?>">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6">
@@ -89,11 +82,13 @@
                                             value="<?php echo e(old('phone', optional($defaultAddress)->phone_num ?? optional($user)->phone_num)); ?>">
                                     </div>
                                 </div>
+                              
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-lg-6 col-md-12">
+                        </div>
+
+                        <div class="col-lg-6 col-md-12">
                         <div class="order-details">
                             <h3 class="title">Your Order</h3>
 
@@ -107,56 +102,75 @@
                                     </thead>
 
                                     <tbody>
-                                        <?php if($productData): ?>
+                                        <?php $__empty_1 = true; $__currentLoopData = $cart; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                             <tr>
                                                 <td class="product-name">
-                                                    <a href="#"><?php echo e($productData['product_name']); ?> x <?php echo e($productData['quantity']); ?></a>
+                                                    <a href="#"><?php echo e($item->product->product_name); ?> x <?php echo e($item->quantity ?? 1); ?></a>
                                                 </td>
+
                                                 <td class="product-total">
                                                     <span class="subtotal-amount">
-                                                        Rs. <?php echo e(number_format($productData['price'] * $productData['quantity'], 2)); ?>
+                                                        Rs. <?php echo e(number_format($item->product->sale && $item->product->sale->status === 'active' 
+                                                            ? $item->product->sale->sale_price 
+                                                            : ($item->product->specialOffer && $item->product->specialOffer->status === 'active'
+                                                                ? $item->product->specialOffer->offer_price
+                                                                : $item->product->normal_price) * ($item->quantity ?? 1), 2)); ?>
 
                                                     </span>
                                                 </td>
                                             </tr>
-                                        <?php else: ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                             <tr>
-                                                <td colspan="2">No product data available</td>
+                                                <td colspan="2">No items in the cart</td>
                                             </tr>
                                         <?php endif; ?>
                                     </tbody>
                                 </table>
                             </div>
 
-                            <div class="payment-box">
-                                <div class="d-flex justify-content-between">
-                                    <p>Subtotal:</p>
-                                    <p>Rs. <?php echo e(number_format($productData['price'] * $productData['quantity'], 2)); ?></p>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <p>Delivery Fee:</p>
-                                    <p>Rs. 300.00</p>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <h5>Total:</h5>
-                                    <h5 class="fw-bold">
-                                        Rs. <?php echo e(number_format(($productData['price'] * $productData['quantity']) + 300, 2)); ?>
+                                <div class="payment-box">
+                                    <div class="d-flex justify-content-between">
+                                        <p>Subtotal:</p>
+                                        <p>Rs. <?php echo e(number_format($cart->sum(function($item) {
+                                            return ($item->product->sale && $item->product->sale->status === 'active' 
+                                                    ? $item->product->sale->sale_price 
+                                                    : ($item->product->specialOffer && $item->product->specialOffer->status === 'active'
+                                                        ? $item->product->specialOffer->offer_price
+                                                        : $item->product->normal_price)) 
+                                                * ($item->quantity ?? 1);
+                                        }), 2)); ?></p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p>Delivery Fee:</p>
+                                        <p>Rs. 300.00</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <h5>Total:</h5>
+                                        <h5 class="fw-bold">
+                                            Rs. <?php echo e(number_format($cart->sum(function($item) {
+                                                return ($item->product->sale && $item->product->sale->status === 'active' 
+                                                        ? $item->product->sale->sale_price 
+                                                        : ($item->product->specialOffer && $item->product->specialOffer->status === 'active'
+                                                            ? $item->product->specialOffer->offer_price
+                                                            : $item->product->normal_price)) 
+                                                    * ($item->quantity ?? 1);
+                                            }) + 300, 2)); ?>
 
-                                    </h5>
-                                </div>
+                                        </h5>
+                                    </div>
 
-                                <button type="submit" class="default-btn w-100">Proceed to Pay</button>
+                                    <button type="submit" class="default-btn w-100">Proceed to Pay</button>
+                                </div>
                             </div>
+
                         </div>
                     </div>
-                </div>
-            </form>
-
+                </form>
             </div>
         </section>
 		<!-- End Checkout Area -->
 
-      
+       
         
 <?php $__env->stopSection(); ?>  
-<?php echo $__env->make('frontend.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\online-marketing\resources\views/frontend/buynowcheckout.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('frontend.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\online-marketing\resources\views/frontend/checkout.blade.php ENDPATH**/ ?>
