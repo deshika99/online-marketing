@@ -39,7 +39,7 @@
                                     <div class="form-group">
                                         <label>Name <span class="required">*</span></label>
                                         <input type="text" class="form-control" name="first_name" id="firstName" 
-                                            value="{{ old('first_name', optional($defaultAddress)->full_name ?? optional($user)->name) }}">
+                                            value="{{ old('first_name', optional($defaultAddress)->full_name ?? '') }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12">
@@ -81,14 +81,14 @@
                                     <div class="form-group">
                                         <label>Email Address <span class="required">*</span></label>
                                         <input type="email" class="form-control" name="email" 
-                                            value="{{ old('email', optional($defaultAddress)->email ?? optional($user)->email) }}">
+                                            value="{{ old('email', optional($defaultAddress)->email ?? '') }}" >
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6">
                                     <div class="form-group">
                                         <label>Phone <span class="required">*</span></label>
                                         <input type="text" class="form-control" name="phone" 
-                                            value="{{ old('phone', optional($defaultAddress)->phone_num ?? optional($user)->phone_num) }}">
+                                            value="{{ old('phone', optional($defaultAddress)->phone_num ?? '') }}">
                                     </div>
                                 </div>
                             </div>
