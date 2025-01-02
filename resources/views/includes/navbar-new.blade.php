@@ -14,7 +14,7 @@
                       <li><a href="#" data-bs-toggle="modal" data-bs-target="#shoppingWishlistModal"><i class='bx bx-heart'></i> Wishlist</a></li>
                       <li><a href="/compare"><i class='bx bx-shuffle'></i> Compare</a></li>
                       @auth
-                      <li><a href="#"><i class='bx bxs-user'></i> My Account</a></li>
+                      <li><a href="{{route('member_dashboard')}}"><i class='bx bxs-user'></i> My Account</a></li>
                       @else
                       <li><a href="/login"><i class='bx bx-log-in'></i> Login</a></li>
                       @endauth

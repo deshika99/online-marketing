@@ -9,7 +9,7 @@
                             <div class="main-banner-content text-center">
                                 <span class="sub-title">Limited Time Offer!</span>
                                 <h1>Winter-Spring!</h1>
-                                <p>Take 20% Off ‘Sale Must-Haves'</p>
+                                <p class="text-light">Take 20% Off ‘Sale Must-Haves'</p>
                                 <div class="btn-box">
                                     <a href="products-left-sidebar.html" class="default-btn">Shop Women's</a>
                                     <a href="products-right-sidebar-2.html" class="optional-btn">Shop Men's</a>
@@ -27,7 +27,7 @@
                             <div class="main-banner-content">
                                 <span class="sub-title">Exclusive Offer!</span>
                                 <h1>Spring-Show!</h1>
-                                <p>Leap year offer ‘Sale Must-Haves'</p>
+                                <p class="text-light">Leap year offer ‘Sale Must-Haves'</p>
                                 <div class="btn-box">
                                     <a href="products-left-sidebar.html" class="default-btn">Shop Women's</a>
                                     <a href="products-right-sidebar-2.html" class="optional-btn">Shop Men's</a>
@@ -45,7 +45,7 @@
                             <div class="main-banner-content">
                                 <span class="sub-title">Buy Now From OMC!</span>
                                 <h1>New Season Canvas</h1>
-                                <p>Take 20% Off ‘Sale Must-Haves'</p>
+                                <p class="text-light">Take 20% Off ‘Sale Must-Haves'</p>
                                 <div class="btn-box">
                                     <a href="products-left-sidebar.html" class="default-btn">Shop Women's</a>
                                     <a href="products-right-sidebar-2.html" class="optional-btn">Shop Men's</a>

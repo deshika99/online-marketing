@@ -86,7 +86,7 @@ Route::post('/order/cancel/{order_code}', [UserDashboardController::class, 'canc
 Route::post('/confirm-delivery', [UserDashboardController::class, 'confirmDelivery'])->name('confirm-delivery');
 Route::get('home/My-Account/My-Reviews', [UserDashboardController::class, 'myReviews'])->name('myreviews');
 
-Route::get('home/My-Account/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
+Route::get('home/My-Account/dashboard', [UserDashboardController::class, 'index'])->name('member_dashboard');
 
 
 Route::get('home/My-Account/addresses', [UserDashboardController::class, 'showAddresses'])->name('addresses');
