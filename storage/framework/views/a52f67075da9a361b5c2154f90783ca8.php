@@ -105,28 +105,29 @@
                   <ul class="header-top-menu">
                       <li><a href="#" data-bs-toggle="modal" data-bs-target="#shoppingWishlistModal"><i class='bx bx-heart'></i> Wishlist</a></li>
                        
-                      @auth
+                      <?php if(auth()->guard()->check()): ?>
                         <li class="dropdown">
                             <a href="#">
                                 <span class="user-initial">
-                                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                                    <?php echo e(strtoupper(substr(auth()->user()->name, 0, 1))); ?>
+
                                 </span>
                                 My Account
                             </a>
                             <ul class="dropdown-menu" style="z-index:1020">
-                                <li><a href="{{ route('user.dashboard') }}">Dashboard</a></li>
+                                <li><a href="<?php echo e(route('user.dashboard')); ?>">Dashboard</a></li>
                                 <li>
                                     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
+                                    <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
+                                        <?php echo csrf_field(); ?>
                                     </form>
                                 </li>
                             </ul>
 
                         </li>
-                        @else
+                        <?php else: ?>
                             <li><a href="/login"><i class='bx bx-log-in'></i> Login</a></li>
-                        @endauth
+                        <?php endif; ?>
 
 
                       <ul class="header-top-others-option">
@@ -159,11 +160,11 @@
               <div class="xton-responsive-menu">
                   <div class="logo" >
                       <a href="/">
-                      <img src="{{ asset('frontend/assets/img/logo.png') }}" height="50" width="35" class="main-logo" alt="logo">
+                      <img src="<?php echo e(asset('frontend/assets/img/logo.png')); ?>" height="50" width="35" class="main-logo" alt="logo">
                         
-                            <img src="{{ asset('frontend/assets/img/brand_name.png') }}" style="height:30px" width="285" alt="brand" />
+                            <img src="<?php echo e(asset('frontend/assets/img/brand_name.png')); ?>" style="height:30px" width="285" alt="brand" />
                         
-                        <img src="{{ asset('frontend/assets/img/white-logo.png') }}" class="white-logo" alt="logo">
+                        <img src="<?php echo e(asset('frontend/assets/img/white-logo.png')); ?>" class="white-logo" alt="logo">
                       </a>
                   </div>
               </div>
@@ -174,11 +175,11 @@
           <div class="container">
               <nav class="navbar navbar-expand-md navbar-light"  style="width:110%">
                   <a class="navbar-brand" href="/">
-                  <img src="{{ asset('frontend/assets/img/logo.png') }}" style="height:50px; width:30px" class="main-logo" alt="logo">
+                  <img src="<?php echo e(asset('frontend/assets/img/logo.png')); ?>" style="height:50px; width:30px" class="main-logo" alt="logo">
                     <span>
-                        <img src="{{ asset('frontend/assets/img/brand_name.png') }}" style="height:25px; width:250px"  alt="brand" />
+                        <img src="<?php echo e(asset('frontend/assets/img/brand_name.png')); ?>" style="height:25px; width:250px"  alt="brand" />
                     </span>
-                    <img src="{{ asset('frontend/assets/img/white-logo.png') }}" class="white-logo" alt="logo">
+                    <img src="<?php echo e(asset('frontend/assets/img/white-logo.png')); ?>" class="white-logo" alt="logo">
 
                   </a>
 
@@ -189,30 +190,30 @@
 
                           <li class="nav-item"><a href="#" class="nav-link">Categories </a>
                                 <ul class="dropdown-menu">
-                                    @foreach ($categories as $category)
+                                    <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <li class="nav-item">
-                                            <a href="/all-items?category={{ urlencode($category->parent_category) }}" 
-                                            class="nav-link">{{ $category->parent_category }} <i class="bx bx-chevron-right"></i></a>
+                                            <a href="/all-items?category=<?php echo e(urlencode($category->parent_category)); ?>" 
+                                            class="nav-link"><?php echo e($category->parent_category); ?> <i class="bx bx-chevron-right"></i></a>
                                             <ul class="dropdown-menu" style="position: absolute; top: 0; left: 100%; margin-top: 0;">
-                                                @foreach ($category->subcategories as $subcategory)
+                                                <?php $__currentLoopData = $category->subcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <li class="nav-item">
-                                                        <a href="/all-items?subcategory={{ urlencode($subcategory->subcategory) }}" 
-                                                        class="nav-link" data-toggle="dropdown">{{ $subcategory->subcategory }} 
+                                                        <a href="/all-items?subcategory=<?php echo e(urlencode($subcategory->subcategory)); ?>" 
+                                                        class="nav-link" data-toggle="dropdown"><?php echo e($subcategory->subcategory); ?> 
                                                         <i class="bx bx-chevron-right"></i>
                                                         </a>
                                                         <ul class="dropdown-menu" style="position: absolute; top: 0; left: 100%; margin-top: 0;">
-                                                            @foreach ($subcategory->subSubcategories as $subSubcategory)
+                                                            <?php $__currentLoopData = $subcategory->subSubcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subSubcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <li class="nav-item">
-                                                                    <a href="/all-items?subsubcategory={{ urlencode($subSubcategory->sub_subcategory) }}" 
-                                                                    class="nav-link">{{ $subSubcategory->sub_subcategory }}</a>
+                                                                    <a href="/all-items?subsubcategory=<?php echo e(urlencode($subSubcategory->sub_subcategory)); ?>" 
+                                                                    class="nav-link"><?php echo e($subSubcategory->sub_subcategory); ?></a>
                                                                 </li>
-                                                            @endforeach
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                         </ul>
                                                     </li>
-                                                @endforeach
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </ul>
                                         </li>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </ul>
                             </li>
 
@@ -281,13 +282,13 @@
                         </div>
 
                         <div class="search-overlay-form">
-                <form action="{{ route('searchResults') }}" method="GET">
+                <form action="<?php echo e(route('searchResults')); ?>" method="GET">
                     <input 
                         type="text" 
                         class="input-search" 
                         name="query" 
                         placeholder="Search here..." 
-                        value="{{ request('query') }}"> <!-- Preserve input on search results -->
+                        value="<?php echo e(request('query')); ?>"> <!-- Preserve input on search results -->
                     <button type="submit"><i class='bx bx-search-alt'></i></button>
                 </form>
             </div>
@@ -312,4 +313,4 @@
     });
 </script>
 
-  <!-- End Search Overlay -->
+  <!-- End Search Overlay --><?php /**PATH C:\xampp\htdocs\online-marketing\resources\views/frontend/navbar-new.blade.php ENDPATH**/ ?>
