@@ -24,7 +24,11 @@
 
 
 
-<h4 class="py-2 px-2">Customer Inquiries</h4>
+<div class="d-flex justify-content-between align-items-center py-2 px-2">
+    <h4>Customer Inquiries</h4>
+    <a href="{{ route('inquiry.create') }}" class="btn default-btn">Write an Inquiry</a>
+</div>
+
 <div class="container p-4">
     <div class="list-group">
         @forelse($inquiries as $inquiry)
@@ -45,6 +49,7 @@
         @endforelse
     </div>
 </div>
+
 
 
 

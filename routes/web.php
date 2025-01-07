@@ -26,6 +26,7 @@ use App\Http\Controllers\AffiliateLinkController;
 use App\Http\Controllers\AffiliateRulesController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AffiliateDashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FrontendTemplateController;
@@ -85,9 +86,10 @@ Route::get('home/My-Account/myorders', [UserDashboardController::class, 'myOrder
 Route::get('home/My-Account/order-details/{order_code}', [UserDashboardController::class, 'orderDetails'])->name('myorder-details');
 Route::post('/order/cancel/{order_code}', [UserDashboardController::class, 'cancelOrder']);
 Route::post('/confirm-delivery', [UserDashboardController::class, 'confirmDelivery'])->name('confirm-delivery');
+
 Route::get('home/My-Account/My-Reviews', [UserDashboardController::class, 'myReviews'])->name('myreviews');
 
-Route::get('home/My-Account/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
+Route::get('home/My-Account/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
 
 
 Route::get('home/My-Account/addresses', [UserDashboardController::class, 'showAddresses'])->name('addresses');
@@ -99,7 +101,7 @@ Route::get('/member-dashboard/write-reviews', [UserDashboardController::class, '
 Route::post('/member-dashboard/reviews', [UserDashboardController::class, 'storeReview'])->name('reviews.store');
 
 Route::get('home/My-Account/inquiries', [UserDashboardController::class, 'showInquiries'])->name('myinquiries');
-
+Route::view('home/My-Account/inquiries/write', 'member_dashboard.write_inquiries')->name('inquiry.create');
 
 Route::get('home/My-Account/change-password', function () {
     return view('member_dashboard.change-password');
@@ -393,13 +395,11 @@ Route::get('/privacy_policy', function () {
     return view('frontend.privacy_policy');
 })->name('privacy_policy');
 
-
-
 Route::get('/track-order', function () {
     return view('frontend.track-order');
 })->name('track-order');
 
-Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::post('/order/store', [CustomerOrderController::class, 'store'])->name('order.store');
 
 Route::get('/all-items', [ProductController::class, 'show_all_items'])->name('all-items');
@@ -420,4 +420,10 @@ Route::delete('/wishlist/{id}', [WishListController::class, 'remove'])->name('wi
 Route::get('/wishlist/count', [WishListController::class, 'getWishlistCount'])->name('wishlist.count');
 Route::post('/wishlist/toggle', [WishListController::class, 'toggleWishlist'])->name('wishlist.toggle');
 Route::post('/wishlist/check-multiple', [WishListController::class, 'checkMultipleWishlist'])->name('wishlist.checkMultiple');
+
+
+Route::post('/buynow_checkout', [CheckoutController::class, 'buyNowCheckout'])->name('buynow.checkout');
+Route::get('/checkout', [CheckoutController::class, 'showCheckoutPage'])->name('buynow.checkout.page');
+Route::post('/buynoworder', [CustomerOrderController::class, 'buynowstore'])->name('buynoworder.store');
+
 

@@ -58,7 +58,7 @@ class ProductController extends Controller
     
     public function show_all_items(Request $request)
     {
-        $perPage = 16; 
+        $perPage = 15; 
         // Get categories for the filter
         $categories = Category::all();
     

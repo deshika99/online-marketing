@@ -2784,6 +2784,9 @@ Products CSS
   width: auto !important;
   display: inline-block !important;
 }
+.products-slides .owl-nav {
+    z-index: 10;
+}
 
 .products-slides.owl-theme .owl-nav {
   margin-top: 0;

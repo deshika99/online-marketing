@@ -49,18 +49,6 @@
 }
 
 
-
-
-
-/* Initial style for the navbar */
-.navbar-area {
-    position: relative; 
-    width: 100%;
-    z-index: 1010;
-    transition: top 0.3s ease, position 0.3s ease;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 /* Fixed style for the navbar when scrolling */
 .navbar-area.fixed {
     position: fixed;
@@ -76,18 +64,26 @@
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Fixed style for the navbar when scrolling */
-.navbar-area.fixed {
-    position: fixed;
-    top: 0;
-}
 
 /* Style for the xton-responsive-nav */
 .xton-responsive-nav {
     background-color:white;
 }
 
+/* Logo container style */
+.xton-responsive-nav .logo {
+    display: inline-flex; /* Align logo and brand name inline */
+    align-items: center;  /* Vertically align items */
+}
 
+.xton-responsive-nav .logo img.main-logo {
+    margin-right: 10px;  /* Space between logo and brand name */
+}
+
+.xton-responsive-nav .logo a {
+    display: flex;
+    align-items: center;
+}
 
 
 
@@ -118,7 +114,7 @@
                                 My Account
                             </a>
                             <ul class="dropdown-menu" style="z-index:1020">
-                                <li><a href="home/My-Account/dashboard">Dashboard</a></li>
+                                <li><a href="{{ route('user.dashboard') }}">Dashboard</a></li>
                                 <li>
                                     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -164,9 +160,9 @@
                   <div class="logo" >
                       <a href="/">
                       <img src="{{ asset('frontend/assets/img/logo.png') }}" height="50" width="35" class="main-logo" alt="logo">
-                        <span>
+                        
                             <img src="{{ asset('frontend/assets/img/brand_name.png') }}" style="height:30px" width="285" alt="brand" />
-                        </span>
+                        
                         <img src="{{ asset('frontend/assets/img/white-logo.png') }}" class="white-logo" alt="logo">
                       </a>
                   </div>
